@@ -13,7 +13,11 @@
     <string name="last_chapter">last chapter</string>
     <string name="x">X</string>
     <string name="textview">TextView</string>
-    <string name="plus">+</string><string-array name="menu"></string-array>
+    <string name="plus">+</string>
+    <string name="edit">Edit</string>
+    <string name="dec">Dec Chapter</string>
+    <string name="delete">Delete</string>
+    <string name="addcp">Add Chapter</string>
     
 
 

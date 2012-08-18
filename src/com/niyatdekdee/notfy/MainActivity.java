@@ -17,13 +17,16 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.text.Html;
 import android.util.Log;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnCreateContextMenuListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -85,16 +88,7 @@ public class MainActivity extends ListActivity {
 		ListView myList=(ListView)findViewById(android.R.id.list); 		 
 		myList.setAdapter(listAdap);
 		myList.setItemsCanFocus(true);
-		myList.setOnItemClickListener(new OnItemClickListener() {
-
-			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
-					long arg3) {
-				// TODO Auto-generated method stub
-				Toast.makeText(context, "touched1", Toast.LENGTH_SHORT).show();
-			}
-
-		});
+		registerForContextMenu(myList);
 
 
 
@@ -116,20 +110,36 @@ public class MainActivity extends ListActivity {
 
 		});
 
-		//		ListView lv = getListView(); 
-		//
-		//		// listening to single list item on click 
-		//		lv.setOnItemClickListener(new OnItemClickListener() { 
-		//			public void onItemClick(AdapterView<?> parent, View view,int position, long id) { 
-		//	             Intent i = new Intent(getApplicationContext(), InsertForm.class); 
-		//	              // sending data to new activity 
-		//	              startActivity(i); 
-		//			} 
-		//		}); 
 		if (isOnline())	{showAllBookOffline();}
-		else {Toast.makeText(context, "Not connect to internet.\nPlease check your internet connection", Toast.LENGTH_LONG).show();
-		showAllBookOffline() ;
+		else {
+			Toast.makeText(context, "Not connect to internet.\nPlease check your internet connection", Toast.LENGTH_LONG).show();
+			showAllBookOffline() ;
 		}
+	}
+
+	@Override
+	public boolean onContextItemSelected(MenuItem item) 
+	{
+		AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
+		int menuItemIndex = item.getItemId();
+		String[] menuItems = getResources().getStringArray(R.menu.menu_data);
+		String menuItemName = menuItems[menuItemIndex];
+		String listItemName = Integer.toString(info.position);	        
+		switch(item.getItemId()) {
+		case 1:
+			Toast.makeText(this, "You have chosen the " + menuItemName +
+					" context menu option for " + listItemName,
+					Toast.LENGTH_SHORT).show();
+			return true;
+		default:
+			return super.onContextItemSelected(item);
+		}
+	}
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v,ContextMenuInfo menuInfo) 
+	{
+		super.onCreateContextMenu(menu, v, menuInfo);
+		getMenuInflater().inflate(R.menu.menu_data, menu);
 	}
 
 	public void reload() {
@@ -161,6 +171,7 @@ public class MainActivity extends ListActivity {
 		db.close();
 		Toast.makeText(context, "Show Data", Toast.LENGTH_SHORT).show();
 	}
+
 	private static void showAllBookOffline() {
 		// TODO Auto-generated method stub
 		ListViewContent.clear();
@@ -311,53 +322,58 @@ public class MainActivity extends ListActivity {
 				arg1.setClickable(true); 
 				arg1.setFocusable(true); 
 				arg1.setBackgroundResource(android.R.drawable.menuitem_background); 
-				arg1.setOnClickListener(new OnClickListener() { 
+				/*arg1.setOnClickListener(new OnClickListener() { 
 					@Override 
 					public void onClick(View v) { 
 						Toast.makeText(context, "touched2", Toast.LENGTH_SHORT).show();
 					} 
 
 				}); 
-				
-				holder.text = (TextView) arg1.findViewById(R.id.textView1);
-				holder.delete =  (Button) arg1.findViewById(R.id.button1);
-				holder.delete.setOnClickListener(new OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						// TODO Auto-generated method stub
-						AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this); 
-						builder.setMessage("Are you sure you want to delete?") 
-						.setCancelable(false) 
-						.setPositiveButton("Yes", new DialogInterface.OnClickListener() { 
-							public void onClick(DialogInterface dialog, int id) { 
-								Log.v("delete", "delete id"+ListID.get(arg0));
-								db.open();
-								boolean flag = db.deleteNiyay(ListID.get(arg0));
-								if (flag) {
-									Toast.makeText(context, "delete succeed", Toast.LENGTH_SHORT).show();
-								} else {
-									Toast.makeText(context, "delete failed", Toast.LENGTH_SHORT).show();
-								}
-								//Intent i = new Intent(context,MainActivity.class);
-								db.close();
-								reload();
-							} 
-						}) 
-						.setNegativeButton("No", new DialogInterface.OnClickListener() { 
-							public void onClick(DialogInterface dialog, int id) { 
-								dialog.cancel(); 
-							} 
-						}); 
-						AlertDialog alert = builder.create(); 
-						alert.show(); 	
-					}
-				});
-				arg1.setTag(holder);
+				 */				arg1.setOnCreateContextMenuListener(null);
+				 holder.text = (TextView) arg1.findViewById(R.id.textView1);
+				 holder.delete =  (Button) arg1.findViewById(R.id.button1);
+				 holder.delete.setOnClickListener(new OnClickListener() {
+					 @Override
+					 public void onClick(View v) {
+						 // TODO Auto-generated method stub
+						 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this); 
+						 builder.setMessage("Are you sure you want to delete?") 
+						 .setCancelable(false) 
+						 .setIcon(R.drawable.delete)
+						 .setPositiveButton("Yes", new DialogInterface.OnClickListener() { 
+							 public void onClick(DialogInterface dialog, int id) { 
+								 Log.v("delete", "delete id"+ListID.get(arg0));
+								 db.open();
+								 boolean flag = db.deleteNiyay(ListID.get(arg0));
+								 if (flag) {
+									 Toast.makeText(context, "delete succeed", Toast.LENGTH_SHORT).show();
+								 } else {
+									 Toast.makeText(context, "delete failed", Toast.LENGTH_SHORT).show();
+								 }
+								 //Intent i = new Intent(context,MainActivity.class);
+								 db.close();
+								 reload();
+							 } 
+						 }) 
+						 .setNegativeButton("No", new DialogInterface.OnClickListener() { 
+							 public void onClick(DialogInterface dialog, int id) { 
+								 dialog.cancel(); 
+							 } 
+						 }); 
+						 AlertDialog alert = builder.create(); 
+						 alert.show(); 	
+					 }
+				 });
+				 arg1.setTag(holder);
 			}else {
 				holder = (ListContent) arg1.getTag();
 			}	
 			holder.text.setText(Html.fromHtml(ListViewContent.get(arg0)));
 			return arg1;
+		}
+
+		public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenu.ContextMenuInfo contextMenuInfo) {
+			// empty implementation
 		}
 		class ListContent {
 			TextView text;
