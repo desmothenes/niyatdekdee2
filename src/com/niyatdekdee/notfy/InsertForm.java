@@ -1,6 +1,8 @@
 package com.niyatdekdee.notfy;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -8,6 +10,7 @@ import org.jsoup.nodes.Document;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -22,6 +25,10 @@ public class InsertForm extends Activity  {
 	TextView txtUrl;
 	TextView txtChapter;
 	String title;
+	@Override
+	public void onBackPressed() {
+		finish();
+	}
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -41,7 +48,10 @@ public class InsertForm extends Activity  {
 				title = intent.getStringExtra("title");
 			}	
 			else {
+				Log.v("ma url", intent.getStringExtra("url"));
+
 				title = gettitle(intent.getStringExtra("url"));
+				
 			}
 		}
 
@@ -63,17 +73,13 @@ public class InsertForm extends Activity  {
 				if (id >0) {
 					Toast.makeText(getBaseContext(), "Insert Succeed.", Toast.LENGTH_SHORT).show();
 					Intent i = new Intent(getBaseContext(),MainActivity.class);
+					i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 					startActivity(i);
-					clearAll();
 				} else {
 					Toast.makeText(getBaseContext(), "Insert Failed.", Toast.LENGTH_SHORT).show();
 				}
 				db.close();
 			}
-
-
-
-
 
 		});
 		cancelButton.setOnClickListener(new OnClickListener() {
@@ -87,18 +93,31 @@ public class InsertForm extends Activity  {
 		});
 	}
 	private String gettitle(String url) {
+		Log.v("ti url", url.replace("&chapter=", "").replace("http://writer.dek-d.com/dek-d/writer/viewlongc.php?id=", "http://writer.dek-d.com/story/writer/view.php?id="));
 		// TODO Auto-generated method stub
-		String title = null;
-		try {
-			Document doc = Jsoup.connect(url).get();
+		String title = null;		
+		
+		try {			
+			//Document doc = Jsoup.connect(url.replace("&chapter=", "").replace("http://writer.dek-d.com/dek-d/writer/viewlongc.php?id=", "http://writer.dek-d.com/story/writer/view.php?id=")).userAgent("Mozilla").timeout(30000).post();
+			InputStream is = new URL(url).openStream(); 			
+			Document doc = Jsoup.parse(is, "UTF-8", url);
 			String html = doc.html();
-			String stext = url.substring(0, url.indexOf("view"));
-			//หาหลักของตอน
-			int start = html.lastIndexOf(stext)+stext.length();
-			int len=0;
-			for (int i = start;Character.isDigit(html.charAt(i));i++)
-				len++;
-			title = html.substring(html.lastIndexOf(stext)+stext.length(),html.lastIndexOf(stext)+stext.length()+len);
+//			FileWriter outFile = new FileWriter(Environment.getExternalStorageDirectory()+"/test.txt");
+//			PrintWriter out = new PrintWriter(outFile);
+//			out.println(html);
+//			out.close();
+
+			int start = html.lastIndexOf("<tr>\n          <td align=\"middle\">");
+			int end = html.lastIndexOf("</td>\n          <td><a target=\"_blank\"");
+			//Log.v("html", html);
+
+			Log.v("start", Integer.toString(start));
+			Log.v("end", Integer.toString(end));
+
+			txtChapter.setText(html.substring(start+"</td>\n</tr><tr><td align=\"middle\">".length(), end));
+			doc = Jsoup.connect(url+txtChapter.getText()).get();
+			title = doc.title();
+			Log.v("title", title);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

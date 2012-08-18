@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="100dip"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    tools:ignore="UselessParent" >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,11 +17,18 @@
             android:text="@string/textview" />
 
         <Button
+            android:id="@+id/button2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/plus"
+            android:textSize="20sp"
+             />
+
+        <Button
             android:id="@+id/button1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/x" />
-
     </LinearLayout>
 
 </LinearLayout>

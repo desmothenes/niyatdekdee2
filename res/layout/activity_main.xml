@@ -18,20 +18,22 @@
             android:id="@+id/button1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/add" />
+            android:text="@string/add"
+            android:focusable="false"  />
 
         <Button
             android:id="@+id/button2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/show" />
-
+            android:text="@string/show"
+            android:focusable="false" />
     </LinearLayout>
 
     <ListView
         android:id="@android:id/list"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:focusable="true" >
     </ListView>
 
 </LinearLayout>
