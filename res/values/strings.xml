@@ -11,14 +11,15 @@
     <string name="url">URL</string>
     <string name="chapter">Chapter</string>
     <string name="last_chapter">last chapter</string>
-    <string name="x">X</string>
+    <string name="x">o</string>
     <string name="textview">TextView</string>
     <string name="plus">+</string>
     <string name="edit">Edit</string>
     <string name="dec">Dec Chapter</string>
     <string name="delete">Delete</string>
     <string name="addcp">Add Chapter</string>
-    
-
+    <string name="refresh">refresh</string>
+    <string name="next">next</string>
+    <string name="read">had read</string>  
 
 </resources>

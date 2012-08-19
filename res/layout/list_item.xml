@@ -1,30 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
     android:background="@drawable/list_selector"
-    android:padding="5dip"  >
+    android:orientation="horizontal"
+    android:padding="5dip" >
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-
-        <TextView
-            android:id="@+id/textView1"
-            android:layout_width="250dip"
-            android:layout_height="wrap_content"
-            android:text="@string/textview" />
-    </LinearLayout>
-
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="250dip"
+        android:layout_marginLeft="10dip"
+        android:layout_height="wrap_content"
+        android:text="@string/textview" />
+
     <Button
         android:id="@+id/button1"
         android:layout_width="wrap_content"
         android:layout_height="35dip"
         android:layout_alignParentRight="true"
         android:layout_marginRight="10dip"
-        android:text="@string/x" />
+        android:layout_marginTop="5dip"
+        android:paddingBottom="0dp"
+        android:paddingTop="0dp"
+        android:text="@string/x"
+        android:textSize="23sp" />
 
     <ImageView
         android:layout_width="wrap_content"
@@ -32,6 +31,7 @@
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:layout_marginRight="15dip"
+        android:contentDescription="@string/next"
         android:src="@drawable/arrow" />
 
 </RelativeLayout>

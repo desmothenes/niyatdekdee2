@@ -55,10 +55,6 @@ public class InsertForm extends Activity  {
 			}
 		}
 
-
-
-
-
 		saveButton.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -73,7 +69,7 @@ public class InsertForm extends Activity  {
 				if (id >0) {
 					Toast.makeText(getBaseContext(), "Insert Succeed.", Toast.LENGTH_SHORT).show();
 					Intent i = new Intent(getBaseContext(),MainActivity.class);
-					i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+					//i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 					startActivity(i);
 				} else {
 					Toast.makeText(getBaseContext(), "Insert Failed.", Toast.LENGTH_SHORT).show();

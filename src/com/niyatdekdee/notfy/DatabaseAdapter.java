@@ -55,7 +55,7 @@ public class DatabaseAdapter {
 		return db.delete(DATABASE_TABLE, KEY_ROWID+"="+rowId, null)>0;
 	}
 
-	public boolean updateTitle(long rowId,String name,String url,int chapter,String title) {
+	public boolean updateNiyay(long rowId,String name,String url,int chapter,String title) {
 		ContentValues args = new ContentValues();
 		args.put(KEY_NIYAYNAME, name);
 		args.put(KEY_URL, url);
@@ -63,7 +63,19 @@ public class DatabaseAdapter {
 		args.put(KEY_LASTTITLE, title);
 		return db.update(DATABASE_TABLE,args, KEY_ROWID+"="+rowId, null)>0;
 	}	
-
+	
+	public boolean updateTitle(long rowId,String title) {
+		ContentValues args = new ContentValues();
+		args.put(KEY_LASTTITLE, title);
+		return db.update(DATABASE_TABLE,args, KEY_ROWID+"="+rowId, null)>0;
+	}	
+	
+	public boolean updateChapter(long rowId,int chapter,String title) {
+		ContentValues args = new ContentValues();
+		args.put(KEY_LASTCHAPTER, chapter);
+		args.put(KEY_LASTTITLE, title);
+		return db.update(DATABASE_TABLE,args, KEY_ROWID+"="+rowId, null)>0;
+	}	
 	public Cursor getAllNiyay() {
 		return db.query(DATABASE_TABLE, new String[] {
 				KEY_ROWID,

@@ -93,7 +93,7 @@ public class add_web extends Activity {
 				}
 				Log.v("url", url);
 				i.putExtra("url",url);
-				
+				i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				finish();
 				startActivity(i);
 			}        	
