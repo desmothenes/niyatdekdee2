@@ -20,6 +20,8 @@
     <string name="addcp">Add Chapter</string>
     <string name="refresh">refresh</string>
     <string name="next">next</string>
-    <string name="read">had read</string>  
+    <string name="read">Had Read</string>
+    <string name="open">Open</string>
+    <string name="chapter_title">Chapter Title</string>  
 
 </resources>

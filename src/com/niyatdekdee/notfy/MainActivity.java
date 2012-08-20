@@ -3,17 +3,11 @@ package com.niyatdekdee.notfy;
 import java.io.IOException;
 import java.util.ArrayList;
 import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Entities.EscapeMode;
-import org.jsoup.safety.Cleaner;
-import org.jsoup.safety.Whitelist;
-
 import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.AlertDialog;
 import android.app.ListActivity;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -31,7 +25,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,7 +34,7 @@ public class MainActivity extends ListActivity {
 	public static Context context;
 	private static final ArrayList<String> ListViewContent = new ArrayList<String> ();
 	private static final ArrayList<String[]> niyayTable = new ArrayList<String[]> ();
-	static ListViewAdapter listAdap;
+	public static ListViewAdapter listAdap;
 	static ListView myList;
 
 	@Override
@@ -131,23 +124,28 @@ public class MainActivity extends ListActivity {
 		int i_index = -1;		
 		for(String[] i:niyayTable) {
 			i_index++;
-			int j_index = -1;
-			for (String j:i) {
-				j_index++;
-				Log.e("table "+Integer.toString(i_index)+","+Integer.toString(j_index), (j != null) ? j : "");
-			}
+			Log.e("table "+Integer.toString(i_index), i[1]);			
 		}
 
 		switch(item.getItemId()) {
+		case R.id.open:
+			String url = niyayTable.get(listItemName)[2]+niyayTable.get(listItemName)[3];
+			
+			if (!url.startsWith("http://") && !url.startsWith("https://"))
+				url = "http://" + url;
+			Log.e("url", url);
+			Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+			startActivity(browserIntent);
+			return true;
 		case R.id.red:
 			db.open();
 			Log.e("replace with", niyayTable.get(listItemName)[4]);
 			flag = db.updateTitle(Long.parseLong(niyayTable.get(listItemName)[0]), 
 					niyayTable.get(listItemName)[4]);			
 			if (flag) {
-				Toast.makeText(context, "inc succeed", Toast.LENGTH_SHORT).show();
+				Toast.makeText(context, "rec succeed", Toast.LENGTH_SHORT).show();
 			} else {
-				Toast.makeText(context, "inc failed", Toast.LENGTH_SHORT).show();
+				Toast.makeText(context, "rec failed", Toast.LENGTH_SHORT).show();
 			}
 			//Intent i = new Intent(context,MainActivity.class);
 			db.close();
@@ -155,36 +153,82 @@ public class MainActivity extends ListActivity {
 			return true;			
 		case R.id.edit:
 			Toast.makeText(context, "edit", Toast.LENGTH_SHORT).show();
+			Intent intent = new Intent(context, EditForm.class);
+			intent.putExtra("id", niyayTable.get(listItemName)[0]);
+			intent.putExtra("name", niyayTable.get(listItemName)[1]);
+			intent.putExtra("url", niyayTable.get(listItemName)[2]);
+			intent.putExtra("chapter", niyayTable.get(listItemName)[3]);
+			intent.putExtra("title", niyayTable.get(listItemName)[4]);
+			startActivity(intent);
 			return true;	
 		case R.id.addcp:
+			niyayTable.get(listItemName)[3] = Integer.toString(Integer.parseInt(niyayTable.get(listItemName)[3])+1);
+			String doc = "";
+			try {
+				doc = Jsoup.connect(niyayTable.get(listItemName)[2]+niyayTable.get(listItemName)[3]).timeout(0).get().html();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			if (doc.contains("<title>")) {
 			Toast.makeText(context, "add", Toast.LENGTH_SHORT).show();
+			doc = doc.substring(doc.indexOf("<title>")+7, doc.indexOf("</title>"));
 			db.open();
 			flag = db.updateChapter((Long.parseLong(niyayTable.get(listItemName)[0])), 
-					Integer.parseInt(niyayTable.get(listItemName)[3])+1,
+					Integer.parseInt(niyayTable.get(listItemName)[3]),
 					"");			
 			if (flag) {
 				Toast.makeText(context, "inc succeed", Toast.LENGTH_SHORT).show();
 			} else {
 				Toast.makeText(context, "inc failed", Toast.LENGTH_SHORT).show();
 			}
+			listAdap.notifyDataSetChanged();
+			
+			
 			//Intent i = new Intent(context,MainActivity.class);
 			db.close();
-			reload();		
+			ListViewContent.set(listItemName, "<br/><p><font color=#33B6EA>เรื่อง :" +niyayTable.get(listItemName)[1]+"</font><br />" +
+					"<font color=#cc0029> ล่าสุด ตอน : " +doc+" ("+niyayTable.get(listItemName)[3]+")</font></p>"
+					);
+			}
+			else {
+				niyayTable.get(listItemName)[3] = Integer.toString(Integer.parseInt(niyayTable.get(listItemName)[3])-1);
+				Toast.makeText(context, "add fail", Toast.LENGTH_SHORT).show();
+			}
 			return true;
 		case R.id.dec:
-			Toast.makeText(context, "dec ", Toast.LENGTH_SHORT).show();
+			niyayTable.get(listItemName)[3] = Integer.toString(Integer.parseInt(niyayTable.get(listItemName)[3])-1);
+			doc = "";
+			try {
+				doc = Jsoup.connect(niyayTable.get(listItemName)[2]+niyayTable.get(listItemName)[3]).timeout(0).get().html();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			if (doc.contains("<title>")) {
+			Toast.makeText(context, "add", Toast.LENGTH_SHORT).show();
+			doc = doc.substring(doc.indexOf("<title>")+7, doc.indexOf("</title>"));
 			db.open();
 			flag = db.updateChapter((Long.parseLong(niyayTable.get(listItemName)[0])), 
-					Integer.parseInt(niyayTable.get(listItemName)[3])-1,
+					Integer.parseInt(niyayTable.get(listItemName)[3]),
 					"");			
 			if (flag) {
 				Toast.makeText(context, "dec succeed", Toast.LENGTH_SHORT).show();
 			} else {
 				Toast.makeText(context, "dec failed", Toast.LENGTH_SHORT).show();
 			}
+			
+			
 			//Intent i = new Intent(context,MainActivity.class);
 			db.close();
-			reload();	
+			ListViewContent.set(listItemName, "<br/><p><font color=#33B6EA>เรื่อง :" +niyayTable.get(listItemName)[1]+"</font><br />" +
+					"<font color=#cc0029> ล่าสุด ตอน : " +doc+" ("+niyayTable.get(listItemName)[3]+")</font></p>"
+					);
+			}
+			else {
+				niyayTable.get(listItemName)[3] = Integer.toString(Integer.parseInt(niyayTable.get(listItemName)[3])+1);
+				Toast.makeText(context, "dec fail", Toast.LENGTH_SHORT).show();
+			}	
 			return true;	
 		case R.id.delete:			
 			Toast.makeText(context, "del ", Toast.LENGTH_SHORT).show();
@@ -264,7 +308,12 @@ public class MainActivity extends ListActivity {
 			temp[3] = c.getString(3);
 			temp[4] = displayBook(c);
 			niyayTable.add(temp);
-			//myList.
+			Thread t = new Thread() {
+			    public void run() {
+			        listAdap.notifyDataSetChanged();
+			    }
+			};
+			t.start();
 		}while(c.moveToNext());
 
 		Log.e("loop end", Integer.toString(i2));
@@ -320,16 +369,27 @@ public class MainActivity extends ListActivity {
 		//if (title.contains(">")) title = title.substring(title.indexOf(">"));
 
 		try {
-			text1 = Jsoup.connect(url+c.getString(3)).timeout(0).get().select("title").first().text();				
+			text1 = Jsoup.connect(url+c.getString(3)).timeout(0).get().html();				
 			doc = Jsoup.connect(url+Integer.toString((Integer.parseInt(c.getString(3))+1))).timeout(0).get().html();
 			Log.e("doc url", url+Integer.toString((Integer.parseInt(c.getString(3)+1))));
-			//temp code
-			if (title == null ) title = "";
-			else if (text1.contains(">"))	text1 = text1.substring(text1.indexOf(">")+2);
+			
+			if (text1.contains("<title>"))
+					text1 = Jsoup.parse(text1.substring(text1.indexOf("<title>")+7, text1.indexOf("</title>"))).text();
+			else 
+				text1 = "error not found this chapter";
+			
+			Log.e("title",(title == null) ? "" : title);
+			Log.e("text1",text1);
+			Log.e("compare",Integer.toString(text1.compareTo(title)));			
+			
+			if (title == null ) title = "";			
+			else if (title.contains(">")) title = title.substring(title.indexOf(">")+2);
+			if (text1.contains(">"))	text1 = text1.substring(text1.indexOf(">")+2);
 			if (title.isEmpty()) {
 				title = text1;
+				status = -1;
 			}
-			else if (text1.compareTo(title) == -1) {
+			else if (text1.compareTo(title) != 0) {
 				status = 1; //current chapter update				
 			} 
 			else if (/*(text2.compareTo("ไม่พบตอนที่คุณค้นหา") != 0) ||*/ doc.contains("<title>"))  {
@@ -345,18 +405,24 @@ public class MainActivity extends ListActivity {
 			//Toast.makeText(context, "update cheaker error", Toast.LENGTH_SHORT).show();
 			e.printStackTrace();
 		}
-		if (title != null ) 
-			if (title.contains(">")) title = title.substring(title.indexOf(">")+2);
+		
+			
 		String text3 = "";
-		if (status == 0) {			
+		if (status == 0) {
+			Log.e("title",title);
+			Log.e("text1",text1);
+			Log.e("compare",Integer.toString(text1.compareTo(title)));
 			ListViewContent.add(
 					"<br/><p><font color=#33B6EA>เรื่อง :" +c.getString(1)+"</font><br />" +
 							"<font color=#cc0029> ล่าสุด ตอน : " +title+" ("+c.getString(3)+")</font></p>"); 
 		}
-		else if (status == 1) {
+		else if (status == 1 || status == -1) {
+			Log.e("title",title);
+			Log.e("text1",text1);
+			Log.e("compare",Integer.toString(text1.compareTo(title)));
 			ListViewContent.add(
 					"<br/><p><font color=#339900>มีการอัพเดตตอนปัจจุบัน</font><br />" +
-							"<font color=#33B6EA>เรื่อง :" +c.getString(1)+"</font><br />" +
+						 	"<font color=#33B6EA>เรื่อง :" +c.getString(1)+"</font><br />" +
 							"<font color=#cc0029> ตอน : " +text1+" ("+c.getString(3)+")</font></p>"); 
 		}
 		else if (status == 2) {
@@ -464,38 +530,16 @@ public class MainActivity extends ListActivity {
 				arg1.setClickable(true); 
 				arg1.setFocusable(true); 
 				arg1.setBackgroundResource(android.R.drawable.menuitem_background); 
-				/*			arg1.setOnClickListener(new OnClickListener() { 
+				arg1.setOnClickListener(new OnClickListener() { 
 					@Override 
 					public void onClick(View v) { 
-						int i_index = -1;
-						int j_index = 0;
-						//String index = "";
-						//int loc = myList.getId();
-						for(String[] i:niyayTable) {
-							i_index++;
-							//j_index = -1;
-							Log.e("table "+i_index,i[1]);
-							//for (String j:i) {
-								//j_index++;
-								//Log.e("table "+Integer.toString(i_index)+","+Integer.toString(j_index), j);
-								//if (j_index == 4) if (index.contains(j)) loc = i_index;
-							//}
-						}
-						//Log.e("view",index );
-						Log.e("arg0", Integer.toString(arg0));
-						//Log.e("table size",Integer.toString(i_index)+","+Integer.toString(j_index));
-
-						String url = niyayTable.get(loc)[2]+niyayTable.get(loc)[3];
-						Log.e("url", url);
-						if (!url.startsWith("http://") && !url.startsWith("https://"))
-							url = "http://" + url;
-						Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-						startActivity(browserIntent);
+						v.showContextMenu();
 					} 
 				}); 
 				arg1.setOnCreateContextMenuListener(null);
 				holder.text = (TextView) arg1.findViewById(R.id.textView1);
-				holder.delete =  (Button) arg1.findViewById(R.id.button1);
+/*				holder.delete =  (Button) arg1.findViewById(R.id.button1);
+		
 				holder.delete.setOnClickListener(new OnClickListener() {
 					@Override
 					public void onClick(View v) {
@@ -503,20 +547,12 @@ public class MainActivity extends ListActivity {
 						v.showContextMenu();
 					}
 				});*/
-				holder.text = (TextView) arg1.findViewById(R.id.textView1);
-				holder.delete =  (Button) arg1.findViewById(R.id.button1);
 				arg1.setTag(holder);
 			}else {
 				holder = (ListContent) arg1.getTag();
 			}	
 			holder.text.setText(Html.fromHtml(ListViewContent.get(arg0)));
 			return arg1;
-		}
-
-		@Override
-		public void notifyDataSetChanged() {
-			super.notifyDataSetChanged();
-			//_NotifyOnChange = true;
 		}
 
 		@SuppressWarnings("unused")
@@ -526,7 +562,7 @@ public class MainActivity extends ListActivity {
 
 		class ListContent {
 			TextView text;
-			Button delete;
+			//Button delete;
 		}
 	}
 

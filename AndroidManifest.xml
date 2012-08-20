@@ -26,6 +26,8 @@
         </activity>
         <activity android:name=".InsertForm" >
         </activity>
+        <activity android:name=".EditForm" >
+        </activity>
         <activity android:name=".add_web" >
         </activity>
 

@@ -11,21 +11,9 @@
         android:layout_width="250dip"
         android:layout_marginLeft="10dip"
         android:layout_height="wrap_content"
-        android:text="@string/textview" />
-
-    <Button
-        android:id="@+id/button1"
-        android:layout_width="wrap_content"
-        android:layout_height="35dip"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="10dip"
-        android:layout_marginTop="5dip"
-        android:paddingBottom="0dp"
-        android:paddingTop="0dp"
-        android:text="@string/x"
-        android:textSize="23sp" />
-
+        android:text="@string/textview" />
     <ImageView
+        android:id="@+id/arrow1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
