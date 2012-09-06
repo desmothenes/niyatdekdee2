@@ -4,8 +4,12 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnTouchListener;
 import android.view.Window;
 import android.view.View.OnClickListener;
 import android.webkit.WebChromeClient;
@@ -13,20 +17,28 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
+import android.widget.Toast;
 
-public class add_web extends Activity {
-	WebView webView;
-	Button addButton;
+public class add_web extends Activity implements OnTouchListener, Handler.Callback {
+	private static final int CLICK_ON_WEBVIEW = 1;
+	private static final int CLICK_ON_URL = 2;
+
+	private final Handler handler = new Handler(this);
+	//private WebViewClient client;
+	private WebView webView;
+	private Button addButton;
 	final Activity activity = this;
 	@SuppressLint("SetJavaScriptEnabled")
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.getWindow().requestFeature(Window.FEATURE_PROGRESS);
-		setContentView(R.layout.web_add);        
+		setContentView(R.layout.web_add);       
+		
 		webView = (WebView) findViewById(R.id.webView1);
+		webView.setOnTouchListener(this);
 		webView.getSettings().setJavaScriptEnabled(true);
-		webView.getSettings().setLoadsImagesAutomatically(false);
+		//webView.getSettings().setLoadsImagesAutomatically(false);
 		webView.getSettings().setBuiltInZoomControls(true);
 		webView.getSettings().setDefaultZoom(WebSettings.ZoomDensity.FAR);
 		webView.setWebChromeClient(new WebChromeClient() {
@@ -41,12 +53,15 @@ public class add_web extends Activity {
 			@Override   
 			public boolean shouldOverrideUrlLoading(WebView view, String url)   
 			{   
-				view.loadUrl(url); 
-				return true; 
-
+/*				view.loadUrl(url); 
+				return true; */
+	            handler.sendEmptyMessage(CLICK_ON_URL);
+	            return false;
 			}   
 		});
+		
 		webView.loadUrl("http://www.dek-d.com/writer/frame.php");
+		Toast.makeText(this, "เข้าไปหน้านิยายที่ต้องการแล้วกดเพิ่ม สามารถเลือกจากหน้าหลักหรือจากตอนที่ต้องการ แต่แนะนำให้เลือกจากตอน", Toast.LENGTH_SHORT).show();
 		//webView.loadUrl("http://writer.dek-d.com/nanakosos/story/view.php?id=559528");
 		addButton = (Button) findViewById(R.id.button1);
 		addButton.setOnClickListener(new OnClickListener() {
@@ -76,7 +91,12 @@ public class add_web extends Activity {
 					//in this fomat http://writer.dek-d.com/dek-d/writer/view.php?id=580483
 					String stext = "id=";
 					//หาหลักของตอน
-					int start = url.lastIndexOf(stext)+stext.length();
+					final int start = url.lastIndexOf(stext)+stext.length();
+					if (start - stext.length() == -1) {
+						Toast.makeText(getBaseContext(), "Error not correct niyay page", Toast.LENGTH_SHORT).show();
+						return;
+					}
+					
 					Log.v("url.length()", Integer.toString(url.length()));
 					Log.v("start", Integer.toString(start));
 					Log.v("stext.length()", Integer.toString(stext.length()));
@@ -98,5 +118,30 @@ public class add_web extends Activity {
 				startActivity(i);
 			}        	
 		});
+	}
+	
+	@Override
+	public boolean handleMessage(Message msg) {
+	    if (msg.what == CLICK_ON_URL){
+	        handler.removeMessages(CLICK_ON_WEBVIEW);
+	        return true;
+	    }
+	    if (msg.what == CLICK_ON_WEBVIEW){
+	    	final String url = webView.getUrl();
+	    	if (url.contains("view.php"))
+	    		Toast.makeText(this, "คุณสามารถเพิ่มนิยายเรื่องนี้จากหน้านี้ได้ โดนการกด เพิ่ม ตอนล่าสุดจะเป็นตอนสุดท้ายที่มี แต่แนะนำให้เพิ่มโดยการเข้าไปเลือกกดเพิ่มจากตอนที่จ้องการจะดีกว่า", Toast.LENGTH_SHORT).show();
+	    	else if (url.contains("viewlongc.php"))
+	    		Toast.makeText(this, "คุณสามารถเพิ่มนิยายเรื่องนี้จากหน้านี้ได้ โดนการกด เพิ่ม ตอนนี้จะเป็นตอนล่าสุด", Toast.LENGTH_SHORT).show();
+	        return true;
+	    }
+		return false;
+	}
+	
+	@Override
+	public boolean onTouch(View v, MotionEvent event) {
+	    if (v.getId() == R.id.webView1 && event.getAction() == MotionEvent.ACTION_DOWN){
+	        handler.sendEmptyMessageDelayed(CLICK_ON_WEBVIEW, 500);
+	    }
+		return false;
 	}
 }
