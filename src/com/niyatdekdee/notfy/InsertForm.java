@@ -11,6 +11,8 @@ import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.jsoup.Jsoup;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -23,17 +25,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class InsertForm extends Activity  {
-	DatabaseAdapter db;
-	Button saveButton;
-	Button cancelButton;
-	TextView txtName;
-	TextView txtUrl;
-	TextView txtChapter;
-	String title;
+	private DatabaseAdapter db;
+	private Button saveButton;
+	private Button cancelButton;
+	private TextView txtName;
+	private TextView txtUrl;
+	private TextView txtChapter;
+	private String title;
+	
 	@Override
 	public void onBackPressed() {
 		finish();
 	}
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -54,17 +58,13 @@ public class InsertForm extends Activity  {
 			}	
 			else {
 				Log.v("ma url", intent.getStringExtra("url"));
-
-				title = gettitle(intent.getStringExtra("url"));
-				
+				title = gettitle(intent.getStringExtra("url"));				
 			}
 		}
 
 		saveButton.setOnClickListener(new OnClickListener() {
-
 			@Override
 			public void onClick(View arg0) {
-				// TODO Auto-generated method stub
 				db.open();
 				long id = db.insertNiyay(
 						txtName.getText().toString(),
@@ -73,26 +73,26 @@ public class InsertForm extends Activity  {
 						title);
 				if (id >0) {
 					Toast.makeText(getBaseContext(), "Insert Succeed.", Toast.LENGTH_SHORT).show();
-					Intent i = new Intent(getBaseContext(),MainActivity.class);
+					//Intent i = new Intent(getBaseContext(),MainActivity.class);
 					//i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-					startActivity(i);
+					finish();
+					//startActivity(i);
 				} else {
 					Toast.makeText(getBaseContext(), "Insert Failed.", Toast.LENGTH_SHORT).show();
 				}
 				db.close();
 			}
-
 		});
+		
 		cancelButton.setOnClickListener(new OnClickListener() {
-
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				clearAll();
 			}
-
 		});
 	}
+	
 	private String gettitle(String url) {
 		Log.v("ti url", url.replace("&chapter=", "").replace("http://writer.dek-d.com/dek-d/writer/viewlongc.php?id=", "http://writer.dek-d.com/story/writer/view.php?id="));
 		// TODO Auto-generated method stub
@@ -107,11 +107,13 @@ public class InsertForm extends Activity  {
 			ResponseHandler<String> responseHandler = new BasicResponseHandler();
 			html = httpclient.execute(httpget, responseHandler);
 		} catch (ClientProtocolException e) {
+			Toast.makeText(getBaseContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
 			e.printStackTrace();
 		} catch (IOException e) {
+			Toast.makeText(getBaseContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
 			e.printStackTrace();
 		} catch (URISyntaxException e) {
-			// TODO Auto-generated catch block
+			Toast.makeText(getBaseContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
 			e.printStackTrace();
 		} finally {
 			httpclient.getConnectionManager().shutdown();
@@ -123,7 +125,7 @@ public class InsertForm extends Activity  {
 				out.println(html);
 				out.close();
 			} catch (IOException e1) {
-				// TODO Auto-generated catch block
+				Toast.makeText(getBaseContext(), e1.getMessage(), Toast.LENGTH_SHORT).show();
 				e1.printStackTrace();
 			}
 
@@ -161,28 +163,32 @@ public class InsertForm extends Activity  {
 			ResponseHandler<String> responseHandler = new BasicResponseHandler();
 			html = httpclient1.execute(httpget, responseHandler);
 		} catch (ClientProtocolException e) {
+			Toast.makeText(getBaseContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
 			e.printStackTrace();
 		} catch (IOException e) {
+			Toast.makeText(getBaseContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
 			e.printStackTrace();
 		} catch (URISyntaxException e) {
-			// TODO Auto-generated catch block
+			Toast.makeText(getBaseContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
 			e.printStackTrace();
 		} finally {
 			httpclient1.getConnectionManager().shutdown();
 		}
+		
 		final int tstart;
-		if ((tstart = html.indexOf("<title>")) != -1)
+		if ((tstart = html.indexOf("<title>")) != -1) {
 			title = html.substring(tstart+7, html.indexOf("</title>"));
+			if (title.indexOf(">") != -1) 				
+				title = Jsoup.parse((title.substring(title.indexOf(">")+2))).text();}
 		if (title == null)
 			title = "null";
 		//Log.v("title", title);
 		return title;
 	}
+	
 	private void clearAll() {
-		// TODO Auto-generated method stub
 		txtName.setText("");
 		txtUrl.setText("");
 		txtChapter.setText("");
 	}
-
 }

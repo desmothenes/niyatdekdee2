@@ -4,12 +4,9 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
+import android.os.CountDownTimer;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnTouchListener;
 import android.view.Window;
 import android.view.View.OnClickListener;
 import android.webkit.WebChromeClient;
@@ -19,15 +16,13 @@ import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.Toast;
 
-public class add_web extends Activity implements OnTouchListener, Handler.Callback {
-	private static final int CLICK_ON_WEBVIEW = 1;
-	private static final int CLICK_ON_URL = 2;
+public class add_web extends Activity  {
 
-	private final Handler handler = new Handler(this);
 	//private WebViewClient client;
 	private WebView webView;
 	private Button addButton;
 	final Activity activity = this;
+	private boolean tipCheck;
 	@SuppressLint("SetJavaScriptEnabled")
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -36,7 +31,6 @@ public class add_web extends Activity implements OnTouchListener, Handler.Callba
 		setContentView(R.layout.web_add);       
 		
 		webView = (WebView) findViewById(R.id.webView1);
-		webView.setOnTouchListener(this);
 		webView.getSettings().setJavaScriptEnabled(true);
 		//webView.getSettings().setLoadsImagesAutomatically(false);
 		webView.getSettings().setBuiltInZoomControls(true);
@@ -53,15 +47,28 @@ public class add_web extends Activity implements OnTouchListener, Handler.Callba
 			@Override   
 			public boolean shouldOverrideUrlLoading(WebView view, String url)   
 			{   
-/*				view.loadUrl(url); 
-				return true; */
-	            handler.sendEmptyMessage(CLICK_ON_URL);
-	            return false;
+				if (tipCheck) {
+		    	if (url.contains("view.php"))
+		    		Toast.makeText(getBaseContext(), "คุณสามารถเพิ่มนิยายเรื่องนี้จากหน้านี้ได้ โดนการกด เพิ่ม ตอนล่าสุดจะเป็นตอนสุดท้ายที่มี แต่แนะนำให้เพิ่มโดยการเข้าไปเลือกกดเพิ่มจากตอนที่จ้องการจะดีกว่า", Toast.LENGTH_LONG).show();
+		    	else if (url.contains("viewlongc.php"))
+		    		Toast.makeText(getBaseContext(), "คุณสามารถเพิ่มนิยายเรื่องนี้จากหน้านี้ได้ โดนการกด เพิ่ม ตอนนี้จะเป็นตอนล่าสุด", Toast.LENGTH_LONG).show();
+				view.loadUrl(url); } 
+				return true; 
 			}   
 		});
 		
 		webView.loadUrl("http://www.dek-d.com/writer/frame.php");
-		Toast.makeText(this, "เข้าไปหน้านิยายที่ต้องการแล้วกดเพิ่ม สามารถเลือกจากหน้าหลักหรือจากตอนที่ต้องการ แต่แนะนำให้เลือกจากตอน", Toast.LENGTH_SHORT).show();
+		if (tipCheck) {
+		final Toast tag = Toast.makeText(this, "เข้าไปหน้านิยายที่ต้องการแล้วกดเพิ่ม สามารถเลือกจากหน้าหลักหรือจากตอนที่ต้องการ แต่แนะนำให้เลือกจากตอน", Toast.LENGTH_SHORT);
+	    tag.show();
+	    new CountDownTimer(9000, 1000)
+	    {
+
+	        public void onTick(long millisUntilFinished) {tag.show();}
+	        public void onFinish() {tag.show();}
+
+	    }.start();
+		}
 		//webView.loadUrl("http://writer.dek-d.com/nanakosos/story/view.php?id=559528");
 		addButton = (Button) findViewById(R.id.button1);
 		addButton.setOnClickListener(new OnClickListener() {
@@ -121,27 +128,12 @@ public class add_web extends Activity implements OnTouchListener, Handler.Callba
 	}
 	
 	@Override
-	public boolean handleMessage(Message msg) {
-	    if (msg.what == CLICK_ON_URL){
-	        handler.removeMessages(CLICK_ON_WEBVIEW);
-	        return true;
-	    }
-	    if (msg.what == CLICK_ON_WEBVIEW){
-	    	final String url = webView.getUrl();
-	    	if (url.contains("view.php"))
-	    		Toast.makeText(this, "คุณสามารถเพิ่มนิยายเรื่องนี้จากหน้านี้ได้ โดนการกด เพิ่ม ตอนล่าสุดจะเป็นตอนสุดท้ายที่มี แต่แนะนำให้เพิ่มโดยการเข้าไปเลือกกดเพิ่มจากตอนที่จ้องการจะดีกว่า", Toast.LENGTH_SHORT).show();
-	    	else if (url.contains("viewlongc.php"))
-	    		Toast.makeText(this, "คุณสามารถเพิ่มนิยายเรื่องนี้จากหน้านี้ได้ โดนการกด เพิ่ม ตอนนี้จะเป็นตอนล่าสุด", Toast.LENGTH_SHORT).show();
-	        return true;
-	    }
-		return false;
+	protected void onResume() {
+	    super.onResume();
+	    tipCheck = Setting.getCheckSetting(getApplicationContext());
 	}
-	
 	@Override
-	public boolean onTouch(View v, MotionEvent event) {
-	    if (v.getId() == R.id.webView1 && event.getAction() == MotionEvent.ACTION_DOWN){
-	        handler.sendEmptyMessageDelayed(CLICK_ON_WEBVIEW, 500);
-	    }
-		return false;
+	public void onBackPressed() {
+		finish();
 	}
 }
