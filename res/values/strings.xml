@@ -27,5 +27,15 @@
     <string name="title_activity_setting">Setting</string>
     <string name="save">บันทึก</string>
     <string name="title_activity_fav_add">Fav_add</string>
+    <string name="title_activity_main_layout">MainLayout</string>
+    <string name="title_activity_find">Find</string>
+    <string name="login">login</string>
+    <string name="image">image</string>
+    <string name="username">username</string>
+    <string name="password">password</string>
+    <string name="list">รายการ</string>
+    <string name="settings">ตั่งค่า</string>
+    <string name="search">ค้นห่า</string>
+    <string name="back">กลับ</string>
 
 </resources>

@@ -20,6 +20,8 @@ public class EditForm extends Activity  {
 	long rowId;
 	@Override
 	public void onBackPressed() {
+		Intent resultIntent = new Intent();
+		setResult(Activity.RESULT_CANCELED, resultIntent);
 		finish();
 	}
 	@Override
@@ -55,6 +57,8 @@ public class EditForm extends Activity  {
 						title.getText().toString());
 				if (id) {
 					Toast.makeText(getBaseContext(), "Update Succeed.", Toast.LENGTH_SHORT).show();
+					Intent resultIntent = new Intent();
+					setResult(Activity.RESULT_OK, resultIntent);
 					finish();
 					//Intent i = new Intent(getBaseContext(),MainActivity.class);
 					//i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

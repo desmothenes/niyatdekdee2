@@ -32,7 +32,8 @@ public class add_web extends Activity  {
 		
 		webView = (WebView) findViewById(R.id.webView1);
 		webView.getSettings().setJavaScriptEnabled(true);
-		//webView.getSettings().setLoadsImagesAutomatically(false);
+		if (!Setting.getSelectImageSetting(this))
+			webView.getSettings().setLoadsImagesAutomatically(false);
 		webView.getSettings().setBuiltInZoomControls(true);
 		webView.getSettings().setDefaultZoom(WebSettings.ZoomDensity.FAR);
 		webView.setWebChromeClient(new WebChromeClient() {
@@ -52,7 +53,8 @@ public class add_web extends Activity  {
 		    		Toast.makeText(getBaseContext(), "คุณสามารถเพิ่มนิยายเรื่องนี้จากหน้านี้ได้ โดนการกด เพิ่ม ตอนล่าสุดจะเป็นตอนสุดท้ายที่มี แต่แนะนำให้เพิ่มโดยการเข้าไปเลือกกดเพิ่มจากตอนที่จ้องการจะดีกว่า", Toast.LENGTH_LONG).show();
 		    	else if (url.contains("viewlongc.php"))
 		    		Toast.makeText(getBaseContext(), "คุณสามารถเพิ่มนิยายเรื่องนี้จากหน้านี้ได้ โดนการกด เพิ่ม ตอนนี้จะเป็นตอนล่าสุด", Toast.LENGTH_LONG).show();
-				view.loadUrl(url); } 
+				 } 
+				view.loadUrl(url);
 				return true; 
 			}   
 		});
@@ -96,7 +98,7 @@ public class add_web extends Activity  {
 				}
 				else {
 					//in this fomat http://writer.dek-d.com/dek-d/writer/view.php?id=580483
-					String stext = "id=";
+					final String stext = "id=";
 					//หาหลักของตอน
 					final int start = url.lastIndexOf(stext)+stext.length();
 					if (start - stext.length() == -1) {

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+         <string-array name="listOptions">
+            <item>ปิด</item>
+            <item>1 ชั่วโมง</item>
+            <item>3 ชั่วโมง</item>
+            <item>6 ชั่วโมง</item>
+            <item>12 ชั่วโมง</item>
+            <item>24 ชั่วโมง</item>
+        </string-array>
+ 
+        <string-array name="listValue">
+            <item>0</item>
+            <item>1</item>
+            <item>3</item>
+            <item>6</item>
+            <item>12</item>
+            <item>24</item>
+        </string-array>   
+</resources>

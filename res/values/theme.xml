@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="customTitlebar" parent="android:Theme.Light">
+
+        <!-- ให้ความสูงมีขนาด 45 dip -->
+        <item name="android:windowTitleSize">45dip</item>
+
+        <!-- ให้ไปใช้รูปแบบพื้นหลังจาก res/values/style.xml -->
+        <item name="android:windowTitleBackgroundStyle">@style/bgTitlebar</item>
+    </style>
+        <style name="customList" parent="android:Theme.Light">
+        <!-- ให้ไปใช้รูปแบบพื้นหลังจาก res/values/style.xml -->
+        <item name="android:windowTitleBackgroundStyle">@style/bgList</item>
+    </style>
+
+</resources>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <PreferenceCategory android:title="Category Setting" >
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="keyCheck"
+            android:summary="ข้อความที่ขึ้นมา ขณะเปลี่ยนหน้า"
+            android:title="การแนะนำการใช้งาน" />
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="autoAdd"
+            android:summary="เมื่ออ่านจบ ตอนที่ตามล่าสุดจะเพิ่มอัตโนมัติ"
+            android:title="เพิ่มตอนอัตโนมัตหลังอ่านจบ" />
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="image"
+            android:summary="ปิดเพื่อประหยัดการใช้งานอินเตอร์เน็ต"
+            android:title="แสดงรูป ขณะเพิ่มนิยาย" />
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="notify"
+            android:summary="จะทำตรวจตามเวลาที่กำหนด เพื่อตรวจสอบการเปลี่ยนแปลง"
+            android:title="ตรวสสอบการอัพเดต" />
+
+        <com.niyatdekdee.notfy.TimePreference
+            android:dependency="notify"
+            android:key="alarm_time"
+            android:summary="กำหนดค่าเวลาเริ่มต้นที่จะเตือน"
+            android:title="เวลาที่เริ่มเตือน" />
+
+        <ListPreference
+            android:defaultValue="1"
+            android:dependency="notify"
+            android:entries="@array/listOptions"
+            android:entryValues="@array/listValue"
+            android:key="keySelectItem"
+            android:summary="จะแจ้งเตือนมีมีการอัพเดต จำเป็นต้องต่ออินเตอร์เน็ต"
+            android:title="ตรวจการอัพเดตตามเวลาที่กำหนด" />
+
+        <!--
+        <EditTextPreference
+            android:name="EditTextSetting"
+            android:defaultValue="Default"
+            android:key="keyEditText"
+            android:summary="DetailEditTextSetting"
+            android:title="TitleEditTextSetting" />
+        -->
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="ช่วยเหลือ" >
+
+        <PreferenceScreen android:title="วิธีการใช้งานเบื้องต้น" >
+
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="http://www.example.com" />
+        </PreferenceScreen>
+    </PreferenceCategory>
+
+</PreferenceScreen>

@@ -3,6 +3,7 @@ package com.niyatdekdee.notfy;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
 
 import org.apache.http.client.ClientProtocolException;
@@ -12,12 +13,19 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.jsoup.Jsoup;
+
+
 import android.net.ConnectivityManager;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.app.AlertDialog;
 import android.app.ListActivity;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -30,36 +38,63 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends ListActivity {
 	static DatabaseAdapter db;
-	public static Context context;
-	private static final ArrayList<String> ListViewContent = new ArrayList<String> ();
-	private static final ArrayList<String[]> niyayTable = new ArrayList<String[]> ();
-	public static ListViewAdapter listAdap;
+	static Context context;
+	static final ArrayList<String> ListViewContent = new ArrayList<String> ();
+	static final ArrayList<String[]> niyayTable = new ArrayList<String[]> ();
+	static ListViewAdapter listAdap;
 	//private static ListView myList;
 	private boolean resumeHasRun = false;
-	private boolean tipCheck = true;
-	
+	private ProgressDialog dialog;
+	private ImageButton btnDirection;
+	private static final int REQUEST_CODE=1;
+	static boolean LoadPage=false;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		boolean customTitleSupported = requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
 		setContentView(R.layout.activity_main);
+		if (customTitleSupported) {
+
+			//ตั้งค่า custom titlebar จาก custom_titlebar.xml
+			getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.custom_titlebar);
+
+			//เชื่อม btnSearch btnDirection เข้ากับ View
+			btnDirection = (ImageButton)findViewById(R.id.btnDirection);
+
+			btnDirection.setOnClickListener(new View.OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					finish();
+				}
+			});
+		}
 		context = getBaseContext();
 		db = new DatabaseAdapter(this);        
 		listAdap = new ListViewAdapter(this);
-		listAdap.notifyDataSetChanged();
+		
+
 		//myList=(ListView)findViewById(android.R.id.list); 	
 		//myList.setScrollingCacheEnabled(false);
 		//myList.setAdapter(listAdap);
-		setListAdapter(listAdap);
+		//dialog = ProgressDialog.show(MainActivity.this,"Loading", "Please Wait...",true);
+		//doback dob=new doback();
+		//dob.execute();
+
 		ListView myList = getListView();
 		/*	    myList.setOnItemClickListener(new OnItemClickListener() {
 			@Override
@@ -70,6 +105,8 @@ public class MainActivity extends ListActivity {
 						.show();
 			}
 		});*/
+		myList.setFastScrollEnabled(true);
+		myList.smoothScrollToPosition(0);
 		myList.setItemsCanFocus(true);
 		registerForContextMenu(myList);
 		/*		myList.setOnItemClickListener(new OnItemClickListener() {
@@ -83,9 +120,9 @@ public class MainActivity extends ListActivity {
 
 			}
 		});		*/
-		if (isOnline())	{
-			//showAllBook();
-			showAllBookOffline() ;
+		/*		if (isOnline())	{
+			showAllBook();
+			//showAllBookOffline() ;
 		}
 		else {
 			AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
@@ -97,34 +134,66 @@ public class MainActivity extends ListActivity {
 				}
 			});
 			alertDialog.show();
-			
+
 			showAllBookOffline() ;
-		}
+		}*/
+
+		//WakefulIntentService.acquireStaticLock(context);	    
+		//context.startService(new Intent(context, NiyayService.class));
+		while (LoadPage)
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		setListAdapter(listAdap);
+		listAdap.notifyDataSetChanged();
+	}
+
+	private static void displayNotification(String id,String name,String detail,String title,String url)
+	{
+		//RemoteViews contentView = new RemoteViews(context.getPackageName(), R.layout.custom_noti);
+		//contentView.setImageViewResource(R.id.image, R.drawable.notification_image);
+		//contentView.setTextViewText(R.id.notiTitle, name);
+		//contentView.setTextViewText(R.id.notiDetail1, title.substring(title.indexOf(":"))+" ("+detail+")");
+		//contentView.setTextViewText(R.id.notiDetail2, title+" ("+detail+")");		
+		NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+		Notification notification = new Notification(R.drawable.noti, name + "  ตอนใหม่", System.currentTimeMillis());
+		notification.defaults |= Notification.DEFAULT_SOUND;
+		// The PendingIntent will launch activity if the user selects this notification
+		Intent browserIntent = new Intent(Intent.ACTION_VIEW);
+		Uri data = Uri.parse(url);
+		browserIntent.setData(data);
+		PendingIntent contentIntent = PendingIntent.getActivity(context, REQUEST_CODE,browserIntent, 0);
+		notification.contentIntent = contentIntent;
+		//notification.contentView = contentView;
+		notification.setLatestEventInfo(context, name,title.substring(title.indexOf(":")+2)+" ("+detail+")", contentIntent);
+		manager.notify(Integer.parseInt(id), notification);
 	}
 
 	@Override
 	protected void onResume() {
-	    super.onResume();
-	    if (!resumeHasRun) {
-	        resumeHasRun = true;
-	        return;
-	    }
-	    tipCheck = Setting.getCheckSetting(getApplicationContext());
-	    
-	    if (tipCheck) {
-	    final Toast tag  = Toast.makeText(getBaseContext(), "ถ้าตอนดังกล่าวมีการเพิ่มเติมภายหลังโดยมีอัพเดตชื่อตอนกรุณากดว่าอ่านแล้วเพิ่มให้แจ้งเตือนในครั้งหน้าว่ามีการอัพเดต แต่ถ้าจบตอนแล้วกรุณากดเพิ่มเพื่อรอตอนใหม่", Toast.LENGTH_LONG);
-	    tag.show();	    
-	    new CountDownTimer(9000, 1000)
-	    {
+		super.onResume();
+		if (!resumeHasRun) {
+			resumeHasRun = true;
+			return;
+		}
+		listAdap.notifyDataSetChanged();
+		if (Setting.getCheckSetting(getApplicationContext()) /*tipCheck*/) {
+			final Toast tag  = Toast.makeText(getBaseContext(), "ถ้าตอนดังกล่าวมีการเพิ่มเติมภายหลังโดยมีอัพเดตชื่อตอนกรุณากดว่าอ่านแล้วเพิ่มให้แจ้งเตือนในครั้งหน้าว่ามีการอัพเดต แต่ถ้าจบตอนแล้วกรุณากดเพิ่มเพื่อรอตอนใหม่", Toast.LENGTH_LONG);
+			tag.show();	    
+			new CountDownTimer(9000, 1000)
+			{
 
-	        public void onTick(long millisUntilFinished) {tag.show();}
-	        public void onFinish() {tag.show();}
+				public void onTick(long millisUntilFinished) {tag.show();}
+				public void onFinish() {tag.show();}
 
-	    }.start();
-	    }
-	    
+			}.start();
+		}
+		context = getBaseContext();
 	}
-	
+
 	/*	protected void onListItemClick(ListView l, View v, int position, long id) {
 
 		super.onListItemClick(l, v, position, id);
@@ -135,7 +204,7 @@ public class MainActivity extends ListActivity {
 
 	@Override
 	public void onBackPressed() {
-		AlertDialog.Builder builder = new AlertDialog.Builder(this); 
+/*		AlertDialog.Builder builder = new AlertDialog.Builder(this); 
 		builder.setMessage("Are you sure you want to exit?") 
 		.setCancelable(false) 
 		.setPositiveButton("Yes", new DialogInterface.OnClickListener() { 
@@ -150,13 +219,14 @@ public class MainActivity extends ListActivity {
 			} 
 		}); 
 		AlertDialog alert = builder.create(); 
-		alert.show(); 
+		alert.show(); */
+		finish();
 	}
 
 
-	public boolean isOnline() { 
+	static boolean isOnline() { 
 		ConnectivityManager cm = 
-				(ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE); 
+				(ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE); 
 
 		return cm.getActiveNetworkInfo() != null &&  
 				cm.getActiveNetworkInfo().isConnectedOrConnecting(); 
@@ -166,6 +236,8 @@ public class MainActivity extends ListActivity {
 	@Override
 	public boolean onContextItemSelected(MenuItem item) 
 	{
+
+
 		AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
 		final int listItemName = (int)info.id;	
 		boolean flag = false;
@@ -183,211 +255,249 @@ public class MainActivity extends ListActivity {
 		Log.v("get item", Integer.toString(item.getItemId()));
 		HttpClient httpclient = new DefaultHttpClient();
 		switch(item.getItemId()) {
-			case R.id.open:
-				String url = niyayTable.get(listItemName)[2]+niyayTable.get(listItemName)[3];			
-				if (!url.startsWith("http://") && !url.startsWith("https://"))
-					url = "http://" + url;
-				Log.e("url", url);
-				Intent browserIntent = new Intent(Intent.ACTION_VIEW);
-				Uri data = Uri.parse(url);
-				browserIntent.setData(data);
-				startActivity(browserIntent);
-				if (!Setting.getCheckAuto(getApplicationContext()) && niyayTable.get(listItemName)[4].equals("ยังไม่มีตอนปัจจุบัน รอตอนใหม่"))
-					return true;
-			case R.id.addcp:
-				niyayTable.get(listItemName)[3] = Integer.toString(Integer.parseInt(niyayTable.get(listItemName)[3])+1);
-				String doc = "";
-				try {
-					HttpGet httpget = new HttpGet(new URI(niyayTable.get(listItemName)[2]+niyayTable.get(listItemName)[3]));
-					ResponseHandler<String> responseHandler = new BasicResponseHandler();
-					doc = httpclient.execute(httpget, responseHandler);
-				} catch (ClientProtocolException e) {
-					Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
-					e.printStackTrace();
-				} catch (IOException e) {
-					Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
-					e.printStackTrace();
-				} catch (URISyntaxException e) {
-					Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
-					e.printStackTrace();
-				} finally {
-					httpclient.getConnectionManager().shutdown();
-				}
-				//Toast.makeText(context, "add", Toast.LENGTH_SHORT).show();
-				final int start;
-				if ((start=doc.indexOf("<title>")) != -1) {
-					doc = doc.substring(start+7, doc.indexOf("</title>"));
-					doc = Jsoup.parse((doc.substring(doc.indexOf(">")+2))).text();
-				}
-				else {
-					doc = "ยังไม่มีตอนปัจจุบัน รอตอนใหม่";
-				}
-				db.open();
-				flag = db.updateChapter((Long.parseLong(niyayTable.get(listItemName)[0])), 
-						Integer.parseInt(niyayTable.get(listItemName)[3]),
-						"");			
-				if (flag) {
-					Toast.makeText(context, "inc succeed", Toast.LENGTH_SHORT).show();
-				} else {
-					Toast.makeText(context, "inc failed", Toast.LENGTH_SHORT).show();
-					niyayTable.get(listItemName)[3] = Integer.toString(Integer.parseInt(niyayTable.get(listItemName)[3])-1);
-				}
-				niyayTable.get(listItemName)[4] = doc ;
-				if (niyayTable.get(listItemName)[4] == null || niyayTable.get(listItemName)[4] == "") return true;
-				flag = db.updateTitle(Long.parseLong(niyayTable.get(listItemName)[0]), 
-						niyayTable.get(listItemName)[4]);			
-				if (flag) {
-					Toast.makeText(context, "rec succeed", Toast.LENGTH_SHORT).show();
-				} else {
-					Toast.makeText(context, "rec failed", Toast.LENGTH_SHORT).show();
-				}		
-				//Intent i = new Intent(context,MainActivity.class);
-				db.close();
-				ListViewContent.set(listItemName, "<br/><p><font color=#33B6EA>เรื่อง :" +niyayTable.get(listItemName)[1]+"</font><br />" +
-						"<font color=#cc0029> ล่าสุด ตอน : " +doc+" ("+niyayTable.get(listItemName)[3]+")</font></p>"
-						);		
-				listAdap.notifyDataSetChanged();
+		case R.id.open:
+			String url = niyayTable.get(listItemName)[2]+niyayTable.get(listItemName)[3];			
+			if (!url.startsWith("http://") && !url.startsWith("https://"))
+				url = "http://" + url;
+			Log.e("url", url);
+			Intent browserIntent = new Intent(Intent.ACTION_VIEW);
+			Uri data = Uri.parse(url);
+			browserIntent.setData(data);
+			startActivity(browserIntent);
+			if (!Setting.getAutoAdd(getApplicationContext()) && niyayTable.get(listItemName)[4].equals("ยังไม่มีตอนปัจจุบัน รอตอนใหม่"))
 				return true;
-			case R.id.red:
-				Log.e("replace with", niyayTable.get(listItemName)[4]);
-				db.open();
-				if (niyayTable.get(listItemName)[4] == null || niyayTable.get(listItemName)[4] == "") return true;
-				flag = db.updateTitle(Long.parseLong(niyayTable.get(listItemName)[0]), 
-						niyayTable.get(listItemName)[4]);			
-				/*			if (flag) {
+		case R.id.addcp:
+			niyayTable.get(listItemName)[3] = Integer.toString(Integer.parseInt(niyayTable.get(listItemName)[3])+1);
+			String doc = "";
+			try {
+				HttpGet httpget = new HttpGet(new URI(niyayTable.get(listItemName)[2]+niyayTable.get(listItemName)[3]));
+				ResponseHandler<String> responseHandler = new BasicResponseHandler();
+				doc = httpclient.execute(httpget, responseHandler);
+			} catch (ClientProtocolException e) {
+				Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+				e.printStackTrace();
+			} catch (IOException e) {
+				Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+				e.printStackTrace();
+			} catch (URISyntaxException e) {
+				Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+				e.printStackTrace();
+			} finally {
+				httpclient.getConnectionManager().shutdown();
+			}
+			//Toast.makeText(context, "add", Toast.LENGTH_SHORT).show();
+			final int start;
+			if ((start=doc.indexOf("<title>")) != -1) {
+				doc = doc.substring(start+7, doc.indexOf("</title>"));
+				doc = Jsoup.parse((doc.substring(doc.indexOf(">")+2))).text();
+			}
+			else {
+				doc = "ยังไม่มีตอนปัจจุบัน รอตอนใหม่";
+			}
+			db.open();
+			flag = db.updateChapter((Long.parseLong(niyayTable.get(listItemName)[0])), 
+					Integer.parseInt(niyayTable.get(listItemName)[3]),
+					"");			
+			if (flag) {
+				Toast.makeText(context, "inc succeed", Toast.LENGTH_SHORT).show();
+			} else {
+				Toast.makeText(context, "inc failed", Toast.LENGTH_SHORT).show();
+				niyayTable.get(listItemName)[3] = Integer.toString(Integer.parseInt(niyayTable.get(listItemName)[3])-1);
+			}
+			niyayTable.get(listItemName)[4] = doc ;
+			if (niyayTable.get(listItemName)[4] == null || niyayTable.get(listItemName)[4] == "") return true;
+			flag = db.updateTitle(Long.parseLong(niyayTable.get(listItemName)[0]), 
+					niyayTable.get(listItemName)[4]);			
+			if (flag) {
+				//Toast.makeText(context, "rec succeed", Toast.LENGTH_SHORT).show();
+			} else {
+				//Toast.makeText(context, "rec failed", Toast.LENGTH_SHORT).show();
+			}		
+			//Intent i = new Intent(context,MainActivity.class);
+			db.close();
+			ListViewContent.set(listItemName, "<br/><p><font color=#33B6EA>เรื่อง :" +niyayTable.get(listItemName)[1]+"</font><br />" +
+					"<font color=#cc0029> ล่าสุด ตอน : " +doc+" ("+niyayTable.get(listItemName)[3]+")</font></p>"
+					);		
+			listAdap.notifyDataSetChanged();
+			return true;
+		case R.id.red:
+			Log.e("replace with", niyayTable.get(listItemName)[4]);
+			db.open();
+			if (niyayTable.get(listItemName)[4] == null || niyayTable.get(listItemName)[4] == "") return true;
+			flag = db.updateTitle(Long.parseLong(niyayTable.get(listItemName)[0]), 
+					niyayTable.get(listItemName)[4]);			
+			/*			if (flag) {
 					Toast.makeText(context, "rec succeed", Toast.LENGTH_SHORT).show();
 				} else {
 					Toast.makeText(context, "rec failed", Toast.LENGTH_SHORT).show();
 				}*/
-				//Intent i = new Intent(context,MainActivity.class);
-				db.close();
-				//reload();	
-				ListViewContent.set(listItemName, "<br/><p><font color=#33B6EA>เรื่อง :" +niyayTable.get(listItemName)[1]+"</font><br />" +
-						"<font color=#cc0029> ล่าสุด ตอน : " +niyayTable.get(listItemName)[4]+" ("+niyayTable.get(listItemName)[3]+")</font></p>"
-						);		
-				listAdap.notifyDataSetChanged();
-				return true;			
-			case R.id.edit:
-				Toast.makeText(context, "edit", Toast.LENGTH_SHORT).show();
-				Intent intent = new Intent(context, EditForm.class);
-				intent.putExtra("id", niyayTable.get(listItemName)[0]);
-				intent.putExtra("name", niyayTable.get(listItemName)[1]);
-				intent.putExtra("url", niyayTable.get(listItemName)[2]);
-				intent.putExtra("chapter", niyayTable.get(listItemName)[3]);
-				intent.putExtra("title", niyayTable.get(listItemName)[4]);
-				startActivity(intent);
-				listAdap.notifyDataSetChanged();
-				return true;			
-			case R.id.dec:
-				niyayTable.get(listItemName)[3] = Integer.toString(Integer.parseInt(niyayTable.get(listItemName)[3])-1);
-				doc = "";			
-				try {
-					HttpGet httpget = new HttpGet(new URI(niyayTable.get(listItemName)[2]+niyayTable.get(listItemName)[3]));
-					ResponseHandler<String> responseHandler = new BasicResponseHandler();
-					doc = httpclient.execute(httpget, responseHandler);
-				} catch (ClientProtocolException e) {
-					Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
-					e.printStackTrace();
-				} catch (IOException e) {
-					Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
-					e.printStackTrace();
-				} catch (URISyntaxException e) {
-					Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
-					e.printStackTrace();
-				} finally {
-					httpclient.getConnectionManager().shutdown();
-				}
-	
-				//Toast.makeText(context, "dec", Toast.LENGTH_SHORT).show();
-				final int start2;
-				if ((start2=doc.indexOf("<title>")) != -1) {
-					doc = doc.substring(start2+7, doc.indexOf("</title>"));
-					Log.e("url", doc);
-					doc = Jsoup.parse((doc.substring(doc.indexOf(">")+2))).text();
-				}
-				else {
-					doc = "ยังไม่มีตอนปัจจุบัน รอตอนใหม่";
-				}
-				db.open();
-				flag = db.updateChapter((Long.parseLong(niyayTable.get(listItemName)[0])), 
-						Integer.parseInt(niyayTable.get(listItemName)[3]),
-						"");			
-				if (flag) {
-					Toast.makeText(context, "dec succeed", Toast.LENGTH_SHORT).show();
-				} else {
-					Toast.makeText(context, "dec failed", Toast.LENGTH_SHORT).show();
-					niyayTable.get(listItemName)[3] = Integer.toString(Integer.parseInt(niyayTable.get(listItemName)[3])+1);
-				}
-	
-				niyayTable.get(listItemName)[4] = doc;
-				if (niyayTable.get(listItemName)[4] == null || niyayTable.get(listItemName)[4] == "") return true;
-				flag = db.updateTitle(Long.parseLong(niyayTable.get(listItemName)[0]), 
-						niyayTable.get(listItemName)[4]);			
-				if (flag) {
-					Toast.makeText(context, "rec succeed", Toast.LENGTH_SHORT).show();
-				} else {
-					Toast.makeText(context, "rec failed", Toast.LENGTH_SHORT).show();
-				}			
-				//Intent i = new Intent(context,MainActivity.class);
-				db.close();
-				ListViewContent.set(listItemName, "<br/><p><font color=#33B6EA>เรื่อง :" +niyayTable.get(listItemName)[1]+"</font><br />" +
-						"<font color=#cc0029> ล่าสุด ตอน : " +doc+" ("+niyayTable.get(listItemName)[3]+")</font></p>"
-						);		
-				listAdap.notifyDataSetChanged();
-				return true;	
-			case R.id.delete:			
-				Toast.makeText(context, "del ", Toast.LENGTH_SHORT).show();
-				AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this); 
-				builder.setIcon(R.drawable.delete);
-				builder.setMessage("คุณต้องการที่จะลบเรื่อง "+niyayTable.get(listItemName)[1]+" ?") 
-				.setCancelable(false) 						 
-				.setPositiveButton("Yes", new DialogInterface.OnClickListener() { 
-					public void onClick(DialogInterface dialog, int id) { 
-						db.open();
-						boolean flag;
-						flag = db.deleteNiyay(Long.parseLong(niyayTable.get(listItemName)[0]));		
-						if (flag) {
-							Toast.makeText(context, "delete succeed", Toast.LENGTH_SHORT).show();
-						} else {
-							Toast.makeText(context, "delete failed", Toast.LENGTH_SHORT).show();
-						}
-						//Intent i = new Intent(context,MainActivity.class);
-						db.close();
-						reload();
-					} 
-				}) 
-				.setNegativeButton("No", new DialogInterface.OnClickListener() { 
-					public void onClick(DialogInterface dialog, int id) { 
-						dialog.cancel(); 
-					} 
-				}); 
-				AlertDialog alert = builder.create(); 
-				alert.show(); 	
-				listAdap.notifyDataSetChanged();
-				return true;	
-			default:
-				return super.onContextItemSelected(item);
+			//Intent i = new Intent(context,MainActivity.class);
+			db.close();
+			//reload();	
+			ListViewContent.set(listItemName, "<br/><p><font color=#33B6EA>เรื่อง :" +niyayTable.get(listItemName)[1]+"</font><br />" +
+					"<font color=#cc0029> ล่าสุด ตอน : " +niyayTable.get(listItemName)[4]+" ("+niyayTable.get(listItemName)[3]+")</font></p>"
+					);		
+			listAdap.notifyDataSetChanged();
+			return true;			
+		case R.id.edit:
+			Toast.makeText(context, "edit", Toast.LENGTH_SHORT).show();
+			Intent intent = new Intent(context, EditForm.class);
+			intent.putExtra("id", niyayTable.get(listItemName)[0]);
+			intent.putExtra("name", niyayTable.get(listItemName)[1]);
+			intent.putExtra("url", niyayTable.get(listItemName)[2]);
+			intent.putExtra("chapter", niyayTable.get(listItemName)[3]);
+			intent.putExtra("title", niyayTable.get(listItemName)[4]);
+			final int STATIC_RESULT=2; 
+			startActivityForResult(intent,STATIC_RESULT);
+			System.out.println(STATIC_RESULT);
+			db.open();
+			Cursor c = db.getNiyay(Long.parseLong(niyayTable.get(listItemName)[0]));
+			c.moveToFirst();
+			niyayTable.get(listItemName)[0]= c.getString(0);
+			niyayTable.get(listItemName)[1] = c.getString(1);
+			niyayTable.get(listItemName)[2] = c.getString(2);
+			niyayTable.get(listItemName)[3] = c.getString(3);
+			niyayTable.get(listItemName)[4] = displayBookforedit(listItemName,c);
+			listAdap.notifyDataSetChanged();
+			return true;			
+		case R.id.dec:
+			niyayTable.get(listItemName)[3] = Integer.toString(Integer.parseInt(niyayTable.get(listItemName)[3])-1);
+			doc = "";			
+			try {
+				HttpGet httpget = new HttpGet(new URI(niyayTable.get(listItemName)[2]+niyayTable.get(listItemName)[3]));
+				ResponseHandler<String> responseHandler = new BasicResponseHandler();
+				doc = httpclient.execute(httpget, responseHandler);
+			} catch (ClientProtocolException e) {
+				Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+				e.printStackTrace();
+			} catch (IOException e) {
+				Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+				e.printStackTrace();
+			} catch (URISyntaxException e) {
+				Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+				e.printStackTrace();
+			} finally {
+				httpclient.getConnectionManager().shutdown();
+			}
+
+			//Toast.makeText(context, "dec", Toast.LENGTH_SHORT).show();
+			final int start2;
+			if ((start2=doc.indexOf("<title>")) != -1) {
+				doc = doc.substring(start2+7, doc.indexOf("</title>"));
+				Log.e("url", doc);
+				doc = Jsoup.parse((doc.substring(doc.indexOf(">")+2))).text();
+			}
+			else {
+				doc = "ยังไม่มีตอนปัจจุบัน รอตอนใหม่";
+			}
+			db.open();
+			flag = db.updateChapter((Long.parseLong(niyayTable.get(listItemName)[0])), 
+					Integer.parseInt(niyayTable.get(listItemName)[3]),
+					"");			
+			if (flag) {
+				Toast.makeText(context, "dec succeed", Toast.LENGTH_SHORT).show();
+			} else {
+				Toast.makeText(context, "dec failed", Toast.LENGTH_SHORT).show();
+				niyayTable.get(listItemName)[3] = Integer.toString(Integer.parseInt(niyayTable.get(listItemName)[3])+1);
+			}
+
+			niyayTable.get(listItemName)[4] = doc;
+			if (niyayTable.get(listItemName)[4] == null || niyayTable.get(listItemName)[4] == "") return true;
+			flag = db.updateTitle(Long.parseLong(niyayTable.get(listItemName)[0]), 
+					niyayTable.get(listItemName)[4]);			
+			if (flag) {
+				Toast.makeText(context, "rec succeed", Toast.LENGTH_SHORT).show();
+			} else {
+				Toast.makeText(context, "rec failed", Toast.LENGTH_SHORT).show();
+			}			
+			//Intent i = new Intent(context,MainActivity.class);
+			db.close();
+			ListViewContent.set(listItemName, "<br/><p><font color=#33B6EA>เรื่อง :" +niyayTable.get(listItemName)[1]+"</font><br />" +
+					"<font color=#cc0029> ล่าสุด ตอน : " +doc+" ("+niyayTable.get(listItemName)[3]+")</font></p>"
+					);		
+			listAdap.notifyDataSetChanged();
+			return true;	
+		case R.id.delete:			
+			Toast.makeText(context, "del ", Toast.LENGTH_SHORT).show();
+			AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this); 
+			builder.setIcon(R.drawable.delete);
+			builder.setMessage("คุณต้องการที่จะลบเรื่อง "+niyayTable.get(listItemName)[1]+" ?") 
+			.setCancelable(false) 						 
+			.setPositiveButton("Yes", new DialogInterface.OnClickListener() { 
+				public void onClick(DialogInterface dialog, int id) { 
+					db.open();
+					boolean flag;
+					flag = db.deleteNiyay(Long.parseLong(niyayTable.get(listItemName)[0]));		
+					if (flag) {
+						Toast.makeText(context, "delete succeed", Toast.LENGTH_SHORT).show();
+					} else {
+						Toast.makeText(context, "delete failed", Toast.LENGTH_SHORT).show();
+					}
+					//Intent i = new Intent(context,MainActivity.class);
+					db.close();
+					reload();
+				} 
+			}) 
+			.setNegativeButton("No", new DialogInterface.OnClickListener() { 
+				public void onClick(DialogInterface dialog, int id) { 
+					dialog.cancel(); 
+				} 
+			}); 
+			AlertDialog alert = builder.create(); 
+			alert.show(); 	
+			listAdap.notifyDataSetChanged();
+			return true;	
+		default:
+			return super.onContextItemSelected(item);
 		}
 	}
 
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v,ContextMenuInfo menuInfo) 
-	{
+	{		
 		super.onCreateContextMenu(menu, v, menuInfo);
+		if (ListViewContent.get(0).equals("<h2>Please add your first niyay. (Menu->Add open your main niyay page or chapter you want)</h2>")) {
+			final CharSequence[] items = {"ค้นหจากหน้า web", "จาก  Favorite Writer", "กรอกเองทั้งหมด"};
+			AlertDialog.Builder builder = new AlertDialog.Builder(this); 
+			builder.setTitle("จะเพิ่มนิยายที่ต้องการติดตามด้วยวิธีใด") 
+			.setSingleChoiceItems(items,-1, new DialogInterface.OnClickListener() { 
+				public void onClick(DialogInterface dialog, int id) { 
+					if (id == 0) {
+						Intent i = new Intent(getBaseContext(),add_web.class);
+						startActivity(i);
+					}
+					else if(id == 1) {
+						//Toast.makeText(getApplicationContext(), "this function not enable in this version"/*items[id]*/, Toast.LENGTH_SHORT).show();
+						Intent i = new Intent(getBaseContext(),Fav_add.class);
+						startActivity(i);
+
+					}
+					else if(id == 2) {
+						Intent i = new Intent(getBaseContext(),InsertForm.class);
+						startActivity(i);
+					}
+				}
+			}); 
+			AlertDialog alert = builder.create(); 
+			alert.show(); 
+			return ;
+		}
 		getMenuInflater().inflate(R.menu.menu_data, menu);
 	}
 
-	public void reload() {
+	private void reload() {
 		Intent intent = getIntent(); //new Intent(getBaseContext(),InsertForm.class);	
 		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		finish(); 
+		showAllBook();
 		startActivity(intent); 
 	}
 
 
-	private static void showAllBook() {
+	static void showAllBook() {
 		// TODO Auto-generated method stub
 		ListViewContent.clear();
+		niyayTable.clear();
 		db = new DatabaseAdapter(context);
 		db.open();
 
@@ -422,7 +532,7 @@ public class MainActivity extends ListActivity {
 				}
 			};
 			t.start();
-			*/
+			 */
 		}while(c.moveToNext());
 
 		Log.e("loop end", Integer.toString(i2));
@@ -430,9 +540,10 @@ public class MainActivity extends ListActivity {
 		//Toast.makeText(context, "Show Data", Toast.LENGTH_SHORT).show();
 	}
 
-	private static void showAllBookOffline() {
+	static void showAllBookOffline() {
 		// TODO Auto-generated method stub
 		ListViewContent.clear();
+		niyayTable.clear();
 		db = new DatabaseAdapter(context);
 		db.open();
 
@@ -469,7 +580,7 @@ public class MainActivity extends ListActivity {
 		//Toast.makeText(context, "Show Data", Toast.LENGTH_SHORT).show();
 	}
 
-	public static String displayBook(Cursor c) {
+	private static String displayBook(Cursor c) {
 
 		int status = 0;
 		String title = c.getString(4);
@@ -519,9 +630,6 @@ public class MainActivity extends ListActivity {
 			title = text1;
 			status = -1;
 		}
-		else if (text1.equals("ยังไม่มีตอนปัจจุบัน รอตอนใหม่")) {
-			status = 2;
-		}
 		else if (!text1.trim().equals(title.trim())) {
 			Log.e("title",title);
 			Log.e("text1",text1);
@@ -554,8 +662,12 @@ public class MainActivity extends ListActivity {
 		        e.printStackTrace();
 		      }		  
 			 */
-						
+
 		} 
+
+		else if (!text1.contains("ยังไม่มีตอนปัจจุบัน")) {
+			status = 2;
+		}
 		Log.e("status", Integer.toString(status));
 
 
@@ -571,24 +683,115 @@ public class MainActivity extends ListActivity {
 							"<font color=#cc0029> ล่าสุด ตอน : " +title+" ("+chapter+")</font></p>"); 
 		}
 		else if (status == 1 || status == -1) {
+			displayNotification(c.getString(0),c.getString(1),chapter,text1,url+chapter); 
 			ListViewContent.add(
 					"<br/><p><font color=#339900>มีการอัพเดตตอนปัจจุบัน</font><br />" +
 							"<font color=#33B6EA>เรื่อง :" +c.getString(1)+"</font><br />" +
 							"<font color=#cc0029> ตอน : " +text1+" ("+chapter+")</font></p>"); 
 		}
 
-		/*		Log.e("content",
+		Log.e("content",
 				"id: " +c.getString(0)+"\n"+
 						"name:" +c.getString(1)+"\n" +
 						"url: " +c.getString(2)+"\n"+
 						"chapter: " +c.getString(3)+"\n"+
-						"title: " +c.getString(4));*/
+						"title: " +c.getString(4)+"\n"+
+						"text1" +text1);
 
 		if  (status == 0) return title;
 		else if  (status == 1 || status == -1) return text1;
 		return "";
 	}
-/*
+	
+	private static String displayBookforedit(int index,Cursor c) {
+
+		int status = 0;
+		String title = c.getString(4);
+		final String url = c.getString(2); 
+		final String chapter = c.getString(3);
+		String text1 = "";
+
+		HttpClient httpclient = new DefaultHttpClient();
+		try {
+			HttpGet httpget = new HttpGet(new URI(url+chapter));
+			ResponseHandler<String> responseHandler = new BasicResponseHandler();
+			text1 = httpclient.execute(httpget, responseHandler);
+		} catch (ClientProtocolException e) {
+			Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+			Log.e("Error" , e.getMessage());
+			e.printStackTrace();
+		} catch (IOException e) {
+			Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+			Log.e("Error" , e.getMessage());
+			e.printStackTrace();
+		} catch (URISyntaxException e) {
+			// TODO Auto-generated catch block
+			Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+			Log.e("Error" , e.getMessage());
+			e.printStackTrace();		
+		} finally {
+			httpclient.getConnectionManager().shutdown();
+		}
+
+		if (text1.contains("<title>")) {
+			final String start = text1.substring(text1.indexOf("<title>")+7);
+			text1 = Jsoup.parse((start.substring(start.indexOf(">")+2, start.indexOf("</title>")))).text();
+		}
+		else {
+			text1 = "ยังไม่มีตอนปัจจุบัน รอตอนใหม่";
+		}
+
+		if (title == null ) title = "";			
+		else if (title.contains(">")) title = title.substring(title.indexOf(">")+2);
+		if (text1.contains(">"))	text1 = text1.substring(text1.indexOf(">")+2);
+		if (title.isEmpty()) {
+			title = text1;
+			status = -1;
+		}
+		else if (!text1.trim().equals(title.trim())) {
+			Log.e("title",title);
+			Log.e("text1",text1);
+			Log.e("compare",(text1.equals(title))? "same" : "not same");
+
+		} 
+
+		else if (!text1.contains("ยังไม่มีตอนปัจจุบัน")) {
+			status = 2;
+		}
+		Log.e("status", Integer.toString(status));
+
+
+		if (status == 0 ) {
+			ListViewContent.set(index,
+					"<br/><p><font color=#33B6EA>เรื่อง :" +c.getString(1)+"</font><br />" +
+							"<font color=#cc0029> ล่าสุด ตอน : " +title+" ("+chapter+")</font></p>"); 
+		}
+		else if (status == 2 ) {
+			ListViewContent.set(index,
+					"<br/><p><font color=#6E6E6E>อ่านจบแล้วกรุณากดเพิ่มเพื่อรอตอนใหม่ด้วย</font><br />" +
+							"<font color=#33B6EA>เรื่อง :" +c.getString(1)+"</font><br />" +
+							"<font color=#cc0029> ล่าสุด ตอน : " +title+" ("+chapter+")</font></p>"); 
+		}
+		else if (status == 1 || status == -1) {
+			ListViewContent.set(index,
+					"<br/><p><font color=#339900>มีการอัพเดตตอนปัจจุบัน</font><br />" +
+							"<font color=#33B6EA>เรื่อง :" +c.getString(1)+"</font><br />" +
+							"<font color=#cc0029> ตอน : " +text1+" ("+chapter+")</font></p>"); 
+		}
+
+		Log.e("content",
+				"id: " +c.getString(0)+"\n"+
+						"name:" +c.getString(1)+"\n" +
+						"url: " +c.getString(2)+"\n"+
+						"chapter: " +c.getString(3)+"\n"+
+						"title: " +c.getString(4)+"\n"+
+						"text1" +text1);
+
+		if  (status == 0) return title;
+		else if  (status == 1 || status == -1) return text1;
+		return "";
+	}
+	/*
 		static public String byteToHex(byte b) {
 		// Returns hex String representation of byte b
 		char hexDigit[] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
@@ -611,7 +814,7 @@ public class MainActivity extends ListActivity {
 	    }
 	}
 	 */
-	public static void displayBookOffline(Cursor c) {
+	private static void displayBookOffline(Cursor c) {
 		//Log.e("title0",(c.getString(4) != null) ? c.getString(4):"");
 		String title = c.getString(4);	
 
@@ -642,7 +845,7 @@ public class MainActivity extends ListActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.add:
-			final CharSequence[] items = {"เลือกหรือค้นหาหน้านิยาย", "จาก   Favorite Writer", "กรอกเองทั้งหมด"};
+			final CharSequence[] items = {"ค้นหจากหน้า web", "จาก  Favorite Writer", "กรอกเองทั้งหมด"};
 			AlertDialog.Builder builder = new AlertDialog.Builder(this); 
 			builder.setTitle("จะเพิ่มนิยายที่ต้องการติดตามด้วยวิธีใด") 
 			.setSingleChoiceItems(items,-1, new DialogInterface.OnClickListener() { 
@@ -652,10 +855,10 @@ public class MainActivity extends ListActivity {
 						startActivity(i);
 					}
 					else if(id == 1) {
-						Toast.makeText(getApplicationContext(), "this function not enable in this version"/*items[id]*/, Toast.LENGTH_SHORT).show();
-						/*Intent i = new Intent(getBaseContext(),Fav_add.class);
+						//Toast.makeText(getApplicationContext(), "this function not enable in this version"/*items[id]*/, Toast.LENGTH_SHORT).show();
+						Intent i = new Intent(getBaseContext(),Fav_add.class);
 						startActivity(i);
-						*/						
+
 					}
 					else if(id == 2) {
 						Intent i = new Intent(getBaseContext(),InsertForm.class);
@@ -712,7 +915,7 @@ public class MainActivity extends ListActivity {
 				arg1 = mInflater.inflate(R.layout.list_item, null);
 				arg1.setClickable(true); 
 				arg1.setFocusable(true); 
-				arg1.setBackgroundResource(android.R.drawable.menuitem_background); 
+				arg1.setBackgroundResource(R.drawable.list_selector); 
 				arg1.setOnClickListener(new OnClickListener() { 
 					@Override 
 					public void onClick(View v) { 
@@ -746,6 +949,56 @@ public class MainActivity extends ListActivity {
 		class ListContent {
 			TextView text;
 			//Button delete;
+		}
+	}
+	class doback extends AsyncTask<URL, Integer, Long>
+	{
+
+		@Override
+		protected Long doInBackground(URL... arg0) 
+		{
+			try
+			{
+				if (isOnline())	{
+					showAllBook();
+					//showAllBookOffline() ;
+				}
+				else {
+					AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
+					alertDialog.setTitle("Error.");
+					alertDialog.setMessage("Not connect to internet.\nPlease check your internet connection");
+					alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int which) {
+							// here you can add functions
+						}
+					});
+					alertDialog.show();
+
+					showAllBookOffline() ;
+				}
+			}
+			catch(Exception e)
+			{
+
+			}
+			return null;
+		}
+		protected void onProgressUpdate(Integer... progress) 
+		{
+
+		}
+		protected void onPostExecute(Long result) 
+		{
+			try
+			{
+				setListAdapter(listAdap);
+				dialog.dismiss();
+			}
+			catch(Exception e)
+			{
+				e.printStackTrace();
+				dialog.dismiss();
+			}
 		}
 	}
 }
