@@ -60,23 +60,22 @@
             android:id="@+id/editText3"
             android:layout_width="200dip"
             android:layout_height="wrap_content"
-            android:text="@string/last_chapter" android:inputType="text">
+            android:focusable="true"
+            android:inputType="text"
+            android:text="@string/last_chapter" >
+
         </EditText>
      </LinearLayout>    
      <LinearLayout
         android:id="@+id/LinearLayout04"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" >
+
         <Button
             android:id="@+id/button3"
-            android:layout_width="wrap_content"
+            android:layout_width="100dip"
             android:layout_height="wrap_content"
             android:text="@string/add" />
 
-        <Button
-            android:id="@+id/button4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/cancel" />
      </LinearLayout>     
 </LinearLayout>

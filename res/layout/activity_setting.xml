@@ -22,7 +22,7 @@
             android:title="แสดงรูป ขณะเพิ่มนิยาย" />
 
         <CheckBoxPreference
-            android:defaultValue="false"
+            android:defaultValue="true"
             android:key="notify"
             android:summary="จะทำตรวจตามเวลาที่กำหนด เพื่อตรวจสอบการเปลี่ยนแปลง"
             android:title="ตรวสสอบการอัพเดต" />
@@ -34,7 +34,7 @@
             android:title="เวลาที่เริ่มเตือน" />
 
         <ListPreference
-            android:defaultValue="1"
+            android:defaultValue="24"
             android:dependency="notify"
             android:entries="@array/listOptions"
             android:entryValues="@array/listValue"

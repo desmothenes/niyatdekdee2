@@ -23,7 +23,7 @@ public class DatabaseAdapter {
 
 	private static final String DATABASE_CREATE = "create table niyays " +
 			"(_id integer primary key autoincrement, " +
-			"name text,url text,chapter numeric,title text);";
+			"name text,url text,chapter numeric,title text);"; //,update_date date default CURRENT_TIMESTAMP
 	private Context context = null;
 	private DatabaseHelper DBHelper;
 	private SQLiteDatabase db;
@@ -70,6 +70,12 @@ public class DatabaseAdapter {
 		return db.update(DATABASE_TABLE,args, KEY_ROWID+"="+rowId, null)>0;
 	}	
 	
+//	public boolean updateTime(long rowId,String time) {
+//		ContentValues args = new ContentValues();
+//		args.put(KEY_TIME, time);
+//		return db.update(DATABASE_TABLE,args, KEY_ROWID+"="+rowId, null)>0;
+//	}	
+	
 	public boolean updateChapter(long rowId,int chapter,String title) {
 		ContentValues args = new ContentValues();
 		args.put(KEY_LASTCHAPTER, chapter);
@@ -92,7 +98,7 @@ public class DatabaseAdapter {
 				KEY_NIYAYNAME,
 				KEY_URL,
 				KEY_LASTCHAPTER,
-				KEY_LASTTITLE				
+				KEY_LASTTITLE
 		}, KEY_ROWID+"="+rowId, null, null, null, null, null);
 		if (mCorsor != null) {
 			mCorsor.moveToFirst();
@@ -117,9 +123,13 @@ public class DatabaseAdapter {
 		@Override
 		public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 			// TODO Auto-generated method stub
+//			if (oldVersion < 2) {
+//				final String ALTER_TBL = 
+//		                "ALTER TABLE " + DATABASE_TABLE +
+//		                " ADD COLUMN update_date date default CURRENT_TIMESTAMP;";
+//		            db.execSQL(ALTER_TBL);
+//			}	
 			Log.w(TAG, "upgrad ver"+oldVersion+" to  "+ newVersion);
-			db.execSQL("DROP TABLE IF EXISTS titles");
-			onCreate(db);
 		}
 	}
 }

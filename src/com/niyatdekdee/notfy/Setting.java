@@ -39,13 +39,13 @@ public class Setting extends PreferenceActivity implements OnSharedPreferenceCha
         return PreferenceManager.getDefaultSharedPreferences(context).getBoolean("autoAdd", false);
     }
     public static String getSelectItemSetting(Context context) {
-        return PreferenceManager.getDefaultSharedPreferences(context).getString("keySelectItem", "0");
+        return PreferenceManager.getDefaultSharedPreferences(context).getString("keySelectItem", "24");
     }
     public static boolean getSelectImageSetting(Context context) {
     	return PreferenceManager.getDefaultSharedPreferences(context).getBoolean("image", true);
     }
     public static boolean getSelectNotifySetting(Context context) {
-    	return PreferenceManager.getDefaultSharedPreferences(context).getBoolean("notify", false);
+    	return PreferenceManager.getDefaultSharedPreferences(context).getBoolean("notify", true);
     }
     public static long getSelectNotifyTimeSetting(Context context) {
     	return PreferenceManager.getDefaultSharedPreferences(context).getLong("alarm_time", System.currentTimeMillis());
@@ -80,5 +80,4 @@ public class Setting extends PreferenceActivity implements OnSharedPreferenceCha
         System.out.println(Setting.getSelectNotifySetting(getApplicationContext()));
         System.out.println(Setting.getSelectItemSetting(getApplicationContext()));
 	}
-
 }

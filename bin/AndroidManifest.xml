@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.niyatdekdee.notfy"
     android:versionCode="1"
-    android:versionName="1.0" >
+    android:versionName="1.11" >
 
     <uses-sdk
         android:minSdkVersion="10"
@@ -16,11 +16,18 @@
     <application
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/customTitlebar" >
         <activity
             android:name=".MainActivity"
-            android:theme="@style/customTitlebar"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:launchMode="singleTop"
+            android:multiprocess="true"
+            android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity android:name=".InsertForm" >
         </activity>
@@ -50,17 +57,25 @@
             android:label="@string/title_activity_fav_add" >
         </activity>
         <activity
-            android:name=".MainLayout"
-            android:theme="@style/AppThemeNoTitleBar"
-            android:label="@string/app_name"  >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity
             android:name=".Find"
             android:label="@string/title_activity_find" >
         </activity>
+        <activity
+            android:name=".SearchGroupActivity"
+            android:label="@string/title_activity_seaech" >
+        </activity>
+        <activity
+            android:name=".SearchNameActivity"
+            android:label="@string/title_activity_search_name" >
+        </activity>
+        <activity
+            android:name=".DekdeeBrowserActivity"
+            android:label="@string/title_activity_dekdee_browser" >
+        </activity>
+        <activity
+            android:name=".ChapterListActivity"
+            android:label="@string/title_activity_chapter_list" >
+        </activity>
     </application>
+
 </manifest>

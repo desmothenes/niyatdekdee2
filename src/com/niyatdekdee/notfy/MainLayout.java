@@ -55,7 +55,7 @@ public class MainLayout extends Activity {
 			}        	
         });   
         
-        new Thread(new Runnable() {
+/*        new Thread(new Runnable() {
             public void run() {
             	MainActivity.LoadPage = true;
             	MainActivity.context = getBaseContext();
@@ -64,6 +64,6 @@ public class MainLayout extends Activity {
             	else MainActivity.showAllBookOffline();    
             	MainActivity.LoadPage = false;
             }
-        }).start();
+        }).start();*/
     }
 }

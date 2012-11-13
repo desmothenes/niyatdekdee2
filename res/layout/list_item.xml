@@ -11,14 +11,19 @@
         android:layout_width="250dip"
         android:layout_marginLeft="10dip"
         android:layout_height="wrap_content"/>
-    <ImageView
+
+    <ImageButton
         android:id="@+id/arrow1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:layout_marginRight="15dip"
+        android:background="@null"
+        android:clickable="false"
         android:contentDescription="@string/next"
-        android:src="@drawable/arrow" />
+        android:focusable="false"
+        android:src="@drawable/arrow"
+        android:visibility="invisible" />
 
 </RelativeLayout>

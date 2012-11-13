@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp" >
+
+        <ImageButton
+            android:id="@+id/btnDirection"
+            android:layout_width="45dip"
+            android:layout_height="45dip"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/my_drawable"
+            android:contentDescription="@string/back"
+            android:gravity="left"
+            android:padding="5dip"
+            android:src="@drawable/navigation_back" />
+
+        <ImageButton
+            android:id="@+id/imageButton2"
+            android:layout_width="45dip"
+            android:layout_height="45dip"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/imageButton1"
+            android:background="@drawable/bg_titlebar"
+            android:contentDescription="@string/add"
+            android:src="@android:drawable/ic_input_add" />
+
+        <ImageButton
+            android:id="@+id/imageButton1"
+            android:layout_width="45dip"
+            android:layout_height="45dip"
+            android:layout_alignParentTop="true"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/btnSetting"
+            android:background="@drawable/bg_titlebar"
+            android:contentDescription="@string/setting"
+            android:src="@android:drawable/ic_popup_sync" />
+
+        <ImageButton
+            android:id="@+id/btnSetting"
+            android:layout_width="45dip"
+            android:layout_height="45dip"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/bg_titlebar"
+            android:contentDescription="@string/setting"
+            android:gravity="right"
+            android:src="@android:drawable/arrow_down_float" />
+
+        <TextView
+            android:id="@+id/textViewTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/btnDirection"
+            android:text="@string/list"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@android:color/white" />
+    </RelativeLayout>
+
+</LinearLayout>

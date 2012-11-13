@@ -20,8 +20,8 @@
     <string name="addcp">เพิ่ม</string>
     <string name="refresh">เรียกซ้ำ</string>
     <string name="next">next</string>
-    <string name="read">อ่านแล้ว ถ้าชื่อตอนเปลี่ยนจะเตือน</string>
-    <string name="open">เปิดอ่าน</string>
+    <string name="read">เตือน ถ้าชื่อตอนเปลี่ยน</string>
+    <string name="open">เปิดอ่าน จาก APP</string>
     <string name="chapter_title">ชื่อตอน</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_setting">Setting</string>
@@ -35,7 +35,24 @@
     <string name="password">password</string>
     <string name="list">รายการ</string>
     <string name="settings">ตั่งค่า</string>
-    <string name="search">ค้นห่า</string>
+    <string name="search">ค้นหา</string>
     <string name="back">กลับ</string>
+    <string name="setting">ตั่งค่า</string>
+    <string name="title_activity_seaech">SeaechActivity</string>
+    <string name="groupchoose">เลือกหมวด</string>
+    <string name="sortchoose">เรียงตาม</string>
+    <string name="statuschoose">สถานะ</string>
+    <string name="typechoose">เลือกประเภท</string>
+    <string name="submenuchoose">เลือกหมวดย่อย</string>
+    <string name="title_activity_search_name">SearchNameActivity</string>
+    <string name="notwantsearchtext">คำที่ไม่ต้องการค้นหา</string>
+    <string name="storyname">ชื่อเรื่อง</string>
+    <string name="authorname">ชื่อผู้แต่ง</string>
+    <string name="abstract1">เรื่องย่อ</string>
+    <string name="title_activity_dekdee_browser">DekdeeBrowserActivity</string>
+    <string name="openbrower">เปิดโดยใช้ browser</string>
+    <string name="speak">อ่านออกเสียง(TTS)</string>
+    <string name="title_activity_chapter_list">ChapterListActivity</string>
+    <string name="chapterlist">รายการตอนทั้งหมด</string>
 
 </resources>

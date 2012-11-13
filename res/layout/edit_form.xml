@@ -85,14 +85,8 @@
         android:layout_height="wrap_content" >
         <Button
             android:id="@+id/button3"
-            android:layout_width="wrap_content"
+            android:layout_width="100dip"
             android:layout_height="wrap_content"
             android:text="@string/save" />
-
-        <Button
-            android:id="@+id/button4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/cancel" />
      </LinearLayout>     
 </LinearLayout>

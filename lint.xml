@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <lint>
     <issue id="SetJavaScriptEnabled">
+        <ignore path="src\com\niyatdekdee\notfy\DekdeeBrowserActivity.java" />
         <ignore path="src\com\niyatdekdee\notfy\Fav_add.java" />
     </issue>
 </lint>
