@@ -2,6 +2,7 @@
 <resources>
          <string-array name="listOptions">
             <item>ปิด</item>
+            <item>1 ชั่วโมง</item>
             <item>6 ชั่วโมง</item>
             <item>12 ชั่วโมง</item>
             <item>24 ชั่วโมง</item>
@@ -9,8 +10,32 @@
  
         <string-array name="listValue">
             <item>0</item>
+            <item>1</item>
             <item>6</item>
             <item>12</item>
             <item>24</item>
         </string-array>   
+        <string-array name="colorOptions">
+            <item>ฟ้า</item>
+            <item>เหลือง</item>
+            <item>เขียว</item>
+            <item>ชมพู</item>
+        </string-array>
+ 
+        <string-array name="colorValue">
+            <item>0</item>
+            <item>1</item>
+            <item>2</item>
+            <item>3</item>
+        </string-array>  
+         
+        <string-array name="arrowOptions">
+            <item>เปิดด้วย Browser</item>
+            <item>เปิดด้วย App</item>
+        </string-array>
+ 
+        <string-array name="arrowValue">
+            <item>0</item>
+            <item>1</item>
+        </string-array>  
 </resources>

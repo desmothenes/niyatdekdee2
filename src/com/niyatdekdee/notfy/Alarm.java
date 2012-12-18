@@ -1,7 +1,5 @@
 package com.niyatdekdee.notfy;
 
-import java.util.Calendar;
-
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver; 
@@ -20,17 +18,19 @@ public class Alarm extends BroadcastReceiver
 			 CancelAlarm(context) ;
 			return;
 		}
+
 		WakefulIntentService.acquireStaticLock(context);	    
 		context.startService(new Intent(context, NiyayService.class));	
-
+                                          Log.e("zone", "ed in1 onReceive");  
 		PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE); 
 		PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "YOUR TAG"); 
 		wl.acquire(); 
 
 		// Put here YOUR code. 
 		//Toast.makeText(context, "Alarm !!!!!!!!!!", Toast.LENGTH_LONG).show(); // For example 
-
+                  Log.e("zone", "ed in2 onReceive");  
 		wl.release(); 
+		Log.e("zone", "ed Alarm onReceive");
 	} 
 
 	public void SetAlarm(Context context) 
@@ -40,9 +40,8 @@ public class Alarm extends BroadcastReceiver
 		Intent i = new Intent(context, Alarm.class);
 		PendingIntent pi = PendingIntent.getBroadcast(context, 0, i, 0); 
 	    long time=Setting.getSelectNotifyTimeSetting(context);
-		Calendar timeOff9 = Calendar.getInstance();
-		timeOff9.setTimeInMillis(time);
-		am.setRepeating(AlarmManager.RTC_WAKEUP, timeOff9.getTimeInMillis(), 1000 * 60 * Integer.parseInt(Setting.getSelectItemSetting(context)), pi); // Millisec * Second * Minute 
+		final long period = 1000 * 60 * 60 * Integer.parseInt(Setting.getSelectItemSetting(context));
+		am.setRepeating(AlarmManager.RTC_WAKEUP, time+period, period, pi); // Millisec * Second * Minute 
 	} 
 
 	public void CancelAlarm(Context context) 

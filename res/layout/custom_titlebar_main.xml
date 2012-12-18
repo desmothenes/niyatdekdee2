@@ -5,6 +5,7 @@
     android:orientation="vertical" >
 
     <RelativeLayout
+        android:id="@+id/mainbar"
         android:layout_width="match_parent"
         android:layout_height="45dp" >
 
@@ -26,7 +27,7 @@
             android:layout_height="45dip"
             android:layout_alignParentTop="true"
             android:layout_toLeftOf="@+id/imageButton1"
-            android:background="@drawable/bg_titlebar"
+            android:background="@null"
             android:contentDescription="@string/add"
             android:src="@android:drawable/ic_input_add" />
 
@@ -37,7 +38,7 @@
             android:layout_alignParentTop="true"
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@+id/btnSetting"
-            android:background="@drawable/bg_titlebar"
+            android:background="@null"
             android:contentDescription="@string/setting"
             android:src="@android:drawable/ic_popup_sync" />
 
@@ -48,7 +49,7 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
             android:layout_centerVertical="true"
-            android:background="@drawable/bg_titlebar"
+            android:background="@null"
             android:contentDescription="@string/setting"
             android:gravity="right"
             android:src="@android:drawable/arrow_down_float" />

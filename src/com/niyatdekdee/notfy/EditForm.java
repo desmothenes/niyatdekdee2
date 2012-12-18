@@ -8,6 +8,7 @@ import android.view.Window;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,7 +35,24 @@ public class EditForm extends Activity  {
 
 			//ตั้งค่า custom titlebar จาก custom_titlebar.xml
 			getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.custom_titlebar_nonmain);
-
+			
+			
+			RelativeLayout barLayout =  (RelativeLayout) findViewById(R.id.nonbar);
+			TextView title = (TextView) findViewById(R.id.textViewBar);
+			title.setText(" แก้ไข");
+			switch (MainActivity.titleColor) {
+			case 0:
+				barLayout.setBackgroundResource(R.drawable.bg_titlebar);
+				break;
+			case 1:
+				barLayout.setBackgroundResource(R.drawable.bg_titlebar_yellow);
+				break;
+			case 2:
+				barLayout.setBackgroundResource(R.drawable.bg_titlebar_green);
+				break;
+			case 3:
+				barLayout.setBackgroundResource(R.drawable.bg_titlebar_pink);
+			}
 			//เชื่อม btnSearch btnDirection เข้ากับ View
 			ImageButton btnDirection = (ImageButton)findViewById(R.id.btnDirection);
 
@@ -48,7 +66,7 @@ public class EditForm extends Activity  {
 			});
 		}
 
-		db = new DatabaseAdapter(this);      
+		db = new DatabaseAdapter(getApplicationContext());      
 		saveButton = (Button) findViewById(R.id.button3);
 		txtName = (TextView) findViewById(R.id.editText1);
 		txtUrl = (TextView) findViewById(R.id.editText2);

@@ -34,11 +34,13 @@ public class DatabaseAdapter {
 	}
 
 	public DatabaseAdapter open() {
+		Log.w(TAG, "open");
 		db = DBHelper.getWritableDatabase();
 		return this;
 	}
 
 	public void close() {
+		Log.w(TAG, "close");
 		DBHelper.close();
 	}
 

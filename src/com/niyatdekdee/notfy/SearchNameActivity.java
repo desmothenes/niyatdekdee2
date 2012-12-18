@@ -2,10 +2,11 @@ package com.niyatdekdee.notfy;
 
 import java.util.ArrayList;
 
+//import com.bugsense.trace.BugSenseHandler;
+
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
-import android.view.Menu;
 import android.view.View;
 import android.view.Window;
 import android.view.View.OnClickListener;
@@ -13,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -24,17 +26,18 @@ public class SearchNameActivity extends Activity {
 	protected String main = "";
 	protected String sub = "";
 	private Spinner subGP;
-
+	ScrollView mainScrollView;
 
 	@Override
 	protected void onResume() {
-		super.onResume();
-		ScrollView mainScrollView = (ScrollView)findViewById(R.id.scrollView1);
+		super.onResume();		
 		mainScrollView.smoothScrollTo(0,0);
 	}
+	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //BugSenseHandler.initAndStartSession(SearchNameActivity.this, "7942beee");
 		boolean customTitleSupported = requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
         setContentView(R.layout.activity_search_name);
         if (customTitleSupported) {
@@ -46,7 +49,26 @@ public class SearchNameActivity extends Activity {
 			TextView title = (TextView) findViewById(R.id.textViewOk);
 			title.setText(" ค้นหานิยาย");
 			
+			RelativeLayout barLayout =  (RelativeLayout) findViewById(R.id.okbar);
 			ImageButton btnOk = (ImageButton)findViewById(R.id.imageButton1);
+			switch (MainActivity.titleColor) {
+			case 0:
+				btnOk.setBackgroundResource(R.drawable.bg_titlebar);
+				barLayout.setBackgroundResource(R.drawable.bg_titlebar);
+				break;
+			case 1:
+				barLayout.setBackgroundResource(R.drawable.bg_titlebar_yellow);
+				btnOk.setBackgroundResource(R.drawable.bg_titlebar_yellow);
+				break;
+			case 2:
+				barLayout.setBackgroundResource(R.drawable.bg_titlebar_green);
+				btnOk.setBackgroundResource(R.drawable.bg_titlebar_green);
+				break;
+			case 3:
+				barLayout.setBackgroundResource(R.drawable.bg_titlebar_pink);
+				btnOk.setBackgroundResource(R.drawable.bg_titlebar_pink);
+			}
+			
 			btnOk.setImageDrawable(getResources().getDrawable(R.drawable.ic_action_search));
 			btnOk.setOnClickListener(new View.OnClickListener() {
 
@@ -66,7 +88,7 @@ public class SearchNameActivity extends Activity {
 			});
 		}
         
-        
+        mainScrollView = (ScrollView)findViewById(R.id.scrollView1);
         Spinner gpMenu = (Spinner) findViewById(R.id.spinner4);
 		ArrayList<String> gpList = new ArrayList<String>();		
 		gpList.add("ทั้งหมด");
@@ -209,9 +231,12 @@ public class SearchNameActivity extends Activity {
 						android.R.layout.simple_spinner_item, 
 						subList);
 				subadb.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+				final int x = mainScrollView.getScrollX();
+				final int y = mainScrollView.getScrollY();
 				subGP.setAdapter(subadb);
 				subGP.setSelection(0);
 				subGP.setEnabled(true);
+				mainScrollView.scrollTo(x, y);
 			} 
 
 		});
@@ -274,9 +299,9 @@ public class SearchNameActivity extends Activity {
 	}
 	
 
-    @Override
+/*    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.activity_search_name, menu);
         return true;
-    }
+    }*/
 }

@@ -12,12 +12,15 @@
         android:layout_alignParentLeft="true"
         android:background="@drawable/image_bg"
         android:layout_marginRight="5dip">
+
 	<ImageView
-            android:id="@+id/list_image"
-            android:layout_width="50dip"
-            android:layout_height="50dip" 
-            android:contentDescription="@string/image"
-            android:src="@drawable/rihanna"/>
+	    android:id="@+id/list_image"
+	    android:layout_width="50dip"
+	    android:layout_height="50dip"
+	    android:contentDescription="@string/image"
+	    android:scaleType="fitXY"
+	    android:src="@drawable/loadingpage" />
+
 	</LinearLayout>
     <TextView
         android:id="@+id/textView1"

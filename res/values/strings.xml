@@ -1,6 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Niyay at Dekdee Notfi</string>
+    <string name="app_name">นิยายเด็กดี Notify for non-member</string>
     <string name="menu_settings">เพิ่มเติม</string>
     <string name="title_activity_main">หน้าหลัก</string>
     <string name="add">เพิ่ม</string>
@@ -24,7 +25,7 @@
     <string name="open">เปิดอ่าน จาก APP</string>
     <string name="chapter_title">ชื่อตอน</string>
     <string name="hello_world">Hello world!</string>
-    <string name="title_activity_setting">Setting</string>
+    <string name="title_activity_setting">    ตั่งค่า</string>
     <string name="save">บันทึก</string>
     <string name="title_activity_fav_add">Fav_add</string>
     <string name="title_activity_main_layout">MainLayout</string>
@@ -50,9 +51,18 @@
     <string name="authorname">ชื่อผู้แต่ง</string>
     <string name="abstract1">เรื่องย่อ</string>
     <string name="title_activity_dekdee_browser">DekdeeBrowserActivity</string>
-    <string name="openbrower">เปิดโดยใช้ browser</string>
+    <string name="openbrower">เปิดโดยใช้ Browser</string>
     <string name="speak">อ่านออกเสียง(TTS)</string>
     <string name="title_activity_chapter_list">ChapterListActivity</string>
     <string name="chapterlist">รายการตอนทั้งหมด</string>
+    <string name="title_activity_flow">FlowActivity</string>
+    <string name="title_activity_web_notify">update แบบประหยัด</string>
+    <string name="top">บนสุด</string>
+    <string name="botton">ล่างสุด</string>
+    <string name="crash_toast_text">Ooooops ! I crashed, but a report has been sent to my developer to help fix the issue ! มีปัญหาติดต่อมาทาง mail ใน ตั่งค่าหรือใน store ได้นะครับ.</string>
+    <string name="story">เนื้อเรื่อง</string>
+    <string name="comment">ความคิดเห็น</string>
+    <string name="postcomment">แสดงความคิดเห็น</string>
+    <string name="title_activity_tts">TTSActivity</string>
 
 </resources>

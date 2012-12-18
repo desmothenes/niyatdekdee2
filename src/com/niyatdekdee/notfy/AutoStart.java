@@ -13,7 +13,7 @@ import android.util.Log;
  
 public class AutoStart extends BroadcastReceiver 
 {    
-	private static final int PERIOD=3600000; 
+	private static final int PERIOD=60000; 
 	
     @Override 
     public void onReceive(Context context, Intent intent) 
@@ -23,6 +23,7 @@ public class AutoStart extends BroadcastReceiver
     		CancelAlarm(context);
     		return;
     	}
+    	System.out.println(Integer.parseInt(Setting.getSelectItemSetting(context)));
     	if (Integer.parseInt(Setting.getSelectItemSetting(context)) == 0) return;	
     	WakefulIntentService.acquireStaticLock(context);	
     	PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE); 
@@ -34,10 +35,10 @@ public class AutoStart extends BroadcastReceiver
 	    long time=Setting.getSelectNotifyTimeSetting(context);
 		//Calendar timeOff9 = Calendar.getInstance();
 		//timeOff9.setTimeInMillis(time);
-	    System.out.print(time);
-	    System.out.print(SystemClock.elapsedRealtime());
+	    System.out.println(time);
+	    System.out.println(SystemClock.elapsedRealtime());
         mgr.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
-        		time+PERIOD * Integer.parseInt(Setting.getSelectItemSetting(context)) /*SystemClock.elapsedRealtime()+60000*/,
+        		time+PERIOD /* Integer.parseInt(Setting.getSelectItemSetting(context)) /*SystemClock.elapsedRealtime()+60000*/,
                 PERIOD * Integer.parseInt(Setting.getSelectItemSetting(context)) ,
                 pi);
         wl.release(); 
@@ -48,18 +49,18 @@ public class AutoStart extends BroadcastReceiver
 	{ 
 		Log.e("zone", "set Alarm");
 		AlarmManager am=(AlarmManager)context.getSystemService(Context.ALARM_SERVICE); 
-		Intent i = new Intent(context, Alarm.class);
+		Intent i = new Intent(context, AutoStart.class);
 		PendingIntent pi = PendingIntent.getBroadcast(context, 0, i, 0); 
 	    long time=Setting.getSelectNotifyTimeSetting(context);
 		Calendar timeOff9 = Calendar.getInstance();
 		timeOff9.setTimeInMillis(time);
-		am.setRepeating(AlarmManager.RTC_WAKEUP, timeOff9.getTimeInMillis(), 1000 * 60 * Integer.parseInt(Setting.getSelectItemSetting(context)), pi); // Millisec * Second * Minute 
+		am.setRepeating(AlarmManager.RTC_WAKEUP, timeOff9.getTimeInMillis(), 1000 * 60 * 60  * Integer.parseInt(Setting.getSelectItemSetting(context)), pi); // Millisec * Second * Minute 
 	} 
 
 	public void CancelAlarm(Context context) 
 	{ 
 		Log.e("zone", "cancel Alarm");
-		Intent intent = new Intent(context, Alarm.class); 
+		Intent intent = new Intent(context, AutoStart.class); 
 		PendingIntent sender = PendingIntent.getBroadcast(context, 0, intent, 0); 
 		AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE); 
 		alarmManager.cancel(sender); 

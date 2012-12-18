@@ -5,9 +5,9 @@
     android:orientation="vertical" >
 
     <RelativeLayout
+        android:id="@+id/okbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
-
         <ImageButton
             android:id="@+id/btnDirection"
             android:layout_width="45dip"
@@ -17,13 +17,19 @@
             android:background="@drawable/my_drawable"
             android:contentDescription="@string/back"
             android:src="@drawable/navigation_back" />
+        
         <TextView
             android:id="@+id/textViewOk"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/btnDirection"
-            android:text="@string/list"
+            android:ellipsize="marquee"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:singleLine="true"
+            android:scrollHorizontally="true"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="@android:color/white" />
 
@@ -33,10 +39,9 @@
             android:layout_height="45dip"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
-            android:background="@drawable/bg_titlebar"
+            android:background="@null"
             android:contentDescription="@string/add"
             android:src="@drawable/navigation_accept" />
     </RelativeLayout>
-
 
 </LinearLayout>

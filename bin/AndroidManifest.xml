@@ -1,24 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.niyatdekdee.notfy"
-    android:versionCode="1"
-    android:versionName="1.11" >
+    android:versionCode="14"
+    android:versionName="1.401" >
 
     <uses-sdk
         android:minSdkVersion="10"
-        android:targetSdkVersion="15" />
+        android:targetSdkVersion="10" />
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.READ_LOGS" />
 
     <application
+        android:name="com.niyatdekdee.notfy.MyAppClass"
+        android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/customTitlebar" >
         <activity
-            android:name=".MainActivity"
+            android:name="com.niyatdekdee.notfy.MainActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop"
             android:multiprocess="true"
@@ -29,53 +33,75 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".InsertForm" >
+        <activity android:name="com.niyatdekdee.notfy.InsertForm" >
         </activity>
-        <activity android:name=".EditForm" >
+        <activity android:name="com.niyatdekdee.notfy.EditForm" >
         </activity>
-        <activity android:name=".add_web" >
+        <activity android:name="com.niyatdekdee.notfy.add_web" >
         </activity>
 
-        <receiver android:name=".AutoStart" >
+        <receiver android:name="com.niyatdekdee.notfy.AutoStart" >
+        </receiver>
+        <receiver android:name="com.niyatdekdee.notfy.Alarm" >
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" >
-                </action>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
-        <receiver android:name=".Alarm" >
+        <receiver android:name="com.niyatdekdee.notfy.NetworkSwitcher" >
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
         </receiver>
 
-        <service android:name=".NiyayService" >
+        <service
+            android:name="com.niyatdekdee.notfy.NiyayService"
+            android:enabled="true" >
         </service>
 
         <activity
-            android:name=".Setting"
-            android:label="@string/title_activity_setting" >
+            android:name="com.niyatdekdee.notfy.Setting"
+            android:label="@string/title_activity_setting"
+            android:theme="@style/AppTheme" >
         </activity>
         <activity
-            android:name=".Fav_add"
+            android:name="com.niyatdekdee.notfy.Fav_add"
             android:label="@string/title_activity_fav_add" >
         </activity>
         <activity
-            android:name=".Find"
+            android:name="com.niyatdekdee.notfy.Find"
             android:label="@string/title_activity_find" >
         </activity>
         <activity
-            android:name=".SearchGroupActivity"
+            android:name="com.niyatdekdee.notfy.SearchGroupActivity"
             android:label="@string/title_activity_seaech" >
         </activity>
         <activity
-            android:name=".SearchNameActivity"
+            android:name="com.niyatdekdee.notfy.SearchNameActivity"
             android:label="@string/title_activity_search_name" >
         </activity>
         <activity
-            android:name=".DekdeeBrowserActivity"
+            android:name="com.niyatdekdee.notfy.DekdeeBrowserActivity"
+            android:configChanges="orientation|keyboardHidden"
             android:label="@string/title_activity_dekdee_browser" >
         </activity>
         <activity
-            android:name=".ChapterListActivity"
+            android:name="com.niyatdekdee.notfy.ChapterListActivity"
             android:label="@string/title_activity_chapter_list" >
         </activity>
+        <activity
+            android:name="com.niyatdekdee.notfy.FlowActivity"
+            android:label="@string/title_activity_flow"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+        </activity>
+        <activity
+            android:name="com.niyatdekdee.notfy.WebNotifyActivity"
+            android:label="@string/title_activity_web_notify" >
+        </activity>
+
+        <service
+            android:name="com.niyatdekdee.notfy.DekTTSActivity"
+            android:enabled="true" >
+        </service>
     </application>
 
 </manifest>

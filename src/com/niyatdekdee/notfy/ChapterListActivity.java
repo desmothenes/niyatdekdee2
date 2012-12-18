@@ -18,7 +18,6 @@ import android.content.Intent;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -26,7 +25,9 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
 public class ChapterListActivity extends ListActivity {
@@ -46,7 +47,21 @@ public class ChapterListActivity extends ListActivity {
 		if (customTitleSupported) {
 			//ตั้งค่า custom titlebar จาก custom_titlebar.xml
 			getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.custom_titlebar_nonmain);
-
+			
+			RelativeLayout barLayout =  (RelativeLayout) findViewById(R.id.nonbar);
+			switch (MainActivity.titleColor) {
+			case 0:
+				barLayout.setBackgroundResource(R.drawable.bg_titlebar);
+				break;
+			case 1:
+				barLayout.setBackgroundResource(R.drawable.bg_titlebar_yellow);
+				break;
+			case 2:
+				barLayout.setBackgroundResource(R.drawable.bg_titlebar_green);
+				break;
+			case 3:
+				barLayout.setBackgroundResource(R.drawable.bg_titlebar_pink);
+			}
 			//เชื่อม btnSearch btnDirection เข้ากับ View
 			TextView title = (TextView) findViewById(R.id.textViewBar);
 			title.setTextSize(15);
@@ -75,25 +90,36 @@ public class ChapterListActivity extends ListActivity {
 		list.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,long arg3) {
-				String url = Linktable.get(arg2);
-				Log.v("url", url);
-				Intent browser = new Intent(Intent.ACTION_VIEW);
-				String title = ListViewContent.get(arg2);
+				final String url = Linktable.get(arg2);
+				Log.v("url", url);				
+				final String title = Jsoup.parse(ListViewContent.get(arg2)).text();
 				Log.v("title", title);
-				Uri data = Uri.parse(url);
+/*				Intent browser = new Intent(Intent.ACTION_VIEW);
+ 				Uri data = Uri.parse(url);
 				browser.setData(data);
-				startActivity(browser);				
+				startActivity(browser);		*/
+				
+				if (Setting.getArrowSelectSetting(ChapterListActivity.this).equals("0")) {
+					Intent browser = new Intent(Intent.ACTION_VIEW,Uri.parse(url));
+					startActivity(browser);
+				}
+				else {
+					Intent browserIntent = new Intent(getBaseContext(), DekdeeBrowserActivity.class);
+					browserIntent.putExtra("url",url);
+					browserIntent.putExtra("title",title);
+					startActivity(browserIntent);
+				}
 
 			}
 		});  
 		setListAdapter(adapter);
 	}
-
+/*
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.activity_chapter_list, menu);
 		return true;
-	}
+	}*/
 
 	private class InteractiveArrayAdapter extends ArrayAdapter<String> {
 		private final Activity context;
@@ -111,7 +137,7 @@ public class ChapterListActivity extends ListActivity {
 			View rowView = convertView;
 			if (convertView == null) {
 				LayoutInflater inflater = context.getLayoutInflater();
-				rowView = inflater.inflate(R.layout.list_item, null);
+				rowView = inflater.inflate(R.layout.list_item2, null);
 			}
 			TextView text = (TextView) rowView.findViewById(R.id.textView1);			
 			String htmltext = "<br/><p><h4> " +names.get(position)+	"</font></h4></p>";			
@@ -128,14 +154,16 @@ public class ChapterListActivity extends ListActivity {
 
 		@Override
 		protected void onPreExecute() {
-			dialog = ProgressDialog.show(ChapterListActivity.this,"Loading", "Please Wait...",true);
+			dialog = ProgressDialog.show(ChapterListActivity.this,"Loading", "Please Wait...\n\nถ้าค้างนานกว่า 40 วินาที ลองกดออกแล้วเพิ่มใหม่",true);
 		}
 		@Override
 		protected Long doInBackground(String... origin0) 
 		{
 			try {
-				final String origin = origin0[0];
-				Document doc = Jsoup.connect( "http://writer.dek-d.com/dek-d/writer/view.php?id"+origin.substring(origin.indexOf("="),origin.indexOf("&"))).get();
+				final String origin = origin0[0].contains("=") ? origin0[0].substring(0, origin0[0].lastIndexOf("=")+1) : origin0[0];
+				System.out.println(origin0[0]);
+				System.out.println(origin);
+				Document doc = Jsoup.connect( "http://writer.dek-d.com/dek-d/writer/view.php?id"+origin.substring(origin.indexOf("="),origin.indexOf("&"))).timeout(15000).get();
 				int c = 1;
 				Elements link1 = doc.select("table.tableblack[border=1]");//[href~=/dek-d/writer/view.php]");
 				for (Element link: link1) {
@@ -152,10 +180,10 @@ public class ChapterListActivity extends ListActivity {
 							Linktable.add(String.format("%s%s",origin,stext));
 						}
 						else if (index == 2) {
-							sum.append(String.format("<br /><font color=#33B6EA>  %s ",stext));
+							sum.append(String.format("<font color=#33B6EA>  %s ",stext));
 						}
 						else { 
-							sum.append(String.format("</font><br /><font color=#cc0029>  %s ",stext));
+							sum.append(String.format("</font><font color=#cc0029>  %s",stext));
 							ListViewContent.add(sum.toString());
 							//print(ListViewContent.get(ListViewContent.size()-1));
 							index = 0;
@@ -166,25 +194,18 @@ public class ChapterListActivity extends ListActivity {
 				for (int i = 0;i<4;i++)
 					ListViewContent.remove(ListViewContent.size()-1);
 			} catch (IOException e) {
+				Toast.makeText(getBaseContext(), "การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่", Toast.LENGTH_LONG).show();
 				e.printStackTrace();
 			}
 			return null;
 		}
 
-		protected void onProgressUpdate(Integer... progress) 
-		{
-
-		}
 		protected void onPostExecute(Long result) 
 		{
-			setListAdapter(adapter);
 			dialog.dismiss();
+			setListAdapter(adapter);			
 		}
 
-		public void execute(int i) {
-			// TODO Auto-generated method stub
-
-		}
 
 	}
 }

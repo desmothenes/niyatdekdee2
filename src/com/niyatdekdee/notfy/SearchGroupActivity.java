@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
-import android.view.Menu;
 import android.view.View;
 import android.view.Window;
 import android.view.View.OnClickListener;
@@ -13,6 +12,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -20,6 +21,7 @@ public class SearchGroupActivity extends Activity {
 	ArrayList<String> mainList = new ArrayList<String>();
 	private Spinner subGP;
 	private Button searchbtt;
+	private ScrollView point;
 	private String story_type = "0";
 	private String main = "0";
 	private String sub = "0";
@@ -39,8 +41,27 @@ public class SearchGroupActivity extends Activity {
 			//เชื่อม btnSearch btnDirection เข้ากับ View
 			TextView title = (TextView) findViewById(R.id.textViewOk);
 			title.setText(" ค้นหานิยาย");
-
+			
+			RelativeLayout barLayout =  (RelativeLayout) findViewById(R.id.okbar);
 			ImageButton btnOk = (ImageButton)findViewById(R.id.imageButton1);
+			switch (MainActivity.titleColor) {
+			case 0:
+				btnOk.setBackgroundResource(R.drawable.bg_titlebar);
+				barLayout.setBackgroundResource(R.drawable.bg_titlebar);
+				break;
+			case 1:
+				barLayout.setBackgroundResource(R.drawable.bg_titlebar_yellow);
+				btnOk.setBackgroundResource(R.drawable.bg_titlebar_yellow);
+				break;
+			case 2:
+				barLayout.setBackgroundResource(R.drawable.bg_titlebar_green);
+				btnOk.setBackgroundResource(R.drawable.bg_titlebar_green);
+				break;
+			case 3:
+				barLayout.setBackgroundResource(R.drawable.bg_titlebar_pink);
+				btnOk.setBackgroundResource(R.drawable.bg_titlebar_pink);
+			}
+			
 			btnOk.setImageDrawable(getResources().getDrawable(R.drawable.ic_action_search));
 			btnOk.setOnClickListener(new View.OnClickListener() {
 
@@ -59,6 +80,8 @@ public class SearchGroupActivity extends Activity {
 				}
 			});
 		}
+		
+		point = (ScrollView)findViewById (R.id.ScrollView01);
 		Spinner mainGP = (Spinner) findViewById(R.id.Spinner02);
 		subGP = (Spinner) findViewById(R.id.spinner2);
 		mainList.add("ทุกหมวด");
@@ -142,9 +165,12 @@ public class SearchGroupActivity extends Activity {
 						android.R.layout.simple_spinner_item, 
 						subList);
 				subadb.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+				final int x = point.getScrollX();
+				final int y = point.getScrollY();
 				subGP.setAdapter(subadb);
 				subGP.setSelection(0);
 				subGP.setEnabled(true);
+				point.scrollTo(x, y);
 			} 
 
 		});
@@ -281,9 +307,9 @@ public class SearchGroupActivity extends Activity {
 		startActivity(intent);
 	}
 
-	@Override
+/*	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.activity_seaech, menu);
 		return true;
-	}
+	}*/
 }

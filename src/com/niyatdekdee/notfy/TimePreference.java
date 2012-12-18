@@ -26,15 +26,16 @@ public class TimePreference extends DialogPreference {
 
     public TimePreference(Context ctxt, AttributeSet attrs, int defStyle) {
         super(ctxt, attrs, defStyle);
-
         setPositiveButtonText(R.string.save);
         setNegativeButtonText(R.string.cancel);
         calendar = new GregorianCalendar();
+        
     }
 
     @Override
     protected View onCreateDialogView() {
         picker = new TimePicker(getContext());
+        picker.setIs24HourView(true);
         return (picker);
     }
 
@@ -50,6 +51,7 @@ public class TimePreference extends DialogPreference {
         super.onDialogClosed(positiveResult);
 
         if (positiveResult) {
+        	picker.clearFocus();
             calendar.set(Calendar.HOUR_OF_DAY, picker.getCurrentHour());
             calendar.set(Calendar.MINUTE, picker.getCurrentMinute());
 

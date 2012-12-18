@@ -7,7 +7,7 @@
     <style name="bgTitlebar">
 
         <!-- เรียกใช้พื้นหลังจาก res/drawable/bg_titlebar.xml เพื่อทำการไล่สี -->
-        <item name="android:background">@drawable/bg_titlebar</item>
+        <item name="android:background">@null</item>
     </style>
 
     <style name="bgList">

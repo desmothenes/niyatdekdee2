@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:robobunny="http://robobunny.com"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:key="preference_screen" >
 
     <PreferenceCategory android:title="Category Setting" >
 
@@ -13,7 +17,7 @@
             android:defaultValue="false"
             android:key="autoAdd"
             android:summary="เมื่ออ่านจบ ตอนที่ตามล่าสุดจะเพิ่มอัตโนมัติ"
-            android:title="เพิ่มตอนอัตโนมัตหลังอ่านจบ" />
+            android:title="เพิ่มตอนอัตโนมัติหลังอ่านจบ" />
 
         <CheckBoxPreference
             android:defaultValue="true"
@@ -25,7 +29,7 @@
             android:defaultValue="true"
             android:key="notify"
             android:summary="จะทำตรวจตามเวลาที่กำหนด เพื่อตรวจสอบการเปลี่ยนแปลง"
-            android:title="ตรวสสอบการอัพเดต" />
+            android:title="ตรวจสอบการอัพเดต" />
 
         <com.niyatdekdee.notfy.TimePreference
             android:dependency="notify"
@@ -39,26 +43,129 @@
             android:entries="@array/listOptions"
             android:entryValues="@array/listValue"
             android:key="keySelectItem"
-            android:summary="จะแจ้งเตือนมีมีการอัพเดต จำเป็นต้องต่ออินเตอร์เน็ต"
+            android:summary="จะแจ้งเตือนเมื่อมีการอัพเดต จำเป็นต้องต่ออินเตอร์เน็ต"
             android:title="ตรวจการอัพเดตตามเวลาที่กำหนด" />
 
-        <!--
+        <ListPreference
+            android:defaultValue="0"
+            android:entries="@array/arrowOptions"
+            android:entryValues="@array/arrowValue"
+            android:key="arrowSelect"
+            android:summary="เลือกสิ่งที่จะเกิดขึ้นเมื่อกดลูกศร หรือ กดในรายการบางหน้า"
+            android:title="ตั่งค่าการการเลือกรายการ" />
+
+        <ListPreference
+            android:defaultValue="1"
+            android:entries="@array/colorOptions"
+            android:entryValues="@array/colorValue"
+            android:key="colorSelect"
+            android:summary="เลือกสีของแถบหัวเรื่องของ App"
+            android:title="ตั่งค่าสี" />
+
         <EditTextPreference
-            android:name="EditTextSetting"
-            android:defaultValue="Default"
-            android:key="keyEditText"
-            android:summary="DetailEditTextSetting"
-            android:title="TitleEditTextSetting" />
-        -->
+            android:name="ชื่อ"
+            android:defaultValue="นิรนาม"
+            android:key="postText"
+            android:summary="ใช้ในกรณีของผู้ที่ไม่เข้าสู่ระบบ"
+            android:title="ชื่อที่ใช้แสดงความคิดเห็น" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="ตั่งค่าเกี่ยวกับ  Favorite Writer" >
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="isLogin"
+            android:summary="เข้าสู่ระบบ"
+            android:title="เข้าสู่ระบบ" />
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:dependency="isLogin"
+            android:key="notifyFov"
+            android:summary="แจ้งเตือนการอัพเดต Favorite Writer"
+            android:title="เมื่อเปิดการแจ้งเตือนเมื่อมีการอัพเดตเพิ่มเป็น Favorite Writer" />
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:dependency="isLogin"
+            android:key="displayResult"
+            android:summary="แสดง Favorite Writer"
+            android:title="แสดง Favorite Writer" />
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:dependency="displayResult"
+            android:key="onlyFavorite"
+            android:summary="เปิดเพื่อประหยัดการใช้งานอินเตอร์เน็ตสูงสุด"
+            android:title="แสดงแต่ Favorite Writer" />
+
+        <com.niyatdekdee.notfy.UserPreference
+            android:name="UserName"
+            android:defaultValue="UserName"
+            android:dependency="isLogin"
+            android:key="UserName"
+            android:summary="UserName"
+            android:title="UserName" />
+
+        <com.niyatdekdee.notfy.passPreference
+            android:name="PassWord"
+            android:defaultValue="PassWord"
+            android:dependency="isLogin"
+            android:inputType="textPassword"
+            android:key="PassWord"
+            android:summary="PassWord"
+            android:title="PassWord" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="การอ่านออกเสียง" >
+
+        <com.niyatdekdee.notfy.SeekBarPreference
+            android:defaultValue="70"
+            android:key="speechRate"
+            android:max="200"
+            android:summary="ความเร็วในการอ่านของ TTS"
+            android:title="ความเร็วในการอ่าน"
+            robobunny:min="0"
+            robobunny:unitsLeft=""
+            robobunny:unitsRight="%" />
+
+        <com.niyatdekdee.notfy.SeekBarPreference
+            android:defaultValue="100"
+            android:key="speechPitch"
+            android:max="200"
+            android:summary="เสียงสูงต่ำการอ่านของ TTS"
+            android:title="เสียงสูงต่ำการอ่าน"
+            robobunny:min="0"
+            robobunny:unitsLeft=""
+            robobunny:unitsRight="%" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="ช่วยเหลือ" >
 
-        <PreferenceScreen android:title="วิธีการใช้งานเบื้องต้น" >
+        <PreferenceScreen android:title="วิธีการใช้งานเบื้องต้น V. 1.401" >
 
             <intent
                 android:action="android.intent.action.VIEW"
-                android:data="http://www.example.com" />
+                android:data="http://niyayapp.orgfree.com/dek-help.html" />
+        </PreferenceScreen>
+
+        <PreferenceScreen android:title="ติดต่อผู้พัฒนา" >
+
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="mailto:channimit@gmail.com?subject=ถึงผู้พัฒนา" >
+
+                <extra
+                    android:name="android.intent.extra.TEXT"
+                    android:value="มีข้อเสนอแนะดังนี้" />
+            </intent>
+        </PreferenceScreen>
+
+        <PreferenceScreen android:title="FanPage" >
+
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="http://www.facebook.com/pages/%E0%B8%99%E0%B8%B4%E0%B8%A2%E0%B8%B2%E0%B8%A2%E0%B9%80%E0%B8%94%E0%B9%87%E0%B8%81%E0%B8%94%E0%B8%B5-Notify-non-member/304818186302824?ref=stream" />
         </PreferenceScreen>
     </PreferenceCategory>
 

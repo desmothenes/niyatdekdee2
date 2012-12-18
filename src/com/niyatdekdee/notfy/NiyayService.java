@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Date;
+import java.util.Map;
 
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
@@ -14,19 +15,26 @@ import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.jsoup.Connection;
+import org.jsoup.Connection.Method;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.jsoup.Jsoup;
+
 
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context; 
 import android.content.Intent; 
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.util.Log;
-import android.widget.Toast;
 
 public class NiyayService extends WakefulIntentService  
 { 
@@ -34,6 +42,8 @@ public class NiyayService extends WakefulIntentService
 	public static Context context;
 	private static int REQUEST_CODE;
 	private DatabaseAdapter db;
+	private Map<String, String> sessionId;
+	private int floop;
 
 
 
@@ -51,13 +61,29 @@ public class NiyayService extends WakefulIntentService
 		Log.e("zone", "doWakefulWork");
 		context = getApplicationContext();
 		
+		if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean("waitcheck", false))			
+			Log.e("zone", "a waitcheck true");
+		else
+			Log.e("zone", "a waitcheck false");
+		
 		if (!Setting.getSelectNotifySetting(context)) return;
 		int itemSelect = Integer.parseInt(Setting.getSelectItemSetting(getApplicationContext()));
-		if (itemSelect == 0 || !isOnline()) return;		
+		if (itemSelect == 0) return;	
+		
+		if (!isOnline()) {
+			SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this).edit();
+			editor.putBoolean("waitcheck", true);
+			editor.commit();
+			return ;
+		}
 		
 		db = new DatabaseAdapter(this);  	
 		//showAllBook();
 		showAllBook();
+		if (Setting.getNotifyFav(context)) {
+			login();
+			loadUpdate();
+		}
 		File log=new File(Environment.getExternalStorageDirectory(),
 				"AlarmLog.txt");
 
@@ -74,8 +100,15 @@ public class NiyayService extends WakefulIntentService
 			Log.e("AppService", "Exception appending to log file", e);
 		}
 		Log.e("zone", "ed doWakefulWork");
-
-	}
+		
+		SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this).edit();
+		editor.putBoolean("waitcheck", false);
+		editor.commit();
+		if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean("waitcheck", false))
+			Log.e("zone", "b waitcheck true");
+		else
+			Log.e("zone", "b waitcheck false");	
+		}
 /*
 	private void displayNotification(String name,String detail,String title,String url)
 	{
@@ -93,8 +126,89 @@ public class NiyayService extends WakefulIntentService
 
 	}
 */
+	private void login() {
+		Log.v("zone", "login");
+		//System.out.println(Setting.getUserName(context));
+		//System.out.println(Setting.getPassWord(context));
+		Connection.Response res;
+		try {
+			res = Jsoup.connect("http://my.dek-d.com/dekdee/my.id_station/login.php")
+					.data("username", Setting.getUserName(context))
+					.data("password", Setting.getPassWord(context))
+					.method(Method.POST).timeout(8000)
+					.execute();
+			sessionId = res.cookies();
+		} catch (IOException e) {
+			//Toast.makeText(getBaseContext(), "การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่", Toast.LENGTH_LONG).show();
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}   		
+	}
 	
-	private static void displayNotification(String id,String name,String detail,String title,String url)
+	private void loadUpdate() {
+		Log.v("favfin", "favfin");
+		Document doc = null;
+		if (sessionId == null) return;
+		try {
+			doc = Jsoup.connect("http://www.dek-d.com/story_message2012.php")
+					.cookies(sessionId).timeout(3000)
+					.get();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}    	
+		Elements link1 = doc.select(".novel");
+		if(link1 == null) return;
+		for (Element link:link1) {
+			final String stext = link.text();
+/*			Log.v("stext", stext);
+			String[] temp  = new String[5];
+			temp[0] = "-2";
+			temp[1] = stext.substring(0, stext.indexOf("ตอนที่"));
+			temp[2] = link.select("a").attr("href");
+			temp[3] = "-2";
+			temp[4] = stext.substring(stext.indexOf("ตอนที่"));*/
+			//MainActivity.ListViewContent.add(stext.replace("ตอนที่", "\nตอนที่"));	
+/*			MainActivity.ListViewContent.add(
+					"<br/><p><font color=#339900>มีการอัพเดตตอนปัจจุบัน</font><br />" +
+							"<font color=#33B6EA>เรื่อง :" +temp[1]+"</font><br />" +
+							"<font color=#cc0029>" +temp[4]+"</font></p>"); */
+			displayNotification(Integer.toString(floop++),stext.substring(0, stext.indexOf("ตอนที่")),stext.substring(stext.indexOf("ตอนที่")),link.select("a").attr("href"));
+		}
+
+
+		Log.v("listView", "listView");
+		/*		for (String i : ListViewContent)
+			Log.v("ListViewContent", i);*/
+	}
+	
+	private static void displayNotification(String id,String name,String detail,String url)
+	{
+		NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+		Notification notification = new Notification(R.drawable.noti, name + "  ตอนใหม่", System.currentTimeMillis());
+		notification.defaults |= Notification.DEFAULT_SOUND;
+		
+		// The PendingIntent will launch activity if the user selects this notification
+		Intent browserIntent = null;
+		if (Setting.getArrowSelectSetting(context).equals("0")) {
+			browserIntent = new Intent(Intent.ACTION_VIEW);
+			Uri data = Uri.parse(url+"#story_body");
+			browserIntent.setData(data);
+		}
+		else {
+			browserIntent = new Intent(context, DekdeeBrowserActivity.class);
+			browserIntent.putExtra("id",id);
+			browserIntent.putExtra("url",url);
+			browserIntent.putExtra("title",name);
+		}
+		
+		PendingIntent contentIntent = PendingIntent.getActivity(context, REQUEST_CODE,browserIntent, 0);
+		notification.contentIntent = contentIntent;
+		//notification.contentView = contentView;
+		notification.setLatestEventInfo(context, name,detail, contentIntent);
+		manager.notify(Integer.parseInt(id), notification);
+	}
+	
+	private static void displayNotification(final String id,final String name,final String detail,String title,final String url)
 	{
 		//RemoteViews contentView = new RemoteViews(context.getPackageName(), R.layout.custom_noti);
 		//contentView.setImageViewResource(R.id.image, R.drawable.notification_image);
@@ -104,17 +218,41 @@ public class NiyayService extends WakefulIntentService
 		NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 		Notification notification = new Notification(R.drawable.noti, name + "  ตอนใหม่", System.currentTimeMillis());
 		notification.defaults |= Notification.DEFAULT_SOUND;
+		
 		// The PendingIntent will launch activity if the user selects this notification
-		Intent browserIntent = new Intent(Intent.ACTION_VIEW);
-		Uri data = Uri.parse(url);
-		browserIntent.setData(data);
+		Intent browserIntent = null;
+		if (Setting.getArrowSelectSetting(context).equals("0")) {
+			browserIntent = new Intent(Intent.ACTION_VIEW);
+			Uri data = Uri.parse(url+"#story_body");
+			browserIntent.setData(data);
+		}
+		else {
+			browserIntent = new Intent(context, DekdeeBrowserActivity.class);
+			browserIntent.putExtra("id",id);
+			browserIntent.putExtra("url",url);
+			browserIntent.putExtra("title",name);
+		}
+		
 		PendingIntent contentIntent = PendingIntent.getActivity(context, REQUEST_CODE,browserIntent, 0);
 		notification.contentIntent = contentIntent;
 		//notification.contentView = contentView;
-		notification.setLatestEventInfo(context, name,title.substring(title.indexOf(":")+2)+" ("+detail+")", contentIntent);
+		if (title.contains(":")) {
+			title = ":"+title;
+		}
+		if (title.indexOf(":")+2 < title.length()) {			
+			notification.setLatestEventInfo(context, name,title.substring(title.indexOf(":")+2)+" ("+detail+")", contentIntent);
+		}
+		else if (title.indexOf(":")+1 < title.length()) {			
+			notification.setLatestEventInfo(context, name,title.substring(title.indexOf(":")+1)+" ("+detail+")", contentIntent);
+		}
+		else if (title.indexOf(":") < title.length()) {			
+			notification.setLatestEventInfo(context, name,title.substring(title.indexOf(":"))+" ("+detail+")", contentIntent);
+		}
+		else {
+			notification.setLatestEventInfo(context, name,title+" ("+detail+")", contentIntent);
+		}
 		manager.notify(Integer.parseInt(id), notification);
 	}
-	
 	public boolean isOnline() { 
 		ConnectivityManager cm = 
 				(ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE); 
@@ -129,9 +267,9 @@ public class NiyayService extends WakefulIntentService
 			db.open();
 	
 			Cursor c = db.getAllNiyay();
-			final int i = c.getCount();
-			Log.e("floop", Integer.toString(i));
-			if (i == 0) {
+			floop = c.getCount();
+			Log.e("floop", Integer.toString(floop));
+			if (floop == 0) {
 				Log.e("ck db", "not ok");
 				db.close();
 				return;
@@ -149,7 +287,7 @@ public class NiyayService extends WakefulIntentService
 	
 			Log.e("loop end", Integer.toString(i2));
 			db.close();
-			Toast.makeText(context, "Show Data", Toast.LENGTH_SHORT).show();
+			//Toast.makeText(context, "Show Data", Toast.LENGTH_SHORT).show();
 		}
 		
 	
@@ -160,6 +298,8 @@ public class NiyayService extends WakefulIntentService
 			final String url = c.getString(2); 
 			final String chapter = c.getString(3);
 			String text1 = "";
+			if (title == null)
+				title = "non";				
 			if (title.contains(">")) title = title.substring(title.indexOf(">"));
 	
 			HttpClient httpclient = new DefaultHttpClient();
@@ -168,16 +308,16 @@ public class NiyayService extends WakefulIntentService
 				ResponseHandler<String> responseHandler = new BasicResponseHandler();
 				text1 = httpclient.execute(httpget, responseHandler);
 			} catch (ClientProtocolException e) {
-				Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+				//Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
 				Log.e("Error" , e.getMessage());
 				e.printStackTrace();
 			} catch (IOException e) {
-				Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+				//Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
 				Log.e("Error" , e.getMessage());
 				e.printStackTrace();
 			} catch (URISyntaxException e) {
 				 //TODO Auto-generated catch block
-				Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+				//Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
 				Log.e("Error" , e.getMessage());
 				e.printStackTrace();		
 			} finally {
@@ -186,7 +326,7 @@ public class NiyayService extends WakefulIntentService
 	
 			if (text1.contains("<title>")) {
 				final String start = text1.substring(text1.indexOf("<title>")+7);
-				text1 = Jsoup.parse((start.substring(start.indexOf(">")+2, start.indexOf("</title>")))).text();
+				final int fst = start.indexOf(">");				final int snd = start.indexOf("</title>");				if (snd - fst > 2)					text1 = Jsoup.parse((start.substring(fst+2, snd))).text();				else					text1 = Jsoup.parse((start.substring(fst, snd))).text();
 			}
 			else {
 				text1 = "ยังไม่มีตอนปัจจุบัน รอตอนใหม่";

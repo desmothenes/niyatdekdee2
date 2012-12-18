@@ -17,9 +17,11 @@ import org.jsoup.select.Elements;
 
 import android.app.Activity;
 import android.app.ActivityManager;
+import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -39,6 +41,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 import android.widget.ImageView.ScaleType;
 import android.widget.ListView;
@@ -57,6 +60,7 @@ public class Fav_add extends ListActivity {
 	//private DiskLruCache mDiskCache;
 	//private static final int DISK_CACHE_SIZE = 1024 * 1024 * 10; // 10MB
 	//private static final String DISK_CACHE_SUBDIR = "thumbnails";
+	private ListView listView;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -68,7 +72,23 @@ public class Fav_add extends ListActivity {
 			getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.custom_titlebar_nonmain);
 			//เชื่อม btnSearch btnDirection เข้ากับ View
 			TextView title = (TextView) findViewById(R.id.textViewBar);
-			title.setText("เข้าสูระบบ");
+			title.setText(" เข้าสูระบบ");
+			
+			RelativeLayout barLayout =  (RelativeLayout) findViewById(R.id.nonbar);
+			switch (MainActivity.titleColor) {
+			case 0:
+				barLayout.setBackgroundResource(R.drawable.bg_titlebar);
+				break;
+			case 1:
+				barLayout.setBackgroundResource(R.drawable.bg_titlebar_yellow);
+				break;
+			case 2:
+				barLayout.setBackgroundResource(R.drawable.bg_titlebar_green);
+				break;
+			case 3:
+				barLayout.setBackgroundResource(R.drawable.bg_titlebar_pink);
+			}
+			
 			ImageButton btnDirection = (ImageButton)findViewById(R.id.btnDirection);
 			btnDirection.setOnClickListener(new View.OnClickListener() {
 				@Override
@@ -81,7 +101,7 @@ public class Fav_add extends ListActivity {
 
 		adapter = new InteractiveArrayAdapter(this, ListViewContent);
 		adapter.notifyDataSetChanged();
-		final ListView listView = getListView();
+		 listView = getListView();
 		username = (EditText)findViewById(R.id.editText1);	
 		password = (EditText)findViewById(R.id.editText2);
 		loginbtt = (Button)findViewById(R.id.button1);		
@@ -93,14 +113,7 @@ public class Fav_add extends ListActivity {
 				doback dob=new doback();
 				dob.execute();
 				Log.v("listView", "listView");
-				for (String i : ListViewContent)
-					Log.v("ListViewContent", i);
-				for (String i : linktable)
-					Log.v("linktable", i);
-				for (String i : imagetable)
-					Log.v("imagetable", i);
-				for (String i : detailtable)
-					Log.v("detailtable", i);
+
 				listView.setVisibility(View.VISIBLE);
 				username.setVisibility(View.INVISIBLE);
 				password.setVisibility(View.INVISIBLE);
@@ -109,19 +122,21 @@ public class Fav_add extends ListActivity {
 		});
 
 		ListView list = getListView();
+		list.setFastScrollEnabled(true);
+
 		list.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
 				String url = linktable.get(arg2);
-				Log.v("url", url);
+				//Log.v("url", url);
 				Intent i = new Intent(getBaseContext(),InsertForm.class);				
 				String title = ListViewContent.get(arg2);
-				Log.v("title", title);
+				//Log.v("title", title);
 				if (title.contains(">"))
 					title = title.substring(2+title.indexOf(">"));
-				Log.v("title", title);
+				//Log.v("title", title);
 				i.putExtra("name",title);
 				//in this fomat http://writer.dek-d.com/dek-d/writer/view.php?id=580483
 				String stext = "id=";
@@ -132,36 +147,39 @@ public class Fav_add extends ListActivity {
 					return;
 				}
 
-				Log.v("url.length()", Integer.toString(url.length()));
-				Log.v("start", Integer.toString(start));
-				Log.v("stext.length()", Integer.toString(stext.length()));
+				//Log.v("url.length()", Integer.toString(url.length()));
+				//Log.v("start", Integer.toString(start));
+				//Log.v("stext.length()", Integer.toString(stext.length()));
 				int len=0;
-				Log.v("Character", Character.toString(url.charAt(start)));
+				//Log.v("Character", Character.toString(url.charAt(start)));
 				for (int i3 = start;i3 < url.length() && Character.isDigit(url.charAt(i3));i3++) {						
 					len++;
-					Log.v("Character", Character.toString(url.charAt(i3)));
+					//Log.v("Character", Character.toString(url.charAt(i3)));
 				}
-				Log.v("len", Integer.toString(len));
+				//Log.v("len", Integer.toString(len));
 				String unum = url.substring(start,start+len);	
-				Log.v("unum", unum);
+				//Log.v("unum", unum);
 				url = "http://writer.dek-d.com/dek-d/writer/viewlongc.php?id="+unum+"&chapter=";					
 
-				Log.v("url", url);
+				//Log.v("url", url);
 				i.putExtra("url",url);
 				startActivity(i);
 			}
 		});        
 	}
+
 	private Map<String, String> login() {
+		Log.v("zone","login");
 		Connection.Response res;
 		try {
 			res = Jsoup.connect("http://my.dek-d.com/dekdee/my.id_station/login.php")
 					.data("username", username.getText().toString())
 					.data("password", password.getText().toString())
-					.method(Method.POST).timeout(3000)
+					.method(Method.POST).timeout(8000)
 					.execute();
 			return res.cookies();
 		} catch (IOException e) {
+			Toast.makeText(getBaseContext(), "การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่", Toast.LENGTH_LONG).show();
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -169,12 +187,15 @@ public class Fav_add extends ListActivity {
 	}    
 
 	private void loadFav(Map<String, String> sessionId) {
+		Log.v("zone","loadFav");
 		Document doc = null;
 		try {
 			doc = Jsoup.connect("http://my.dek-d.com/desmos/control/writer_favorite.php")
 					.cookies(sessionId).timeout(3000)
 					.get();
 		} catch (IOException e) {
+			Toast.makeText(getBaseContext(), "การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่", Toast.LENGTH_LONG).show();
+
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}    	
@@ -184,6 +205,7 @@ public class Fav_add extends ListActivity {
 			String stext = link.text();
 			linktable.add(link.attr("href"));
 			ListViewContent.add(stext);	
+			//Log.v("stext", stext);
 		}
 		Elements link2 = doc.select("table[width*=100]");
 		//for (int t=0;t<100;t++) {
@@ -226,10 +248,32 @@ public class Fav_add extends ListActivity {
 		{
 			try
 			{
+				if (ListViewContent.size() == 0) {
+					AlertDialog alertDialog = new AlertDialog.Builder(Fav_add.this).create();
+					alertDialog.setTitle("ไม่พบข้อมูล");
+					alertDialog.setMessage("ถ้ามีรายการอยู่ ลองตรวจสอบการเชื่อมต่ออินเตอร์เน็ต แล้วลองใหม่");
+					alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int which) {
+							listView.setVisibility(View.INVISIBLE);
+							username.setVisibility(View.VISIBLE);
+							password.setVisibility(View.VISIBLE);
+							loginbtt.setVisibility(View.VISIBLE);
+						}
+					});
+					alertDialog.show();
+				}
 				setListAdapter(adapter);
 				TextView title = (TextView) findViewById(R.id.textViewBar);
 				title.setText(" เลือกรายการที่จะเพิ่ม");
 				dialog.dismiss();
+				for (String i : ListViewContent)
+					Log.v("ListViewContent", i);
+				for (String i : linktable)
+					Log.v("linktable", i);
+				for (String i : imagetable)
+					Log.v("imagetable", i);
+				for (String i : detailtable)
+					Log.v("detailtable", i);
 			}
 			catch(Exception e)
 			{
@@ -238,28 +282,45 @@ public class Fav_add extends ListActivity {
 			}
 		}
 	}
+
 	private class InteractiveArrayAdapter extends ArrayAdapter<String> {
 		private final Activity context;
 		private ArrayList<String> names = new ArrayList<String>();
+
 		private LruCache<String, Bitmap> mMemoryCache;
-		
+
 		public InteractiveArrayAdapter(Activity context, ArrayList<String> names) {
 			super(context, R.layout.list_item, names);
 			this.context = context;
 			this.names = names;
 			final int memClass = ((ActivityManager) context.getSystemService(
-		            Context.ACTIVITY_SERVICE)).getMemoryClass();
+					Context.ACTIVITY_SERVICE)).getMemoryClass();
 
-		    // Use 1/8th of the available memory for this memory cache.
-		    final int cacheSize = 1024 * 1024 * memClass / 8;
-		    mMemoryCache = new LruCache<String, Bitmap>(cacheSize) {
-		        @Override
-		        protected int sizeOf(String key, Bitmap bitmap) {
-		            // The cache size will be measured in bytes rather than number of items.
-		            return bitmap.getRowBytes() * bitmap.getHeight();
-		        }
-		    };
-		}
+			// Use 1/8th of the available memory for this memory cache.
+			final int cacheSize = 1024 * 1024 * memClass / 8;
+			mMemoryCache = new LruCache<String, Bitmap>(cacheSize) {
+				@Override
+				protected int sizeOf(String key, Bitmap bitmap) {
+					// The cache size will be measured in bytes rather than number of items.
+					return bitmap.getRowBytes() * bitmap.getHeight();
+				}
+			};    
+/*
+			try {
+				for (String imgurl : imagetable) {
+					URL newurl = new URL(imgurl);
+					URLConnection connection;
+					connection = newurl.openConnection();
+					connection.setUseCaches(true);
+					Bitmap mIcon_val = BitmapFactory.decodeStream(connection.getInputStream()); 
+					addBitmapToMemoryCache(imgurl,mIcon_val);
+				}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+*/
+		}		
 
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
@@ -271,9 +332,9 @@ public class Fav_add extends ListActivity {
 			TextView detail = (TextView) rowView.findViewById(R.id.artist);
 			ImageView thumb_image = (ImageView) rowView.findViewById(R.id.list_image);
 
-			System.out.println(names.get(position));
-			System.out.println(detailtable.get(position));
-			System.out.println(imagetable.get(position));
+			//System.out.println(names.get(position));
+			//System.out.println(detailtable.get(position));
+			//System.out.println(imagetable.get(position));
 			text.setText((names.get(position)!= null)? names.get(position) : "1");
 			detail.setText((detailtable.get(position)!= null)? detailtable.get(position) : "2");	
 			//thumb_image.setImageResource(R.drawable.rihanna);
@@ -281,25 +342,26 @@ public class Fav_add extends ListActivity {
 			if (bitmap != null) {
 				thumb_image.setImageBitmap(bitmap);
 				thumb_image.setScaleType(ScaleType.CENTER_CROP);
-		    } else {
-		    	BitmapWorkerTask task = new BitmapWorkerTask(thumb_image);
-		        task.execute(imagetable.get(position));
-		    }
+			} else {
+				BitmapWorkerTask task = new BitmapWorkerTask(thumb_image);
+				task.execute(imagetable.get(position));
+			}
 
 			//thumb_image.setImageBitmap(imageLoader.DisplayImage((imagetable.get(position)!= null)? imagetable.get(position) : "3",thumb_image));
 			//imageLoader.DisplayImage((imagetable.get(position)!= null)? imagetable.get(position) : "3",thumb_image);
 			return rowView;
 		}
+
 		public void addBitmapToMemoryCache(String key, Bitmap bitmap) {
-		    if (getBitmapFromMemCache(key) == null) {
-		        mMemoryCache.put(key, bitmap);
-		    }
+			if (getBitmapFromMemCache(key) == null) {
+				mMemoryCache.put(key, bitmap);
+			}
 		}
 
 		public Bitmap getBitmapFromMemCache(String key) {
-		    return mMemoryCache.get(key);
+			return mMemoryCache.get(key);
 		}
-		
+
 		class BitmapWorkerTask extends AsyncTask<String, Void, Bitmap>  {
 
 			private WeakReference<ImageView> imageViewReference;
@@ -340,11 +402,11 @@ public class Fav_add extends ListActivity {
 					dialog.dismiss();
 				}
 			}
-			
+
 		}
 	}
 
-/*
+	/*
 	class BitmapWorkerTask extends AsyncTask {
 		@Override
 		protected Object doInBackground(Object... params) {
