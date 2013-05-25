@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="@drawable/list_selector"
-    android:orientation="horizontal"
     android:padding="5dip" >
-    <TextView        
-        android:id="@+id/textView1"        
-        android:layout_width="250dip"        
-        android:layout_marginLeft="10dip"        
-        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="35dp" />
     
     <ImageButton
         android:id="@+id/arrow1"
@@ -19,10 +20,25 @@
         android:layout_centerVertical="true"
         android:layout_marginRight="15dip"
         android:background="@null"
-        android:clickable="false"
         android:contentDescription="@string/next"
-        android:focusable="false"
-        android:src="@drawable/arrow"
-        android:visibility="invisible" />
+        android:src="@drawable/arrow"/>
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textView1"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/textView1"
+        android:gravity="right" />
+
+    <ProgressBar
+        android:id="@+id/progressBar1"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="30dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/textView2"
+        android:layout_toRightOf="@+id/textView2" />
 
 </RelativeLayout>

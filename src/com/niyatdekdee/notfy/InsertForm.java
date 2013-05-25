@@ -9,9 +9,12 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import com.google.analytics.tracking.android.EasyTracker;
+
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Html;
@@ -46,6 +49,8 @@ public class InsertForm extends Activity  {
 		super.onCreate(savedInstanceState);
 		boolean customTitleSupported = requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
 		setContentView(R.layout.inset_form);
+		if (Setting.getScreenSetting(getApplicationContext()).equals("1"))
+			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 		if (customTitleSupported) {
 
 			//ตั้งค่า custom titlebar จาก custom_titlebar.xml
@@ -56,7 +61,7 @@ public class InsertForm extends Activity  {
 			titleView.setText(" เพิ่มนิยาย");
 			RelativeLayout barLayout =  (RelativeLayout) findViewById(R.id.okbar);
 			ImageButton btnOk = (ImageButton)findViewById(R.id.imageButton1);
-			switch (MainActivity.titleColor) {
+			switch (Integer.parseInt(Setting.getColorSelectSetting(getApplicationContext()))) {
 			case 0:
 				barLayout.setBackgroundResource(R.drawable.bg_titlebar);
 				break;
@@ -68,6 +73,22 @@ public class InsertForm extends Activity  {
 				break;
 			case 3:
 				barLayout.setBackgroundResource(R.drawable.bg_titlebar_pink);
+				break;
+			case 4:
+				barLayout.setBackgroundResource(R.drawable.bg_titlebar_blue);
+				break;
+			case 5:
+				barLayout.setBackgroundResource(R.drawable.bg_titlebar_fuchsia);
+				break;
+			case 6:
+				barLayout.setBackgroundResource(R.drawable.bg_titlebar_siver);
+				break;
+			case 7:
+				barLayout.setBackgroundResource(R.drawable.bg_titlebar_glay);
+				break;
+			case 8:
+				barLayout.setBackgroundResource(R.drawable.bg_titlebar_orange);
+				break;
 			}
 
 			btnOk.setOnClickListener(new View.OnClickListener() {
@@ -90,7 +111,7 @@ public class InsertForm extends Activity  {
 
 		db = new DatabaseAdapter(getApplicationContext());      
 		saveButton = (Button) findViewById(R.id.button3);
-		txtName = (TextView) findViewById(R.id.editText1);
+		txtName = (TextView) findViewById(R.id.LongReadText);
 		txtChapter = (TextView) findViewById(R.id.editText3);
 		intent = getIntent();  
 		if (intent.getStringExtra("name") != null) {
@@ -104,7 +125,7 @@ public class InsertForm extends Activity  {
 				dialog = new ProgressDialog(InsertForm.this);
 				dialog.setMessage("Loading Review\nถ้าไม่ต้องการ กด back แล้วเพิ่มได้เลย");
 				//dialog.setMax(100);		
-				doback dob=new doback();
+				Insert_doback dob=new Insert_doback();
 				dob.execute();	
 			}	
 
@@ -116,7 +137,7 @@ public class InsertForm extends Activity  {
 				dialog.setMessage("Loading\nถ้าค้างนานกว่า 20 วินาที ลองกดออกแล้วเพิ่มใหม่");
 				dialog.setMax(100);		
 				dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-				doback dob=new doback();
+				Insert_doback dob=new Insert_doback();
 				dob.execute();			
 			}
 		}
@@ -165,7 +186,7 @@ public class InsertForm extends Activity  {
 	}
 
 
-	class doback extends AsyncTask<URL, Integer, String>
+	private class Insert_doback extends AsyncTask<URL, Integer, String>
 	{
 
 		private Document doc;
@@ -196,12 +217,15 @@ public class InsertForm extends Activity  {
 
 		protected void onPostExecute(String result) 
 		{        	
-			txtChapter.setText(chapter);
-			dialog.dismiss();
-			TextView textreview = (TextView) findViewById(R.id.textreview);
-			//textreview.setMovementMethod(new ScrollingMovementMethod());
-			textreview.setText(Html.fromHtml(result));
-
+			try {
+				txtChapter.setText(chapter);
+				if (dialog!=null && dialog.isShowing())	dialog.dismiss();
+				TextView textreview = (TextView) findViewById(R.id.textreview);
+				//textreview.setMovementMethod(new ScrollingMovementMethod());
+				textreview.setText(Html.fromHtml(result));
+			} catch (Exception e) {
+				// nothing
+			}
 		}
 
 		private boolean getchapter() {
@@ -219,8 +243,13 @@ public class InsertForm extends Activity  {
 			publishProgress(30);
 			//String doc = Jsoup.parse(is, "UTF-8", url);
 			//DefaultHttpClient httpclient = null;
+			if (doc == null) {
+				Log.v("txtChapter","can't find chapter please fill by yourself");
+				chapter = "can't find chapter please fill by yourself";
+				return false;
+			}
 			final String html = doc.html();
-/*			try {
+			/*			try {
 				URL link = new URL(url.replace("&chapter=", "").replace("http://writer.dek-d.com/dek-d/writer/viewlongc.php?id=", "http://writer.dek-d.com/story/writer/view.php?id="));
 				URLConnection connection = link.openConnection();			
 				connection.connect();
@@ -382,7 +411,7 @@ public class InsertForm extends Activity  {
 			System.out.println(Isgetchapter);
 
 			try {
-				doc = Jsoup.connect( "http://writer.dek-d.com/dek-d/writer/view.php?id"+url.substring(url.indexOf("="),url.indexOf("&"))).timeout(15000).get();
+				doc = Jsoup.connect( "http://writer.dek-d.com/dek-d/writer/view.php?id"+url.substring(url.indexOf("="),url.indexOf("&"))).timeout(5000).get();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				publishProgress(-1);
@@ -394,7 +423,7 @@ public class InsertForm extends Activity  {
 			ArrayList<String> detail = new ArrayList<String>();
 			ArrayList<String> header = new ArrayList<String>();
 			ArrayList<String> star = new ArrayList<String>();
-			Elements link1 = doc.select(".f-s-grd");
+			if (doc != null) {Elements link1 = doc.select(".f-s-grd");
 			if (link1 == null) return "";
 			for (Element link: link1) {
 				//if (++c != 2) continue;
@@ -424,7 +453,7 @@ public class InsertForm extends Activity  {
 			for (int i = 0;i<detail.size();i++) {
 				review.append(String.format("<br/><p><font color=#33B6EA>%s</font><br /><font color=#cc0029>%s</font><br /><font color=#339900>ให้ %s ดาว</font></p>" ,header.get(i),detail.get(i),star.get(i)));
 			}
-			return review.toString();
+			return review.toString();} else return "";
 		}
 		private String review(boolean input) {
 			publishProgress(81);
@@ -468,5 +497,15 @@ public class InsertForm extends Activity  {
 			}
 			return review.toString();
 		}
+	}
+	public void onStart() {
+		super.onStart();
+		EasyTracker.getInstance().activityStart(this); // Add this method.
+	}
+
+	@Override
+	public void onStop() {
+		super.onStop();
+		EasyTracker.getInstance().activityStop(this); // Add this method.
 	}
 }

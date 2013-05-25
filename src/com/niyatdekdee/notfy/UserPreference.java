@@ -48,7 +48,7 @@ public class UserPreference extends EditTextPreference {
 			//calendar.set(Calendar.MINUTE, picker.getCurrentMinute());
 			//setSummary(getSummary());  
 			//Log.v("before", getText());
-			String UserName = "dek"+getText()+"dek"; 			
+			String UserName = getText(); 			
 			if (callChangeListener(UserName)) {					 
 				//Log.v("after", encrypt(UserName));
 				persistString(encrypt(UserName));
@@ -72,7 +72,7 @@ public class UserPreference extends EditTextPreference {
 				String old = getPersistedString("old username");
 				//Log.v("old", old);
 				try {
-					setText(decrypt(old).replace("dek", ""));
+					setText(decrypt(old)/*.replace("dek", "")*/);
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -80,7 +80,7 @@ public class UserPreference extends EditTextPreference {
 			} else {
 				String old = getPersistedString("old "+(String) defaultValue);
 				//Log.v("old", old);
-				setText(decrypt(old).replace("dek", ""));
+				setText(decrypt(old)/*.replace("dek", "")*/);
 			}
 		} else {
 			if (defaultValue == null) {
@@ -257,7 +257,7 @@ public class UserPreference extends EditTextPreference {
 			SecretKey key = keyFactory.generateSecret(new PBEKeySpec(SEKRIT));
 			Cipher pbeCipher = Cipher.getInstance("PBEWithMD5AndDES");
 			pbeCipher.init(Cipher.DECRYPT_MODE, key, new PBEParameterSpec(Settings.Secure.getString(context.getContentResolver(),Settings.System.ANDROID_ID).getBytes(UTF8), 20));
-			return new String(pbeCipher.doFinal(bytes),UTF8).replace("จนฟหสดฟ", "");
+
 		} catch( Exception e) {
 			throw new RuntimeException(e);
 		}
@@ -272,8 +272,8 @@ public class UserPreference extends EditTextPreference {
 			Cipher pbeCipher = Cipher.getInstance("PBEWithMD5AndDES");
 			pbeCipher.init(Cipher.DECRYPT_MODE, key, new PBEParameterSpec(Settings.Secure.getString(context.getContentResolver(),Settings.System.ANDROID_ID).getBytes(UTF8), 20));
 			//System.out.println("zone end decrypt");
-			//System.out.println( new String(pbeCipher.doFinal(bytes),UTF8).replace("จนฟหสดฟ", ""));
-			return new String(pbeCipher.doFinal(bytes),UTF8).replace("จนฟหสดฟ", "");
+
+
 
 		} catch( Exception e) {
 			throw new RuntimeException(e);

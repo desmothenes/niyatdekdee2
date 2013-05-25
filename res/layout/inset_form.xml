@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout android:layout_width="fill_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical" 
-    xmlns:android= "http://schemas.android.com/apk/res/android">
+    android:orientation="vertical" >
 
     <LinearLayout
         android:id="@+id/LinearLayout01"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp" >
 
         <TextView
             android:id="@+id/textView2"
             android:layout_width="12dp"
-            android:layout_height="wrap_content"
-            />
+            android:layout_height="wrap_content" />
 
         <TextView
             android:id="@+id/textView1"
@@ -23,32 +23,30 @@
             android:width="60dip" />
 
         <EditText
-            android:id="@+id/editText1"
+            android:id="@+id/LongReadText"
             android:layout_width="200dip"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:inputType="text"
-            android:text="@string/thname" >
-           
+            android:hint="@string/thname"
+            android:inputType="text" >
         </EditText>
+    </LinearLayout>
 
-     </LinearLayout>
-        
     <LinearLayout
         android:id="@+id/LinearLayout02"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-     </LinearLayout>     
+        android:layout_height="wrap_content" >
+    </LinearLayout>
 
-     <LinearLayout
+    <LinearLayout
         android:id="@+id/LinearLayout03"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" >
 
-         <TextView
-             android:id="@+id/TextView01"
-             android:layout_width="12dp"
-             android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/TextView01"
+            android:layout_width="12dp"
+            android:layout_height="wrap_content" />
 
         <TextView
             android:id="@+id/textView3"
@@ -56,45 +54,51 @@
             android:layout_height="wrap_content"
             android:text="@string/chapter"
             android:width="60dip" />
-
+
         <EditText
             android:id="@+id/editText3"
             android:layout_width="200dip"
             android:layout_height="wrap_content"
             android:focusable="true"
-            android:inputType="text"
-            android:text="@string/chapter" >
-
+            android:hint="@string/chapter"
+            android:inputType="number" >
         </EditText>
-     </LinearLayout>    
-     <LinearLayout
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/LinearLayout04"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" >
 
-         <TextView
-             android:id="@+id/TextView02"
-             android:layout_width="12dp"
-             android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/TextView02"
+            android:layout_width="12dp"
+            android:layout_height="wrap_content" />
 
         <Button
             android:id="@+id/button3"
             android:layout_width="100dip"
             android:layout_height="wrap_content"
             android:text="@string/add" />
- 		<requestFocus />
-     </LinearLayout>
-<ScrollView 
-        android:id="@+id/ScrollView01" 
-        android:layout_height="fill_parent" 
-        android:layout_width="fill_parent"> 
-
-     <TextView
-         android:id="@+id/textreview"
-         android:layout_width="299dp"
-         android:layout_height="fill_parent"
-         android:layout_gravity="center|top" />
 
-     </ScrollView>
-     
+        <requestFocus />
+    </LinearLayout>
+
+    <ScrollView
+        android:id="@+id/ScrollView01"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginLeft="3dp"
+        android:layout_marginRight="3dp" >
+
+        <TextView
+            android:id="@+id/textreview"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center|top"
+            android:layout_marginLeft="9dp"
+            android:layout_marginRight="9dp" />
+
+    </ScrollView>
+
 </LinearLayout>

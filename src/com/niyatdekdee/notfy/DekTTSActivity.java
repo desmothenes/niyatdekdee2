@@ -4,29 +4,46 @@ import java.io.File;
 import java.io.IOException;
 import java.text.BreakIterator;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Locale;
 
 import org.jsoup.Jsoup;
+import org.jsoup.nodes.Comment;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.nodes.Node;
 import org.jsoup.select.Elements;
 
+import android.os.AsyncTask;
 import android.os.IBinder;
+import android.preference.PreferenceManager;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnInitListener;
-import android.speech.tts.TextToSpeech.OnUtteranceCompletedListener;
+import android.telephony.PhoneStateListener;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.widget.Toast;
 
-public class DekTTSActivity extends Service implements  OnUtteranceCompletedListener,OnInitListener {
+public class DekTTSActivity extends Service implements  OnInitListener {
 
 	static TextToSpeech tts;
 	static boolean isSpeak = false;
 	//private Intent intent;
 	private ProgressDialog dialog;
+	private TelephonyManager mgr;
+	private PhoneStateListener phoneStateListener;
+	private static boolean oninit = false;
+	static boolean stop = false;
+
 	static int type = -1;
 	static String text = "";
 	static File temp;
@@ -34,13 +51,13 @@ public class DekTTSActivity extends Service implements  OnUtteranceCompletedList
 	@Override
 	public void onCreate() {
 		Log.e("zone", "create");
-		tts = new TextToSpeech(getApplicationContext(),this);
-		
+		if (tts == null)
+			tts = new TextToSpeech(this,this);
 		/*
 		Intent checkIntent = new Intent(); 
 		checkIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA); 
 		startActivityForResult(checkIntent, RESULT_OK);
-		tts.speak("�ô��", TextToSpeech.QUEUE_ADD, null); 
+		tts.speak("โปรดรอ", TextToSpeech.QUEUE_ADD, null); 
 
 		intent = getIntent();
 		final int type = intent.getIntExtra("type", -1);
@@ -57,18 +74,73 @@ public class DekTTSActivity extends Service implements  OnUtteranceCompletedList
 		} else if (type == 3) {
 			strtotext(intent.getStringExtra("text"));
 		} */
+
+		phoneStateListener = new PhoneStateListener() {
+			@Override
+			public void onCallStateChanged(int state, String incomingNumber) {
+				if (state == TelephonyManager.CALL_STATE_RINGING) {
+					DekTTSActivity.tts.stop();
+					DekTTSActivity.stop = true;
+					DekTTSActivity.isSpeak = false;
+				} 
+				super.onCallStateChanged(state, incomingNumber);
+			}
+		};
+
+
+		mgr = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
+		if(mgr != null) {
+			mgr.listen(phoneStateListener, PhoneStateListener.LISTEN_CALL_STATE);
+		}
 	}
 
 	@Override
 	public void onStart(Intent intent, int startId) {
+		//Toast.makeText(getBaseContext(), "โปรดรอสักครู่ กำลังประมวลผล อาจนานถึง 20 วินาทีในการเริ่มต้น\nสามารถกด Back เพื่อหยุด TTS ได้", Toast.LENGTH_LONG).show();
+		super.onStart(intent, startId);
+		Log.v("TTS", "onstart_service");
+		if (oninit && MainActivity.isTTS) {
+			Log.v("TTS", "non oninit");
 
-	    Log.v("TTS", "onstart_service");
-		tts = new TextToSpeech(getApplicationContext(),this);
-		tts.speak("�ô��", TextToSpeech.QUEUE_ADD, null); 
+			if (type != -1) {
+				dialog = new ProgressDialog(DekTTSActivity.this);
+				dialog.setCancelable(true);
+				dialog.setMessage("Loading");
+				//dialog.show();
+			}
+
+			if (type == 1) {
+				totext(text);
+			} else if (type == 2 && temp != null) {
+				totext(temp);
+			} else if (type == 3) {
+				strtotext(text);
+			} else if (type == 4)  {
+				tts.speak("โปรดรอ", TextToSpeech.QUEUE_FLUSH, null);
+				speak(SubText(text));
+			} else if (type ==5) {
+				lltotext(text);
+			} else if (type == 99) {
+				tts.speak("ยินดีต้อนรับ", TextToSpeech.QUEUE_FLUSH, null);
+			} else {
+				Log.e("zone", "error");
+				System.out.println(type);
+			}
+		} else {
+			System.out.println("oninit "+oninit);
+			System.out.println("MainActivity.isTTS "+MainActivity.isTTS);
+			Log.v("TTS", "non oninit error");
+			if (!oninit) return;
+			Intent intent1 = new Intent(getApplicationContext(), Flow2.class);
+			intent1.putExtra("from", "main");
+			intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			startActivity(intent1);
+		}
+		//tts = new TextToSpeech(getApplicationContext(),this);
+		//tts.speak("โปรดรอ", TextToSpeech.QUEUE_FLUSH, null); 
 		//final int type = intent.getIntExtra("type", -1);
-	    super.onStart(intent, startId);
 	}
-	
+
 	@Override
 	public void onDestroy() {
 		// TODO Auto-generated method stub
@@ -76,59 +148,92 @@ public class DekTTSActivity extends Service implements  OnUtteranceCompletedList
 			tts.stop();
 			tts.shutdown();
 		}
+		if(mgr != null) {
+			mgr.listen(phoneStateListener, PhoneStateListener.LISTEN_NONE);
+		}
 		super.onDestroy();
 	}
 
 	void totext(final File temp) {	
-		
+
 		if (temp == null) Log.e("temp", "null file");
 
 		if (temp == null) return;
-
+		HashMap<String, String> params = new HashMap<String, String>();
+		params.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID,"complete");
+		tts.speak("โปรดรอ", TextToSpeech.QUEUE_FLUSH, params); 
 		Log.e("zone", "end text file");
 		Document doc = null;
 		try {
 			doc = Jsoup.parse(temp, "tis620");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
+			Toast.makeText(getApplicationContext(), "IOException Failed!", Toast.LENGTH_SHORT).show();
 			e.printStackTrace();
 			return;
 		} 
 		Log.e("zone", "parse html");
 
 		StringBuilder sum = new StringBuilder();
-		if (doc == null) return;
+		if (doc == null) {
+			Toast.makeText(getApplicationContext(), "IOException Failed!", Toast.LENGTH_SHORT).show();
+			return;
+		}
 		Elements link1 = doc.select("table[id*=story_body]").select("p");
-		if(link1 == null) return;
+
+		if(link1 == null)  {
+			Toast.makeText(getApplicationContext(), "IOException Failed!", Toast.LENGTH_SHORT).show();
+			return;
+		}/* else {
+			System.out.println(doc.select("table[id*=story_body]").html());
+		}*/
 		for (Element link : link1) {
-			sum.append(link.text()+"/n");
+			sum.append(link.text()).append("\n");
 			//System.out.println(link.text());
 		}
-		speak(SubText(sum.substring(0, sum.length() - 55).toString()));
+		//System.out.println(sum.substring(sum.length() - 55, sum.length()).toString());
+		if (sum.length() < 5) {
+			sum.append(Jsoup.parse((doc.select("table[id*=story_body]").html()).replace("</div>", "</div>br2n").replace("</p>", "</p>br2n").replaceAll("(?i)<br[^>]*>", "br2n")).text().replace("br2n", "\r\n\r\n")).append("\n");
+		}
+		speak(SubText(sum.toString()));
 	}
 
 	protected static Document doc;
 
-	void totext(final String url) {		
+	void totext(final String url) {	
+		HashMap<String, String> params = new HashMap<String, String>();
+		params.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID,"complete");
+		tts.speak("โปรดรอ", TextToSpeech.QUEUE_FLUSH, params); 
 		new Thread() {
 			public void run() {
 				try {
+					Log.e("zone", "end url");
 					doc = Jsoup.connect(url).timeout(8000).get();
-					if (doc == null) return;
+					if (doc == null)  {
+						Toast.makeText(getApplicationContext(), "IOException Failed!", Toast.LENGTH_SHORT).show();
+						return;
+					}
 					StringBuilder sum = new StringBuilder();
-					Elements link1 = doc.select("table[id*=story_body]");
-					for (Element link : link1) {
-						sum.append(link.text());
-						//System.out.println(link.text());
+					Elements link1 = doc.select("table[id*=story_body]").select("p");
+					if(link1 == null)  {
+						Toast.makeText(getApplicationContext(), "IOException Failed!", Toast.LENGTH_SHORT).show();
+						return;
+					} else {
+						for (Element link : link1) {
+							sum.append(link.text()).append("\n");
+							//			System.out.println(link.text());
+						}
+					}
+					if (sum.length() < 5) {
+						sum.append(Jsoup.parse((doc.select("table[id*=story_body]").html()).replace("</div>", "</div>br2n").replace("</p>", "</p>br2n").replaceAll("(?i)<br[^>]*>", "br2n")).text().replace("br2n", "\r\n\r\n")).append("\n");
 					}
 					doc = null;
-					if (sum.length() - 55 > 0)
-						speak(SubText(sum.substring(0, sum.length() - 55).toString()));
+					speak(SubText(sum.toString()));
 				} catch (IOException e) {
-					//Toast.makeText(MainActivity.context, "������������ջѭ�� ��سһ�Ѻ��ا����������� �����ͧ����", Toast.LENGTH_LONG).show();
-					Log.e("totext", "������������ջѭ�� ��سһ�Ѻ��ا����������� �����ͧ����");
-					dialog.dismiss();
-					Toast.makeText(getBaseContext(), "������������ջѭ�� ��سһ�Ѻ��ا����������� �����ͧ����", Toast.LENGTH_LONG).show();
+					//Toast.makeText(MainActivity.context, "การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่", Toast.LENGTH_LONG).show();
+					Log.e("totext", "การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่");
+					if(dialog.isShowing()) dialog.dismiss();
+					Toast.makeText(getBaseContext(), "การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่", Toast.LENGTH_LONG).show();
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}  
@@ -136,33 +241,122 @@ public class DekTTSActivity extends Service implements  OnUtteranceCompletedList
 		}.start();			
 	}	
 
-	void strtotext(final String str) {		
+	void strtotext(final String str) {
+		Log.e("zone", "strtotext");
+		HashMap<String, String> params = new HashMap<String, String>();
+		params.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID,"complete");
+		tts.speak("โปรดรอ", TextToSpeech.QUEUE_FLUSH, params); 
+		//Log.e("str", str);
+
 		doc = Jsoup.parse(str);
-		if (doc == null) return;
+		if (doc == null)  {
+			Toast.makeText(getApplicationContext(), "IOException Failed!", Toast.LENGTH_SHORT).show();
+			return;
+		}
+
+		/*		for(Node n: doc.childNodes()){
+			if(n instanceof Comment){
+				n.remove();
+			}
+		}*/
+
+		//removeComments(doc);
+		//Log.e("str1", doc.html());
 		StringBuilder sum = new StringBuilder();
-		Elements link1 = doc.select("table[id*=story_body]");
+		Elements link1 = doc.select("#story_body").select("p");
+		if(link1 == null)  {
+			Toast.makeText(getApplicationContext(), "IOException Failed!", Toast.LENGTH_SHORT).show();
+			return;
+		}
 		for (Element link : link1) {
-			sum.append(link.text());
-			//System.out.println(link.text());
+			sum.append(link.text()).append("\n");
+			System.out.println(link.text());
+		}
+		if (sum.length() < 5) {
+			sum.append(Jsoup.parse((doc.select("#story_body").html()).replace("</div>", "</div>br2n").replace("</p>", "</p>br2n").replaceAll("(?i)<br[^>]*>", "br2n")).text().replace("br2n", "\r\n\r\n")).append("\n");
+			//Log.e("sum", sum.toString());
 		}
 		doc = null;
-		speak(SubText(sum.substring(0, sum.length() - 55).toString()));
+		//Log.e("sum", sum.toString());
+		//System.out.println(sum.substring(sum.length() - 55, sum.length()).toString());
+		speak(SubText(sum.toString()));
+	}
+
+
+	void lltotext(final String str) {
+		Log.e("zone", "lltotext");
+		HashMap<String, String> params = new HashMap<String, String>();
+		params.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID,"complete");
+		tts.speak("โปรดรอ", TextToSpeech.QUEUE_FLUSH, params); 
+		//Log.e("str", str);
+
+		doc = Jsoup.parse(str);
+		if (doc == null)  {
+			Toast.makeText(getApplicationContext(), "IOException Failed!", Toast.LENGTH_SHORT).show();
+			return;
+		}
+
+		for(Node n: doc.childNodes()){
+			if(n instanceof Comment){
+				n.remove();
+			}
+		}
+
+		//removeComments(doc);
+		Log.e("str1", doc.html());
+		StringBuilder sum = new StringBuilder();
+		/*Elements link1 = doc.select("#story_body");
+		if(link1 == null)  {
+			Toast.makeText(getApplicationContext(), "IOException Failed!", Toast.LENGTH_SHORT).show();
+			return;
+		}*/
+		try {
+			sum.append(Jsoup.parse((doc.select("#story_body").html()).replace("</div>", "</div>br2n").replace("</p>", "</p>br2n").replaceAll("(?i)<br[^>]*>", "br2n")).text().replace("br2n", "\r\n\r\n")).append("\n");
+		} catch (Exception anfe) {
+			Log.e("error","sum.append(Jsoup.parse((doc.select(\"table[id*=story_body]\")");
+			Toast.makeText(getApplicationContext(), "IOException Failed!", Toast.LENGTH_SHORT).show();
+		}
+		//Log.e("sum", sum.toString());
+
+		doc = null;
+		Log.e("sum", sum.toString());
+		//System.out.println(sum.substring(sum.length() - 55, sum.length()).toString());
+		speak(SubText(sum.toString()));
 	}
 
 	static ArrayList<String> SubText(final String input) {
+
 		Locale thaiLocale = new Locale("th");
 		System.out.println("subtext");
+		System.out.println("input");
 		BreakIterator boundary = BreakIterator.getSentenceInstance(thaiLocale);
-		boundary.setText(input);		 
-		final ArrayList<String> cuttext = printEachForward(boundary, input);
-		return cuttext;		
+		boundary.setText(input);
+		return printEachForward(boundary, input);
 	}
+/*	static ArrayList<String> SubText2(final String input) {
+
+		System.out.println("subtext2");
+		System.out.println("input");
+		ArrayList<String> cuttext = new ArrayList<String>();
+		int dot1 = 0;
+		int dot2 = input.indexOf(" ",dot1 + 1);
+		while (dot1 != -1 && dot2 != 1) {
+			cuttext.add(input.substring(dot1, dot2));
+			System.out.println(cuttext.get(cuttext.size()-1));
+			dot1 = input.indexOf(" ",dot2+1);
+			dot2 = input.indexOf(" ",dot1 + 1);
+		}
+		cuttext.add(input.substring(dot1));
+		return cuttext;		
+	}*/
 
 	void speak(final ArrayList<String> cuttext) {
+		Log.e("zone", "cuttext");
+		DekTTSActivity.stop = false;		
 		tts.setSpeechRate((float)(Setting.getspeechspeed(getApplicationContext())/100.0));
 		tts.setPitch((float) (Setting.getspeechpitch(getApplicationContext())/100.0));
+		//for (String i:cuttext) Log.e( "cuttext",i);
 		//tts.setLanguage (new Locale( "tha", "TH"));
-		isSpeak = true;
 		/*		final int from = intent.getIntExtra("from", -1);
 
 
@@ -172,9 +366,245 @@ public class DekTTSActivity extends Service implements  OnUtteranceCompletedList
 			startActivity(new Intent(this, DekdeeBrowserActivity.class));
 		}*/
 
-		tts.speak(" ", TextToSpeech.QUEUE_FLUSH, null);
-		for (String text : cuttext)
-			tts.speak(text, TextToSpeech.QUEUE_ADD, null);
+		//tts.speak(" ", TextToSpeech.QUEUE_FLUSH, null);
+		if (tts.getDefaultEngine().contains("vaja")) {
+            AsyncTask<Void, String, Void> execute = new AsyncTask<Void, String, Void>() {
+
+                private NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+                private int i;
+
+                @Override
+                protected Void doInBackground(Void... arg0) {
+                    // TODO Auto-generated method stub
+                    i = 0;
+                    HashMap<String, String> params = new HashMap<String, String>();
+                    for (String text : cuttext) {
+                        //Log.e( "cuttext",text);
+                        text = text.replace("…", " ").replace(".", "จุด").replace(" ๆ", "ๆ").trim();
+                        i++;
+
+                        text = text.trim();
+                        params.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "complete");
+
+                        while (isSpeak)
+                            try {
+                                Thread.sleep(1000);
+                                //System.out.println(isSpeak);
+                            } catch (InterruptedException e) {
+                                // TODO Auto-generated catch block
+                                e.printStackTrace();
+                            }
+                        isSpeak = true;
+                        //handler.sendMessage(handler.obtainMessage(0,Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT)));
+                        try {
+                            tts.speak(text, TextToSpeech.QUEUE_ADD, params);
+                        } catch (Exception anfe) {
+                            //System.out.println(anfe.getMessage());
+                        }
+                        if (Setting.getTTSToast(getApplicationContext())) {
+                            publishProgress(text);
+                        }
+
+                        if (stop) {
+                            tts.speak(" ", TextToSpeech.QUEUE_FLUSH, null);
+                            isSpeak = false;
+                            stop = false;
+                            cuttext.clear();
+                            return null;
+                        }
+
+                    }
+                    isSpeak = false;
+                    stop = false;
+                    if (manager != null)
+                        manager.cancel(1);
+                    return null;
+                }
+
+                protected void onProgressUpdate(String... progress) {        //publishProgress
+                    if (!stop) {
+                        //Toast.makeText(getBaseContext(), progress[0] , Toast.LENGTH_LONG).show();
+                        Notification notification;
+                        if (i == 1)
+                            notification = new Notification(R.drawable.noti, progress[0], System.currentTimeMillis());
+                        else if (i == 2) {
+
+                            return;
+                        } else
+                            notification = new Notification(R.drawable.noti, progress[0], System.currentTimeMillis());
+
+                        //notification.defaults |= Notification.DEFAULT_SOUND;
+                        // Hide the notification after its selected
+                        notification.flags |= Notification.FLAG_AUTO_CANCEL;
+
+                        // The PendingIntent will launch activity if the user selects this notification
+
+
+                        PendingIntent contentIntent = PendingIntent.getActivity(getBaseContext(), 0, new Intent(), 0);
+                        notification.contentIntent = contentIntent;
+                        ///notification.contentView = contentView;
+                        notification.setLatestEventInfo(getBaseContext(), "TTS", "Speking", contentIntent);
+                        manager.notify(1, notification);
+                    }
+
+                }
+
+                protected void onPostExecute(Void result) {
+                    isSpeak = false;
+                    stop = false;
+                    if (manager != null)
+                        manager.cancel(1);
+                }
+            }.execute();
+        } else {
+			new AsyncTask<Void, String, Void>() {
+
+				private NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+				private CharSequence delay = "";
+				private int i;
+
+				@Override
+				protected Void doInBackground(Void... arg0) {
+					// TODO Auto-generated method stub
+					i = 0;
+					HashMap<String, String> params = new HashMap<String, String>();
+					for (String text : cuttext) {
+						//Log.e( "cuttext",text);
+						text = text.replace(".", "จุด").replace(" ๆ","ๆ").trim();		
+						final int size = text.length();
+						if (size<2)  continue;
+						i++;
+						if (i==1) delay = text;
+						if (i==2) {
+							if (size > 500) {		
+								if (Setting.getTTSToast(getApplicationContext())) {
+									publishProgress(text);
+								}
+								String[] subtext = text.split(" ");
+                                for (String aSubtext : subtext) {
+                                    tts.speak(aSubtext.trim(), TextToSpeech.QUEUE_ADD, params);
+                                    /*								if (Setting.getTTSToast(getApplicationContext())) {
+									//publishProgress(subtext[index]);
+								}*/
+                                }
+							} else {
+								tts.speak(text.trim(), TextToSpeech.QUEUE_ADD, params);
+								if (Setting.getTTSToast(getApplicationContext())) {
+									publishProgress(text);
+								}
+							}
+						}
+						else if (size > 500) {
+							for (String subtext:text.split(" ")) {
+								subtext = subtext.trim();			
+								params.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID,"complete");
+
+								while (isSpeak)
+									try {							
+										Thread.sleep(1000);
+										//System.out.println(isSpeak);
+									} catch (InterruptedException e) {
+										// TODO Auto-generated catch block
+										e.printStackTrace();
+									}
+								isSpeak = true;
+								//handler.sendMessage(handler.obtainMessage(0,Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT)));
+								try {
+									tts.speak(subtext, TextToSpeech.QUEUE_ADD, params);
+								} catch (Exception anfe) {
+									//System.out.println(anfe.getMessage());
+								}
+								if (Setting.getTTSToast(getApplicationContext())) {
+									publishProgress(subtext);
+								}
+
+								if (stop) {
+									tts.speak(" ", TextToSpeech.QUEUE_FLUSH, null);
+									isSpeak = false;
+									cuttext.clear();
+									return null;
+								}
+							}
+						}
+						else {
+							text = text.trim();			
+							params.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID,"complete");
+
+							while (isSpeak)
+								try {							
+									Thread.sleep(1000);
+									//System.out.println(isSpeak);
+								} catch (InterruptedException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+							isSpeak = true;
+							//handler.sendMessage(handler.obtainMessage(0,Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT)));
+							try {
+								tts.speak(text, TextToSpeech.QUEUE_ADD, params);
+							} catch (Exception anfe) {
+								//System.out.println(anfe.getMessage());
+							}
+							if (Setting.getTTSToast(getApplicationContext())) {
+								publishProgress(text);
+							}
+
+							if (stop) {
+								tts.speak(" ", TextToSpeech.QUEUE_FLUSH, null);
+								isSpeak = false;
+								stop = false;
+								cuttext.clear();
+								return null;
+							}
+						}
+					}
+					isSpeak = false;
+					stop = false;
+					if (manager != null)
+						manager.cancel(1);
+					return null;
+				}
+				
+				protected void onProgressUpdate(String... progress) 
+				{		//publishProgress
+					if (!stop) {
+						//Toast.makeText(getBaseContext(), progress[0] , Toast.LENGTH_LONG).show();	
+						Notification notification ;
+						if (i==1)
+							notification = new Notification(R.drawable.noti, progress[0] , System.currentTimeMillis());
+						else if (i==2) {
+							delay = progress[0];
+							return;
+						}
+						else
+							notification = new Notification(R.drawable.noti,delay , System.currentTimeMillis());
+
+						//notification.defaults |= Notification.DEFAULT_SOUND;
+						// Hide the notification after its selected
+						notification.flags |= Notification.FLAG_AUTO_CANCEL;
+
+						// The PendingIntent will launch activity if the user selects this notification
+
+
+						PendingIntent contentIntent = PendingIntent.getActivity(getBaseContext(), 0, new Intent(), 0);
+						notification.contentIntent = contentIntent;
+						///notification.contentView = contentView;
+						notification.setLatestEventInfo(getBaseContext(), "TTS","Speking", contentIntent);
+						manager.notify(1, notification);
+					}
+					delay = progress[0];
+				}
+
+				protected void onPostExecute(Void result) {
+					isSpeak = false;
+					stop = false;
+					if (manager != null)
+						manager.cancel(1);
+				}
+			}.execute();
+		}
+		//MainActivity.dialog.dismiss();
 	}
 
 	static ArrayList<String> printEachForward(final BreakIterator boundary,final String source) {
@@ -185,15 +615,17 @@ public class DekTTSActivity extends Service implements  OnUtteranceCompletedList
 		}		 
 		return arrayList;
 	}
-
+	/*
 	@Override
 	public void onUtteranceCompleted(final String arg0) {
 		// TODO Auto-generated method stub
+		Log.e("onUtteranceCompleted", arg0);
+
 		if (arg0.indexOf("ok")!=-1)
 			return;
 		isSpeak = false;
 		dialog.dismiss();
-	}
+	}*/
 	@Override
 	public void onInit(int status) {
 		// TODO Auto-generated method stub
@@ -201,12 +633,14 @@ public class DekTTSActivity extends Service implements  OnUtteranceCompletedList
 			int result = tts.setLanguage(new Locale( "tha", "TH"));
 
 			if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
-				Toast.makeText(getApplicationContext(), "TTS engine �ͧ�س����ͧ�Ѻ������", Toast.LENGTH_SHORT).show();
+				Toast.makeText(getApplicationContext(), "TTS engine ของคุณไม่รองรับภาษาไทย", Toast.LENGTH_SHORT).show();
 				Log.e("TTS", "Thai language is not supported on your TTS");
 				MainActivity.isTTS = false;
-			}	else {
-
-				tts.speak("�ô��", TextToSpeech.QUEUE_ADD, null); 
+				SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit();
+				editor.putBoolean("ttsinstall", false);
+				editor.commit();
+			}else {
+				oninit  = true;
 				//final int type = intent.getIntExtra("type", -1);
 				if (type != -1) {
 					dialog = new ProgressDialog(DekTTSActivity.this);
@@ -214,20 +648,51 @@ public class DekTTSActivity extends Service implements  OnUtteranceCompletedList
 					dialog.setMessage("Loading");
 					//dialog.show();
 				}
-
-				if (type == 1 && !text.equals(text)) {
+				Log.e("TTS", "Initilization start! type "+Integer.toString(type));
+				SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit();
+				editor.putBoolean("ttsinstall", true);
+				editor.commit();
+				if (type == 1) {
 					totext(text);
 				} else if (type == 2 && temp != null) {
 					totext(temp);
-				} else if (type == 3 && !text.equals(text)) {
+				} else if (type == 3) {
 					strtotext(text);
+				} else if (type == 4)  {
+					tts.speak("โปรดรอ", TextToSpeech.QUEUE_FLUSH, null);
+					speak(new ArrayList<String>(Arrays.asList(text.split(" "))));
+				} else if (type ==5) {
+					lltotext(text);
+				} else if (type == 99) {				
+					if (Setting.getTTStip(getApplicationContext())) {
+						tts.speak("ยินดีต้อนรับ", TextToSpeech.QUEUE_FLUSH, null);
+					} else {
+						tts.speak(" ", TextToSpeech.QUEUE_FLUSH, null);
+					}					
 				} 
+
+				tts.setOnUtteranceCompletedListener(new TextToSpeech.OnUtteranceCompletedListener() {
+					@Override
+					public void onUtteranceCompleted(String utteranceId) {
+						// TODO Auto-generated method stub
+						isSpeak = false;
+						Log.e("onUtteranceCompleted", utteranceId);
+						//Toast.makeText(getBaseContext(), utteranceId, Toast.LENGTH_SHORT).show();
+					}
+				});
+				return;
 			}
 		} else {
 			Toast.makeText(getApplicationContext(), "TTS Initilization Failed!", Toast.LENGTH_SHORT).show();
 			Log.e("TTS", "Initilization Failed!");
 			MainActivity.isTTS = false;
+			SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit();
+			editor.putBoolean("ttsinstall", false);
+			editor.commit();
 		}
+		Intent intent = new Intent(this.getApplicationContext(), Flow2.class); 
+		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		startActivity(intent);
 	}
 
 	@Override
@@ -236,4 +701,5 @@ public class DekTTSActivity extends Service implements  OnUtteranceCompletedList
 		Log.w(" ibinder ","");
 		return null;
 	}
+
 }

@@ -58,15 +58,15 @@ public class NiyayService extends WakefulIntentService
 
 	@Override
 	protected void doWakefulWork(Intent intent) {		
-		Log.e("zone", "doWakefulWork");
+		Log.e("zone", "doWakefulWork niyay");
 		context = getApplicationContext();
-		
+		WakefulIntentService.acquireStaticLock(context);
 		if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean("waitcheck", false))			
 			Log.e("zone", "a waitcheck true");
 		else
 			Log.e("zone", "a waitcheck false");
 		
-		if (!Setting.getSelectNotifySetting(context)) return;
+		if (!Setting.getSelectNotifySetting(context) || MainActivity.titleColor != -1) return;
 		int itemSelect = Integer.parseInt(Setting.getSelectItemSetting(getApplicationContext()));
 		if (itemSelect == 0) return;	
 		
@@ -80,7 +80,7 @@ public class NiyayService extends WakefulIntentService
 		db = new DatabaseAdapter(this);  	
 		//showAllBook();
 		showAllBook();
-		if (Setting.getNotifyFav(context)) {
+		if (Setting.getisLogin(context) && Setting.getNotifyFav(context)) {
 			login();
 			loadUpdate();
 		}
@@ -113,7 +113,7 @@ public class NiyayService extends WakefulIntentService
 	private void displayNotification(String name,String detail,String title,String url)
 	{
 		NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-		Notification notification = new Notification(R.drawable.noti, name + "  �͹����", System.currentTimeMillis());
+		Notification notification = new Notification(R.drawable.noti, name + "  ตอนใหม่", System.currentTimeMillis());
 		notification.defaults |= Notification.DEFAULT_SOUND;
 		// The PendingIntent will launch activity if the user selects this notification
 		Intent browserIntent = new Intent(Intent.ACTION_VIEW);
@@ -121,7 +121,7 @@ public class NiyayService extends WakefulIntentService
 		browserIntent.setData(data);
 		PendingIntent contentIntent = PendingIntent.getActivity(this, REQUEST_CODE,browserIntent, 0);
 
-		notification.setLatestEventInfo(this, "����ͧ"+ name + " �͹��� "+detail+" �ա������¹�ŧ",title+" ("+detail+")", contentIntent);
+		notification.setLatestEventInfo(this, "เรื่อง"+ name + " ตอนที่ "+detail+" มีการเปลี่ยนแปลง",title+" ("+detail+")", contentIntent);
 		manager.notify(NOTIFICATION_ID++, notification);
 
 	}
@@ -139,7 +139,7 @@ public class NiyayService extends WakefulIntentService
 					.execute();
 			sessionId = res.cookies();
 		} catch (IOException e) {
-			//Toast.makeText(getBaseContext(), "������������ջѭ�� ��سһ�Ѻ��ا����������� �����ͧ����", Toast.LENGTH_LONG).show();
+			//Toast.makeText(getBaseContext(), "การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่", Toast.LENGTH_LONG).show();
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}   		
@@ -150,29 +150,34 @@ public class NiyayService extends WakefulIntentService
 		Document doc = null;
 		if (sessionId == null) return;
 		try {
-			doc = Jsoup.connect("http://www.dek-d.com/story_message2012.php")
-					.cookies(sessionId).timeout(3000)
-					.get();
+			doc = Jsoup.connect("http://www.dek-d.com/story_message2012.php").cookies(sessionId).timeout(3000).get();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}    	
-		Elements link1 = doc.select(".novel");
-		if(link1 == null) return;
+		if(doc == null) return;
+		Elements link1;
+		if(doc.select(".novel").isEmpty()) return;
+		else link1 = doc.select(".novel");
 		for (Element link:link1) {
 			final String stext = link.text();
 /*			Log.v("stext", stext);
 			String[] temp  = new String[5];
 			temp[0] = "-2";
-			temp[1] = stext.substring(0, stext.indexOf("�͹���"));
+			temp[1] = stext.substring(0, stext.indexOf("ตอนที่"));
 			temp[2] = link.select("a").attr("href");
 			temp[3] = "-2";
-			temp[4] = stext.substring(stext.indexOf("�͹���"));*/
-			//MainActivity.ListViewContent.add(stext.replace("�͹���", "\n�͹���"));	
+			temp[4] = stext.substring(stext.indexOf("ตอนที่"));*/
+			//MainActivity.ListViewContent.add(stext.replace("ตอนที่", "\nตอนที่"));	
 /*			MainActivity.ListViewContent.add(
-					"<br/><p><font color=#339900>�ա���Ѿവ�͹�Ѩ�غѹ</font><br />" +
-							"<font color=#33B6EA>����ͧ :" +temp[1]+"</font><br />" +
+					"<br/><p><font color=#339900>มีการอัพเดตตอนปัจจุบัน</font><br />" +
+							"<font color=#33B6EA>เรื่อง :" +temp[1]+"</font><br />" +
 							"<font color=#cc0029>" +temp[4]+"</font></p>"); */
-			displayNotification(Integer.toString(floop++),stext.substring(0, stext.indexOf("�͹���")),stext.substring(stext.indexOf("�͹���")),link.select("a").attr("href"));
+			final String unum = MyAppClass.findnum(link.select("a").attr("href"), "story_id=", getBaseContext());
+			final String chapter = MyAppClass.findnum(stext.substring(stext.indexOf("ตอนที่")), "ตอนที่ ", getBaseContext());
+			final String url = "http://writer.dek-d.com/dek-d/writer/viewlongc.php?id="+unum+"&chapter="+chapter;
+			System.out.println(url);
+			displayNotification(Integer.toString(floop++),stext.substring(0, stext.indexOf("ตอนที่")),stext.substring(stext.indexOf("ตอนที่")),url);
+			REQUEST_CODE++;
 		}
 
 
@@ -181,59 +186,80 @@ public class NiyayService extends WakefulIntentService
 			Log.v("ListViewContent", i);*/
 	}
 	
-	private static void displayNotification(String id,String name,String detail,String url)
+	private void displayNotification(String id,String name,String detail,String url)
 	{
 		NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-		Notification notification = new Notification(R.drawable.noti, name + "  �͹����", System.currentTimeMillis());
+		Notification notification = new Notification(R.drawable.noti, name + "  ตอนใหม่", System.currentTimeMillis());
 		notification.defaults |= Notification.DEFAULT_SOUND;
-		
+		notification.flags |= Notification.FLAG_AUTO_CANCEL;
+
 		// The PendingIntent will launch activity if the user selects this notification
 		Intent browserIntent = null;
+/*		browserIntent = new Intent(Intent.ACTION_VIEW);
+		Uri data = Uri.parse(url+"#story_body");
+		browserIntent.setData(data);*/
 		if (Setting.getArrowSelectSetting(context).equals("0")) {
 			browserIntent = new Intent(Intent.ACTION_VIEW);
 			Uri data = Uri.parse(url+"#story_body");
 			browserIntent.setData(data);
-		}
-		else {
-			browserIntent = new Intent(context, DekdeeBrowserActivity.class);
-			browserIntent.putExtra("id",id);
+		} else if (Setting.getArrowSelectSetting(context).equals("1")) {
+			browserIntent = new Intent(this, DekdeeBrowserActivity.class);
+			browserIntent.putExtra("id","-2");
 			browserIntent.putExtra("url",url);
 			browserIntent.putExtra("title",name);
 		}
-		
-		PendingIntent contentIntent = PendingIntent.getActivity(context, REQUEST_CODE,browserIntent, 0);
+		else {
+			browserIntent = new Intent(this, TextReadActivity.class);
+			browserIntent.putExtra("url",url);
+		}
+		System.out.println("moti "+url);
+
+		//PendingIntent contentIntent = PendingIntent.getActivity(context, REQUEST_CODE,browserIntent, 0);
+		PendingIntent contentIntent = PendingIntent.getActivity(getApplicationContext(),REQUEST_CODE,browserIntent,PendingIntent.FLAG_UPDATE_CURRENT);
 		notification.contentIntent = contentIntent;
 		//notification.contentView = contentView;
 		notification.setLatestEventInfo(context, name,detail, contentIntent);
-		manager.notify(Integer.parseInt(id), notification);
+		manager.notify(REQUEST_CODE, notification);
 	}
 	
-	private static void displayNotification(final String id,final String name,final String detail,String title,final String url)
+	private void displayNotification(final String id,final String name,final String detail,String title,final String url)
 	{
 		//RemoteViews contentView = new RemoteViews(context.getPackageName(), R.layout.custom_noti);
 		//contentView.setImageViewResource(R.id.image, R.drawable.notification_image);
 		//contentView.setTextViewText(R.id.notiTitle, name);
 		//contentView.setTextViewText(R.id.notiDetail1, title.substring(title.indexOf(":"))+" ("+detail+")");
-		//contentView.setTextViewText(R.id.notiDetail2, title+" ("+detail+")");		
-		NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-		Notification notification = new Notification(R.drawable.noti, name + "  �͹����", System.currentTimeMillis());
-		notification.defaults |= Notification.DEFAULT_SOUND;
+		//contentView.setTextViewText(R.id.notiDetail2, title+" ("+detail+")");
 		
+		NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+		Notification notification = new Notification(R.drawable.noti, name + "  ตอนใหม่", System.currentTimeMillis());
+		notification.defaults |= Notification.DEFAULT_SOUND;
+		notification.flags |= Notification.FLAG_AUTO_CANCEL;
+
 		// The PendingIntent will launch activity if the user selects this notification
 		Intent browserIntent = null;
+/*		browserIntent = new Intent(Intent.ACTION_VIEW);
+		Uri data = Uri.parse(url+"#story_body");
+		browserIntent.setData(data);*/
 		if (Setting.getArrowSelectSetting(context).equals("0")) {
 			browserIntent = new Intent(Intent.ACTION_VIEW);
 			Uri data = Uri.parse(url+"#story_body");
 			browserIntent.setData(data);
 		}
-		else {
-			browserIntent = new Intent(context, DekdeeBrowserActivity.class);
+		else  if (Setting.getArrowSelectSetting(context).equals("1")) {
+			browserIntent = new Intent(this, DekdeeBrowserActivity.class);
 			browserIntent.putExtra("id",id);
 			browserIntent.putExtra("url",url);
 			browserIntent.putExtra("title",name);
 		}
-		
-		PendingIntent contentIntent = PendingIntent.getActivity(context, REQUEST_CODE,browserIntent, 0);
+		else {
+			browserIntent = new Intent(this, TextReadActivity.class);
+			browserIntent.putExtra("url",url);
+		}
+		System.out.println("moti "+url);
+
+		//PendingIntent contentIntent = PendingIntent.getActivity(context, REQUEST_CODE,browserIntent, 0);
+		PendingIntent contentIntent = PendingIntent.getActivity(getApplicationContext(),REQUEST_CODE,browserIntent,PendingIntent.FLAG_UPDATE_CURRENT);
+
 		notification.contentIntent = contentIntent;
 		//notification.contentView = contentView;
 		if (title.contains(":")) {
@@ -245,14 +271,15 @@ public class NiyayService extends WakefulIntentService
 		else if (title.indexOf(":")+1 < title.length()) {			
 			notification.setLatestEventInfo(context, name,title.substring(title.indexOf(":")+1)+" ("+detail+")", contentIntent);
 		}
-		else if (title.indexOf(":") < title.length()) {			
+		else if ((!title.contains(":")) && (title.indexOf(":") < title.length())) {
 			notification.setLatestEventInfo(context, name,title.substring(title.indexOf(":"))+" ("+detail+")", contentIntent);
 		}
 		else {
 			notification.setLatestEventInfo(context, name,title+" ("+detail+")", contentIntent);
 		}
-		manager.notify(Integer.parseInt(id), notification);
+		manager.notify(REQUEST_CODE, notification);
 	}
+	
 	public boolean isOnline() { 
 		ConnectivityManager cm = 
 				(ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE); 
@@ -326,10 +353,10 @@ public class NiyayService extends WakefulIntentService
 	
 			if (text1.contains("<title>")) {
 				final String start = text1.substring(text1.indexOf("<title>")+7);
-				final int fst = start.indexOf(">");				final int snd = start.indexOf("</title>");				if (snd - fst > 2)					text1 = Jsoup.parse((start.substring(fst+2, snd))).text();				else					text1 = Jsoup.parse((start.substring(fst, snd))).text();
+				final int fst = start.indexOf(">");				final int snd = start.indexOf("</title>");				if (snd > -1 && fst > -1 && (fst<snd))		text1 = Jsoup.parse((start.substring(fst, snd))).text().trim();				else					text1 = "ยังไม่มีตอนปัจจุบัน รอตอนใหม่";
 			}
 			else {
-				text1 = "�ѧ����յ͹�Ѩ�غѹ �͵͹����";
+				text1 = "ยังไม่มีตอนปัจจุบัน รอตอนใหม่";
 			}
 	
 			/*		Log.e("title",(title == null) ? "null" : title);
@@ -340,10 +367,10 @@ public class NiyayService extends WakefulIntentService
 			else if (title.contains(">")) title = title.substring(title.indexOf(">")+2);
 			if (text1.contains(">"))	text1 = text1.substring(text1.indexOf(">")+2);
 			if (title.isEmpty()) {
-				title = text1;
+				//title = text1;
 				status = -1;
 			}
-			else if (text1.equals("�ѧ����յ͹�Ѩ�غѹ �͵͹����")) {
+			else if (text1.equals("ยังไม่มีตอนปัจจุบัน รอตอนใหม่")) {
 				status = 2;
 			}
 			else if (!text1.trim().equals(title.trim())) {

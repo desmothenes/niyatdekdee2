@@ -3,7 +3,7 @@
     android:layout_height="fill_parent" >
 
     <EditText
-        android:id="@+id/editText1"
+        android:id="@+id/LongReadText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -20,7 +20,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/editText1"
+        android:layout_below="@+id/LongReadText"
         android:ems="10"
         android:hint="@string/password"
         android:inputType="textPassword" >

@@ -28,7 +28,7 @@ public class Alarm extends BroadcastReceiver
 
 		// Put here YOUR code. 
 		//Toast.makeText(context, "Alarm !!!!!!!!!!", Toast.LENGTH_LONG).show(); // For example 
-                  Log.e("zone", "ed in2 onReceive");  
+        Log.e("zone", "ed in2 onReceive");  
 		wl.release(); 
 		Log.e("zone", "ed Alarm onReceive");
 	} 
@@ -38,18 +38,21 @@ public class Alarm extends BroadcastReceiver
 		Log.e("zone", "set Alarm");
 		AlarmManager am=(AlarmManager)context.getSystemService(Context.ALARM_SERVICE); 
 		Intent i = new Intent(context, Alarm.class);
-		PendingIntent pi = PendingIntent.getBroadcast(context, 0, i, 0); 
+		PendingIntent pi = PendingIntent.getBroadcast(context, 33, i, 0); 
 	    long time=Setting.getSelectNotifyTimeSetting(context);
 		final long period = 1000 * 60 * 60 * Integer.parseInt(Setting.getSelectItemSetting(context));
-		am.setRepeating(AlarmManager.RTC_WAKEUP, time+period, period, pi); // Millisec * Second * Minute 
+		am.setRepeating (AlarmManager.RTC_WAKEUP, time+period, period, pi); // Millisec * Second * Minute 
 	} 
 
 	public void CancelAlarm(Context context) 
 	{ 
 		Log.e("zone", "cancel Alarm");
 		Intent intent = new Intent(context, Alarm.class); 
-		PendingIntent sender = PendingIntent.getBroadcast(context, 0, intent, 0); 
+		PendingIntent sender = PendingIntent.getBroadcast(context, 33, intent, 0); 
 		AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE); 
+		alarmManager.cancel(sender); 
+		sender = PendingIntent.getBroadcast(context, 0, intent, 0); 
+		alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE); 
 		alarmManager.cancel(sender); 
 	} 
 } 

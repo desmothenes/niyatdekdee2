@@ -1,14 +1,22 @@
 package com.niyatdekdee.notfy;
 
+import java.io.BufferedInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.nodes.Entities.EscapeMode;
 import org.jsoup.select.Elements;
+
+import com.google.analytics.tracking.android.EasyTracker;
 
 
 
@@ -23,6 +31,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.graphics.Color;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -43,243 +53,265 @@ import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView.OnItemClickListener;
 
 public class Find extends ListActivity {
-	private ProgressDialog dialog;
-	private InteractiveArrayAdapter adapter;
-	private final ArrayList<String> ListViewContent = new ArrayList<String> ();
-	private final ArrayList<String> linktable = new ArrayList<String> ();
-	private final ArrayList<String> authortable = new ArrayList<String> ();
-	private final ArrayList<String> detailtable = new ArrayList<String> ();
-	private final ArrayList<String> chaptertable = new ArrayList<String> ();
-	private final ArrayList<String> viewtable = new ArrayList<String> ();
-	private final ArrayList<String> Content = new ArrayList<String> ();
-	private int page = 1;
-	private String story_type;
-	private String main;
-	private String sub;
-	private String isend;
-	private String sort;
-	private String from;
-	private String title;
-	private String writer;
-	private String abstract_w;
-	private String ntitle;
-	private String nwriter;
-	private String nabstract_w;
-	private ListView list;
-	private ProgressBar spiner;
-	
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		boolean customTitleSupported = requestWindowFeature(Window.FEATURE_CUSTOM_TITLE); 
-        //requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS); 
+    private ProgressDialog dialog;
+    private InteractiveArrayAdapter adapter;
+    private final ArrayList<String> ListViewContent = new ArrayList<String> ();
+    private final ArrayList<String> linktable = new ArrayList<String> ();
+    private final ArrayList<String> authortable = new ArrayList<String> ();
+    private final ArrayList<String> detailtable = new ArrayList<String> ();
+    private final ArrayList<String> chaptertable = new ArrayList<String> ();
+    private final ArrayList<String> viewtable = new ArrayList<String> ();
+    private final ArrayList<String> Content = new ArrayList<String> ();
+    private int page = 1;
+    private String story_type;
+    private String main;
+    private String sub;
+    private String isend;
+    private String sort;
+    private String from;
+    private String title;
+    private String writer;
+    private String abstract_w;
+    private String ntitle;
+    private String nwriter;
+    private String nabstract_w;
+    private ListView list;
+    private ProgressBar spiner;
 
-		setContentView(R.layout.activity_find);
-		if (customTitleSupported) {
-			//µ—Èß§Ë“ custom titlebar ®“° custom_titlebar.xml
-			getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.custom_titlebar_nonmain);
-			//‡™◊ËÕ¡ btnSearch btnDirection ‡¢È“°—∫ View
-			TextView title = (TextView) findViewById(R.id.textViewBar);
-			title.setText(" º≈°“√§ÈπÀ“");
-			RelativeLayout barLayout =  (RelativeLayout) findViewById(R.id.nonbar);
-			spiner = new ProgressBar(this);
-			RelativeLayout.LayoutParams lspin =  new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT);
-			lspin.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-			lspin.addRule(RelativeLayout.ALIGN_PARENT_TOP);
-			spiner.setLayoutParams(lspin);
-			barLayout.addView(spiner);
-			spiner.setVisibility(View.GONE);					
-			
-			switch (MainActivity.titleColor) {
-			case 0:
-				barLayout.setBackgroundResource(R.drawable.bg_titlebar);
-				spiner.setBackgroundResource(R.drawable.bg_titlebar);
-				break;
-			case 1:
-				barLayout.setBackgroundResource(R.drawable.bg_titlebar_yellow);
-				spiner.setBackgroundResource(R.drawable.bg_titlebar_yellow);
-				break;
-			case 2:
-				barLayout.setBackgroundResource(R.drawable.bg_titlebar_green);
-				spiner.setBackgroundResource(R.drawable.bg_titlebar_green);
-				break;
-			case 3:
-				barLayout.setBackgroundResource(R.drawable.bg_titlebar_pink);
-				spiner.setBackgroundResource(R.drawable.bg_titlebar_pink);	
-			}
-			
-			ImageButton btnDirection = (ImageButton)findViewById(R.id.btnDirection);
-			btnDirection.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					finish();
-				}
-			});
-		}
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        boolean customTitleSupported = requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
+        //requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 
-		Intent intent = getIntent(); 
-		if ((from = intent.getStringExtra("from")).equals("gp")) {
-			story_type = intent.getStringExtra("story_type");
-			main = intent.getStringExtra("main");
-			sub = intent.getStringExtra("sub");
-			isend = intent.getStringExtra("isend");
-			sort = intent.getStringExtra("sort");
-		}
-		else {
-			story_type = intent.getStringExtra("story_type");
-			main = intent.getStringExtra("main");
-			sub = intent.getStringExtra("sub");
-			isend = intent.getStringExtra("isend");
-			title = intent.getStringExtra("title");
-			writer = intent.getStringExtra("writer");
-			abstract_w = intent.getStringExtra("abstract_w");
-			ntitle = intent.getStringExtra("ntitle");
-			nwriter = intent.getStringExtra("nwriter");
-			nabstract_w = intent.getStringExtra("nabstract_w");
-		}
-		
-		Log.v("from", from);
-		
-		adapter = new InteractiveArrayAdapter(this, Content);
-		adapter.notifyDataSetChanged();
-		dialog = ProgressDialog.show(Find.this,"Loading", "Please Wait...",true);
-		doback dob=new doback();
-		dob.execute();
-		list = getListView();
-		list.setFastScrollEnabled(true);
+        setContentView(R.layout.activity_find);
+        if (Setting.getScreenSetting(getApplicationContext()).equals("1"))
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        if (customTitleSupported) {
+            //‡∏ï‡∏±‡πâ‡∏á‡∏Ñ‡πà‡∏≤ custom titlebar ‡∏à‡∏≤‡∏Å custom_titlebar.xml
+            getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.custom_titlebar_nonmain);
+            //‡πÄ‡∏ä‡∏∑‡πà‡∏≠‡∏° btnSearch btnDirection ‡πÄ‡∏Ç‡πâ‡∏≤‡∏Å‡∏±‡∏ö View
+            TextView title = (TextView) findViewById(R.id.textViewBar);
+            title.setText(" ‡∏ú‡∏•‡∏Å‡∏≤‡∏£‡∏Ñ‡πâ‡∏ô‡∏´‡∏≤");
+            RelativeLayout barLayout =  (RelativeLayout) findViewById(R.id.nonbar);
+            spiner = new ProgressBar(this);
+            RelativeLayout.LayoutParams lspin =  new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT);
+            lspin.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+            lspin.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+            spiner.setLayoutParams(lspin);
+            barLayout.addView(spiner);
+            spiner.setVisibility(View.GONE);
+            spiner.setBackgroundResource(Color.parseColor("#00000000"));
+            switch (Integer.parseInt(Setting.getColorSelectSetting(getApplicationContext()))) {
+                case 0:
+                    barLayout.setBackgroundResource(R.drawable.bg_titlebar);
+                    spiner.setBackgroundResource(R.drawable.bg_titlebar);
+                    break;
+                case 1:
+                    barLayout.setBackgroundResource(R.drawable.bg_titlebar_yellow);
+                    spiner.setBackgroundResource(R.drawable.bg_titlebar_yellow);
+                    break;
+                case 2:
+                    barLayout.setBackgroundResource(R.drawable.bg_titlebar_green);
+                    spiner.setBackgroundResource(R.drawable.bg_titlebar_green);
+                    break;
+                case 3:
+                    barLayout.setBackgroundResource(R.drawable.bg_titlebar_pink);
+                    spiner.setBackgroundResource(R.drawable.bg_titlebar_pink);
+                    break;
+                case 4:
+                    barLayout.setBackgroundResource(R.drawable.bg_titlebar_blue);
+                    spiner.setBackgroundResource(R.drawable.bg_titlebar_blue);
+                    break;
+                case 5:
+                    barLayout.setBackgroundResource(R.drawable.bg_titlebar_fuchsia);
+                    break;
+                case 6:
+                    barLayout.setBackgroundResource(R.drawable.bg_titlebar_siver);
+                    break;
+                case 7:
+                    barLayout.setBackgroundResource(R.drawable.bg_titlebar_glay);
+                    break;
+                case 8:
+                    barLayout.setBackgroundResource(R.drawable.bg_titlebar_orange);
+                    break;
+            }
 
-		list.setOnItemClickListener(new OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
-					long arg3) {
-				if (linktable.size() == 0) return;
-				String url = linktable.get(arg2);
-				Log.v("url", url);
-				Intent i = new Intent(getBaseContext(),InsertForm.class);				
-				final String title = ListViewContent.get(arg2);
-				Log.v("title", title);
-				i.putExtra("name",title);
-				//in this fomat http://writer.dek-d.com/dek-d/writer/view.php?id=580483
-				final String stext = "id=";
-				//À“À≈—°¢ÕßµÕπ
-				final int start = url.lastIndexOf(stext)+stext.length();
-				if (start - stext.length() == -1) {
-					Toast.makeText(getBaseContext(), "Error not correct niyay page", Toast.LENGTH_SHORT).show();
-					return;
-				}
+            ImageButton btnDirection = (ImageButton)findViewById(R.id.btnDirection);
+            btnDirection.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.v("finish", "finish");
+                    finish();
+                }
+            });
+        }
 
-				//Log.v("url.length()", Integer.toString(url.length()));
-			//	Log.v("start", Integer.toString(start));
-				//Log.v("stext.length()", Integer.toString(stext.length()));
-				int len=0;
-			//	Log.v("Character", Character.toString(url.charAt(start)));
-				for (int i3 = start;i3 < url.length() && Character.isDigit(url.charAt(i3));i3++) {						
-					len++;
-					//Log.v("Character", Character.toString(url.charAt(i3)));
-				}
-			//	Log.v("len", Integer.toString(len));
-				final String unum = url.substring(start,start+len);	
-				Log.v("unum", unum);
-				url = "http://writer.dek-d.com/dek-d/writer/viewlongc.php?id="+unum+"&chapter=";					
+        Intent intent = getIntent();
+        if ((from = intent.getStringExtra("from")) != null) {
+            if(from.equals("gp")) {
+                story_type = intent.getStringExtra("story_type");
+                main = intent.getStringExtra("main");
+                sub = intent.getStringExtra("sub");
+                isend = intent.getStringExtra("isend");
+                sort = intent.getStringExtra("sort");
+            }
+            else {
+                story_type = intent.getStringExtra("story_type");
+                main = intent.getStringExtra("main");
+                sub = intent.getStringExtra("sub");
+                isend = intent.getStringExtra("isend");
+                title = intent.getStringExtra("title");
+                writer = intent.getStringExtra("writer");
+                abstract_w = intent.getStringExtra("abstract_w");
+                ntitle = intent.getStringExtra("ntitle");
+                nwriter = intent.getStringExtra("nwriter");
+                nabstract_w = intent.getStringExtra("nabstract_w");
+            }
+            Log.v("from", from);
 
-				Log.v("url", url);
-				i.putExtra("url",url);
-				final String chapter = chaptertable.get(arg2).replace(" µÕπ", "");
-				Log.v("chapter", chapter);
-				i.putExtra("chapter",chapter);
-				startActivity(i);
-			}
-		});  
-		list.setOnScrollListener(new LoadMoreListView());
-	}
-	
-	
+        }
+        adapter = new InteractiveArrayAdapter(this, Content);
+        adapter.notifyDataSetChanged();
+        dialog = ProgressDialog.show(Find.this,"Loading", "Please Wait...\n\n‡∏ñ‡πâ‡∏≤‡∏£‡∏≠‡∏ô‡∏≤‡∏ô‡πÄ‡∏Å‡∏¥‡∏ô‡πÑ‡∏õ‡∏Å‡∏î back 2 ‡∏Ñ‡∏£‡∏±‡πâ‡∏á‡πÄ‡∏û‡∏∑‡πà‡∏≠‡∏≠‡∏≠‡∏Å",true);
+        dialog.setCancelable(true);
+        Find_doback dob=new Find_doback();
+        dob.execute();
+        list = getListView();
+        list.setFastScrollEnabled(true);
 
-	boolean isOnline() { 
-		ConnectivityManager cm = 
-				(ConnectivityManager) Find.this.getSystemService(Context.CONNECTIVITY_SERVICE); 
+        list.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+                                    long arg3) {
+                if (linktable.size() == 0) return;
+                String url = linktable.get(arg2);
+                Log.v("url", url);
+                Intent i = new Intent(getBaseContext(),InsertForm.class);
+                final String title = ListViewContent.get(arg2);
+                Log.v("title", title);
+                i.putExtra("name",title);
+                //in this fomat http://writer.dek-d.com/dek-d/writer/view.php?id=580483
+                final String stext = "id=";
+                //‡∏´‡∏≤‡∏´‡∏•‡∏±‡∏Å‡∏Ç‡∏≠‡∏á‡∏ï‡∏≠‡∏ô
+                final int start = url.lastIndexOf(stext)+stext.length();
+                if (start - stext.length() == -1) {
+                    Toast.makeText(getBaseContext(), "Error not correct niyay page", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
-		return cm.getActiveNetworkInfo() != null &&  
-				cm.getActiveNetworkInfo().isConnectedOrConnecting(); 
-	} 
+                //Log.v("url.length()", Integer.toString(url.length()));
+                //	Log.v("start", Integer.toString(start));
+                //Log.v("stext.length()", Integer.toString(stext.length()));
+                int len=0;
+                //	Log.v("Character", Character.toString(url.charAt(start)));
+                for (int i3 = start;i3 < url.length() && Character.isDigit(url.charAt(i3));i3++) {
+                    len++;
+                    //Log.v("Character", Character.toString(url.charAt(i3)));
+                }
+                //	Log.v("len", Integer.toString(len));
+                final String unum = url.substring(start,start+len);
+                Log.v("unum", unum);
+                url = "http://writer.dek-d.com/dek-d/writer/viewlongc.php?id="+unum+"&chapter=";
 
-	/*@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.activity_find, menu);
-		return true;
-	}
-*/
-	class doback extends AsyncTask<URL, Integer, Long>
-	{
-		
+                Log.v("url", url);
+                i.putExtra("url",url);
+                final String chapter = chaptertable.get(arg2).replace(" ‡∏ï‡∏≠‡∏ô", "");
+                Log.v("chapter", chapter);
+                i.putExtra("chapter",chapter);
+                startActivity(i);
+            }
+        });
+        list.setOnScrollListener(new LoadMoreListView());
+    }
 
-		@Override
-		protected void onPreExecute() {
-			super.onPreExecute();
-			spiner.setVisibility(View.VISIBLE);
-		}
-		
-		protected void onProgressUpdate(Integer... progress) 
-		{			
-			if (progress[0] == -1) 
-			Toast.makeText(Find.this, "°“√‡™◊ËÕ¡µËÕ¡’ª—≠À“ °√ÿ≥“ª√—∫ª√ÿß°“√‡™◊ËÕ¡µËÕ ·≈È«≈Õß„À¡Ë", Toast.LENGTH_LONG).show();
-		}
-		
-		@Override
-		protected Long doInBackground(URL... arg0) 
-		{
-			try
-			{
-				Log.v("doback", "in");
-				if (isOnline())	{
-					Log.v("doback", "on");
-					showAllFind();
-					//showAllBookOffline() ;
-				}
-				else {
-					Log.v("doback", "off");
-					AlertDialog alertDialog = new AlertDialog.Builder(Find.this).create();
-					alertDialog.setTitle("Error.");
-					alertDialog.setMessage("Not connect to internet.\nPlease check your internet connection");
-					alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface dialog, int which) {
-							// here you can add functions
-						}
-					});
-					alertDialog.show();
-				}
-			}
-			catch(Exception e)
-			{
 
-			}
-			return null;
-		}
 
-/*		protected void onProgressUpdate(Integer... progress) 
-		{
-		}*/
-		protected void onPostExecute(Long result) 
-		{
-			try
-			{
-				if (Content.size() == 0) {
-					AlertDialog alertDialog = new AlertDialog.Builder(Find.this).create();
-					alertDialog.setTitle("‰¡Ëæ∫¢ÈÕ¡Ÿ≈");
-					alertDialog.setMessage("∂È“¡’√“¬°“√Õ¬ŸË ≈Õßµ√«® Õ∫°“√‡™◊ËÕ¡µËÕÕ‘π‡µÕ√Ï‡πÁµ ·≈È«≈Õß„À¡Ë");
-					alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface dialog, int which) {
-							// here you can add functions
-						}
-					});
-					alertDialog.show();
-				}
-				spiner.setVisibility(View.GONE);
-				//Find.this.setProgressBarIndeterminateVisibility(false);
-				Parcelable state = list.onSaveInstanceState();
-				setListAdapter(adapter);
-				list.onRestoreInstanceState(state);
-/*				Log.v("listView", "listView");
+    private boolean isOnline() {
+        ConnectivityManager cm =
+                (ConnectivityManager) Find.this.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        return cm.getActiveNetworkInfo() != null &&
+                cm.getActiveNetworkInfo().isConnectedOrConnecting();
+    }
+
+    /*@Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.activity_find, menu);
+        return true;
+    }
+     */
+    private class Find_doback extends AsyncTask<URL, Integer, Long>
+    {
+
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            spiner.setVisibility(View.VISIBLE);
+        }
+
+        protected void onProgressUpdate(Integer... progress)
+        {
+            if (progress[0] == -1)
+                Toast.makeText(Find.this, "‡∏Å‡∏≤‡∏£‡πÄ‡∏ä‡∏∑‡πà‡∏≠‡∏°‡∏ï‡πà‡∏≠‡∏°‡∏µ‡∏õ‡∏±‡∏ç‡∏´‡∏≤ ‡∏Å‡∏£‡∏∏‡∏ì‡∏≤‡∏õ‡∏£‡∏±‡∏ö‡∏õ‡∏£‡∏∏‡∏á‡∏Å‡∏≤‡∏£‡πÄ‡∏ä‡∏∑‡πà‡∏≠‡∏°‡∏ï‡πà‡∏≠ ‡πÅ‡∏•‡πâ‡∏ß‡∏•‡∏≠‡∏á‡πÉ‡∏´‡∏°‡πà", Toast.LENGTH_LONG).show();
+        }
+
+        @Override
+        protected Long doInBackground(URL... arg0)
+        {
+            try
+            {
+                Log.v("doback", "in");
+                if (isOnline())	{
+                    Log.v("doback", "on");
+                    showAllFind();
+                    //showAllBookOffline() ;
+                }
+                else {
+                    Log.v("doback", "off");
+                    AlertDialog alertDialog = new AlertDialog.Builder(Find.this).create();
+                    alertDialog.setTitle("Error.");
+                    alertDialog.setMessage("Not connect to internet.\nPlease check your internet connection");
+                    alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            // here you can add functions
+                        }
+                    });
+                    alertDialog.show();
+                }
+            }
+            catch(Exception e)
+            {
+
+            }
+            return null;
+        }
+
+        /*		protected void onProgressUpdate(Integer... progress)
+        {
+        }*/
+        protected void onPostExecute(Long result)
+        {
+            try
+            {
+                if (Content.size() == 0) {
+                    AlertDialog alertDialog = new AlertDialog.Builder(Find.this).create();
+                    alertDialog.setTitle("‡πÑ‡∏°‡πà‡∏û‡∏ö‡∏Ç‡πâ‡∏≠‡∏°‡∏π‡∏•");
+                    alertDialog.setMessage("‡∏ñ‡πâ‡∏≤‡∏°‡∏µ‡∏£‡∏≤‡∏¢‡∏Å‡∏≤‡∏£‡∏≠‡∏¢‡∏π‡πà ‡∏•‡∏≠‡∏á‡∏ï‡∏£‡∏ß‡∏à‡∏™‡∏≠‡∏ö‡∏Å‡∏≤‡∏£‡πÄ‡∏ä‡∏∑‡πà‡∏≠‡∏°‡∏ï‡πà‡∏≠‡∏≠‡∏¥‡∏ô‡πÄ‡∏ï‡∏≠‡∏£‡πå‡πÄ‡∏ô‡πá‡∏ï ‡πÅ‡∏•‡πâ‡∏ß‡∏•‡∏≠‡∏á‡πÉ‡∏´‡∏°‡πà");
+                    alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            // here you can add functions
+                        }
+                    });
+                    alertDialog.show();
+                }
+                spiner.setVisibility(View.GONE);
+                //Find.this.setProgressBarIndeterminateVisibility(false);
+                Parcelable state = list.onSaveInstanceState();
+                setListAdapter(adapter);
+                list.onRestoreInstanceState(state);
+				/*				Log.v("listView", "listView");
 				for (String i : ListViewContent)
 					Log.v("ListViewContent", i);
 				for (String i : linktable)
@@ -292,216 +324,307 @@ public class Find extends ListActivity {
 					Log.v("viewtable", i);
 				for (String i : viewtable)
 					Log.v("viewtable", i);*/
-				dialog.dismiss();
-			}
-			catch(Exception e)
-			{
-				e.printStackTrace();
-				dialog.dismiss();
-			}
-		}
-/*
+                if(dialog != null && dialog.isShowing()) dialog.dismiss();
+            }
+            catch(Exception e)
+            {
+                try {
+                    if(dialog != null && dialog.isShowing()) dialog.dismiss();
+                } catch(Exception e1) {}
+                //e.printStackTrace();
+            }
+        }
+		/*
 		public void execute(int i) {
 			// TODO Auto-generated method stub
 
 		}*/
-		
-		private String convert(String in) throws UnsupportedEncodingException {
-			StringBuilder sum = new StringBuilder();
-			byte bin[] = in.getBytes("tis620");
-			for (int i=0;i<in.length();i++) {
-				if (bin[i] < 0) 
-					sum.append(String.format("%%%02X", bin[i]));
-				else
-					sum.append(in.charAt(i));
-			}
-			return sum.toString();			
-		}
 
-		private void showAllFind() {
-			Log.v("showAllFind", "showAllFind");
-			// TODO Auto-generated method stub
+        private String convert(String in) throws UnsupportedEncodingException {
+            StringBuilder sum = new StringBuilder();
+            byte bin[] = in.getBytes("tis620");
+            for (int i=0;i<in.length();i++) {
+                if (bin[i] < 0)
+                    sum.append(String.format("%%%02X", bin[i]));
+                else
+                    sum.append(in.charAt(i));
+            }
+            return sum.toString();
+        }
+
+        private String fixEncoding(String latin1) {
+            try {
+                byte[] bytes = latin1.getBytes("tis620");
+                if (!validUTF8(bytes))
+                    return latin1;
+                String temp = new String(latin1.getBytes("tis620"), "UTF-8");
+                System.out.println(temp);
+                return temp;
+            } catch (UnsupportedEncodingException e) {
+                // Impossible, throw unchecked
+                throw new IllegalStateException("No Latin1 or UTF-8: " + e.getMessage());
+            }
+        }
+
+        private boolean validUTF8(byte[] input) {
+            int i = 0;
+            // Check for BOM
+            if (input.length >= 3 && (input[0] & 0xFF) == 0xEF
+                    && (input[1] & 0xFF) == 0xBB & (input[2] & 0xFF) == 0xBF) {
+                i = 3;
+            }
+
+            int end;
+            for (int j = input.length; i < j; ++i) {
+                int octet = input[i];
+                if ((octet & 0x80) == 0) {
+                    continue; // ASCII
+                }
+
+                // Check for UTF-8 leading byte
+                if ((octet & 0xE0) == 0xC0) {
+                    end = i + 1;
+                } else if ((octet & 0xF0) == 0xE0) {
+                    end = i + 2;
+                } else if ((octet & 0xF8) == 0xF0) {
+                    end = i + 3;
+                } else {
+                    // Java only supports BMP so 3 is max
+                    return false;
+                }
+
+                while (i < end) {
+                    i++;
+                    octet = input[i];
+                    if ((octet & 0xC0) != 0x80) {
+                        // Not a valid trailing byte
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+        private void showAllFind() {
+            Log.v("showAllFind", "showAllFind");
+            // TODO Auto-generated method stub
 			/*		String story_type = "2";
 			String main = "1";
 			String sub = "17";
 			String isend = "1";
 			String sort = "1";*/
 
-			//http://www.dek-d.com/writer/frame.php?page=2&main=1&sub=17&isend=1&story_type=2&sort=1
-			String url;
-			if (from.equals("gp")) {
-				url = String.format("http://www.dek-d.com/writer/frame.php?page=%s&main=%s&sub=%s&isend=%s&story_type=%s&sort=%s"
-						,Integer.toString(page),main,sub,isend,story_type,sort);
-				System.out.println(main+sub+isend+story_type+sort);
-			}
-			else if (main.equals("0") || main.equals("")) {
-				try {
-					title = convert(title);
-					ntitle = convert(ntitle);
-					writer = convert(writer);
-					nwriter = convert(nwriter);
-					abstract_w= convert(abstract_w);
-					nabstract_w = convert(nabstract_w);					
-				} catch (UnsupportedEncodingException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				url = String.format("http://www.dek-d.com/writer/frame.php?page=%s&is_end=%s&story_groups=&title=%s&n_title=%s&type=%s&writer=%s&n_writer=%s&abstract_w=%s&n_abstract_w=%s"
-						,Integer.toString(page),isend,title,ntitle,story_type,writer,nwriter,abstract_w,nabstract_w);
-			}
-			else {
-				try {
-					title = convert(title);
-					ntitle = convert(ntitle);
-					writer = convert(writer);
-					nwriter = convert(nwriter);
-					abstract_w= convert(abstract_w);
-					nabstract_w = convert(nabstract_w);					
-				} catch (UnsupportedEncodingException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				url = String.format("http://www.dek-d.com/writer/frame.php?page=%s&is_end=%s&story_groups=%s,%s&title=%s&n_title=%s&type=%s&writer=%s&n_writer=%s&abstract_w=%s&n_abstract_w=%s"
-						,Integer.toString(page),isend,main,sub,title,ntitle,story_type,writer,nwriter,abstract_w,nabstract_w);
-			}
-			System.out.println(url);
-			Document doc = null;
-			try {
-				doc = Jsoup.connect(url).timeout(8000).get();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				publishProgress(-1);
-				//Toast.makeText(getBaseContext(), "°“√‡™◊ËÕ¡µËÕ¡’ª—≠À“ °√ÿ≥“ª√—∫ª√ÿß°“√‡™◊ËÕ¡µËÕ ·≈È«≈Õß„À¡Ë", Toast.LENGTH_LONG).show();
-				e.printStackTrace();
-			}    
-			
-			if (doc.select(".fr-book").first().text().equals("‰¡Ëæ∫¢ÈÕ¡Ÿ≈")) {
-				if (Content.size() == 0)
-					Content.add("‰¡Ëæ∫¢ÈÕ¡Ÿ≈");
-				return;
-			}
-			//System.out.println(doc.html());
-			Elements link1 = doc.select(".book-text6");
-			int startsize = ListViewContent.size();
-			Log.v("startsize", Integer.toString(startsize));
-			if(link1 == null) {
-				if (Content.size() == 0)
-					Content.add("‰¡Ëæ∫¢ÈÕ¡Ÿ≈");
-				return;
-			}
-			for (Element link:link1) {
-				String stext = link.text();
-				if (stext.contains("by")) {
-					authortable.add(stext);
-					continue;
-				}
-				linktable.add(link.select("a").attr("href"));		
-				ListViewContent.add(stext);	
-			}
-			Log.v("startsize", Integer.toString(startsize));
-			if (startsize == ListViewContent.size()) {
-				page = -1;
-				return;
-			}
-			link1 = doc.select(".book-text1");
-			if(link1 == null) return;
-			for (Element link:link1) {
-				String stext = link.text();
-				detailtable.add(stext);	
-			}	
-			link1 = doc.select(".view");
-			if(link1 == null) return;
-			for (Element link:link1) {
-				String stext = link.text();
-				if (stext.contains("/")) 
-					viewtable.add(stext);	
-			}	
-			link1 = doc.select("p.chapter");
-			if(link1 == null) return;
-			for (Element link:link1) {
-				String stext = link.text();	
-				chaptertable.add(stext);
-			}
-			for (int position = startsize; position < ListViewContent.size() ;position++)
-				Content.add("<br/><p><font color=#33B6EA>‡√◊ËÕß :" +ListViewContent.get(position)+" " +authortable.get(position)+
-						" </font><br /><br />" +
-						"<font color=#cc0029> " +detailtable.get(position)+"</font><br/><br />" +
-						"<font color=#339900> ºŸÈ‡¢È“™¡ ‡¥◊Õππ’È " +viewtable.get(position).substring(0, viewtable.get(position).indexOf("/"))+" / ∑—ÈßÀ¡¥ " +viewtable.get(position).substring(viewtable.get(position).indexOf("/")+1,viewtable.get(position).length())+
-								" ¡’ " +chaptertable.get(position)+
-						" </font></p>");
-		}
-	}
+            //http://www.dek-d.com/writer/frame.php?page=2&main=1&sub=17&isend=1&story_type=2&sort=1
+            String url;
+            if (from.equals("gp")) {
+                url = String.format("http://www.dek-d.com/writer/frame.php?isend=%s&main=%s&sub=%s&story_type=%s&sort=%s&ajax=1&page=%s"
+                        ,isend,main,sub,story_type,sort,Integer.toString(page));
+                //System.out.println(main+sub+isend+story_type+sort);
+            }
+            else if (main.equals("0") || main.equals("")) {
+                try {
+                    title = convert(title);
+                    ntitle = convert(ntitle);
+                    writer = convert(writer);
+                    nwriter = convert(nwriter);
+                    abstract_w= convert(abstract_w);
+                    nabstract_w = convert(nabstract_w);
+                } catch (UnsupportedEncodingException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+                url = String.format("http://www.dek-d.com/writer/frame.php?page=%s&is_end=%s&story_groups=&title=%s&n_title=%s&type=%s&writer=%s&n_writer=%s&abstract_w=%s&n_abstract_w=%s"
+                        ,Integer.toString(page),isend,title,ntitle,story_type,writer,nwriter,abstract_w,nabstract_w);
+            }
+            else {
+                try {
+                    title = convert(title);
+                    ntitle = convert(ntitle);
+                    writer = convert(writer);
+                    nwriter = convert(nwriter);
+                    abstract_w= convert(abstract_w);
+                    nabstract_w = convert(nabstract_w);
+                } catch (UnsupportedEncodingException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+                url = String.format("http://www.dek-d.com/writer/frame.php?page=%s&is_end=%s&story_groups=%s,%s&title=%s&n_title=%s&type=%s&writer=%s&n_writer=%s&abstract_w=%s&n_abstract_w=%s"
+                        ,Integer.toString(page),isend,main,sub,title,ntitle,story_type,writer,nwriter,abstract_w,nabstract_w);
+            }
+            System.out.println(url);
+            Document doc = null;
+            try {
 
-	private class InteractiveArrayAdapter extends ArrayAdapter<String> {
-		private final Activity context;
-		private ArrayList<String> names = new ArrayList<String>();
+                if (from.equals("gp")) {
+                    try {
+                        URLConnection connection = new URL(url).openConnection();
+                        connection.setRequestProperty("User-Agent", "Mozilla/5.0 (iPhone; CPU iPhone OS 5_0 like Mac OS X) AppleWebKit/534.46 (KHTML, like Gecko) Version/5.1 Mobile/9A334 Safari/7534.48.3");
+                        connection.addRequestProperty("REFERER", "http://www.dek-d.com/writer/frame.php");
+                        InputStream stream = connection.getInputStream();
+                        BufferedInputStream in = new BufferedInputStream(stream);
+                        StringBuffer buffer = new StringBuffer();
+                        byte[] b = new byte[4096];
+                        for (int n; (n = in.read(b)) != -1;) {
+                            buffer.append(new String(b, 0, n));
+                        }
+                        in.close();
+                        final JSONObject object = new JSONObject( buffer.toString());
+                        String template = object.getString("template");
+                        doc = Jsoup.parse(template);
+                    } catch (JSONException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                    doc.outputSettings().escapeMode(EscapeMode.xhtml);
+                } else {
+                    doc = Jsoup.connect(url)
+                            .referrer("http://www.dek-d.com/writer/frame.php")
+                            .userAgent("Mozilla/5.0 (iPhone; CPU iPhone OS 5_0 like Mac OS X) AppleWebKit/534.46 (KHTML, like Gecko) Version/5.1 Mobile/9A334 Safari/7534.48.3")
+                            .get();
+                }
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                publishProgress(-1);
+                //Toast.makeText(getBaseContext(), "‡∏Å‡∏≤‡∏£‡πÄ‡∏ä‡∏∑‡πà‡∏≠‡∏°‡∏ï‡πà‡∏≠‡∏°‡∏µ‡∏õ‡∏±‡∏ç‡∏´‡∏≤ ‡∏Å‡∏£‡∏∏‡∏ì‡∏≤‡∏õ‡∏£‡∏±‡∏ö‡∏õ‡∏£‡∏∏‡∏á‡∏Å‡∏≤‡∏£‡πÄ‡∏ä‡∏∑‡πà‡∏≠‡∏°‡∏ï‡πà‡∏≠ ‡πÅ‡∏•‡πâ‡∏ß‡∏•‡∏≠‡∏á‡πÉ‡∏´‡∏°‡πà", Toast.LENGTH_LONG).show();
+                e.printStackTrace();
+            }
 
-		public InteractiveArrayAdapter(Activity context, ArrayList<String> names) {
-			super(context, R.layout.list_item, names);
-			this.context = context;
-			this.names = names;
-		}
+            if(!doc.select(".fr-book").isEmpty() &&doc.select(".fr-book").first().text().equals("‡πÑ‡∏°‡πà‡∏û‡∏ö‡∏Ç‡πâ‡∏≠‡∏°‡∏π‡∏•")) {
+                if (Content.size() == 0)
+                    Content.add("‡πÑ‡∏°‡πà‡∏û‡∏ö‡∏Ç‡πâ‡∏≠‡∏°‡∏π‡∏•");
+                return;
+            }
+            //System.out.println(doc.html());
+            Elements link1 = doc.select(".book-text6");
+            int startsize = ListViewContent.size();
+            Log.v("startsize", Integer.toString(startsize));
+            if(link1 == null) {
+                if (Content.size() == 0)
+                    Content.add("‡πÑ‡∏°‡πà‡∏û‡∏ö‡∏Ç‡πâ‡∏≠‡∏°‡∏π‡∏•");
+                return;
+            }
+            for (Element link:link1) {
+                String stext = fixEncoding(link.text());
+                if (stext.contains("by")) {
+                    authortable.add(stext);
+                    continue;
+                }
+                linktable.add(link.select("a").attr("href"));
+                ListViewContent.add(stext);
+            }
+            Log.v("startsize", Integer.toString(startsize));
+            if (startsize == ListViewContent.size()) {
+                page = -1;
+                return;
+            }
+            link1 = doc.select(".book-text1");
+            if(link1 == null) return;
+            for (Element link:link1) {
+                String stext = link.text();
+                detailtable.add(stext);
+            }
+            link1 = doc.select(".view");
+            if(link1 == null) return;
+            for (Element link:link1) {
+                String stext = link.text();
+                if (stext.contains("/"))
+                    viewtable.add(stext);
+            }
+            link1 = doc.select("p.chapter");
+            if(link1 == null) return;
+            for (Element link:link1) {
+                String stext = link.text();
+                chaptertable.add(stext);
+            }
+            for (int position = startsize; position < ListViewContent.size() ;position++)
+                Content.add("<br/><p><font color=#33B6EA>‡πÄ‡∏£‡∏∑‡πà‡∏≠‡∏á :" +ListViewContent.get(position)+" " +authortable.get(position)+
+                        " </font><br /><br />" +
+                        "<font color=#cc0029> " +detailtable.get(position)+"</font><br/><br />" +
+                        "<font color=#339900> ‡∏ú‡∏π‡πâ‡πÄ‡∏Ç‡πâ‡∏≤‡∏ä‡∏° ‡πÄ‡∏î‡∏∑‡∏≠‡∏ô‡∏ô‡∏µ‡πâ " +viewtable.get(position).substring(0, viewtable.get(position).indexOf("/"))+" / ‡∏ó‡∏±‡πâ‡∏á‡∏´‡∏°‡∏î " +viewtable.get(position).substring(viewtable.get(position).indexOf("/")+1,viewtable.get(position).length())+
+                        " ‡∏°‡∏µ " +chaptertable.get(position)+
+                        " </font></p>");
+        }
+    }
 
-		@Override
-		public View getView(int position, View convertView, ViewGroup parent) {
-			View rowView = convertView;
-			if (convertView == null) {
-				LayoutInflater inflater = context.getLayoutInflater();
-				rowView = inflater.inflate(R.layout.list_item, null);}
-			TextView text = (TextView) rowView.findViewById(R.id.textView1);
-/*
+    private class InteractiveArrayAdapter extends ArrayAdapter<String> {
+        private final Activity context;
+        private ArrayList<String> names = new ArrayList<String>();
+
+        public InteractiveArrayAdapter(Activity context, ArrayList<String> names) {
+            super(context, R.layout.list_item3, names);
+            this.context = context;
+            this.names = names;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            View rowView = convertView;
+            if (convertView == null) {
+                LayoutInflater inflater = context.getLayoutInflater();
+                rowView = inflater.inflate(R.layout.list_item3, null);}
+            TextView text = (TextView) rowView.findViewById(R.id.textView1);
+			/*
 			System.out.println(names.get(position));
 			System.out.println(detailtable.get(position));
 			System.out.println(authortable.get(position));
-			String htmltext = "<br/><p><font color=#33B6EA>‡√◊ËÕß :" +names.get(position)+" " +authortable.get(position)+
+			String htmltext = "<br/><p><font color=#33B6EA>‡πÄ‡∏£‡∏∑‡πà‡∏≠‡∏á :" +names.get(position)+" " +authortable.get(position)+
 					" </font><br /><br />" +
 					"<font color=#cc0029> " +detailtable.get(position)+"</font><br/><br />" +
-					"<font color=#339900> ºŸÈ‡¢È“™¡ ‡¥◊Õππ’È " +viewtable.get(position).substring(0, viewtable.get(position).indexOf("/"))+" / ∑—ÈßÀ¡¥ " +viewtable.get(position).substring(viewtable.get(position).indexOf("/")+1,viewtable.get(position).length())+
-							" ¡’ " +chaptertable.get(position)+
+					"<font color=#339900> ‡∏ú‡∏π‡πâ‡πÄ‡∏Ç‡πâ‡∏≤‡∏ä‡∏° ‡πÄ‡∏î‡∏∑‡∏≠‡∏ô‡∏ô‡∏µ‡πâ " +viewtable.get(position).substring(0, viewtable.get(position).indexOf("/"))+" / ‡∏ó‡∏±‡πâ‡∏á‡∏´‡∏°‡∏î " +viewtable.get(position).substring(viewtable.get(position).indexOf("/")+1,viewtable.get(position).length())+
+							" ‡∏°‡∏µ " +chaptertable.get(position)+
 					" </font></p>";
-			*/
-			text.setText((names.get(position)!= null)? Html.fromHtml(names.get(position)) : "1");
-			//thumb_image.setImageResource(R.drawable.rihanna);
-			//thumb_image.setImageBitmap(imageLoader.DisplayImage((imagetable.get(position)!= null)? imagetable.get(position) : "3",thumb_image));
-			//imageLoader.DisplayImage((imagetable.get(position)!= null)? imagetable.get(position) : "3",thumb_image);
-			return rowView;
-		}
+			 */
+            text.setText((names.get(position)!= null)? Html.fromHtml(names.get(position)) : "1");
+            //thumb_image.setImageResource(R.drawable.rihanna);
+            //thumb_image.setImageBitmap(imageLoader.DisplayImage((imagetable.get(position)!= null)? imagetable.get(position) : "3",thumb_image));
+            //imageLoader.DisplayImage((imagetable.get(position)!= null)? imagetable.get(position) : "3",thumb_image);
+            return rowView;
+        }
 
-	}
+    }
 
-	class LoadMoreListView implements OnScrollListener {
-		//private int visibleThreshold = 5;
-		private int previousTotal = 0;
-		private boolean loading = true;
+    private class LoadMoreListView implements OnScrollListener {
+        //private int visibleThreshold = 5;
+        private int previousTotal = 0;
+        private boolean loading = true;
 
-		public LoadMoreListView() {
-		}
-		public LoadMoreListView(int visibleThreshold) {
-			//this.visibleThreshold = visibleThreshold;
-		}
+        public LoadMoreListView() {
+        }
+        /*		public LoadMoreListView(int visibleThreshold) {
+            //this.visibleThreshold = visibleThreshold;
+        }
+         */
+        @Override
+        public void onScroll(AbsListView view, int firstVisibleItem,int visibleItemCount, int totalItemCount) {
+            //Log.v("firstVisibleItem", Integer.toString(firstVisibleItem));
+            //Log.v("visibleItemCount", Integer.toString(visibleItemCount));
+            //Log.v("totalItemCount", Integer.toString(totalItemCount));
+            if (loading) {
+                if (totalItemCount > previousTotal) {
+                    loading = false;
+                    previousTotal = totalItemCount;
+                    page++;
+                }
+            }
+            if (!loading && (totalItemCount - visibleItemCount) <= (firstVisibleItem + visibleItemCount)) {
+                // I load the next page of gigs using a background task,
+                // but you can call any function here.
+                new Find_doback().execute();
+                loading = true;
+            }
+        }
 
-		@Override
-		public void onScroll(AbsListView view, int firstVisibleItem,int visibleItemCount, int totalItemCount) {
-			//Log.v("firstVisibleItem", Integer.toString(firstVisibleItem));
-			//Log.v("visibleItemCount", Integer.toString(visibleItemCount));
-			//Log.v("totalItemCount", Integer.toString(totalItemCount));
-			if (loading) {
-				if (totalItemCount > previousTotal) {
-					loading = false;
-					previousTotal = totalItemCount;
-					page++;
-				}
-			}
-			if (!loading && (totalItemCount - visibleItemCount) <= (firstVisibleItem + visibleItemCount)) {
-				// I load the next page of gigs using a background task,
-				// but you can call any function here.
-				new doback().execute();
-				loading = true;
-			}
-		}
+        @Override
+        public void onScrollStateChanged(AbsListView view, int scrollState) {
+        }
+    }
+    public void onStart() {
+        super.onStart();
+        EasyTracker.getInstance().activityStart(this); // Add this method.
+    }
 
-		@Override
-		public void onScrollStateChanged(AbsListView view, int scrollState) {
-		}
-	}
+    @Override
+    public void onStop() {
+        super.onStop();
+        EasyTracker.getInstance().activityStop(this); // Add this method.
+    }
 }

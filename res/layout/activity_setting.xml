@@ -5,39 +5,179 @@
     android:layout_height="wrap_content"
     android:key="preference_screen" >
 
-    <PreferenceCategory android:title="Category Setting" >
+    <PreferenceCategory
+        android:name="Theme"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title="Theme" >
+
+        <ListPreference
+            android:name="sreenRol"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:defaultValue="0"
+            android:entries="@array/scListOptions"
+            android:entryValues="@array/scListValue"
+            android:key="sreenRol"
+            android:summary="เลือกว่าจะเป็นแนวตั้งหรือแนวนอน จะมีผลเมื่อเปิดครั้งต่อไป"
+            android:title="@string/selectScRol" />
+
+        <ListPreference
+            android:name="colorSelect"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:defaultValue="1"
+            android:entries="@array/colorOptions"
+            android:entryValues="@array/colorValue"
+            android:key="colorSelect"
+            android:summary="เลือกสีของแถบหัวเรื่องของ App"
+            android:title="ตั่งค่าสี" />
+
+        <ListPreference
+            android:name="bgColor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:defaultValue="0"
+            android:entries="@array/bgColorOptions"
+            android:entryValues="@array/bgColorValue"
+            android:key="bgColor"
+            android:summary="เปลี่ยนสีพื้นหลัง ในหน้าแต่ละตอน ในส่วนเนื้อหา"
+            android:title="สีพื้นหลัง หน้านิยาย" />
+
+        <ListPreference
+            android:name="textColor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:defaultValue="0"
+            android:entries="@array/textColorOptions"
+            android:entryValues="@array/textColorValue"
+            android:key="textColor"
+            android:summary="เปลี่ยนสีตัวอักษร ในหน้าแต่ละตอน ในส่วนเนื้อหา"
+            android:title="สีตัวอักษร หน้านิยาย" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:name="ตั่งค่าทั่วไป"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title="ตั่งค่าทั่วไป" >
 
         <CheckBoxPreference
+            android:name="keyCheck"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:defaultValue="true"
             android:key="keyCheck"
             android:summary="ข้อความที่ขึ้นมา ขณะเปลี่ยนหน้า"
             android:title="การแนะนำการใช้งาน" />
 
+       <CheckBoxPreference
+            android:name="TTSTipSpeak"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:defaultValue="true"
+            android:key="TTSTipSpeak"
+            android:dependency="keyCheck"
+            android:summary="ทำให้ TTS เปิดเร็วขึ้น สำหรับท่านที่ต้องการความสงบแนะนำให้ปิด"
+            android:title="แนะนำการใช้งานด้วย TTS" />
+              
         <CheckBoxPreference
+            android:name="FullCheck"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:defaultValue="true"
+            android:key="FullCheck"
+            android:summary="เต็มหน้าจอ เมื่ออ่านด้วย  APP แบบใหม่"
+            android:title="เต็มหน้าจอ เมื่ออ่านด้วย  APP แบบใหม่" />
+        
+        <ListPreference
+            android:name="commentSortSelect"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:defaultValue="24"
+            android:entries="@array/sortCommentOptions"
+            android:entryValues="@array/sortCommentValue"
+            android:key="commentSortSelect"
+            android:summary="เลือกรูปแบบการแสดงความคิดเห็นในการอ่านด้วย App แบบใหม่"
+            android:title="รูปแบบการแสดงความคิดเห็น" />
+        
+  
+        
+        <CheckBoxPreference
+            android:name="singlecolum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:defaultValue="false"
-            android:key="autoAdd"
-            android:summary="เมื่ออ่านจบ ตอนที่ตามล่าสุดจะเพิ่มอัตโนมัติ"
-            android:title="เพิ่มตอนอัตโนมัติหลังอ่านจบ" />
+            android:key="singlecolum"
+            android:summary="ไม่สามารถคลิก link ใน single colum view ได้ในบางรุ่น"
+            android:title="single colum view" />
 
         <CheckBoxPreference
+            android:name="swipe"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:defaultValue="false"
+            android:dependency="singlecolum"
+            android:key="swipe"
+            android:summary="ปาดซ้าย/ขวา เพื่อเลื่อนขึ้น/ลง ในหน้าอ่านนิยาย"
+            android:title="swipe" />
+
+        <CheckBoxPreference
+            android:name="downScroll"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:defaultValue="true"
+            android:key="downScroll"
+            android:summary="แสดงปุ่มเลื่อนลง ในหน้าอ่านนิยาย"
+            android:title="ปุ่มเลื่อนลง" />
+
+        <CheckBoxPreference
+            android:name="autoAdd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:defaultValue="false"
+            android:key="autoAdd"
+            android:summary="เมื่ออ่านจบ ตอนที่ตามล่าสุดจะเพิ่มอัตโนมัติ ใช้ได้เฉพาะอ่านด้วย app"
+            android:title="@string/autoAdd" />
+
+        <CheckBoxPreference
+            android:name="image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:defaultValue="true"
             android:key="image"
             android:summary="ปิดเพื่อประหยัดการใช้งานอินเตอร์เน็ต"
-            android:title="แสดงรูป ขณะเพิ่มนิยาย" />
+            android:title="แสดงรูป  ในหน้าเว็บ" />
 
         <CheckBoxPreference
+            android:name="notify"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:defaultValue="true"
             android:key="notify"
             android:summary="จะทำตรวจตามเวลาที่กำหนด เพื่อตรวจสอบการเปลี่ยนแปลง"
-            android:title="ตรวจสอบการอัพเดต" />
+            android:title="@string/notifyCheck" />
 
         <com.niyatdekdee.notfy.TimePreference
+            android:name="alarm_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:dependency="notify"
             android:key="alarm_time"
             android:summary="กำหนดค่าเวลาเริ่มต้นที่จะเตือน"
-            android:title="เวลาที่เริ่มเตือน" />
+            android:title="@string/startNotifyTime" />
+        <!--
+     		<CheckBoxPreference
+            android:defaultValue="true"
+            android:key="add_after_notify"
+            android:summary="เมื่อกดอ่านตอนที่แจ้งเตือน จะเพิ่มตอนอัตโนมัติ"
+            android:title="เพิ่มตอนอัตโนมัติ" />
+        -->
 
         <ListPreference
+            android:name="keySelectItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:defaultValue="24"
             android:dependency="notify"
             android:entries="@array/listOptions"
@@ -47,79 +187,123 @@
             android:title="ตรวจการอัพเดตตามเวลาที่กำหนด" />
 
         <ListPreference
-            android:defaultValue="0"
+            android:name="arrowSelect"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:defaultValue="2"
             android:entries="@array/arrowOptions"
             android:entryValues="@array/arrowValue"
             android:key="arrowSelect"
             android:summary="เลือกสิ่งที่จะเกิดขึ้นเมื่อกดลูกศร หรือ กดในรายการบางหน้า"
             android:title="ตั่งค่าการการเลือกรายการ" />
 
-        <ListPreference
-            android:defaultValue="1"
-            android:entries="@array/colorOptions"
-            android:entryValues="@array/colorValue"
-            android:key="colorSelect"
-            android:summary="เลือกสีของแถบหัวเรื่องของ App"
-            android:title="ตั่งค่าสี" />
-
         <EditTextPreference
             android:name="ชื่อ"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:defaultValue="นิรนาม"
             android:key="postText"
             android:summary="ใช้ในกรณีของผู้ที่ไม่เข้าสู่ระบบ"
             android:title="ชื่อที่ใช้แสดงความคิดเห็น" />
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="ตั่งค่าเกี่ยวกับ  Favorite Writer" >
+    <PreferenceCategory
+        android:name="Favorite Writer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title="ตั่งค่าเกี่ยวกับ  Favorite Writer" >
 
         <CheckBoxPreference
+            android:name="isLogin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:defaultValue="false"
             android:key="isLogin"
             android:summary="เข้าสู่ระบบ"
             android:title="เข้าสู่ระบบ" />
 
         <CheckBoxPreference
-            android:defaultValue="false"
+            android:name="notifyFov"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:defaultValue="true"
             android:dependency="isLogin"
             android:key="notifyFov"
-            android:summary="แจ้งเตือนการอัพเดต Favorite Writer"
-            android:title="เมื่อเปิดการแจ้งเตือนเมื่อมีการอัพเดตเพิ่มเป็น Favorite Writer" />
+            android:summary="เมื่อเปิดการแจ้งเตือนเมื่อมีการอัพเดตเพิ่มเป็น Favorite Writer"
+            android:title="แจ้งเตือนการอัพเดต Favorite Writer" />
 
         <CheckBoxPreference
-            android:defaultValue="false"
+            android:name="displayResult"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:defaultValue="true"
             android:dependency="isLogin"
             android:key="displayResult"
             android:summary="แสดง Favorite Writer"
             android:title="แสดง Favorite Writer" />
 
         <CheckBoxPreference
+            android:name="onlyFavorite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:defaultValue="false"
             android:dependency="displayResult"
             android:key="onlyFavorite"
             android:summary="เปิดเพื่อประหยัดการใช้งานอินเตอร์เน็ตสูงสุด"
             android:title="แสดงแต่ Favorite Writer" />
 
-        <com.niyatdekdee.notfy.UserPreference
+        <EditTextPreference
             android:name="UserName"
-            android:defaultValue="UserName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:defaultValue=""
             android:dependency="isLogin"
+            android:hint="@string/username"
             android:key="UserName"
             android:summary="UserName"
             android:title="UserName" />
 
-        <com.niyatdekdee.notfy.passPreference
+        <EditTextPreference
             android:name="PassWord"
-            android:defaultValue="PassWord"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:defaultValue=""
             android:dependency="isLogin"
+            android:hint="@string/password"
             android:inputType="textPassword"
             android:key="PassWord"
             android:summary="PassWord"
             android:title="PassWord" />
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="การอ่านออกเสียง" >
+    <PreferenceCategory
+        android:name="TTS"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title="การอ่านออกเสียง" >
+
+        <CheckBoxPreference
+            android:name="TTStip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:defaultValue="true"
+            android:key="TTStip"
+            android:summary="แนะนำการใช้งานด้วยเสียง"
+            android:title="TTS แนะนำการใช้งาน" />
+        
+        <CheckBoxPreference
+            android:name="showTTSToast"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:defaultValue="false"
+            android:key="showTTSToast"
+            android:summary="แสดงข้อความที่อ่าน โดย TTS"
+            android:title="แสดงข้อความ" />
 
         <com.niyatdekdee.notfy.SeekBarPreference
+            android:name="speechRate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:defaultValue="70"
             android:key="speechRate"
             android:max="200"
@@ -130,6 +314,9 @@
             robobunny:unitsRight="%" />
 
         <com.niyatdekdee.notfy.SeekBarPreference
+            android:name="speechPitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:defaultValue="100"
             android:key="speechPitch"
             android:max="200"
@@ -140,30 +327,70 @@
             robobunny:unitsRight="%" />
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="ช่วยเหลือ" >
+    <PreferenceCategory
+        android:name="BackUp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title="BackUp" >
 
-        <PreferenceScreen android:title="วิธีการใช้งานเบื้องต้น V. 1.401" >
+        <Preference
+            android:key="BackUp"
+            android:summary="สำรองข้อมูล"
+            android:title="BackUp" />
+
+        <Preference
+            android:key="Restore"
+            android:summary="เรียกคืนข้อมูลที่สำรองไว้"
+            android:title="Restore" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:name="ช่วยเหลือ"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:title="ช่วยเหลือ" >
+
+        <PreferenceScreen
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:title="วิธีการใช้งานเบื้องต้น V. 1.420b" >
 
             <intent
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:action="android.intent.action.VIEW"
                 android:data="http://niyayapp.orgfree.com/dek-help.html" />
         </PreferenceScreen>
 
-        <PreferenceScreen android:title="ติดต่อผู้พัฒนา" >
+        <PreferenceScreen
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:summary="จำเป็นต้องใช้ Appรับส่ง Mail"
+            android:title="ติดต่อผู้พัฒนา" >
 
             <intent
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:action="android.intent.action.VIEW"
-                android:data="mailto:channimit@gmail.com?subject=ถึงผู้พัฒนา" >
+                android:data="mailto:channimit@gmail.com" >
 
-                <extra
+                <!--
+                    ?subject=ถึงผู้พัฒนา
+                    <extra
                     android:name="android.intent.extra.TEXT"
                     android:value="มีข้อเสนอแนะดังนี้" />
+                -->
             </intent>
         </PreferenceScreen>
 
-        <PreferenceScreen android:title="FanPage" >
+        <PreferenceScreen
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:title="FanPage" >
 
             <intent
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:action="android.intent.action.VIEW"
                 android:data="http://www.facebook.com/pages/%E0%B8%99%E0%B8%B4%E0%B8%A2%E0%B8%B2%E0%B8%A2%E0%B9%80%E0%B8%94%E0%B9%87%E0%B8%81%E0%B8%94%E0%B8%B5-Notify-non-member/304818186302824?ref=stream" />
         </PreferenceScreen>

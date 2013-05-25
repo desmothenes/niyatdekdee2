@@ -61,14 +61,14 @@ public class NetworkSwitcher extends BroadcastReceiver {
 				Log.i("app","Network "+ni.getTypeName()+" connected");
 				//notification.setLatestEventInfo(context, "online","online", contentIntent);
 				//manager.notify(2, notification);
-				if (PreferenceManager.getDefaultSharedPreferences(context).getBoolean("waitcheck", false)) {	
+				if (PreferenceManager.getDefaultSharedPreferences(context).getBoolean("waitcheck", false)  && MainActivity.titleColor == -1) {	
 					/*showAllBook();
 
 					if (Setting.getNotifyFav(context)) {
 						login();
 						loadUpdate();
 					}*/
-					new doback().execute(context);
+					new Net_doback().execute(context);
 					//notification.setLatestEventInfo(context, "new check","new check", contentIntent);
 					//manager.notify(3, notification);
 					SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
@@ -81,7 +81,7 @@ public class NetworkSwitcher extends BroadcastReceiver {
 				}
 			}
 		}
-		if(intent.getExtras().getBoolean(ConnectivityManager.EXTRA_NO_CONNECTIVITY,false)) {
+/*		if(intent.getExtras().getBoolean(ConnectivityManager.EXTRA_NO_CONNECTIVITY,false)) {
 			Log.d("app","There's no network connectivity");
 			//notification.setLatestEventInfo(context, "offline","offline", contentIntent);
 			//manager.notify(4, notification);
@@ -89,7 +89,7 @@ public class NetworkSwitcher extends BroadcastReceiver {
 		else {
 			//notification.setLatestEventInfo(context, "may online","may online", contentIntent);
 			//manager.notify(4, notification);
-		}
+		}*/
 	}
 
 
@@ -97,28 +97,35 @@ public class NetworkSwitcher extends BroadcastReceiver {
 	private static void displayNotification(String id,String name,String detail,String url)
 	{
 		NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-		Notification notification = new Notification(R.drawable.noti, name + "  �͹����", System.currentTimeMillis());
+		Notification notification = new Notification(R.drawable.noti, name + "  ตอนใหม่", System.currentTimeMillis());
 		notification.defaults |= Notification.DEFAULT_SOUND;
 
 		// The PendingIntent will launch activity if the user selects this notification
-		Intent browserIntent = null;
+		Intent browserIntent ;
 		if (Setting.getArrowSelectSetting(context).equals("0")) {
 			browserIntent = new Intent(Intent.ACTION_VIEW);
 			Uri data = Uri.parse(url+"#story_body");
 			browserIntent.setData(data);
-		}
-		else {
+		} else if (Setting.getArrowSelectSetting(context).equals("1")) {
 			browserIntent = new Intent(context, DekdeeBrowserActivity.class);
-			browserIntent.putExtra("id",id);
+			browserIntent.putExtra("id","-2");
 			browserIntent.putExtra("url",url);
 			browserIntent.putExtra("title",name);
 		}
-
-		PendingIntent contentIntent = PendingIntent.getActivity(context, REQUEST_CODE,browserIntent, 0);
+		else {
+			browserIntent = new Intent(context, TextReadActivity.class);
+			browserIntent.putExtra("url",url);
+		}
+/*		browserIntent = new Intent(Intent.ACTION_VIEW);
+		Uri data = Uri.parse(url+"#story_body");
+		browserIntent.setData(data);*/
+		System.out.println("moti "+url);
+		//PendingIntent contentIntent = PendingIntent.getActivity(context, REQUEST_CODE,browserIntent, 0);
+		PendingIntent contentIntent = PendingIntent.getActivity(context,REQUEST_CODE,browserIntent,PendingIntent.FLAG_UPDATE_CURRENT);
 		notification.contentIntent = contentIntent;
 		//notification.contentView = contentView;
 		notification.setLatestEventInfo(context, name,detail, contentIntent);
-		manager.notify(Integer.parseInt(id), notification);
+		manager.notify(REQUEST_CODE, notification);
 	}
 
 	private static void displayNotification(final String id,final String name,final String detail,String title,final String url)
@@ -129,49 +136,59 @@ public class NetworkSwitcher extends BroadcastReceiver {
 		//contentView.setTextViewText(R.id.notiDetail1, title.substring(title.indexOf(":"))+" ("+detail+")");
 		//contentView.setTextViewText(R.id.notiDetail2, title+" ("+detail+")");		
 		NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-		Notification notification = new Notification(R.drawable.noti, name + "  �͹����", System.currentTimeMillis());
+		Notification notification = new Notification(R.drawable.noti, name + "  ตอนใหม่", System.currentTimeMillis());
 		notification.defaults |= Notification.DEFAULT_SOUND;
+		notification.flags |= Notification.FLAG_AUTO_CANCEL;
 
 		// The PendingIntent will launch activity if the user selects this notification
 		Intent browserIntent = null;
-		if (Setting.getArrowSelectSetting(context).equals("0")) {
+/*		browserIntent = new Intent(Intent.ACTION_VIEW);
+		Uri data = Uri.parse(url+"#story_body");
+		browserIntent.setData(data);*/
+		if (Setting.getArrowSelectSetting(context) == null) {browserIntent = new Intent(Intent.ACTION_VIEW); Uri data = Uri.parse(url+"#story_body");browserIntent.setData(data);} else if (Setting.getArrowSelectSetting(context).equals("0")) {
 			browserIntent = new Intent(Intent.ACTION_VIEW);
 			Uri data = Uri.parse(url+"#story_body");
 			browserIntent.setData(data);
-		}	else {
+		}else if (Setting.getArrowSelectSetting(context).equals("1")) {
 			browserIntent = new Intent(context, DekdeeBrowserActivity.class);
-			browserIntent.putExtra("id",id);
+			browserIntent.putExtra("id","-2");
 			browserIntent.putExtra("url",url);
 			browserIntent.putExtra("title",name);
 		}
-
-		PendingIntent contentIntent = PendingIntent.getActivity(context, REQUEST_CODE,browserIntent, 0);
+		else {
+			browserIntent = new Intent(context, TextReadActivity.class);
+			browserIntent.putExtra("url",url);
+		}
+		System.out.println("moti "+url);
+		//PendingIntent contentIntent = PendingIntent.getActivity(context, REQUEST_CODE,browserIntent, 0);
+		PendingIntent contentIntent = PendingIntent.getActivity(context,REQUEST_CODE,browserIntent,PendingIntent.FLAG_UPDATE_CURRENT);
 		notification.contentIntent = contentIntent;
 		//notification.contentView = contentView;
-		if (title.contains(":")) {
+		if (title == null) title = "          "; 
+		else if (title.contains(":")) {
 			title = ":"+title;
 		}
-		
-		if (title.indexOf(":")+2 < title.length()) {			
+
+		if (title.contains(":") && title.indexOf(":")+2 < title.length()) {
 			notification.setLatestEventInfo(context, name,title.substring(title.indexOf(":")+2)+" ("+detail+")", contentIntent);
-		}	else if (title.indexOf(":")+1 < title.length()) {			
+		}	else if (title.contains(":") && title.indexOf(":")+1 < title.length()) {
 			notification.setLatestEventInfo(context, name,title.substring(title.indexOf(":")+1)+" ("+detail+")", contentIntent);
-		}	else if (title.indexOf(":") < title.length()) {			
+		}	else if (title.contains(":") && title.indexOf(":") < title.length()) {
 			notification.setLatestEventInfo(context, name,title.substring(title.indexOf(":"))+" ("+detail+")", contentIntent);
 		}	else {
 			notification.setLatestEventInfo(context, name,title+" ("+detail+")", contentIntent);
 		}
-		manager.notify(Integer.parseInt(id), notification);
-		
+		manager.notify(REQUEST_CODE, notification);
 	}
 
-	class doback extends AsyncTask<Context, String, Long> {
+	private class Net_doback extends AsyncTask<Context, String, Long> {
 
 		@Override
 		protected Long doInBackground(Context... params) {
 			// TODO Auto-generated method stub
+			Log.e("zone", "doWakefulWork Net_doback");
 			showAllBook();
-			if (Setting.getNotifyFav(context)) {
+			if (Setting.getisLogin(context) && Setting.getNotifyFav(context))  {
 				login();
 				loadUpdate();
 			}
@@ -194,32 +211,32 @@ public class NetworkSwitcher extends BroadcastReceiver {
 				text1 = httpclient.execute(httpget, responseHandler);
 			} catch (ClientProtocolException e) {
 				//Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
-				Log.e("Error" , e.getMessage());
+				Log.e("Error" , e.getMessage() != null ? e.getMessage():"ClientProtocolException");
 				e.printStackTrace();
 			} catch (IOException e) {
 				//Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
-				Log.e("Error" , e.getMessage());
+				Log.e("Error" , e.getMessage() != null ? e.getMessage():"IOException");
 				e.printStackTrace();
 			} catch (URISyntaxException e) {
 				//TODO Auto-generated catch block
 				//Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
-				Log.e("Error" , e.getMessage());
+				Log.e("Error" , e.getMessage() != null ? e.getMessage():"URISyntaxException");
 				e.printStackTrace();		
 			} finally {
 				httpclient.getConnectionManager().shutdown();
 			}
 
-			if (text1.contains("<title>")) {
+			if (text1.contains("<title>") && text1.indexOf("<title>")+7 < text1.length()-1) {
 				final String start = text1.substring(text1.indexOf("<title>")+7);
 				final int fst = start.indexOf(">");
 				final int snd = start.indexOf("</title>");
-				if (snd - fst > 2)
-					text1 = Jsoup.parse((start.substring(fst+2, snd))).text();
+				if (snd > -1 && fst > -1 && fst<=snd)
+					text1 = Jsoup.parse((start.substring(fst, snd))).text().trim();
 				else 
-					text1 = Jsoup.parse((start.substring(fst, snd))).text();
+					text1 = "ยังไม่มีตอนปัจจุบัน รอตอนใหม่";
 
 			}	else {
-				text1 = "�ѧ����յ͹�Ѩ�غѹ �͵͹����";
+				text1 = "ยังไม่มีตอนปัจจุบัน รอตอนใหม่";
 			}
 
 			/*		Log.e("title",(title == null) ? "null" : title);
@@ -227,12 +244,12 @@ public class NetworkSwitcher extends BroadcastReceiver {
 						Log.e("compare",Integer.toString(text1.compareTo(title)));		*/	
 
 			if (title == null ) title = "";			
-			else if (title.contains(">")) title = title.substring(title.indexOf(">")+2);
-			if (text1.contains(">"))	text1 = text1.substring(text1.indexOf(">")+2);
+			else if (title.contains(">") && title.indexOf(">")+2 < title.length()-1) title = title.substring(title.indexOf(">")+2);
+			if (text1.contains(">") && text1.indexOf(">")+2 < text1.length()-1)	text1 = text1.substring(text1.indexOf(">")+2);
 			if (title.isEmpty()) {
 				title = text1;
 				status = -1;
-			} else if (text1.equals("�ѧ����յ͹�Ѩ�غѹ �͵͹����")) {
+			} else if (text1.equals("ยังไม่มีตอนปัจจุบัน รอตอนใหม่")) {
 				status = 2;
 			} else if (!text1.trim().equals(title.trim())) {
 				Log.e("title",title);
@@ -273,7 +290,7 @@ public class NetworkSwitcher extends BroadcastReceiver {
 			}	else {
 				Log.e("ok ?", "ok");
 			}
-			
+
 			int i2 = 0;
 			c.moveToFirst();
 
@@ -291,29 +308,34 @@ public class NetworkSwitcher extends BroadcastReceiver {
 			Log.v("favfin", "favfin");
 			Document doc = null;
 			try {
-				doc = Jsoup.connect("http://www.dek-d.com/story_message2012.php")
-						.cookies(sessionId).timeout(3000)
-						.get();
+				if (sessionId != null) doc = Jsoup.connect("http://www.dek-d.com/story_message2012.php").cookies(sessionId).timeout(3000).get(); else return;
 			} catch (IOException e) {
 				e.printStackTrace();
 			}    	
-			Elements link1 = doc.select(".novel");
-			if(link1 == null) return;
+			if(doc == null) return;
+			Elements link1;
+			if(doc.select(".novel").isEmpty()) return;
+			else link1 = doc.select(".novel");
 			for (Element link:link1) {
 				final String stext = link.text();
 				/*			Log.v("stext", stext);
 				String[] temp  = new String[5];
 				temp[0] = "-2";
-				temp[1] = stext.substring(0, stext.indexOf("�͹���"));
+				temp[1] = stext.substring(0, stext.indexOf("ตอนที่"));
 				temp[2] = link.select("a").attr("href");
 				temp[3] = "-2";
-				temp[4] = stext.substring(stext.indexOf("�͹���"));*/
-				//MainActivity.ListViewContent.add(stext.replace("�͹���", "\n�͹���"));	
+				temp[4] = stext.substring(stext.indexOf("ตอนที่"));*/
+				//MainActivity.ListViewContent.add(stext.replace("ตอนที่", "\nตอนที่"));	
 				/*			MainActivity.ListViewContent.add(
-						"<br/><p><font color=#339900>�ա���Ѿവ�͹�Ѩ�غѹ</font><br />" +
-								"<font color=#33B6EA>����ͧ :" +temp[1]+"</font><br />" +
+						"<br/><p><font color=#339900>มีการอัพเดตตอนปัจจุบัน</font><br />" +
+								"<font color=#33B6EA>เรื่อง :" +temp[1]+"</font><br />" +
 								"<font color=#cc0029>" +temp[4]+"</font></p>"); */
-				displayNotification(Integer.toString(floop++),stext.substring(0, stext.indexOf("�͹���")),stext.substring(stext.indexOf("�͹���")),link.select("a").attr("href"));
+				final String unum = MyAppClass.findnum(link.select("a").attr("href"), "story_id=", context);
+				final String chapter = MyAppClass.findnum(stext.substring(stext.indexOf("ตอนที่")), "ตอนที่ ", context);
+				final String url = "http://writer.dek-d.com/dek-d/writer/viewlongc.php?id="+unum+"&chapter="+chapter;
+				System.out.println(url);
+				displayNotification(Integer.toString(floop++),stext.substring(0, stext.indexOf("ตอนที่")),stext.substring(stext.indexOf("ตอนที่")),url);
+				REQUEST_CODE++;
 			}
 
 
@@ -335,7 +357,7 @@ public class NetworkSwitcher extends BroadcastReceiver {
 						.execute();
 				sessionId = res.cookies();
 			} catch (IOException e) {
-				//Toast.makeText(getBaseContext(), "������������ջѭ�� ��سһ�Ѻ��ا����������� �����ͧ����", Toast.LENGTH_LONG).show();
+				//Toast.makeText(getBaseContext(), "การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่", Toast.LENGTH_LONG).show();
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}   		

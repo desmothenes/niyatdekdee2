@@ -1,23 +1,45 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <item
-        android:id="@+id/open"
-        android:title="@string/open"/>
+        android:id="@+id/opentext"
+        android:title="@string/textmode" android:orderInCategory="10">
+    </item>
     <item
         android:id="@+id/openweb"
-        android:title="@string/openbrower" />
-    <item android:id="@+id/tts" android:title="@string/speak"></item>
-    
+        android:title="@string/openbrower" android:orderInCategory="20"/>
+    <item
+        android:id="@+id/chapterlist"
+        android:title="@string/chapterlist" android:orderInCategory="30">
+    </item>
+    <item
+        android:id="@+id/newlongread"
+        android:title="@string/newlongread" android:orderInCategory="40">
+    </item>
+    <item
+        android:id="@+id/tts"
+        android:title="@string/speak" android:orderInCategory="50">
+    </item>
     <item
         android:id="@+id/addcp"
-        android:title="@string/addcp"/><item android:id="@+id/red" android:title="@string/read" />
+        android:title="@string/addcp" android:orderInCategory="60"/>
+    <item
+        android:id="@+id/red"
+        android:title="@string/read" android:orderInCategory="70"/>
     <item
         android:id="@+id/dec"
-        android:title="@string/dec"/><item android:id="@+id/chapterlist" android:title="@string/chapterlist"></item><item android:id="@+id/edit" android:title="@string/edit" />
+        android:title="@string/dec" android:orderInCategory="80"/>
+    <item
+        android:id="@+id/edit"
+        android:title="@string/edit" android:orderInCategory="90"/>
     <item
         android:id="@+id/delete"
-        android:title="@string/delete"/>
-    
-    
+        android:title="@string/delete" android:orderInCategory="100"/>
+    <item
+        android:id="@+id/longread"
+        android:title="@string/longread" android:orderInCategory="110">
+    </item>
+    <item
+        android:id="@+id/open"
+        android:title="@string/open" android:orderInCategory="120"/>
 
 </menu>

@@ -1,41 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-         <string-array name="listOptions">
-            <item>ปิด</item>
-            <item>1 ชั่วโมง</item>
-            <item>6 ชั่วโมง</item>
-            <item>12 ชั่วโมง</item>
-            <item>24 ชั่วโมง</item>
-        </string-array>
- 
-        <string-array name="listValue">
-            <item>0</item>
-            <item>1</item>
-            <item>6</item>
-            <item>12</item>
-            <item>24</item>
-        </string-array>   
-        <string-array name="colorOptions">
-            <item>ฟ้า</item>
-            <item>เหลือง</item>
-            <item>เขียว</item>
-            <item>ชมพู</item>
-        </string-array>
- 
-        <string-array name="colorValue">
-            <item>0</item>
-            <item>1</item>
-            <item>2</item>
-            <item>3</item>
-        </string-array>  
-         
-        <string-array name="arrowOptions">
-            <item>เปิดด้วย Browser</item>
-            <item>เปิดด้วย App</item>
-        </string-array>
- 
-        <string-array name="arrowValue">
-            <item>0</item>
-            <item>1</item>
-        </string-array>  
+
+    <string-array name="scListOptions">
+        <item>แนวตั้ง</item>
+        <item>แนวนอน</item>
+    </string-array>
+    <string-array name="scListValue">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+    <string-array name="sortCommentValue">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+    <string-array name="sortCommentOptions">
+        <item>เก่าไปใหม่</item>
+        <item>ใหม่ไปเก่า</item>
+    </string-array>
+    <string-array name="listOptions">
+        <item>ปิด</item>
+        <item>1 ชั่วโมง</item>
+        <item>6 ชั่วโมง</item>
+        <item>12 ชั่วโมง</item>
+        <item>24 ชั่วโมง</item>
+    </string-array>
+    <string-array name="listValue">
+        <item>0</item>
+        <item>1</item>
+        <item>6</item>
+        <item>12</item>
+        <item>24</item>
+    </string-array>
+    <string-array name="colorOptions">
+        <item>ฟ้า</item>
+        <item>ส้ม</item>
+        <item>เขียว</item>
+        <item>บานเย็น</item>
+        <item>โอรส (old rose) ชมพูอมส้ม</item>
+        <item>ชมพู</item>
+        <item>เงิน</item>
+        <item>เทา</item>
+        <item>เหลือง</item>
+    </string-array>
+    <string-array name="colorValue">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+    </string-array>
+    <string-array name="arrowOptions">
+        <item>เปิดด้วย Browser</item>
+        <item>เปิดด้วย App</item>
+        <item>เปิดด้วย App แบบใหม่</item>
+    </string-array>
+    <string-array name="arrowValue">
+        <item>0</item>
+        <item>1</item>
+         <item>2</item>
+    </string-array>
+    <string-array name="bgColorOptions">
+        <item>ดั่งเดิม</item>
+        <item>ดำ</item>
+        <item>ขาว</item>
+        <item>เทา</item>
+    </string-array>
+    <string-array name="bgColorValue">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+    <string-array name="textColorOptions">
+        <item>ดั่งเดิม</item>
+        <item>ดำ</item>
+        <item>ขาว</item>
+        <item>น้ำเงิน</item>
+    </string-array>
+    <string-array name="textColorValue">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
 </resources>

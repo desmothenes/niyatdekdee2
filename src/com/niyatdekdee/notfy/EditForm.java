@@ -1,7 +1,10 @@
 package com.niyatdekdee.notfy;
 
+import com.google.analytics.tracking.android.EasyTracker;
+
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -13,13 +16,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class EditForm extends Activity  {
-	DatabaseAdapter db;
-	Button saveButton;
-	TextView txtName;
-	TextView txtUrl;
-	TextView txtChapter;
-	TextView title;
-	long rowId;
+	private DatabaseAdapter db;
+	private Button saveButton;
+	private TextView txtName;
+	private TextView txtUrl;
+	private TextView txtChapter;
+	private TextView title;
+	private long rowId;
+	private int listItemName;
 	@Override
 	public void onBackPressed() {
 		Intent intent = new Intent(getBaseContext(), MainActivity.class);
@@ -31,16 +35,18 @@ public class EditForm extends Activity  {
 		super.onCreate(savedInstanceState);
 		boolean customTitleSupported = requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
 		setContentView(R.layout.edit_form);
+		if (Setting.getScreenSetting(getApplicationContext()).equals("1"))
+			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 		if (customTitleSupported) {
 
 			//ตั้งค่า custom titlebar จาก custom_titlebar.xml
 			getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.custom_titlebar_nonmain);
-			
-			
+
+
 			RelativeLayout barLayout =  (RelativeLayout) findViewById(R.id.nonbar);
 			TextView title = (TextView) findViewById(R.id.textViewBar);
 			title.setText(" แก้ไข");
-			switch (MainActivity.titleColor) {
+			switch (Integer.parseInt(Setting.getColorSelectSetting(getApplicationContext()))) {
 			case 0:
 				barLayout.setBackgroundResource(R.drawable.bg_titlebar);
 				break;
@@ -52,6 +58,22 @@ public class EditForm extends Activity  {
 				break;
 			case 3:
 				barLayout.setBackgroundResource(R.drawable.bg_titlebar_pink);
+				break;
+			case 4:
+				barLayout.setBackgroundResource(R.drawable.bg_titlebar_blue);
+				break;
+			case 5:
+				barLayout.setBackgroundResource(R.drawable.bg_titlebar_fuchsia);
+				break;
+			case 6:
+				barLayout.setBackgroundResource(R.drawable.bg_titlebar_siver);
+				break;
+			case 7:
+				barLayout.setBackgroundResource(R.drawable.bg_titlebar_glay);
+				break;
+			case 8:
+				barLayout.setBackgroundResource(R.drawable.bg_titlebar_orange);
+				break;
 			}
 			//เชื่อม btnSearch btnDirection เข้ากับ View
 			ImageButton btnDirection = (ImageButton)findViewById(R.id.btnDirection);
@@ -68,7 +90,7 @@ public class EditForm extends Activity  {
 
 		db = new DatabaseAdapter(getApplicationContext());      
 		saveButton = (Button) findViewById(R.id.button3);
-		txtName = (TextView) findViewById(R.id.editText1);
+		txtName = (TextView) findViewById(R.id.LongReadText);
 		txtUrl = (TextView) findViewById(R.id.editText2);
 		txtChapter = (TextView) findViewById(R.id.editText3);
 		title = (TextView) findViewById(R.id.editText4);
@@ -79,6 +101,7 @@ public class EditForm extends Activity  {
 			txtChapter.setText(intent.getStringExtra("chapter"));
 			title.setText(intent.getStringExtra("title"));
 			rowId = Long.parseLong(intent.getStringExtra("id"));
+			listItemName =  intent.getIntExtra("listItemName",-1);
 		}
 
 		saveButton.setOnClickListener(new OnClickListener() {
@@ -86,12 +109,21 @@ public class EditForm extends Activity  {
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
-				db.open();
-				boolean id = db.updateNiyay(rowId,
+				db.open();boolean id;
+				try {
+					id = db.updateNiyay(rowId,
 						txtName.getText().toString(),
 						txtUrl.getText().toString(),
 						Integer.parseInt(txtChapter.getText().toString()),
-						title.getText().toString());
+						title.getText().toString()); 
+					MainActivity.niyayTable.get(listItemName)[1] = txtName.getText().toString();
+					MainActivity.niyayTable.get(listItemName)[2] = txtUrl.getText().toString();
+					MainActivity.niyayTable.get(listItemName)[3] = txtChapter.getText().toString();
+					MainActivity.niyayTable.get(listItemName)[4] = title.getText().toString();
+				} catch(NumberFormatException nfe)	{	
+					Toast.makeText(getBaseContext(), "ตอนที่ ไม่ได้อยู่ในรูปแบบของตัวเลข", Toast.LENGTH_SHORT).show(); 
+					return ;
+				}
 				if (id) {
 					Toast.makeText(getBaseContext(), "Update Succeed.", Toast.LENGTH_SHORT).show();
 					Intent resultIntent = new Intent();
@@ -108,5 +140,14 @@ public class EditForm extends Activity  {
 
 		});
 	}
+	public void onStart() {
+		super.onStart();
+		EasyTracker.getInstance().activityStart(this); // Add this method.
+	}
 
+	@Override
+	public void onStop() {
+		super.onStop();
+		EasyTracker.getInstance().activityStop(this); // Add this method.
+	}
 }

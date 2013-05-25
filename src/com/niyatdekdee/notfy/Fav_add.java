@@ -15,6 +15,8 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import com.google.analytics.tracking.android.EasyTracker;
+
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.AlertDialog;
@@ -23,14 +25,18 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.util.LruCache;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnFocusChangeListener;
 import android.view.Window;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -42,10 +48,10 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 import android.widget.ImageView.ScaleType;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class Fav_add extends ListActivity {
 	private InteractiveArrayAdapter adapter;
@@ -56,6 +62,8 @@ public class Fav_add extends ListActivity {
 	Button loginbtt;
 	EditText username;
 	EditText password;
+	boolean st_user = true;
+	boolean st_pass = true;
 	protected ProgressDialog dialog ;
 	//private DiskLruCache mDiskCache;
 	//private static final int DISK_CACHE_SIZE = 1024 * 1024 * 10; // 10MB
@@ -67,15 +75,17 @@ public class Fav_add extends ListActivity {
 		super.onCreate(savedInstanceState);
 		boolean customTitleSupported = requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
 		setContentView(R.layout.activity_fav_add);
+		if (Setting.getScreenSetting(getApplicationContext()).equals("1"))
+			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 		if (customTitleSupported) {
-			//��駤�� custom titlebar �ҡ custom_titlebar.xml
+			//ตั้งค่า custom titlebar จาก custom_titlebar.xml
 			getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.custom_titlebar_nonmain);
-			//����� btnSearch btnDirection ��ҡѺ View
+			//เชื่อม btnSearch btnDirection เข้ากับ View
 			TextView title = (TextView) findViewById(R.id.textViewBar);
-			title.setText(" ������к�");
-			
+			title.setText(" เข้าสูระบบ");
+
 			RelativeLayout barLayout =  (RelativeLayout) findViewById(R.id.nonbar);
-			switch (MainActivity.titleColor) {
+			switch (Integer.parseInt(Setting.getColorSelectSetting(getApplicationContext()))) {
 			case 0:
 				barLayout.setBackgroundResource(R.drawable.bg_titlebar);
 				break;
@@ -87,8 +97,24 @@ public class Fav_add extends ListActivity {
 				break;
 			case 3:
 				barLayout.setBackgroundResource(R.drawable.bg_titlebar_pink);
+				break;
+			case 4:
+				barLayout.setBackgroundResource(R.drawable.bg_titlebar_blue);
+				break;
+			case 5:
+				barLayout.setBackgroundResource(R.drawable.bg_titlebar_fuchsia);
+				break;
+			case 6:
+				barLayout.setBackgroundResource(R.drawable.bg_titlebar_siver);
+				break;
+			case 7:
+				barLayout.setBackgroundResource(R.drawable.bg_titlebar_glay);
+				break;
+			case 8:
+				barLayout.setBackgroundResource(R.drawable.bg_titlebar_orange);
+				break;
 			}
-			
+
 			ImageButton btnDirection = (ImageButton)findViewById(R.id.btnDirection);
 			btnDirection.setOnClickListener(new View.OnClickListener() {
 				@Override
@@ -101,17 +127,86 @@ public class Fav_add extends ListActivity {
 
 		adapter = new InteractiveArrayAdapter(this, ListViewContent);
 		adapter.notifyDataSetChanged();
-		 listView = getListView();
-		username = (EditText)findViewById(R.id.editText1);	
+		listView = getListView();
+		username = (EditText)findViewById(R.id.LongReadText);	
 		password = (EditText)findViewById(R.id.editText2);
+		if (!Setting.getUserName(getApplicationContext()).equals("-1")) {
+			username.setText(Setting.getUserName(getApplicationContext()));
+
+			if (!Setting.getPassWord(getApplicationContext()).equals("-1")) password.setText(Setting.getPassWord(getApplicationContext()));
+
+			username.setOnFocusChangeListener(new OnFocusChangeListener()
+			{
+				@Override
+				public void onFocusChange(View v, boolean hasFocus) 
+				{
+					if (hasFocus)
+					{
+						if (st_user)
+						{
+							username.setText("");
+							st_user = false;
+						}
+					}
+				}
+			});
+			password.setOnFocusChangeListener(new OnFocusChangeListener()
+			{
+				@Override
+				public void onFocusChange(View v, boolean hasFocus) 
+				{
+					if (hasFocus)
+					{
+						if (st_pass)
+						{
+							password.setText("");
+							st_pass = false;
+						}
+					}
+				}
+			});
+		}
+		
 		loginbtt = (Button)findViewById(R.id.button1);		
 		loginbtt.setOnClickListener(new OnClickListener() {         
 			@Override
 			public void onClick(View v) {				
 				Log.v("login", "login");
-				dialog = ProgressDialog.show(Fav_add.this,"Loading", "Please Wait...",true);
-				doback dob=new doback();
-				dob.execute();
+
+				AlertDialog.Builder builder = new AlertDialog.Builder(Fav_add.this); 
+				builder.setMessage("ต้องการที่จะบันทึกชื่อและรหัสผ่านหรือไม่ ?") 
+				.setCancelable(false) 
+				.setPositiveButton("บันทึก", new DialogInterface.OnClickListener() { 
+					public void onClick(DialogInterface dialog2, int id) { 
+						SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit();
+						editor.putString("UserName", username.getText().toString());
+						editor.putString("PassWord", password.getText().toString());
+						editor.putBoolean("isLogin", true);
+						editor.commit();
+						dialog = ProgressDialog.show(Fav_add.this,"Loading", "Please Wait...\n\nถ้ารอนานเกินไปกด back 2 ครั้งเพื่อออก",true);
+						dialog.setCancelable(true);
+						Fav_doback dob=new Fav_doback();
+						dob.execute();
+					} 
+				}) 
+				.setNegativeButton("ไม่บันทึก", new DialogInterface.OnClickListener() { 
+					public void onClick(DialogInterface dialog2, int id) { 
+						dialog = ProgressDialog.show(Fav_add.this,"Loading", "Please Wait...\n\nถ้ารอนานเกินไปกด back 2 ครั้งเพื่อออก",true);
+						dialog.setCancelable(true);
+						Fav_doback dob=new Fav_doback();
+						dob.execute();
+					} 
+				}); 
+				AlertDialog alert = builder.create(); 
+				if (!Setting.getUserName(getBaseContext()).equals(username.getText().toString()) ||  !Setting.getPassWord(getBaseContext()).equals(password.getText().toString())) {
+					alert.show(); 
+				}
+				else {
+					dialog = ProgressDialog.show(Fav_add.this,"Loading", "Please Wait...\n\nถ้ารอนานเกินไปกด back 2 ครั้งเพื่อออก",true);
+					dialog.setCancelable(true);
+					Fav_doback dob=new Fav_doback();
+					dob.execute();
+				}
 				Log.v("listView", "listView");
 
 				listView.setVisibility(View.VISIBLE);
@@ -140,10 +235,16 @@ public class Fav_add extends ListActivity {
 				i.putExtra("name",title);
 				//in this fomat http://writer.dek-d.com/dek-d/writer/view.php?id=580483
 				String stext = "id=";
-				//����ѡ�ͧ�͹
+				//หาหลักของตอน
 				final int start = url.lastIndexOf(stext)+stext.length();
-				if (start - stext.length() == -1) {
-					Toast.makeText(getBaseContext(), "Error not correct niyay page", Toast.LENGTH_SHORT).show();
+				if (start - stext.length() == -1) {					
+					Toast.makeText(getBaseContext(), "Error not correct niyay page", Toast.LENGTH_LONG).show();
+					try {
+						Thread.sleep(3000);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					return;
 				}
 
@@ -168,63 +269,7 @@ public class Fav_add extends ListActivity {
 		});        
 	}
 
-	private Map<String, String> login() {
-		Log.v("zone","login");
-		Connection.Response res;
-		try {
-			res = Jsoup.connect("http://my.dek-d.com/dekdee/my.id_station/login.php")
-					.data("username", username.getText().toString())
-					.data("password", password.getText().toString())
-					.method(Method.POST).timeout(8000)
-					.execute();
-			return res.cookies();
-		} catch (IOException e) {
-			Toast.makeText(getBaseContext(), "������������ջѭ�� ��سһ�Ѻ��ا����������� �����ͧ����", Toast.LENGTH_LONG).show();
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;    		
-	}    
-
-	private void loadFav(Map<String, String> sessionId) {
-		Log.v("zone","loadFav");
-		Document doc = null;
-		try {
-			doc = Jsoup.connect("http://my.dek-d.com/desmos/control/writer_favorite.php")
-					.cookies(sessionId).timeout(3000)
-					.get();
-		} catch (IOException e) {
-			Toast.makeText(getBaseContext(), "������������ջѭ�� ��سһ�Ѻ��ا����������� �����ͧ����", Toast.LENGTH_LONG).show();
-
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}    	
-		Elements link1 = doc.select(".link1[href~=/dek-d/writer/view.php]");
-		if(link1 == null) return;
-		for (Element link:link1) {
-			String stext = link.text();
-			linktable.add(link.attr("href"));
-			ListViewContent.add(stext);	
-			//Log.v("stext", stext);
-		}
-		Elements link2 = doc.select("table[width*=100]");
-		//for (int t=0;t<100;t++) {
-		int i = 0;
-		int j = 0;
-		for (Element link:link2) { 
-			if (i++<12) continue;
-			int s = link.text().indexOf("Date");
-			if (s != -1)
-				detailtable.add(link.text().substring(0,s).replace(ListViewContent.get(j++), "\b"));
-			i++;
-		}
-		for (Element link:doc.select("img.mainborder")) {
-			imagetable.add(link.attr("src"));
-		}
-		Log.v("favfin", "favfin");
-	}
-
-	class doback extends AsyncTask<URL, Integer, Long>
+	class Fav_doback extends AsyncTask<URL, String, Long>
 	{
 
 		@Override
@@ -240,18 +285,23 @@ public class Fav_add extends ListActivity {
 			}
 			return null;
 		}
-		protected void onProgressUpdate(Integer... progress) 
+		protected void onProgressUpdate(String... progress) 
 		{
-
+			if (progress[0] == "-1") {
+				dialog.setMessage("การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่");
+			} else {
+				dialog.setMessage(progress[0]);
+			}
 		}
 		protected void onPostExecute(Long result) 
 		{
 			try
 			{
+				if(dialog.isShowing()) dialog.dismiss();
 				if (ListViewContent.size() == 0) {
 					AlertDialog alertDialog = new AlertDialog.Builder(Fav_add.this).create();
-					alertDialog.setTitle("��辺������");
-					alertDialog.setMessage("�������¡������ �ͧ��Ǩ�ͺ������������Թ������ �����ͧ����");
+					alertDialog.setTitle("ไม่พบข้อมูล");
+					alertDialog.setMessage("ถ้ามีรายการอยู่ ลองตรวจสอบการเชื่อมต่ออินเตอร์เน็ต แล้วลองใหม่");
 					alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int which) {
 							listView.setVisibility(View.INVISIBLE);
@@ -264,8 +314,8 @@ public class Fav_add extends ListActivity {
 				}
 				setListAdapter(adapter);
 				TextView title = (TextView) findViewById(R.id.textViewBar);
-				title.setText(" ���͡��¡�÷�������");
-				dialog.dismiss();
+				title.setText(" เลือกรายการที่จะเพิ่ม");
+
 				for (String i : ListViewContent)
 					Log.v("ListViewContent", i);
 				for (String i : linktable)
@@ -278,8 +328,80 @@ public class Fav_add extends ListActivity {
 			catch(Exception e)
 			{
 				e.printStackTrace();
-				dialog.dismiss();
+				if(dialog.isShowing()) dialog.dismiss();
 			}
+		}
+		private void loadFav(Map<String, String> sessionId) {
+			if (sessionId.size() < 2) {
+				System.out.println("Username หรือ Password ไม่ถูกต้อง");			
+				publishProgress("Username หรือ Password ไม่ถูกต้อง");
+				try {
+					Thread.sleep(3000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				return;
+			}
+			Log.v("zone","loadFav");
+			Document doc = null;
+			try {
+				doc = Jsoup.connect("http://my.dek-d.com/desmos/control/writer_favorite.php")
+						.cookies(sessionId).timeout(3000)
+						.get();
+			} catch (IOException e) {
+				//Toast.makeText(getBaseContext(), "การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่", Toast.LENGTH_LONG).show();
+				publishProgress("-1");
+				try {
+					Thread.sleep(3000);
+				} catch (InterruptedException ex) {
+					// TODO Auto-generated catch block
+					ex.printStackTrace();
+				}
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return;
+			}    	
+			Elements link1 = doc.select(".link1[href~=/dek-d/writer/view.php]");
+			if(link1 == null) return;
+			for (Element link:link1) {
+				String stext = link.text();
+				linktable.add(link.attr("href"));
+				ListViewContent.add(stext);	
+				//Log.v("stext", stext);
+			}
+			Elements link2 = doc.select("table[width*=100]");
+			//for (int t=0;t<100;t++) {
+			int i = 0;
+			int j = 0;
+			for (Element link:link2) { 
+				if (i++<12) continue;
+				int s = link.text().indexOf("Date");
+				if (s != -1)
+					detailtable.add(link.text().substring(0,s).replace(ListViewContent.get(j++), "\b"));
+				i++;
+			}
+			for (Element link:doc.select("img.mainborder")) {
+				imagetable.add(link.attr("src"));
+			}
+			Log.v("favfin", "favfin");
+		}
+		private Map<String, String> login() {
+			Log.v("zone","login");
+			Connection.Response res;
+			try {
+				res = Jsoup.connect("http://my.dek-d.com/dekdee/my.id_station/login.php")
+						.data("username", username.getText().toString())
+						.data("password", password.getText().toString())
+						.method(Method.POST).timeout(8000)
+						.execute();
+				return res.cookies();
+			} catch (IOException e) {
+				publishProgress("-1");
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return null;    		
 		}
 	}
 
@@ -290,7 +412,7 @@ public class Fav_add extends ListActivity {
 		private LruCache<String, Bitmap> mMemoryCache;
 
 		public InteractiveArrayAdapter(Activity context, ArrayList<String> names) {
-			super(context, R.layout.list_item, names);
+			super(context, R.layout.fav_item, names);
 			this.context = context;
 			this.names = names;
 			final int memClass = ((ActivityManager) context.getSystemService(
@@ -305,7 +427,7 @@ public class Fav_add extends ListActivity {
 					return bitmap.getRowBytes() * bitmap.getHeight();
 				}
 			};    
-/*
+			/*
 			try {
 				for (String imgurl : imagetable) {
 					URL newurl = new URL(imgurl);
@@ -319,7 +441,7 @@ public class Fav_add extends ListActivity {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-*/
+			 */
 		}		
 
 		@Override
@@ -399,7 +521,7 @@ public class Fav_add extends ListActivity {
 				catch(Exception e)
 				{
 					e.printStackTrace();
-					dialog.dismiss();
+					if(dialog.isShowing()) dialog.dismiss();
 				}
 			}
 
@@ -455,4 +577,14 @@ public class Fav_add extends ListActivity {
 
 						return new File(cachePath + File.separator + uniqueName);
 	}*/
+	public void onStart() {
+		super.onStart();
+		EasyTracker.getInstance().activityStart(this); // Add this method.
+	}
+
+	@Override
+	public void onStop() {
+		super.onStop();
+		EasyTracker.getInstance().activityStop(this); // Add this method.
+	}
 }

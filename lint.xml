@@ -1,11 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <lint>
+    <issue id="HardcodedText">
+        <ignore path="res\layout\activity_setting.xml" />
+    </issue>
     <issue id="OldTargetApi">
         <ignore path="AndroidManifest.xml" />
+    </issue>
+    <issue id="ScrollViewSize">
+        <ignore path="res\layout\inset_form.xml" />
     </issue>
     <issue id="SetJavaScriptEnabled">
         <ignore path="src\com\niyatdekdee\notfy\DekdeeBrowserActivity.java" />
         <ignore path="src\com\niyatdekdee\notfy\Fav_add.java" />
+    </issue>
+    <issue id="TypographyDashes">
+        <ignore path="res\values\analytics.xml" />
     </issue>
     <issue id="UselessParent" severity="ignore" />
 </lint>

@@ -46,7 +46,7 @@ public class passPreference extends EditTextPreference {
 			//calendar.set(Calendar.HOUR_OF_DAY, picker.getCurrentHour());
 			//calendar.set(Calendar.MINUTE, picker.getCurrentMinute());
 			//setSummary(getSummary());  
-			String UserName = "¢"+getText()+"¢"; 			
+			String UserName = getText(); 			
 			if (callChangeListener(getText())) {		
 				persistString(encrypt(UserName));
 				notifyChanged();
@@ -68,14 +68,14 @@ public class passPreference extends EditTextPreference {
 			if (defaultValue == null) {
 				String old = getPersistedString("old username");
 				try {
-					setText(decrypt(old).replace("¢", ""));
+					setText(decrypt(old)/*.replace("¢", "")*/);
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			} else {
 				String old = getPersistedString("old "+(String) defaultValue);
-				setText(decrypt(old).replace("¢", ""));
+				setText(decrypt(old)/*.replace("¢", "")*/);
 			}
 		} else {
 			if (defaultValue == null) {

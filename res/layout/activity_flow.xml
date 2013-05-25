@@ -32,13 +32,4 @@
         android:text="@string/hello_world"
         tools:context=".FlowActivity" />
 
-    <ImageView
-        android:id="@+id/imageView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/textView2"
-        android:layout_below="@+id/textView1"
-        android:layout_marginTop="50dp"
-        android:src="@android:drawable/sym_call_outgoing" />
-
 </RelativeLayout>
