@@ -7,40 +7,39 @@ import android.os.PowerManager;
 import android.util.Log;
 
 abstract public class WakefulIntentService extends IntentService {
-	
-	abstract void doWakefulWork(Intent intent);
 
-	public static final String LOCK_NAME_STATIC="com.commonsware.android.syssvc.AppService.Static";
-	private static PowerManager.WakeLock lockStatic=null;
+    abstract void doWakefulWork(Intent intent);
 
-	public static void acquireStaticLock(Context context) {
-		Log.e("zone", "WakefulIntentService");
-		getLock(context).acquire();
-	}
+    public static final String LOCK_NAME_STATIC = "com.commonsware.android.syssvc.AppService.Static";
+    private static PowerManager.WakeLock lockStatic = null;
 
-	synchronized private static PowerManager.WakeLock getLock(Context context) {
-		if (lockStatic==null) {
-			PowerManager mgr=(PowerManager)context.getSystemService(Context.POWER_SERVICE);
+    public static void acquireStaticLock(Context context) {
+        Log.e("zone", "WakefulIntentService");
+        getLock(context).acquire();
+    }
 
-			lockStatic=mgr.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
-					LOCK_NAME_STATIC);
-			lockStatic.setReferenceCounted(true);
-		}
+    synchronized private static PowerManager.WakeLock getLock(Context context) {
+        if (lockStatic == null) {
+            PowerManager mgr = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
 
-		return(lockStatic);
-	}
+            lockStatic = mgr.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
+                    LOCK_NAME_STATIC);
+            lockStatic.setReferenceCounted(true);
+        }
 
-	public WakefulIntentService(String name) {
-		super(name);
-	}
+        return (lockStatic);
+    }
 
-	@Override
-	final protected void onHandleIntent(Intent intent) {
-		try {
-			doWakefulWork(intent);
-		}
-		finally {
-			getLock(this).release();
-		}
-	}
+    public WakefulIntentService(String name) {
+        super(name);
+    }
+
+    @Override
+    final protected void onHandleIntent(Intent intent) {
+        try {
+            doWakefulWork(intent);
+        } finally {
+            getLock(this).release();
+        }
+    }
 }

@@ -1,29 +1,5 @@
 package com.niyatdekdee.notfy;
 
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
-import java.net.URL;
-import java.net.URLConnection;
-import java.util.ArrayList;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.nodes.Entities.EscapeMode;
-import org.jsoup.select.Elements;
-
-import com.google.analytics.tracking.android.EasyTracker;
-
-
-
-import android.net.ConnectivityManager;
-import android.os.AsyncTask;
-import android.os.Bundle;
-import android.os.Parcelable;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ListActivity;
@@ -33,6 +9,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.os.Parcelable;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -40,28 +20,35 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
-import android.widget.AbsListView;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
-import android.widget.ListView;
-import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.*;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView.OnItemClickListener;
+import com.google.analytics.tracking.android.EasyTracker;
+import org.apache.commons.lang3.StringEscapeUtils;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.nodes.Entities.EscapeMode;
+import org.jsoup.select.Elements;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.ArrayList;
 
 public class Find extends ListActivity {
     private ProgressDialog dialog;
     private InteractiveArrayAdapter adapter;
-    private final ArrayList<String> ListViewContent = new ArrayList<String> ();
-    private final ArrayList<String> linktable = new ArrayList<String> ();
-    private final ArrayList<String> authortable = new ArrayList<String> ();
-    private final ArrayList<String> detailtable = new ArrayList<String> ();
-    private final ArrayList<String> chaptertable = new ArrayList<String> ();
-    private final ArrayList<String> viewtable = new ArrayList<String> ();
-    private final ArrayList<String> Content = new ArrayList<String> ();
+    private final ArrayList<String> ListViewContent = new ArrayList<String>();
+    private final ArrayList<String> linktable = new ArrayList<String>();
+    private final ArrayList<String> authortable = new ArrayList<String>();
+    private final ArrayList<String> detailtable = new ArrayList<String>();
+    private final ArrayList<String> chaptertable = new ArrayList<String>();
+    private final ArrayList<String> viewtable = new ArrayList<String>();
+    private final ArrayList<String> Content = new ArrayList<String>();
     private int page = 1;
     private String story_type;
     private String main;
@@ -93,9 +80,9 @@ public class Find extends ListActivity {
             //เชื่อม btnSearch btnDirection เข้ากับ View
             TextView title = (TextView) findViewById(R.id.textViewBar);
             title.setText(" ผลการค้นหา");
-            RelativeLayout barLayout =  (RelativeLayout) findViewById(R.id.nonbar);
+            RelativeLayout barLayout = (RelativeLayout) findViewById(R.id.nonbar);
             spiner = new ProgressBar(this);
-            RelativeLayout.LayoutParams lspin =  new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT);
+            RelativeLayout.LayoutParams lspin = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
             lspin.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
             lspin.addRule(RelativeLayout.ALIGN_PARENT_TOP);
             spiner.setLayoutParams(lspin);
@@ -125,19 +112,23 @@ public class Find extends ListActivity {
                     break;
                 case 5:
                     barLayout.setBackgroundResource(R.drawable.bg_titlebar_fuchsia);
+                    spiner.setBackgroundResource(R.drawable.bg_titlebar_fuchsia);
                     break;
                 case 6:
                     barLayout.setBackgroundResource(R.drawable.bg_titlebar_siver);
+                    spiner.setBackgroundResource(R.drawable.bg_titlebar_siver);
                     break;
                 case 7:
                     barLayout.setBackgroundResource(R.drawable.bg_titlebar_glay);
+                    spiner.setBackgroundResource(R.drawable.bg_titlebar_glay);
                     break;
                 case 8:
                     barLayout.setBackgroundResource(R.drawable.bg_titlebar_orange);
+                    spiner.setBackgroundResource(R.drawable.bg_titlebar_orange);
                     break;
             }
 
-            ImageButton btnDirection = (ImageButton)findViewById(R.id.btnDirection);
+            ImageButton btnDirection = (ImageButton) findViewById(R.id.btnDirection);
             btnDirection.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -149,14 +140,13 @@ public class Find extends ListActivity {
 
         Intent intent = getIntent();
         if ((from = intent.getStringExtra("from")) != null) {
-            if(from.equals("gp")) {
+            if (from.equals("gp")) {
                 story_type = intent.getStringExtra("story_type");
                 main = intent.getStringExtra("main");
                 sub = intent.getStringExtra("sub");
                 isend = intent.getStringExtra("isend");
                 sort = intent.getStringExtra("sort");
-            }
-            else {
+            } else {
                 story_type = intent.getStringExtra("story_type");
                 main = intent.getStringExtra("main");
                 sub = intent.getStringExtra("sub");
@@ -173,9 +163,9 @@ public class Find extends ListActivity {
         }
         adapter = new InteractiveArrayAdapter(this, Content);
         adapter.notifyDataSetChanged();
-        dialog = ProgressDialog.show(Find.this,"Loading", "Please Wait...\n\nถ้ารอนานเกินไปกด back 2 ครั้งเพื่อออก",true);
+        dialog = ProgressDialog.show(Find.this, "Loading", "Please Wait...\n\nถ้ารอนานเกินไปกด back 2 ครั้งเพื่อออก", true);
         dialog.setCancelable(true);
-        Find_doback dob=new Find_doback();
+        Find_doback dob = new Find_doback();
         dob.execute();
         list = getListView();
         list.setFastScrollEnabled(true);
@@ -187,14 +177,14 @@ public class Find extends ListActivity {
                 if (linktable.size() == 0) return;
                 String url = linktable.get(arg2);
                 Log.v("url", url);
-                Intent i = new Intent(getBaseContext(),InsertForm.class);
+                Intent i = new Intent(getBaseContext(), InsertForm.class);
                 final String title = ListViewContent.get(arg2);
                 Log.v("title", title);
-                i.putExtra("name",title);
+                i.putExtra("name", title);
                 //in this fomat http://writer.dek-d.com/dek-d/writer/view.php?id=580483
                 final String stext = "id=";
                 //หาหลักของตอน
-                final int start = url.lastIndexOf(stext)+stext.length();
+                final int start = url.lastIndexOf(stext) + stext.length();
                 if (start - stext.length() == -1) {
                     Toast.makeText(getBaseContext(), "Error not correct niyay page", Toast.LENGTH_SHORT).show();
                     return;
@@ -203,28 +193,27 @@ public class Find extends ListActivity {
                 //Log.v("url.length()", Integer.toString(url.length()));
                 //	Log.v("start", Integer.toString(start));
                 //Log.v("stext.length()", Integer.toString(stext.length()));
-                int len=0;
+                int len = 0;
                 //	Log.v("Character", Character.toString(url.charAt(start)));
-                for (int i3 = start;i3 < url.length() && Character.isDigit(url.charAt(i3));i3++) {
+                for (int i3 = start; i3 < url.length() && Character.isDigit(url.charAt(i3)); i3++) {
                     len++;
                     //Log.v("Character", Character.toString(url.charAt(i3)));
                 }
                 //	Log.v("len", Integer.toString(len));
-                final String unum = url.substring(start,start+len);
+                final String unum = url.substring(start, start + len);
                 Log.v("unum", unum);
-                url = "http://writer.dek-d.com/dek-d/writer/viewlongc.php?id="+unum+"&chapter=";
+                url = "http://writer.dek-d.com/dek-d/writer/viewlongc.php?id=" + unum + "&chapter=";
 
                 Log.v("url", url);
-                i.putExtra("url",url);
+                i.putExtra("url", url);
                 final String chapter = chaptertable.get(arg2).replace(" ตอน", "");
                 Log.v("chapter", chapter);
-                i.putExtra("chapter",chapter);
+                i.putExtra("chapter", chapter);
                 startActivity(i);
             }
         });
         list.setOnScrollListener(new LoadMoreListView());
     }
-
 
 
     private boolean isOnline() {
@@ -241,8 +230,7 @@ public class Find extends ListActivity {
         return true;
     }
      */
-    private class Find_doback extends AsyncTask<URL, Integer, Long>
-    {
+    private class Find_doback extends AsyncTask<URL, Integer, Long> {
 
 
         @Override
@@ -251,28 +239,24 @@ public class Find extends ListActivity {
             spiner.setVisibility(View.VISIBLE);
         }
 
-        protected void onProgressUpdate(Integer... progress)
-        {
+        protected void onProgressUpdate(Integer... progress) {
             if (progress[0] == -1)
                 Toast.makeText(Find.this, "การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่", Toast.LENGTH_LONG).show();
         }
 
         @Override
-        protected Long doInBackground(URL... arg0)
-        {
-            try
-            {
+        protected Long doInBackground(URL... arg0) {
+            try {
                 Log.v("doback", "in");
-                if (isOnline())	{
+                if (isOnline()) {
                     Log.v("doback", "on");
                     showAllFind();
                     //showAllBookOffline() ;
-                }
-                else {
+                } else {
                     Log.v("doback", "off");
                     AlertDialog alertDialog = new AlertDialog.Builder(Find.this).create();
                     alertDialog.setTitle("Error.");
-                    alertDialog.setMessage("Not connect to internet.\nPlease check your internet connection");
+                    alertDialog.setMessage("ไม่ได้เชื่อมต่ออินเตอร์เน็ต\nโปรดตรวจสอบการเชื่อมต่ออินเตอร์เน็ต");
                     alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             // here you can add functions
@@ -280,9 +264,7 @@ public class Find extends ListActivity {
                     });
                     alertDialog.show();
                 }
-            }
-            catch(Exception e)
-            {
+            } catch (Exception e) {
 
             }
             return null;
@@ -291,10 +273,8 @@ public class Find extends ListActivity {
         /*		protected void onProgressUpdate(Integer... progress)
         {
         }*/
-        protected void onPostExecute(Long result)
-        {
-            try
-            {
+        protected void onPostExecute(Long result) {
+            try {
                 if (Content.size() == 0) {
                     AlertDialog alertDialog = new AlertDialog.Builder(Find.this).create();
                     alertDialog.setTitle("ไม่พบข้อมูล");
@@ -311,8 +291,8 @@ public class Find extends ListActivity {
                 Parcelable state = list.onSaveInstanceState();
                 setListAdapter(adapter);
                 list.onRestoreInstanceState(state);
-				/*				Log.v("listView", "listView");
-				for (String i : ListViewContent)
+                /*				Log.v("listView", "listView");
+                for (String i : ListViewContent)
 					Log.v("ListViewContent", i);
 				for (String i : linktable)
 					Log.v("linktable", i);
@@ -324,13 +304,12 @@ public class Find extends ListActivity {
 					Log.v("viewtable", i);
 				for (String i : viewtable)
 					Log.v("viewtable", i);*/
-                if(dialog != null && dialog.isShowing()) dialog.dismiss();
-            }
-            catch(Exception e)
-            {
+                if (dialog != null && dialog.isShowing()) dialog.dismiss();
+            } catch (Exception e) {
                 try {
-                    if(dialog != null && dialog.isShowing()) dialog.dismiss();
-                } catch(Exception e1) {}
+                    if (dialog != null && dialog.isShowing()) dialog.dismiss();
+                } catch (Exception e1) {
+                }
                 //e.printStackTrace();
             }
         }
@@ -343,7 +322,7 @@ public class Find extends ListActivity {
         private String convert(String in) throws UnsupportedEncodingException {
             StringBuilder sum = new StringBuilder();
             byte bin[] = in.getBytes("tis620");
-            for (int i=0;i<in.length();i++) {
+            for (int i = 0; i < in.length(); i++) {
                 if (bin[i] < 0)
                     sum.append(String.format("%%%02X", bin[i]));
                 else
@@ -404,6 +383,7 @@ public class Find extends ListActivity {
             }
             return true;
         }
+
         private void showAllFind() {
             Log.v("showAllFind", "showAllFind");
             // TODO Auto-generated method stub
@@ -417,64 +397,94 @@ public class Find extends ListActivity {
             String url;
             if (from.equals("gp")) {
                 url = String.format("http://www.dek-d.com/writer/frame.php?isend=%s&main=%s&sub=%s&story_type=%s&sort=%s&ajax=1&page=%s"
-                        ,isend,main,sub,story_type,sort,Integer.toString(page));
+                        , isend, main, sub, story_type, sort, Integer.toString(page));
                 //System.out.println(main+sub+isend+story_type+sort);
-            }
-            else if (main.equals("0") || main.equals("")) {
+            } else if (main.equals("0") || main.equals("")) {
                 try {
                     title = convert(title);
                     ntitle = convert(ntitle);
                     writer = convert(writer);
                     nwriter = convert(nwriter);
-                    abstract_w= convert(abstract_w);
+                    abstract_w = convert(abstract_w);
                     nabstract_w = convert(nabstract_w);
                 } catch (UnsupportedEncodingException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
                 url = String.format("http://www.dek-d.com/writer/frame.php?page=%s&is_end=%s&story_groups=&title=%s&n_title=%s&type=%s&writer=%s&n_writer=%s&abstract_w=%s&n_abstract_w=%s"
-                        ,Integer.toString(page),isend,title,ntitle,story_type,writer,nwriter,abstract_w,nabstract_w);
-            }
-            else {
+                        , Integer.toString(page), isend, title, ntitle, story_type, writer, nwriter, abstract_w, nabstract_w);
+            } else {
                 try {
                     title = convert(title);
                     ntitle = convert(ntitle);
                     writer = convert(writer);
                     nwriter = convert(nwriter);
-                    abstract_w= convert(abstract_w);
+                    abstract_w = convert(abstract_w);
                     nabstract_w = convert(nabstract_w);
                 } catch (UnsupportedEncodingException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
                 url = String.format("http://www.dek-d.com/writer/frame.php?page=%s&is_end=%s&story_groups=%s,%s&title=%s&n_title=%s&type=%s&writer=%s&n_writer=%s&abstract_w=%s&n_abstract_w=%s"
-                        ,Integer.toString(page),isend,main,sub,title,ntitle,story_type,writer,nwriter,abstract_w,nabstract_w);
+                        , Integer.toString(page), isend, main, sub, title, ntitle, story_type, writer, nwriter, abstract_w, nabstract_w);
             }
             System.out.println(url);
             Document doc = null;
             try {
 
                 if (from.equals("gp")) {
-                    try {
-                        URLConnection connection = new URL(url).openConnection();
-                        connection.setRequestProperty("User-Agent", "Mozilla/5.0 (iPhone; CPU iPhone OS 5_0 like Mac OS X) AppleWebKit/534.46 (KHTML, like Gecko) Version/5.1 Mobile/9A334 Safari/7534.48.3");
-                        connection.addRequestProperty("REFERER", "http://www.dek-d.com/writer/frame.php");
-                        InputStream stream = connection.getInputStream();
-                        BufferedInputStream in = new BufferedInputStream(stream);
-                        StringBuffer buffer = new StringBuffer();
-                        byte[] b = new byte[4096];
-                        for (int n; (n = in.read(b)) != -1;) {
-                            buffer.append(new String(b, 0, n));
-                        }
-                        in.close();
-                        final JSONObject object = new JSONObject( buffer.toString());
-                        String template = object.getString("template");
-                        doc = Jsoup.parse(template);
-                    } catch (JSONException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
+
+                    HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
+                    connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Linux; Android 4.0.4; Galaxy Nexus Build/IMM76B) AppleWebKit/535.19 (KHTML, like Gecko) Chrome/18.0.1025.133 Mobile Safari/535.19");
+                    connection.setRequestProperty("Content-Type", "text/html; charset=tis-620");
+                    connection.addRequestProperty("REFERER", "http://www.dek-d.com/writer/frame.php");
+                    InputStreamReader in = new InputStreamReader(connection.getInputStream(), "TIS-620");
+                    ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                    int next = in.read();
+                    while (next > -1) {
+                        bos.write(next);
+                        next = in.read();
                     }
+                    bos.flush();
+                    byte[] result = bos.toByteArray();
+
+                    connection.disconnect();
+/*                    String line = "";
+                   StringWriter writer = new StringWriter();
+                    while((line=reader.readLine())!=null){
+                        writer.write(line);
+                    }
+                    reader.close();
+                    writer.close();
+                    //System.out.println(connection.getContentEncoding());
+                    doc = Jsoup.connect(url)
+                            .referrer("http://www.dek-d.com/writer/frame.php")
+                            .userAgent("Mozilla/5.0 (iPhone; CPU iPhone OS 5_0 like Mac OS X) AppleWebKit/534.46 (KHTML, like Gecko) Version/5.1 Mobile/9A334 Safari/7534.48.3")
+                            .get();
+
+                    */
+                    String line = StringEscapeUtils.unescapeJava(new String(result));
+                    String line2 = StringEscapeUtils.unescapeJava(new String(result, "TIS-620"));
+                    String line3 = StringEscapeUtils.unescapeJava(new String(result, "UTF-8"));
+                    //System.out.println(line);
+                    if (line.contains("เธเธ")) {
+                        line = new String(line.getBytes("tis620"), "UTF-8");
+                        /*in = new InputStreamReader(connection.getInputStream(),"UTF-8");
+                        bos = new ByteArrayOutputStream();
+                        next = in.read();
+                        while (next > -1) {
+                            bos.write(next);
+                            next = in.read();
+                        }
+                        bos.flush();
+                        result = bos.toByteArray();
+                        connection.disconnect();
+                        line = StringEscapeUtils.unescapeJava(new String(result));*/
+                    }
+                    //String template = line.substring(line.indexOf( ",\"template\":\"" )+",\"template\":\"".length(),line.length()-3);
+                    doc = Jsoup.parse(line);
                     doc.outputSettings().escapeMode(EscapeMode.xhtml);
+                    doc.outputSettings().charset("TIS-620");
                 } else {
                     doc = Jsoup.connect(url)
                             .referrer("http://www.dek-d.com/writer/frame.php")
@@ -488,7 +498,7 @@ public class Find extends ListActivity {
                 e.printStackTrace();
             }
 
-            if(!doc.select(".fr-book").isEmpty() &&doc.select(".fr-book").first().text().equals("ไม่พบข้อมูล")) {
+            if (!doc.select(".fr-book").isEmpty() && doc.select(".fr-book").first().text().equals("ไม่พบข้อมูล")) {
                 if (Content.size() == 0)
                     Content.add("ไม่พบข้อมูล");
                 return;
@@ -497,12 +507,12 @@ public class Find extends ListActivity {
             Elements link1 = doc.select(".book-text6");
             int startsize = ListViewContent.size();
             Log.v("startsize", Integer.toString(startsize));
-            if(link1 == null) {
+            if (link1 == null) {
                 if (Content.size() == 0)
                     Content.add("ไม่พบข้อมูล");
                 return;
             }
-            for (Element link:link1) {
+            for (Element link : link1) {
                 String stext = fixEncoding(link.text());
                 if (stext.contains("by")) {
                     authortable.add(stext);
@@ -517,30 +527,30 @@ public class Find extends ListActivity {
                 return;
             }
             link1 = doc.select(".book-text1");
-            if(link1 == null) return;
-            for (Element link:link1) {
+            if (link1 == null) return;
+            for (Element link : link1) {
                 String stext = link.text();
                 detailtable.add(stext);
             }
             link1 = doc.select(".view");
-            if(link1 == null) return;
-            for (Element link:link1) {
+            if (link1 == null) return;
+            for (Element link : link1) {
                 String stext = link.text();
                 if (stext.contains("/"))
                     viewtable.add(stext);
             }
             link1 = doc.select("p.chapter");
-            if(link1 == null) return;
-            for (Element link:link1) {
+            if (link1 == null) return;
+            for (Element link : link1) {
                 String stext = link.text();
                 chaptertable.add(stext);
             }
-            for (int position = startsize; position < ListViewContent.size() ;position++)
-                Content.add("<br/><p><font color=#33B6EA>เรื่อง :" +ListViewContent.get(position)+" " +authortable.get(position)+
+            for (int position = startsize; position < ListViewContent.size(); position++)
+                Content.add("<br/><p><font color=#33B6EA>เรื่อง :" + ListViewContent.get(position) + " " + authortable.get(position) +
                         " </font><br /><br />" +
-                        "<font color=#cc0029> " +detailtable.get(position)+"</font><br/><br />" +
-                        "<font color=#339900> ผู้เข้าชม เดือนนี้ " +viewtable.get(position).substring(0, viewtable.get(position).indexOf("/"))+" / ทั้งหมด " +viewtable.get(position).substring(viewtable.get(position).indexOf("/")+1,viewtable.get(position).length())+
-                        " มี " +chaptertable.get(position)+
+                        "<font color=#cc0029> " + detailtable.get(position) + "</font><br/><br />" +
+                        "<font color=#339900> ผู้เข้าชม เดือนนี้ " + viewtable.get(position).substring(0, viewtable.get(position).indexOf("/")) + " / ทั้งหมด " + viewtable.get(position).substring(viewtable.get(position).indexOf("/") + 1, viewtable.get(position).length()) +
+                        " มี " + chaptertable.get(position) +
                         " </font></p>");
         }
     }
@@ -560,7 +570,8 @@ public class Find extends ListActivity {
             View rowView = convertView;
             if (convertView == null) {
                 LayoutInflater inflater = context.getLayoutInflater();
-                rowView = inflater.inflate(R.layout.list_item3, null);}
+                rowView = inflater.inflate(R.layout.list_item3, null);
+            }
             TextView text = (TextView) rowView.findViewById(R.id.textView1);
 			/*
 			System.out.println(names.get(position));
@@ -573,7 +584,7 @@ public class Find extends ListActivity {
 							" มี " +chaptertable.get(position)+
 					" </font></p>";
 			 */
-            text.setText((names.get(position)!= null)? Html.fromHtml(names.get(position)) : "1");
+            text.setText((names.get(position) != null) ? Html.fromHtml(names.get(position)) : "1");
             //thumb_image.setImageResource(R.drawable.rihanna);
             //thumb_image.setImageBitmap(imageLoader.DisplayImage((imagetable.get(position)!= null)? imagetable.get(position) : "3",thumb_image));
             //imageLoader.DisplayImage((imagetable.get(position)!= null)? imagetable.get(position) : "3",thumb_image);
@@ -589,12 +600,13 @@ public class Find extends ListActivity {
 
         public LoadMoreListView() {
         }
+
         /*		public LoadMoreListView(int visibleThreshold) {
             //this.visibleThreshold = visibleThreshold;
         }
          */
         @Override
-        public void onScroll(AbsListView view, int firstVisibleItem,int visibleItemCount, int totalItemCount) {
+        public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
             //Log.v("firstVisibleItem", Integer.toString(firstVisibleItem));
             //Log.v("visibleItemCount", Integer.toString(visibleItemCount));
             //Log.v("totalItemCount", Integer.toString(totalItemCount));
@@ -617,6 +629,7 @@ public class Find extends ListActivity {
         public void onScrollStateChanged(AbsListView view, int scrollState) {
         }
     }
+
     public void onStart() {
         super.onStart();
         EasyTracker.getInstance().activityStart(this); // Add this method.

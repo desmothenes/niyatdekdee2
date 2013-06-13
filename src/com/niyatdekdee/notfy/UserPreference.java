@@ -7,23 +7,23 @@ import android.util.AttributeSet;
 import android.view.View;
 
 public class UserPreference extends EditTextPreference {
-	//private Calendar calendar;
-	//private TimePicker picker = null;
-	public UserPreference(Context ctxt) {
-		super(ctxt);
-	}
+    //private Calendar calendar;
+    //private TimePicker picker = null;
+    public UserPreference(Context ctxt) {
+        super(ctxt);
+    }
 
-	public UserPreference(Context ctxt, AttributeSet attrs) {
-		super(ctxt, attrs);
+    public UserPreference(Context ctxt, AttributeSet attrs) {
+        super(ctxt, attrs);
 
-	}
+    }
 
-	public UserPreference(Context ctxt, AttributeSet attrs, int defStyle) {
-		super(ctxt, attrs, defStyle);
+    public UserPreference(Context ctxt, AttributeSet attrs, int defStyle) {
+        super(ctxt, attrs, defStyle);
 
-		//setPositiveButtonText(R.string.save);
-		//setNegativeButtonText(R.string.cancel);    
-	}
+        //setPositiveButtonText(R.string.save);
+        //setNegativeButtonText(R.string.cancel);
+    }
 
 	/*    @Override
     protected View onCreateDialogView() {
@@ -32,67 +32,67 @@ public class UserPreference extends EditTextPreference {
         return (picker);
     }*/
 
-	@Override
-	protected void onBindDialogView(View view) {
-		System.out.println("onBindDialogView");
+    @Override
+    protected void onBindDialogView(View view) {
+        System.out.println("onBindDialogView");
 
-		super.onBindDialogView(view);
-	}
+        super.onBindDialogView(view);
+    }
 
-	@Override
-	protected void onDialogClosed(boolean positiveResult) {
-		super.onDialogClosed(positiveResult);
+    @Override
+    protected void onDialogClosed(boolean positiveResult) {
+        super.onDialogClosed(positiveResult);
 
-		if (positiveResult) {
-			//calendar.set(Calendar.HOUR_OF_DAY, picker.getCurrentHour());
-			//calendar.set(Calendar.MINUTE, picker.getCurrentMinute());
-			//setSummary(getSummary());  
-			//Log.v("before", getText());
-			String UserName = getText(); 			
-			if (callChangeListener(UserName)) {					 
-				//Log.v("after", encrypt(UserName));
-				persistString(encrypt(UserName));
-				notifyChanged();
-			}
-		}
-	}
+        if (positiveResult) {
+            //calendar.set(Calendar.HOUR_OF_DAY, picker.getCurrentHour());
+            //calendar.set(Calendar.MINUTE, picker.getCurrentMinute());
+            //setSummary(getSummary());
+            //Log.v("before", getText());
+            String UserName = getText();
+            if (callChangeListener(UserName)) {
+                //Log.v("after", encrypt(UserName));
+                persistString(encrypt(UserName));
+                notifyChanged();
+            }
+        }
+    }
 
-	@Override
-	protected Object onGetDefaultValue(TypedArray a, int index) {
-		return (a.getString(index));
-	}
+    @Override
+    protected Object onGetDefaultValue(TypedArray a, int index) {
+        return (a.getString(index));
+    }
 
-	@Override
-	protected void onSetInitialValue(boolean restoreValue, Object defaultValue) {
+    @Override
+    protected void onSetInitialValue(boolean restoreValue, Object defaultValue) {
 
-		System.out.println("onSetInitialValue");
+        System.out.println("onSetInitialValue");
 
-		if (restoreValue) {
-			if (defaultValue == null) {
-				String old = getPersistedString("old username");
-				//Log.v("old", old);
-				try {
-					setText(decrypt(old)/*.replace("dek", "")*/);
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			} else {
-				String old = getPersistedString("old "+(String) defaultValue);
-				//Log.v("old", old);
-				setText(decrypt(old)/*.replace("dek", "")*/);
-			}
-		} else {
-			if (defaultValue == null) {
-				setText("user");
-			} else {
-				String old = (String) defaultValue;
-				System.out.println("old "+ old);
-				setText(old);
-			}
-		}
-		//setSummary(getSummary());
-	}
+        if (restoreValue) {
+            if (defaultValue == null) {
+                String old = getPersistedString("old username");
+                //Log.v("old", old);
+                try {
+                    setText(decrypt(old)/*.replace("dek", "")*/);
+                } catch (Exception e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            } else {
+                String old = getPersistedString("old " + (String) defaultValue);
+                //Log.v("old", old);
+                setText(decrypt(old)/*.replace("dek", "")*/);
+            }
+        } else {
+            if (defaultValue == null) {
+                setText("user");
+            } else {
+                String old = (String) defaultValue;
+                System.out.println("old " + old);
+                setText(old);
+            }
+        }
+        //setSummary(getSummary());
+    }
 
 	/*    @Override
     public CharSequence getSummary() {
@@ -102,10 +102,10 @@ public class UserPreference extends EditTextPreference {
         return DateFormat.getTimeFormat(getContext()).format(new Date(calendar.getTimeInMillis()));
     }*/
 
-	static String decrypt(String old,Context context ) {
-		return old;
-		/*
-		System.out.println("user decrypt");
+    static String decrypt(String old, Context context) {
+        return old;
+        /*
+        System.out.println("user decrypt");
 		System.out.println("old "+old);
 		SharedPreferences perf = PreferenceManager.getDefaultSharedPreferences(context);
 		final int shash = perf.getInt("shash",0);
@@ -142,10 +142,10 @@ public class UserPreference extends EditTextPreference {
 		}
 		System.out.println("temp.toString() "+temp.toString());
 		return temp.toString();	*/
-	}
-	
-	String decrypt(String old) {
-		return old;
+    }
+
+    String decrypt(String old) {
+        return old;
 		/*
 		System.out.println("user decrypt");
 		System.out.println("old "+old);
@@ -184,10 +184,10 @@ public class UserPreference extends EditTextPreference {
 		}
 		System.out.println("temp.toString() "+temp.toString());
 		return temp.toString();	*/
-	}
+    }
 
-	String encrypt( String value ) {
-		return value;		 
+    String encrypt(String value) {
+        return value;
 		/*
 		SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(MainActivity.context).edit();
 
@@ -203,7 +203,7 @@ public class UserPreference extends EditTextPreference {
 		System.out.println(hash);
 		editor.commit();
 		return sum;		*/
-	}
+    }
 	/*	String encrypt( String value ) {
 		System.out.println("zone encrypt ");
 		StringBuilder sum = new StringBuilder();

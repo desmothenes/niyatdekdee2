@@ -146,7 +146,7 @@ public class ChapterListActivity extends ListActivity {
                 final String title = Jsoup.parse(ListViewContent.get(arg2)).text();
                 Log.v("title", title);
                 /*				Intent browser = new Intent(Intent.ACTION_VIEW);
- 				Uri data = Uri.parse(url);
+                 Uri data = Uri.parse(url);
 				browser.setData(data);
 				startActivity(browser);		*/
                 mGaTracker.sendEvent("ui_action", "button_press", "cp_default_open", Long.parseLong(Setting.getArrowSelectSetting(ChapterListActivity.this)));
@@ -180,7 +180,7 @@ public class ChapterListActivity extends ListActivity {
 
             }
         });
-		/*		list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        /*		list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
 	        @Override
 	        public boolean onItemLongClick(AdapterView<?> av, View v, int pos, long id) {
 	            return super.onItemLongClick(v,pos,id);
@@ -236,8 +236,7 @@ public class ChapterListActivity extends ListActivity {
                 startActivity(TextReadActivity);
                 return true;
             case R.id.cptts:
-                DekTTSActivity.tts.stop();
-                DekTTSActivity.stop = true;
+                if (DekTTSActivity.tts.isSpeaking()) DekTTSActivity.tts.stop();
                 DekTTSActivity.isSpeak = false;
                 Intent intent = new Intent(getApplicationContext(), DekTTSActivity.class);
                 DekTTSActivity.type = 1;
@@ -280,7 +279,7 @@ public class ChapterListActivity extends ListActivity {
             return;
         }
         if (DekTTSActivity.tts != null && DekTTSActivity.isSpeak) {
-            DekTTSActivity.tts.stop();
+            if (DekTTSActivity.tts.isSpeaking()) DekTTSActivity.tts.stop();
             DekTTSActivity.stop = true;
             DekTTSActivity.isSpeak = false;
             Toast.makeText(getBaseContext(), "Stop TTS", Toast.LENGTH_LONG).show();

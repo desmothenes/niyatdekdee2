@@ -28,6 +28,7 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.cookie.Cookie;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.jsoup.Jsoup;
@@ -281,7 +282,7 @@ public class MainActivity extends ListActivity {
         //myList.setAdapter(listAdap);
 
 		/*	    myList.setOnItemClickListener(new OnItemClickListener() {
-			@Override
+            @Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				Toast.makeText(getApplicationContext(),
@@ -1692,7 +1693,7 @@ public class MainActivity extends ListActivity {
 
                     @Override
                     protected Boolean doInBackground(Integer... args) {
-                        HttpClient httpclient = new DefaultHttpClient();
+                        DefaultHttpClient httpclient = new DefaultHttpClient();
                         if (Integer.parseInt(niyayTable.get(listItemName)[3]) - 1 > 0) {
                             niyayTable.get(listItemName)[3] = Integer.toString(Integer.parseInt(niyayTable.get(listItemName)[3]) - 1);
                         } else {
@@ -1702,6 +1703,11 @@ public class MainActivity extends ListActivity {
 
 
                         try {
+
+                            for (Cookie cookie : doback.cookies) {
+                                httpclient.getCookieStore().addCookie(cookie);
+                            }
+                            ;
                             HttpGet httpget = new HttpGet(new URI(niyayTable.get(listItemName)[2] + niyayTable.get(listItemName)[3]));
                             ResponseHandler<String> responseHandler = new BasicResponseHandler();
                             doc = httpclient.execute(httpget, responseHandler);
@@ -1945,30 +1951,35 @@ public class MainActivity extends ListActivity {
 
     private void addmenu() {
         context = MainActivity.this;
-        CharSequence[] items = {"ค้นหาแบ่งตามหมวด", "ค้นหาจากข้อมูล ", "จาก Favorite Writer", "ค้นหาจากหน้า Web"};
+        CharSequence[] items = {"ค้นหาจากหน้า Web แบบใหม่", "ค้นหาแบ่งตามหมวด (มีปัญหา)", "ค้นหาจากข้อมูล ", "จาก Favorite Writer", "ค้นหาจากหน้า Web"};
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         builder.setCancelable(true)
                 .setSingleChoiceItems(items, -1, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.dismiss();
-                        if (id == 3) {
+                        if (id == 4) {
                             mGaTracker.sendEvent("ui_action", "dialog_press", "add_web_add", (long) 0);
                             Intent i = new Intent(getApplicationContext(), add_web.class);
                             startActivity(i);
-                        } else if (id == 2) {
+                        } else if (id == 3) {
                             mGaTracker.sendEvent("ui_action", "dialog_press", "add_Fav_add", (long) 0);
                             //Toast.makeText(getApplicationContext(), "this function not enable in this version"/*items[id]*/, Toast.LENGTH_SHORT).show();
                             Intent i = new Intent(getApplicationContext(), Fav_add.class);
                             startActivityForResult(i, 0);
-                        } else if (id == 0) {
+                        } else if (id == 1) {
                             mGaTracker.sendEvent("ui_action", "dialog_press", "add_SearchGroupActivity", (long) 0);
                             Intent i = new Intent(getApplicationContext(), SearchGroupActivity.class);
                             startActivityForResult(i, 0);
-                        } else if (id == 1) {
+                        } else if (id == 2) {
                             mGaTracker.sendEvent("ui_action", "dialog_press", "add_SearchNameActivity", (long) 0);
                             Intent i = new Intent(getApplicationContext(), SearchNameActivity.class);
                             startActivityForResult(i, 0);
+                        } else if (id == 0) {
+                            mGaTracker.sendEvent("ui_action", "dialog_press", "add_SearchNewWeb", (long) 0);
+                            Intent i = new Intent(getApplicationContext(), webfind.class);
+                            startActivity(i);
                         }
+
 
                     }
 

@@ -1,9 +1,5 @@
 package com.niyatdekdee.notfy;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.preference.DialogPreference;
@@ -11,6 +7,10 @@ import android.text.format.DateFormat;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.TimePicker;
+
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 public class TimePreference extends DialogPreference {
     private Calendar calendar;
@@ -29,7 +29,7 @@ public class TimePreference extends DialogPreference {
         setPositiveButtonText(R.string.save);
         setNegativeButtonText(R.string.cancel);
         calendar = new GregorianCalendar();
-        
+
     }
 
     @Override
@@ -51,7 +51,7 @@ public class TimePreference extends DialogPreference {
         super.onDialogClosed(positiveResult);
 
         if (positiveResult) {
-        	picker.clearFocus();
+            picker.clearFocus();
             calendar.set(Calendar.HOUR_OF_DAY, picker.getCurrentHour());
             calendar.set(Calendar.MINUTE, picker.getCurrentMinute());
 
@@ -94,5 +94,5 @@ public class TimePreference extends DialogPreference {
         }
         return DateFormat.getTimeFormat(getContext()).format(new Date(calendar.getTimeInMillis()));
     }
-    
+
 } 
