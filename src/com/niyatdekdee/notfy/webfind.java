@@ -2,6 +2,7 @@ package com.niyatdekdee.notfy;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.Window;
 import android.webkit.WebChromeClient;
@@ -17,11 +18,18 @@ public class webfind extends Activity {
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().requestFeature(Window.FEATURE_PROGRESS);
-        webView = new WebView(this);
-        webView.getSettings().setJavaScriptEnabled(true);
+        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+        requestWindowFeature(Window.FEATURE_PROGRESS);
+
         //webView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
+        if (Setting.getScreenSetting(getApplicationContext()).equals("1"))
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        webView = new WebView(this);
         setContentView(webView);
+
+        setProgressBarIndeterminateVisibility(true);
+        setProgressBarVisibility(true);
+        webView.getSettings().setJavaScriptEnabled(true);
  /*           Document doc = Jsoup.connect("http://www.dek-d.com/writer/frame.php").get();
             doc.select("#topline").remove();//.attr("style","display:none");
             doc.select("#head_bar").attr("style","display:none");
@@ -59,6 +67,12 @@ public class webfind extends Activity {
         webView.setWebViewClient(new WebViewClient() {
             public void onPageFinished(WebView view, String url2) {
                 super.onPageFinished(webView, url2);
+
+                setProgressBarIndeterminateVisibility(false);
+                setProgressBarVisibility(false);
+
+                webView.loadUrl("javascript: var item = document.getElementsByClassName('ui-footer');" +
+                        "item[0].style.display = 'none';");
 
             }
 

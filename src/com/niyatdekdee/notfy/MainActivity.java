@@ -11,7 +11,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.PowerManager.WakeLock;
 import android.preference.PreferenceManager;
 import android.text.Html;
 import android.util.Log;
@@ -51,14 +50,14 @@ public class MainActivity extends ListActivity {
     static boolean isTTS = true;
     static ListView myList;
     //private static final int REQUEST_CODE=1;
-    static boolean LoadPage = false;
+    //static boolean LoadPage = false;
     static int titleColor = -1;
-    static int floop;
+    //static int floop;
     //static Map<String, String> sessionStatus = new HashMap<String, String>();
     static Tracker mGaTracker;
     private ImageButton btnDirection;
     //static doback dob;
-    private WakeLock wl;
+    //private WakeLock wl;
     private GoogleAnalytics mGaInstance;
 
     static void update() {
@@ -229,7 +228,7 @@ public class MainActivity extends ListActivity {
                                 public void onClick(DialogInterface dialog, int id) {
                                     dialog.cancel();
                                     if (DekTTSActivity.tts != null) DekTTSActivity.tts.shutdown();
-                                    if (wl != null) wl.release();
+                                    //if (wl != null) wl.release();
                                     finish();
                                 }
                             })
@@ -491,7 +490,7 @@ public class MainActivity extends ListActivity {
                 .setPositiveButton("ออก", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         if (DekTTSActivity.tts != null) DekTTSActivity.tts.shutdown();
-                        if (wl != null) wl.release();
+                        //if (wl != null) wl.release();
                         Intent intent = new Intent(getApplicationContext(), DekTTSActivity.class);
                         stopService(intent);
                         File temp = new File(Environment.getExternalStorageDirectory(), "niyay_temp");
@@ -581,7 +580,7 @@ public class MainActivity extends ListActivity {
                     StringBuilder cookieString = new StringBuilder();
                     for (String key : doback.sessionId.keySet()) {
                         Log.v(key, doback.sessionId.get(key));
-                        cookieString.append(key + "=" + doback.sessionId.get(key) + ";");
+                        cookieString.append(key).append("=").append(doback.sessionId.get(key)).append(";");
                     }
                     browserIntent.putExtra("cookieString", cookieString.toString());
                 }
@@ -713,7 +712,7 @@ public class MainActivity extends ListActivity {
                                     String line = "";
                                     String NL = System.getProperty("line.separator");
                                     while ((line = in.readLine()) != null) {
-                                        sb.append(line + NL);
+                                        sb.append(line).append(NL);
                                     }
                                     in.close();
                                     doc = sb.toString();
@@ -746,8 +745,8 @@ public class MainActivity extends ListActivity {
                         }
 
                         protected void onProgressUpdate(String... progress) {        //publishProgress
-                            if (progress[0] == null) ;
-                            else if (progress[0].isEmpty()) ;
+                            if (progress[0] == null) return;
+                            else if (progress[0].isEmpty()) return;
                             else if (progress[0].equals("-1")) {
                                 Toast.makeText(context, "การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่", Toast.LENGTH_LONG).show();
                                 Log.e("onProgressUpdate", "การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่");
@@ -789,7 +788,7 @@ public class MainActivity extends ListActivity {
                                 niyayTable.get(listItemName)[3] = Integer.toString(Integer.parseInt(niyayTable.get(listItemName)[3]) - 1);
                             }
                             niyayTable.get(listItemName)[4] = doc;
-                            if (niyayTable.get(listItemName)[4] == null || niyayTable.get(listItemName)[4] == "")
+                            if (niyayTable.get(listItemName)[4] == null || niyayTable.get(listItemName)[4].equals(""))
                                 return;
                             flag = db.updateTitle(Long.parseLong(niyayTable.get(listItemName)[0]),
                                     niyayTable.get(listItemName)[4]);
@@ -810,7 +809,7 @@ public class MainActivity extends ListActivity {
                             mGaTracker.sendEvent("ui_action", "button_press", "add_cp", (long) 0);
                         }
 
-                        ;
+
                     }.execute();
                     return true;
                 }
@@ -898,7 +897,7 @@ public class MainActivity extends ListActivity {
                                 String line = "";
                                 String NL = System.getProperty("line.separator");
                                 while ((line = in.readLine()) != null) {
-                                    sb.append(line + NL);
+                                    sb.append(line).append(NL);
                                 }
                                 in.close();
                                 doc = sb.toString();
@@ -931,8 +930,8 @@ public class MainActivity extends ListActivity {
                     }
 
                     protected void onProgressUpdate(String... progress) {        //publishProgress
-                        if (progress[0] == null) ;
-                        else if (progress[0].isEmpty()) ;
+                        if (progress[0] == null) return;
+                        else if (progress[0].isEmpty()) return;
                         else if (progress[0].equals("-1")) {
                             Toast.makeText(context, "การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่", Toast.LENGTH_LONG).show();
                             Log.e("onProgressUpdate", "การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่");
@@ -974,7 +973,8 @@ public class MainActivity extends ListActivity {
                             niyayTable.get(listItemName)[3] = Integer.toString(Integer.parseInt(niyayTable.get(listItemName)[3]) - 1);
                         }
                         niyayTable.get(listItemName)[4] = doc;
-                        if (niyayTable.get(listItemName)[4] == null || niyayTable.get(listItemName)[4] == "") return;
+                        if (niyayTable.get(listItemName)[4] == null || niyayTable.get(listItemName)[4].equals(""))
+                            return;
                         flag = db.updateTitle(Long.parseLong(niyayTable.get(listItemName)[0]),
                                 niyayTable.get(listItemName)[4]);
                         if (flag) {
@@ -994,7 +994,7 @@ public class MainActivity extends ListActivity {
                         mGaTracker.sendEvent("ui_action", "button_press", "add_cp", (long) 0);
                     }
 
-                    ;
+
                 }.execute();
                 return true;
             case R.id.openweb:
@@ -1138,7 +1138,7 @@ public class MainActivity extends ListActivity {
                                     String line = "";
                                     String NL = System.getProperty("line.separator");
                                     while ((line = in.readLine()) != null) {
-                                        sb.append(line + NL);
+                                        sb.append(line).append(NL);
                                     }
                                     in.close();
                                     doc = sb.toString();
@@ -1171,7 +1171,7 @@ public class MainActivity extends ListActivity {
                         }
 
                         protected void onProgressUpdate(String... progress) {        //publishProgress
-                            if (progress[0].isEmpty()) ;
+                            if (progress[0].isEmpty()) return;
                             else if (progress[0].equals("-1")) {
                                 Toast.makeText(context, "การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่", Toast.LENGTH_LONG).show();
                                 Log.e("onProgressUpdate", "การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่");
@@ -1197,7 +1197,10 @@ public class MainActivity extends ListActivity {
                                     e.printStackTrace();
                                 }
                                 doc = doc.substring(start + 7, doc.indexOf("</title>"));
-                                doc = Jsoup.parse((doc.substring(doc.indexOf(">") + 2))).text();
+                                if (doc.length() > doc.indexOf(">") + 2)
+                                    doc = Jsoup.parse((doc.substring(doc.indexOf(">") + 2))).text();
+                                else
+                                    doc = Jsoup.parse((doc)).text();
                             } else {
                                 doc = "ยังไม่มีตอนปัจจุบัน รอตอนใหม่";
                             }
@@ -1213,7 +1216,7 @@ public class MainActivity extends ListActivity {
                                 niyayTable.get(listItemName)[3] = Integer.toString(Integer.parseInt(niyayTable.get(listItemName)[3]) - 1);
                             }
                             niyayTable.get(listItemName)[4] = doc;
-                            if (niyayTable.get(listItemName)[4] == null || niyayTable.get(listItemName)[4] == "")
+                            if (niyayTable.get(listItemName)[4] == null || niyayTable.get(listItemName)[4].equals(""))
                                 return;
                             flag = db.updateTitle(Long.parseLong(niyayTable.get(listItemName)[0]),
                                     niyayTable.get(listItemName)[4]);
@@ -1407,7 +1410,7 @@ public class MainActivity extends ListActivity {
                                     String line = "";
                                     String NL = System.getProperty("line.separator");
                                     while ((line = in.readLine()) != null) {
-                                        sb.append(line + NL);
+                                        sb.append(line).append(NL);
                                     }
                                     in.close();
                                     doc = sb.toString();
@@ -1483,7 +1486,7 @@ public class MainActivity extends ListActivity {
                                 niyayTable.get(listItemName)[3] = Integer.toString(Integer.parseInt(niyayTable.get(listItemName)[3]) - 1);
                             }
                             niyayTable.get(listItemName)[4] = doc;
-                            if (niyayTable.get(listItemName)[4] == null || niyayTable.get(listItemName)[4] == "")
+                            if (niyayTable.get(listItemName)[4] == null || niyayTable.get(listItemName)[4].equals(""))
                                 return;
                             flag = db.updateTitle(Long.parseLong(niyayTable.get(listItemName)[0]),
                                     niyayTable.get(listItemName)[4]);
@@ -1504,7 +1507,7 @@ public class MainActivity extends ListActivity {
                             mGaTracker.sendEvent("ui_action", "button_press", "add_cp", (long) 0);
                         }
 
-                        ;
+
                     }.execute();
                 }
                 return true;
@@ -1552,7 +1555,7 @@ public class MainActivity extends ListActivity {
                     return true;
                 }
                 db.open();
-                if (niyayTable.get(listItemName)[4] == null || niyayTable.get(listItemName)[4] == "") return true;
+                if (niyayTable.get(listItemName)[4] == null || niyayTable.get(listItemName)[4].equals("")) return true;
                 else Log.e("niyayTable.get(listItemName)[4]", niyayTable.get(listItemName)[4]);
                 boolean flag = db.updateTitle(Long.parseLong(niyayTable.get(listItemName)[0]), niyayTable.get(listItemName)[4]);
                 if (flag) {
@@ -1689,7 +1692,6 @@ public class MainActivity extends ListActivity {
                         ////dialog.setCancelable(true);
                     }
 
-                    ;
 
                     @Override
                     protected Boolean doInBackground(Integer... args) {
@@ -1703,11 +1705,11 @@ public class MainActivity extends ListActivity {
 
 
                         try {
-
-                            for (Cookie cookie : doback.cookies) {
-                                httpclient.getCookieStore().addCookie(cookie);
+                            if (doback.cookies != null) {
+                                for (Cookie cookie : doback.cookies) {
+                                    httpclient.getCookieStore().addCookie(cookie);
+                                }
                             }
-                            ;
                             HttpGet httpget = new HttpGet(new URI(niyayTable.get(listItemName)[2] + niyayTable.get(listItemName)[3]));
                             ResponseHandler<String> responseHandler = new BasicResponseHandler();
                             doc = httpclient.execute(httpget, responseHandler);
@@ -1726,7 +1728,7 @@ public class MainActivity extends ListActivity {
                                 String line = "";
                                 String NL = System.getProperty("line.separator");
                                 while ((line = in.readLine()) != null) {
-                                    sb.append(line + NL);
+                                    sb.append(line).append(NL);
                                 }
                                 in.close();
                                 doc = sb.toString();
@@ -1807,7 +1809,7 @@ public class MainActivity extends ListActivity {
                             }
 
                             niyayTable.get(listItemName)[4] = doc;
-                            if (niyayTable.get(listItemName)[4] == null || niyayTable.get(listItemName)[4] == "")
+                            if (niyayTable.get(listItemName)[4] == null || niyayTable.get(listItemName)[4].equals(""))
                                 return;
                             flag = db.updateTitle(Long.parseLong(niyayTable.get(listItemName)[0]),
                                     niyayTable.get(listItemName)[4]);
@@ -1899,6 +1901,19 @@ public class MainActivity extends ListActivity {
                 }
                 startActivity(longread1);
                 return true;
+            case R.id.openfast:
+                Intent FastReadActivity = new Intent(getBaseContext(), LongRead2.class);
+                if (niyayTable.get(listItemName)[0].equals("-2")) {
+                    final String unum = MyAppClass.findnum(niyayTable.get(listItemName)[2], "story_id=", getBaseContext());
+                    FastReadActivity.putExtra("url", "http://writer.dek-d.com/dek-d/writer/viewlongc.php?id=" + unum + "&chapter=");
+                } else {
+                    FastReadActivity.putExtra("url", niyayTable.get(listItemName)[2]);
+                }
+                FastReadActivity.putExtra("cp", niyayTable.get(listItemName)[3]);
+                FastReadActivity.putExtra("from", "cp");
+
+                startActivity(FastReadActivity);
+                return true;
             default:
                 return super.onContextItemSelected(item);
         }
@@ -1951,7 +1966,7 @@ public class MainActivity extends ListActivity {
 
     private void addmenu() {
         context = MainActivity.this;
-        CharSequence[] items = {"ค้นหาจากหน้า Web แบบใหม่", "ค้นหาแบ่งตามหมวด (มีปัญหา)", "ค้นหาจากข้อมูล ", "จาก Favorite Writer", "ค้นหาจากหน้า Web"};
+        CharSequence[] items = {"ค้นหาจากหน้า Web แบบใหม่", "ค้นหาแบ่งตามหมวด (แบบใหม่)", "ค้นหาจากข้อมูล ", "จาก Favorite Writer", "ค้นหาจากหน้า Web", "ค้นหาแบ่งตามหมวด (ปรับปรุง)", "ค้นหาแบ่งตามหมวด (แบบเก่า)"};
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         builder.setCancelable(true)
                 .setSingleChoiceItems(items, -1, new DialogInterface.OnClickListener() {
@@ -1967,8 +1982,8 @@ public class MainActivity extends ListActivity {
                             Intent i = new Intent(getApplicationContext(), Fav_add.class);
                             startActivityForResult(i, 0);
                         } else if (id == 1) {
-                            mGaTracker.sendEvent("ui_action", "dialog_press", "add_SearchGroupActivity", (long) 0);
-                            Intent i = new Intent(getApplicationContext(), SearchGroupActivity.class);
+                            mGaTracker.sendEvent("ui_action", "dialog_press", "add_SearchGroupActivity2", (long) 0);
+                            Intent i = new Intent(getApplicationContext(), webfind2.class);
                             startActivityForResult(i, 0);
                         } else if (id == 2) {
                             mGaTracker.sendEvent("ui_action", "dialog_press", "add_SearchNameActivity", (long) 0);
@@ -1977,7 +1992,15 @@ public class MainActivity extends ListActivity {
                         } else if (id == 0) {
                             mGaTracker.sendEvent("ui_action", "dialog_press", "add_SearchNewWeb", (long) 0);
                             Intent i = new Intent(getApplicationContext(), webfind.class);
-                            startActivity(i);
+                            startActivityForResult(i, 0);
+                        } else if (id == 5) {
+                            mGaTracker.sendEvent("ui_action", "dialog_press", "add_SearchNewWeb2", (long) 0);
+                            Intent i = new Intent(getApplicationContext(), SearchGroupActivity.class);
+                            startActivityForResult(i, 0);
+                        } else if (id == 6) {
+                            mGaTracker.sendEvent("ui_action", "dialog_press", "add_SearchGroupActivity", (long) 0);
+                            Intent i = new Intent(getApplicationContext(), SearchGroupActivity2.class);
+                            startActivityForResult(i, 0);
                         }
 
 

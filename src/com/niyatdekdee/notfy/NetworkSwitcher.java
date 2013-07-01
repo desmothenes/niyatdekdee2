@@ -135,9 +135,9 @@ public class NetworkSwitcher extends BroadcastReceiver {
         notification.flags |= Notification.FLAG_AUTO_CANCEL;
 
         // The PendingIntent will launch activity if the user selects this notification
-        Intent browserIntent = null;
+        Intent browserIntent;
 /*		browserIntent = new Intent(Intent.ACTION_VIEW);
-		Uri data = Uri.parse(url+"#story_body");
+        Uri data = Uri.parse(url+"#story_body");
 		browserIntent.setData(data);*/
         if (Setting.getArrowSelectSetting(context) == null) {
             browserIntent = new Intent(Intent.ACTION_VIEW);
@@ -332,6 +332,7 @@ public class NetworkSwitcher extends BroadcastReceiver {
 								"<font color=#33B6EA>เรื่อง :" +temp[1]+"</font><br />" +
 								"<font color=#cc0029>" +temp[4]+"</font></p>"); */
                 final String unum = MyAppClass.findnum(link.select("a").attr("href"), "story_id=", context);
+                if (!stext.contains("ตอนที่")) continue;
                 final String chapter = MyAppClass.findnum(stext.substring(stext.indexOf("ตอนที่")), "ตอนที่ ", context);
                 final String url = "http://writer.dek-d.com/dek-d/writer/viewlongc.php?id=" + unum + "&chapter=" + chapter;
                 System.out.println(url);

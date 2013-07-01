@@ -37,8 +37,7 @@ public class Setting extends PreferenceActivity implements OnSharedPreferenceCha
             @Override
             public boolean onPreferenceClick(Preference arg0) {
                 //code for what you want it to do
-                saveSharedPreferencesToFile();
-                return true;
+                return saveSharedPreferencesToFile();
             }
         });
         Preference button2 = (Preference) findPreference("Restore");
@@ -46,8 +45,7 @@ public class Setting extends PreferenceActivity implements OnSharedPreferenceCha
             @Override
             public boolean onPreferenceClick(Preference arg0) {
                 //code for what you want it to do
-                loadSharedPreferencesFromFile();
-                return true;
+                return loadSharedPreferencesFromFile();
             }
         });
     }

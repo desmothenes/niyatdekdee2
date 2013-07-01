@@ -1,35 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.niyatdekdee.notfy"
-    android:installLocation="auto"
-    android:versionCode="44"
-    android:versionName="1.420z">
+          package="com.niyatdekdee.notfy"
+          android:installLocation="auto"
+          android:versionCode="44"
+          android:versionName="1.420z">
 
     <uses-sdk
-        android:minSdkVersion="10"
-        android:targetSdkVersion="10" />
+        android:minSdkVersion="9"
+        android:targetSdkVersion="9"/>
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.READ_LOGS" />
-	<uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.READ_LOGS"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+
     <application
         android:name="com.niyatdekdee.notfy.MyAppClass"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/customTitlebar" >
+        android:theme="@style/customTitlebar">
         <activity
             android:name="com.niyatdekdee.notfy.MainActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="nosensor"
             android:label="@string/app_name"
-            android:launchMode="singleTop" >
+            android:launchMode="singleTop">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -38,121 +38,143 @@
         </activity>
         <activity
             android:name="com.niyatdekdee.notfy.InsertForm"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name="com.niyatdekdee.notfy.EditForm"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name="com.niyatdekdee.notfy.add_web"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
         </activity>
 
-        <receiver android:name="com.niyatdekdee.notfy.AutoStart" >
+        <receiver android:name="com.niyatdekdee.notfy.AutoStart">
         </receiver>
-        <receiver android:enabled="true"  android:name="com.niyatdekdee.notfy.Alarm" >
+        <receiver
+            android:enabled="true"
+            android:name="com.niyatdekdee.notfy.Alarm">
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
             </intent-filter>
         </receiver>
-        <receiver android:name="com.niyatdekdee.notfy.NetworkSwitcher" >
+        <receiver android:name="com.niyatdekdee.notfy.NetworkSwitcher">
             <intent-filter>
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
             </intent-filter>
         </receiver>
 
         <service
             android:name="com.niyatdekdee.notfy.NiyayService"
-            android:enabled="true" >
+            android:enabled="true">
+
         </service>
 
         <activity
             android:name="com.niyatdekdee.notfy.Setting"
             android:label="@string/title_activity_setting"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" >
+            android:theme="@style/AppTheme">
         </activity>
         <activity
             android:name="com.niyatdekdee.notfy.Fav_add"
             android:label="@string/title_activity_fav_add"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name="com.niyatdekdee.notfy.Find"
             android:label="@string/title_activity_find"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name="com.niyatdekdee.notfy.SearchGroupActivity"
             android:label="@string/title_activity_seaech"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name="com.niyatdekdee.notfy.SearchGroupActivity2"
+            android:label="@string/title_activity_seaech"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name="com.niyatdekdee.notfy.SearchNameActivity"
             android:label="@string/title_activity_search_name"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name="com.niyatdekdee.notfy.DekdeeBrowserActivity"
             android:configChanges="orientation|keyboardHidden"
             android:label="@string/title_activity_dekdee_browser"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name="com.niyatdekdee.notfy.ChapterListActivity"
             android:label="@string/title_activity_chapter_list"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name="com.niyatdekdee.notfy.FlowActivity"
             android:label="@string/title_activity_flow"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+            android:theme="@android:style/Theme.Translucent.NoTitleBar">
         </activity>
         <activity
             android:name="com.niyatdekdee.notfy.WebNotifyActivity"
             android:label="@string/title_activity_web_notify"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
         </activity>
 
         <service
             android:name="com.niyatdekdee.notfy.DekTTSActivity"
-            android:enabled="true" >
+            android:enabled="true">
         </service>
+
         <activity
             android:name="com.niyatdekdee.notfy.MainLayout"
             android:label="@string/title_activity_flow2"
             android:screenOrientation="portrait"
-            android:theme="@style/AppThemeNoTitleBar"  >
+            android:theme="@style/AppThemeNoTitleBar">
         </activity>
         <activity
             android:name="com.niyatdekdee.notfy.Flow2"
             android:label="@string/title_activity_flow2"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+            android:theme="@android:style/Theme.Translucent.NoTitleBar">
         </activity>
         <activity
             android:name="com.niyatdekdee.notfy.TextReadActivity"
             android:configChanges="orientation|keyboardHidden"
             android:label="@string/title_activity_text_read"
             android:screenOrientation="nosensor"
-            android:theme="@style/AppThemeNoTitleBar" >
+            android:theme="@style/AppThemeNoTitleBar">
         </activity>
         <activity
             android:name="com.niyatdekdee.notfy.Flow3"
             android:label="@string/title_activity_flow3"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+            android:theme="@android:style/Theme.Translucent.NoTitleBar">
         </activity>
         <activity
             android:name="com.niyatdekdee.notfy.LongRead"
-            android:label="@string/title_activity_long_read" >
+            android:screenOrientation="nosensor"
+            android:label="@string/title_activity_long_read">
         </activity>
         <activity
             android:name="com.niyatdekdee.notfy.LongRead2"
-            android:label="@string/title_activity_long_read" >
+            android:screenOrientation="nosensor"
+            android:label="@string/title_activity_long_read">
         </activity>
-        <activity android:name=".webfind">
+        <activity
+            android:name=".webfind"
+            android:screenOrientation="portrait"
+            android:label="@string/NewWebFind"
+            android:theme="@style/AppThemeNoTitleBar">
+        </activity>
+        <activity
+            android:name=".webfind2"
+            android:screenOrientation="portrait"
+            android:label="@string/NewWebFind"
+            android:theme="@style/AppThemeNoTitleBar">
+
         </activity>
     </application>
 

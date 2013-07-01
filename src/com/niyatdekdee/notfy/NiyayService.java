@@ -169,6 +169,7 @@ public class NiyayService extends WakefulIntentService {
 							"<font color=#33B6EA>เรื่อง :" +temp[1]+"</font><br />" +
 							"<font color=#cc0029>" +temp[4]+"</font></p>"); */
             final String unum = MyAppClass.findnum(link.select("a").attr("href"), "story_id=", getBaseContext());
+            if (!stext.contains("ตอนที่")) continue;
             final String chapter = MyAppClass.findnum(stext.substring(stext.indexOf("ตอนที่")), "ตอนที่ ", getBaseContext());
             final String url = "http://writer.dek-d.com/dek-d/writer/viewlongc.php?id=" + unum + "&chapter=" + chapter;
             System.out.println(url);
@@ -323,16 +324,16 @@ public class NiyayService extends WakefulIntentService {
             text1 = httpclient.execute(httpget, responseHandler);
         } catch (ClientProtocolException e) {
             //Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
-            Log.e("Error", e.getMessage());
+            //Log.e("Error", e.getMessage());
             e.printStackTrace();
         } catch (IOException e) {
             //Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
-            Log.e("Error", e.getMessage());
+            //Log.e("Error", e.getMessage());
             e.printStackTrace();
         } catch (URISyntaxException e) {
             //TODO Auto-generated catch block
             //Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
-            Log.e("Error", e.getMessage());
+            //Log.e("Error", e.getMessage());
             e.printStackTrace();
         } finally {
             httpclient.getConnectionManager().shutdown();

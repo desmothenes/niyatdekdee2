@@ -23,10 +23,7 @@ import org.jsoup.select.Elements;
 import java.io.File;
 import java.io.IOException;
 import java.text.BreakIterator;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Locale;
+import java.util.*;
 
 public class DekTTSActivity extends Service implements OnInitListener {
 
@@ -180,7 +177,7 @@ public class DekTTSActivity extends Service implements OnInitListener {
             Toast.makeText(getApplicationContext(), "IOException Failed!", Toast.LENGTH_SHORT).show();
             return;
         }/* else {
-			System.out.println(doc.select("table[id*=story_body]").html());
+            System.out.println(doc.select("table[id*=story_body]").html());
 		}*/
         for (Element link : link1) {
             sum.append(link.text()).append("\n");
@@ -319,14 +316,23 @@ public class DekTTSActivity extends Service implements OnInitListener {
         speak(SubText(sum.toString()));
     }
 
-    static ArrayList<String> SubText(final String input) {
-
-        Locale thaiLocale = new Locale("th");
-        System.out.println("subtext");
-        System.out.println("input");
-        BreakIterator boundary = BreakIterator.getSentenceInstance(thaiLocale);
-        boundary.setText(input);
-        return printEachForward(boundary, input);
+    static ArrayList<String> SubText(String input) {
+        if (tts.getDefaultEngine().contains("vaja")) {
+            while (input.contains(" ๆ")) {
+                input = input.replace(" ๆ", "ๆ");
+            }
+            List<String> temp = Arrays.asList(input.split(" "));
+            temp.add("หมดข้อความที่จะอ่านออกเสียง");
+            return new ArrayList<String>(temp);
+        } else {
+            Locale thaiLocale = new Locale("th");
+            System.out.println("subtext");
+            System.out.println("input");
+            BreakIterator boundary = BreakIterator.getSentenceInstance(thaiLocale);
+            input += "\n\nหมดข้อความที่จะอ่านออกเสียง";
+            boundary.setText(input);
+            return printEachForward(boundary, input);
+        }
     }
 /*	static ArrayList<String> SubText2(final String input) {
 
@@ -385,16 +391,16 @@ public class DekTTSActivity extends Service implements OnInitListener {
                     // TODO Auto-generated method stub
                     i = 0;
                     HashMap<String, String> params = new HashMap<String, String>();
+                    params.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "complete");
                     for (String text : cuttext) {
-                        //Log.e( "cuttext",text);
+                        Log.e("cuttext", text);
                         while (text.contains("..")) {
-                            text = text.replace("..", " ");
+                            text = text.replaceAll("\\.\\.", "");
                         }
-                        text = text.replace("…", " ").replace(".", "จุด").replace(" ๆ", "ๆ").trim();
+                        text = text.replaceAll("…", " ").trim();
                         i++;
 
                         text = text.trim();
-                        params.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "complete");
 
                         while (isSpeak)
                             try {
@@ -480,7 +486,11 @@ public class DekTTSActivity extends Service implements OnInitListener {
                     HashMap<String, String> params = new HashMap<String, String>();
                     for (String text : cuttext) {
                         //Log.e( "cuttext",text);
-                        text = text.replace(".", "จุด").replace(" ๆ", "ๆ").trim();
+
+                        while (text.contains("..")) {
+                            text = text.replaceAll("\\.\\.", "");
+                        }
+                        text = text.replace(" ๆ", "ๆ").trim();
                         final int size = text.length();
                         if (size < 2) continue;
                         i++;
@@ -668,7 +678,7 @@ public class DekTTSActivity extends Service implements OnInitListener {
                     strtotext(text);
                 } else if (type == 4) {
                     tts.speak("โปรดรอ", TextToSpeech.QUEUE_FLUSH, null);
-                    speak(new ArrayList<String>(Arrays.asList(text.split(" "))));
+                    speak(SubText(text));
                 } else if (type == 5) {
                     lltotext(text);
                 } else if (type == 99) {

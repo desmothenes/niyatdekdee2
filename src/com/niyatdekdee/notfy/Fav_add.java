@@ -11,7 +11,6 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.util.LruCache;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -259,7 +258,7 @@ public class Fav_add extends ListActivity {
         }
 
         protected void onProgressUpdate(String... progress) {
-            if (progress[0] == "-1") {
+            if (progress[0].equals("-1")) {
                 dialog.setMessage("การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่");
             } else {
                 dialog.setMessage(progress[0]);
@@ -380,7 +379,7 @@ public class Fav_add extends ListActivity {
         private final Activity context;
         private ArrayList<String> names = new ArrayList<String>();
 
-        private LruCache<String, Bitmap> mMemoryCache;
+        //private LruCache<String, Bitmap> mMemoryCache;
 
         public InteractiveArrayAdapter(Activity context, ArrayList<String> names) {
             super(context, R.layout.fav_item, names);
@@ -390,14 +389,14 @@ public class Fav_add extends ListActivity {
                     Context.ACTIVITY_SERVICE)).getMemoryClass();
 
             // Use 1/8th of the available memory for this memory cache.
-            final int cacheSize = 1024 * 1024 * memClass / 8;
-            mMemoryCache = new LruCache<String, Bitmap>(cacheSize) {
+            //final int cacheSize = 1024 * 1024 * memClass / 8;
+/*            mMemoryCache = new LruCache<String, Bitmap>(cacheSize) {
                 @Override
                 protected int sizeOf(String key, Bitmap bitmap) {
                     // The cache size will be measured in bytes rather than number of items.
                     return bitmap.getRowBytes() * bitmap.getHeight();
                 }
-            };
+            };*/
             /*
             try {
 				for (String imgurl : imagetable) {
@@ -424,7 +423,7 @@ public class Fav_add extends ListActivity {
             }
             TextView text = (TextView) rowView.findViewById(R.id.textView1);
             TextView detail = (TextView) rowView.findViewById(R.id.artist);
-            ImageView thumb_image = (ImageView) rowView.findViewById(R.id.list_image);
+            //ImageView thumb_image = (ImageView) rowView.findViewById(R.id.list_image);
 
             //System.out.println(names.get(position));
             //System.out.println(detailtable.get(position));
@@ -432,19 +431,20 @@ public class Fav_add extends ListActivity {
             text.setText((names.get(position) != null) ? names.get(position) : "1");
             detail.setText((detailtable.get(position) != null) ? detailtable.get(position) : "2");
             //thumb_image.setImageResource(R.drawable.rihanna);
-            final Bitmap bitmap = getBitmapFromMemCache(imagetable.get(position));
+/*            final Bitmap bitmap = getBitmapFromMemCache(imagetable.get(position));
             if (bitmap != null) {
                 thumb_image.setImageBitmap(bitmap);
                 thumb_image.setScaleType(ScaleType.CENTER_CROP);
             } else {
                 BitmapWorkerTask task = new BitmapWorkerTask(thumb_image);
                 task.execute(imagetable.get(position));
-            }
+            }*/
 
             //thumb_image.setImageBitmap(imageLoader.DisplayImage((imagetable.get(position)!= null)? imagetable.get(position) : "3",thumb_image));
             //imageLoader.DisplayImage((imagetable.get(position)!= null)? imagetable.get(position) : "3",thumb_image);
             return rowView;
         }
+/*
 
         public void addBitmapToMemoryCache(String key, Bitmap bitmap) {
             if (getBitmapFromMemCache(key) == null) {
@@ -455,6 +455,7 @@ public class Fav_add extends ListActivity {
         public Bitmap getBitmapFromMemCache(String key) {
             return mMemoryCache.get(key);
         }
+*/
 
         class BitmapWorkerTask extends AsyncTask<String, Void, Bitmap> {
 
@@ -472,7 +473,7 @@ public class Fav_add extends ListActivity {
                     URLConnection connection = newurl.openConnection();
                     connection.setUseCaches(true);
                     Bitmap mIcon_val = BitmapFactory.decodeStream(connection.getInputStream());
-                    addBitmapToMemoryCache(arg0[0], mIcon_val);
+                    //addBitmapToMemoryCache(arg0[0], mIcon_val);
                     return mIcon_val;
                 } catch (MalformedURLException e) {
                     // TODO Auto-generated catch block

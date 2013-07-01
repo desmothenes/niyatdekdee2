@@ -37,6 +37,7 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 
 public class Find extends ListActivity {
@@ -313,7 +314,7 @@ public class Find extends ListActivity {
                 //e.printStackTrace();
             }
         }
-		/*
+        /*
 		public void execute(int i) {
 			// TODO Auto-generated method stub
 
@@ -438,7 +439,7 @@ public class Find extends ListActivity {
                     connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Linux; Android 4.0.4; Galaxy Nexus Build/IMM76B) AppleWebKit/535.19 (KHTML, like Gecko) Chrome/18.0.1025.133 Mobile Safari/535.19");
                     connection.setRequestProperty("Content-Type", "text/html; charset=tis-620");
                     connection.addRequestProperty("REFERER", "http://www.dek-d.com/writer/frame.php");
-                    InputStreamReader in = new InputStreamReader(connection.getInputStream(), "TIS-620");
+                    InputStreamReader in = new InputStreamReader(connection.getInputStream(), Charset.forName("utf-8"));
                     ByteArrayOutputStream bos = new ByteArrayOutputStream();
                     int next = in.read();
                     while (next > -1) {
@@ -464,11 +465,11 @@ public class Find extends ListActivity {
 
                     */
                     String line = StringEscapeUtils.unescapeJava(new String(result));
-                    String line2 = StringEscapeUtils.unescapeJava(new String(result, "TIS-620"));
-                    String line3 = StringEscapeUtils.unescapeJava(new String(result, "UTF-8"));
+                    //String line2 = StringEscapeUtils.unescapeJava(new String(result, "TIS-620"));
+                    // line3 = StringEscapeUtils.unescapeJava(new String(result, "UTF-8"));
                     //System.out.println(line);
                     if (line.contains("เธเธ")) {
-                        line = new String(line.getBytes("tis620"), "UTF-8");
+                        line = new String(line.getBytes("US-ASCII"), "tis620");
                         /*in = new InputStreamReader(connection.getInputStream(),"UTF-8");
                         bos = new ByteArrayOutputStream();
                         next = in.read();

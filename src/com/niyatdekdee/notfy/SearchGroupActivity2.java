@@ -12,29 +12,22 @@ import com.google.analytics.tracking.android.EasyTracker;
 
 import java.util.ArrayList;
 
-//import com.bugsense.trace.BugSenseHandler;
-
-public class SearchNameActivity extends Activity {
-    private ArrayList<String> mainList = new ArrayList<String>();
-    private String type = "";
-    private String is_end = "";
-    protected String main = "";
-    protected String sub = "";
+public class SearchGroupActivity2 extends Activity {
+    ArrayList<String> mainList = new ArrayList<String>();
     private Spinner subGP;
-    ScrollView mainScrollView;
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        mainScrollView.smoothScrollTo(0, 0);
-    }
+    private Button searchbtt;
+    private ScrollView point;
+    private String story_type = "2";
+    private String main = "0";
+    private String sub = "0";
+    private String isend = "0";
+    private String sort = "1";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //BugSenseHandler.initAndStartSession(SearchNameActivity.this, "7942beee");
         boolean customTitleSupported = requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
-        setContentView(R.layout.activity_search_name);
+        setContentView(R.layout.activity_search);
         if (Setting.getScreenSetting(getApplicationContext()).equals("1"))
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         if (customTitleSupported) {
@@ -84,7 +77,7 @@ public class SearchNameActivity extends Activity {
             }
 
             btnOk.setImageDrawable(getResources().getDrawable(R.drawable.ic_action_search));
-            btnOk.setOnClickListener(new View.OnClickListener() {
+            btnOk.setOnClickListener(new OnClickListener() {
 
                 @Override
                 public void onClick(View arg0) {
@@ -94,7 +87,7 @@ public class SearchNameActivity extends Activity {
             });
 
             ImageButton btnDirection = (ImageButton) findViewById(R.id.btnDirection);
-            btnDirection.setOnClickListener(new View.OnClickListener() {
+            btnDirection.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     finish();
@@ -102,79 +95,20 @@ public class SearchNameActivity extends Activity {
             });
         }
 
-        mainScrollView = (ScrollView) findViewById(R.id.scrollView1);
-        Spinner gpMenu = (Spinner) findViewById(R.id.spinner4);
-        ArrayList<String> gpList = new ArrayList<String>();
-        gpList.add("ทั้งหมด");
-        gpList.add("เรื่องสั้น");
-        gpList.add("เรื่องยาว");
-
-        ArrayAdapter<String> gpadb = new ArrayAdapter<String>(SearchNameActivity.this,
-                android.R.layout.simple_spinner_item,
-                gpList);
-        gpadb.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        gpMenu.setAdapter(gpadb);
-        gpMenu.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
-            @Override
-            public void onItemSelected(AdapterView<?> arg0, View arg1,
-                                       int arg2, long arg3) {
-                // TODO Auto-generated method stub
-                if (arg2 != 0)
-                    type = Integer.toString(arg2);
-                else type = "";
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> arg0) {
-                // TODO Auto-generated method stub
-
-            }
-
-        });
-        Spinner stausMenu = (Spinner) findViewById(R.id.spinner5);
-        ArrayList<String> statusList = new ArrayList<String>();
-        statusList.add("ทั้งหมด");
-        statusList.add("ยังไม่จบ");
-        statusList.add("จบแล้ว");
-
-        ArrayAdapter<String> statusadb = new ArrayAdapter<String>(SearchNameActivity.this,
-                android.R.layout.simple_spinner_item,
-                statusList);
-        statusadb.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        stausMenu.setAdapter(statusadb);
-        stausMenu.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
-            @Override
-            public void onItemSelected(AdapterView<?> arg0, View arg1,
-                                       int arg2, long arg3) {
-                // TODO Auto-generated method stub
-                if (arg2 != 0)
-                    is_end = Integer.toString(arg2);
-                else is_end = "";
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> arg0) {
-                // TODO Auto-generated method stub
-
-            }
-
-        });
-
-        Spinner mainGP = (Spinner) findViewById(R.id.spinner6);
-        subGP = (Spinner) findViewById(R.id.spinner13);
+        point = (ScrollView) findViewById(R.id.ScrollView01);
+        Spinner mainGP = (Spinner) findViewById(R.id.Spinner02);
+        subGP = (Spinner) findViewById(R.id.spinner2);
         mainList.add("ทุกหมวด");
         mainList.add("หมวดหลักฟรีสไตล์");
         mainList.add("หมวดหลักมีสาระ");
         mainList.add("หมวดหลักไลฟ์สไตล์");
-        ArrayAdapter<String> mainadb = new ArrayAdapter<String>(SearchNameActivity.this,
+        ArrayAdapter<String> mainadb = new ArrayAdapter<String>(SearchGroupActivity2.this,
                 android.R.layout.simple_spinner_item,
                 mainList);
         mainadb.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mainGP.setAdapter(mainadb);
         subGP.setEnabled(false);
-        mainGP.setSelection(0);
+        mainGP.setSelection(1);
         mainGP.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
             public void onNothingSelected(AdapterView<?> arg0) {
@@ -187,8 +121,8 @@ public class SearchNameActivity extends Activity {
                 // TODO Auto-generated method stub
                 ArrayList<String> subList = new ArrayList<String>();
                 if (index == 0) {
-                    main = "";
-                    sub = "";
+                    main = "0";
+                    sub = "0";
                     subGP.setEnabled(false);
                     return;
                 } else if (index == 1) {
@@ -238,16 +172,16 @@ public class SearchNameActivity extends Activity {
                     subList.add("ไอที เทคโนโลยี");
                     subList.add("อื่นๆ");
                 }
-                ArrayAdapter<String> subadb = new ArrayAdapter<String>(SearchNameActivity.this,
+                ArrayAdapter<String> subadb = new ArrayAdapter<String>(SearchGroupActivity2.this,
                         android.R.layout.simple_spinner_item,
                         subList);
                 subadb.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                final int x = mainScrollView.getScrollX();
-                final int y = mainScrollView.getScrollY();
+                final int x = point.getScrollX();
+                final int y = point.getScrollY();
                 subGP.setAdapter(subadb);
                 subGP.setSelection(0);
                 subGP.setEnabled(true);
-                mainScrollView.scrollTo(x, y);
+                point.scrollTo(x, y);
             }
 
         });
@@ -274,43 +208,114 @@ public class SearchNameActivity extends Activity {
             }
         });
 
-        Button searchbtt = (Button) findViewById(R.id.button1);
+        Spinner sortMenu = (Spinner) findViewById(R.id.Spinner01);
+        ArrayList<String> sortList = new ArrayList<String>();
+        sortList.add("อัพเดทล่าสุด");
+        sortList.add("มีผู้ชมมากสุด");
+        ArrayAdapter<String> sortadb = new ArrayAdapter<String>(SearchGroupActivity2.this,
+                android.R.layout.simple_spinner_item,
+                sortList);
+        sortadb.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        sortMenu.setAdapter(sortadb);
+        sortMenu.setSelection(1);
+
+        sortMenu.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> arg0, View arg1,
+                                       int arg2, long arg3) {
+                // TODO Auto-generated method stub
+                sort = Integer.toString(arg2);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+                // TODO Auto-generated method stub
+
+            }
+
+        });
+
+        Spinner stausMenu = (Spinner) findViewById(R.id.spinner1);
+        ArrayList<String> statusList = new ArrayList<String>();
+        statusList.add("ทั้งหมด");
+        statusList.add("ยังไม่จบ");
+        statusList.add("จบแล้ว");
+
+        ArrayAdapter<String> statusadb = new ArrayAdapter<String>(SearchGroupActivity2.this,
+                android.R.layout.simple_spinner_item,
+                statusList);
+        statusadb.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        stausMenu.setAdapter(statusadb);
+        stausMenu.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> arg0, View arg1,
+                                       int arg2, long arg3) {
+                // TODO Auto-generated method stub
+                isend = Integer.toString(arg2);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+                // TODO Auto-generated method stub
+
+            }
+
+        });
+
+        Spinner gpMenu = (Spinner) findViewById(R.id.Spinner03);
+        ArrayList<String> gpList = new ArrayList<String>();
+        //gpList.add("ทั้งหมด");
+        //gpList.add("เรื่องสั้น");
+        gpList.add("เรื่องยาว");
+
+        ArrayAdapter<String> gpadb = new ArrayAdapter<String>(SearchGroupActivity2.this,
+                android.R.layout.simple_spinner_item,
+                gpList);
+        gpadb.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        gpMenu.setAdapter(statusadb);
+        gpMenu.setSelection(0);
+        gpMenu.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> arg0, View arg1,
+                                       int arg2, long arg3) {
+                story_type = "2";//Integer.toString(arg2);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+                story_type = "2";
+            }
+
+        });
+
+        searchbtt = (Button) findViewById(R.id.searchbtt);
         searchbtt.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View arg0) {
-                // TODO Auto-generated method stub
                 add();
             }
         });
     }
 
-    private void add() {
-        TextView title = (TextView) findViewById(R.id.LongReadText);
-        TextView writer = (TextView) findViewById(R.id.editText2);
-        TextView abstract_w = (TextView) findViewById(R.id.editText3);
-        TextView ntitle = (TextView) findViewById(R.id.editText9);
-        TextView nwriter = (TextView) findViewById(R.id.editText10);
-        TextView nabstract_w = (TextView) findViewById(R.id.editText11);
+    protected void add() {
+        // TODO Auto-generated method stub
         Intent intent = new Intent(getBaseContext(), Find.class);
-        intent.putExtra("story_type", type);
+        intent.putExtra("story_type", story_type);
         intent.putExtra("main", main);
         intent.putExtra("sub", sub);
-        intent.putExtra("isend", is_end);
-        intent.putExtra("title", title.getText().toString());
-        intent.putExtra("writer", writer.getText().toString());
-        intent.putExtra("abstract_w", abstract_w.getText().toString());
-        intent.putExtra("ntitle", ntitle.getText().toString());
-        intent.putExtra("nwriter", nwriter.getText().toString());
-        intent.putExtra("nabstract_w", nabstract_w.getText().toString());
-        intent.putExtra("from", "na");
+        intent.putExtra("isend", isend);
+        intent.putExtra("sort", sort);
+        intent.putExtra("from", "gp");
         startActivity(intent);
     }
 
-
-    /*    @Override
+    /*	@Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.activity_search_name, menu);
+        getMenuInflater().inflate(R.menu.activity_seaech, menu);
         return true;
     }*/
     public void onStart() {

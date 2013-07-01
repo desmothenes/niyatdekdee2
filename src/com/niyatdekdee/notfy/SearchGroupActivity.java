@@ -194,7 +194,7 @@ public class SearchGroupActivity extends Activity {
                 // TODO Auto-generated method stub
                 if (arg2 == 0) {
                     sub = "-1";
-                } else if (mainList.size() - 1 == arg2 && main != "2") {
+                } else if (mainList.size() - 1 == arg2 && !main.equals("2")) {
                     sub = "0";
                 } else {
                     sub = Integer.toString(arg2);
@@ -303,7 +303,7 @@ public class SearchGroupActivity extends Activity {
 
     protected void add() {
         // TODO Auto-generated method stub
-        Intent intent = new Intent(getBaseContext(), Find.class);
+        Intent intent = new Intent(getBaseContext(), webfind2.class);
         intent.putExtra("story_type", story_type);
         intent.putExtra("main", main);
         intent.putExtra("sub", sub);

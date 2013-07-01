@@ -231,7 +231,7 @@ public class WebNotifyActivity extends ListActivity {
                     if (sessionId != null) {
                         for (String key : sessionId.keySet()) {
                             Log.v(key, sessionId.get(key));
-                            cookieString.append(key + "=" + sessionId.get(key) + "; ");
+                            cookieString.append(key).append("=").append(sessionId.get(key)).append("; ");
                         }
                     }
                     browserIntent.putExtra("cookieString", cookieString +/* "fbm_193207127471363=base_*/"domain=" + cookie.getDomain());
@@ -258,7 +258,7 @@ public class WebNotifyActivity extends ListActivity {
         }
 
         protected void onProgressUpdate(String... publishProgress) {
-            if (publishProgress[0] == "-1") {
+            if (publishProgress[0].equals("-1")) {
                 dialog.setMessage("การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่");
             } else {
                 dialog.setMessage(publishProgress[0]);

@@ -88,15 +88,19 @@ public class ChapterListActivity extends ListActivity {
                     break;
                 case 5:
                     barLayout.setBackgroundResource(R.drawable.bg_titlebar_fuchsia);
+                    spiner.setBackgroundResource(R.drawable.bg_titlebar_fuchsia);
                     break;
                 case 6:
                     barLayout.setBackgroundResource(R.drawable.bg_titlebar_siver);
+                    spiner.setBackgroundResource(R.drawable.bg_titlebar_siver);
                     break;
                 case 7:
                     barLayout.setBackgroundResource(R.drawable.bg_titlebar_glay);
+                    spiner.setBackgroundResource(R.drawable.bg_titlebar_glay);
                     break;
                 case 8:
                     barLayout.setBackgroundResource(R.drawable.bg_titlebar_orange);
+                    spiner.setBackgroundResource(R.drawable.bg_titlebar_orange);
                     break;
             }
             //เชื่อม btnSearch btnDirection เข้ากับ View
@@ -235,8 +239,17 @@ public class ChapterListActivity extends ListActivity {
 
                 startActivity(TextReadActivity);
                 return true;
+            case R.id.openfast:
+                Intent FastReadActivity = new Intent(getBaseContext(), LongRead2.class);
+                //final String unum = MyAppClass.findnum(url, "story_id=", getBaseContext());
+                FastReadActivity.putExtra("url", url.substring(0, url.indexOf("chapter=") + 8));
+                FastReadActivity.putExtra("cp", url.substring(url.indexOf("chapter=") + 8));
+                FastReadActivity.putExtra("from", "cp");
+
+                startActivity(FastReadActivity);
+                return true;
             case R.id.cptts:
-                if (DekTTSActivity.tts.isSpeaking()) DekTTSActivity.tts.stop();
+                if (DekTTSActivity.tts != null && DekTTSActivity.tts.isSpeaking()) DekTTSActivity.tts.stop();
                 DekTTSActivity.isSpeak = false;
                 Intent intent = new Intent(getApplicationContext(), DekTTSActivity.class);
                 DekTTSActivity.type = 1;

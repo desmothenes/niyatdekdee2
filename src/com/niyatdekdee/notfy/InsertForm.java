@@ -203,7 +203,7 @@ public class InsertForm extends Activity {
         EasyTracker.getInstance().activityStop(this); // Add this method.
     }
 
-    private class Insert_doback extends AsyncTask<URL, Integer, String> {
+    private class Insert_doback extends AsyncTask<URL, String, String> {
 
         private Document doc;
 
@@ -221,15 +221,32 @@ public class InsertForm extends Activity {
             return review();
         }
 
-        protected void onProgressUpdate(Integer... progress) {
-            if (progress[0] == -1) {
-                Toast.makeText(getBaseContext(), "การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่", Toast.LENGTH_LONG).show();
-                return;
+        /*        protected void onProgressUpdate(Integer... progress) {
+                    if (progress[0] == -1) {
+                        Toast.makeText(getBaseContext(), "การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่", Toast.LENGTH_LONG).show();
+                        return;
+                    }
+                    super.onProgressUpdate(progress);
+                    dialog.setProgress(progress[0]);
+                }*/
+        protected void onProgressUpdate(String... progress) {
+            if (progress[0].equals("-1")) {
+                dialog.setMessage("การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่");
+                Toast.makeText(getApplicationContext(), "การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่", Toast.LENGTH_SHORT).show();
+                Log.e("onProgressUpdate", "การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่");
+            } else if (progress[0].equals("-2")) {
+                dialog.setMessage("ไม่สามารถค้นหาตอนล่าสุดได้ โปรดใส่ด้วยตัวเอง");
+                //Toast.makeText(getApplicationContext(), "การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่", Toast.LENGTH_SHORT).show();
+                Log.e("onProgressUpdate", "การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่");
+            } else {
+                try {
+                    int temp = Integer.parseInt(progress[0]);
+                    dialog.setProgress(temp);
+                } catch (NumberFormatException e) {
+                    dialog.setMessage(progress[0]);
+                }
             }
-            super.onProgressUpdate(progress);
-            dialog.setProgress(progress[0]);
         }
-
         protected void onPostExecute(String result) {
             try {
                 txtChapter.setText(chapter);
@@ -249,7 +266,7 @@ public class InsertForm extends Activity {
             Log.v("ti url", url.replace("&chapter=", "").replace("http://writer.dek-d.com/dek-d/writer/viewlongc.php?id=", "http://writer.dek-d.com/story/writer/view.php?id="));
             // TODO Auto-generated method stub
             //String title = null;
-            publishProgress(10);
+            publishProgress("10");
             doc = null;
             try {
                 doc = Jsoup.connect(url.replace("&chapter=", "").replace("http://writer.dek-d.com/dek-d/writer/viewlongc.php?id=", "http://writer.dek-d.com/story/writer/view.php?id=")).userAgent("Mozilla").timeout(15000).post();
@@ -257,10 +274,11 @@ public class InsertForm extends Activity {
                 // TODO Auto-generated catch block
                 e1.printStackTrace();
             }
-            publishProgress(30);
+            publishProgress("30");
             //String doc = Jsoup.parse(is, "UTF-8", url);
             //DefaultHttpClient httpclient = null;
             if (doc == null) {
+                publishProgress("-2");
                 Log.v("txtChapter", "can't find chapter please fill by yourself");
                 chapter = "can't find chapter please fill by yourself";
                 return false;
@@ -345,7 +363,7 @@ public class InsertForm extends Activity {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}*/
-            publishProgress(50);
+            publishProgress("50");
 
             final int start = html.lastIndexOf("<tr>\n          <td align=\"middle\">");
             final int end = html.lastIndexOf("</td>\n          <td><a target=\"_blank\"");
@@ -370,7 +388,7 @@ public class InsertForm extends Activity {
             } else {
                 chapter = html.substring(start + "</td>\n</tr><tr><td align=\"middle\">".length(), end);
             }
-            publishProgress(70);
+            publishProgress("70");
             Log.v("url", url + chapter);
             return true;
             //HttpClient httpclient1 = new DefaultHttpClient();
@@ -431,7 +449,7 @@ public class InsertForm extends Activity {
         }
 
         private String review() {
-            publishProgress(80);
+            publishProgress("80");
             Document doc = null;
             System.out.println(Isgetchapter);
 
@@ -439,12 +457,12 @@ public class InsertForm extends Activity {
                 doc = Jsoup.connect("http://writer.dek-d.com/dek-d/writer/view.php?id" + url.substring(url.indexOf("="), url.indexOf("&"))).timeout(5000).get();
             } catch (IOException e) {
                 // TODO Auto-generated catch block
-                publishProgress(-1);
+                publishProgress("-1");
                 //Toast.makeText(getBaseContext(), "การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่", Toast.LENGTH_LONG).show();
                 e.printStackTrace();
             }
 
-            publishProgress(92);
+            publishProgress("92");
             ArrayList<String> detail = new ArrayList<String>();
             ArrayList<String> header = new ArrayList<String>();
             ArrayList<String> star = new ArrayList<String>();
@@ -454,11 +472,11 @@ public class InsertForm extends Activity {
                 for (Element link : link1) {
                     //if (++c != 2) continue;
                     String stext = link.text();
-                    int index = 0;
+                    int index;
                     if ((index = stext.indexOf("<<")) != -1)
                         detail.add(stext.substring(0, index));
                 }
-                publishProgress(94);
+                publishProgress("94");
                 link1 = doc.select("td[width=314]");
                 for (Element link : link1) {
                     //if (++c != 2) continue;
@@ -466,7 +484,7 @@ public class InsertForm extends Activity {
                     //if (stext.contains("<<"))
                     header.add(stext);
                 }
-                publishProgress(96);
+                publishProgress("96");
                 link1 = doc.select(".curr");
                 for (Element link : link1) {
                     //if (++c != 2) continue;
@@ -475,7 +493,7 @@ public class InsertForm extends Activity {
                     star.add(stext);
                 }
                 StringBuilder review = new StringBuilder("<h3>Top 3 Review</h3>");
-                publishProgress(98);
+                publishProgress("98");
                 for (int i = 0; i < detail.size(); i++) {
                     review.append(String.format("<br/><p><font color=#33B6EA>%s</font><br /><font color=#cc0029>%s</font><br /><font color=#339900>ให้ %s ดาว</font></p>", header.get(i), detail.get(i), star.get(i)));
                 }
@@ -484,13 +502,13 @@ public class InsertForm extends Activity {
         }
 
         private String review(boolean input) {
-            publishProgress(81);
+            publishProgress("81");
             //System.out.println(Isgetchapter);
             //ContextWrapper cw = new ContextWrapper(InsertForm.this);
             //File temp =  new File(cw.getDir("temp", Context.MODE_PRIVATE),"insert.html");
             //doc = Jsoup.parse(temp, "tis620");
             if (!input) return "";
-            publishProgress(91);
+            publishProgress("91");
             ArrayList<String> detail = new ArrayList<String>();
             ArrayList<String> header = new ArrayList<String>();
             ArrayList<String> star = new ArrayList<String>();
@@ -498,11 +516,11 @@ public class InsertForm extends Activity {
             for (Element link : link1) {
                 //if (++c != 2) continue;
                 String stext = link.text();
-                int index = 0;
+                int index;
                 if ((index = stext.indexOf("<<")) != -1)
                     detail.add(stext.substring(0, index));
             }
-            publishProgress(94);
+            publishProgress("94");
             link1 = doc.select("td[width=314]");
             for (Element link : link1) {
                 //if (++c != 2) continue;
@@ -510,7 +528,7 @@ public class InsertForm extends Activity {
                 //if (stext.contains("<<"))
                 header.add(stext);
             }
-            publishProgress(96);
+            publishProgress("96");
             link1 = doc.select(".curr");
             for (Element link : link1) {
                 //if (++c != 2) continue;
@@ -519,7 +537,7 @@ public class InsertForm extends Activity {
                 star.add(stext);
             }
             StringBuilder review = new StringBuilder("<h3>Top 3 Review</h3>");
-            publishProgress(98);
+            publishProgress("98");
             for (int i = 0; i < detail.size(); i++) {
                 review.append(String.format("<br/><p><font color=#33B6EA>%s</font><br /><font color=#cc0029>%s</font><br /><font color=#339900>ให้ %s ดาว</font></p>", header.get(i), detail.get(i), star.get(i)));
             }

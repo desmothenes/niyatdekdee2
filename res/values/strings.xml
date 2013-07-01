@@ -25,7 +25,7 @@
     <string name="open">เปิดอ่าน จาก APP แบบเก่า</string>
     <string name="chapter_title">ชื่อตอน</string>
     <string name="hello_world">Hello world!</string>
-    <string name="title_activity_setting">    ตั่งค่า</string>
+    <string name="title_activity_setting">ตั่งค่า</string>
     <string name="save">บันทึก</string>
     <string name="title_activity_fav_add">Fav_add</string>
     <string name="title_activity_main_layout">MainLayout</string>
@@ -59,7 +59,9 @@
     <string name="title_activity_web_notify">update แบบประหยัด</string>
     <string name="top">บนสุด</string>
     <string name="botton">ล่างสุด</string>
-    <string name="crash_toast_text">เกิดข้อผิดพลาดขึ้น, ข้อผิดพลาดได้ถูกส่งให้ผู้พํฒนาแล้ว แนะนำเพิ่มเติมติดต่อมาทาง mail ใน ตั่งค่าหรือใน store ได้นะครับ.</string>
+    <string name="crash_toast_text">เกิดข้อผิดพลาดขึ้น, ข้อผิดพลาดได้ถูกส่งให้ผู้พํฒนาแล้ว แนะนำเพิ่มเติมติดต่อมาทาง
+        mail ใน ตั่งค่าหรือใน store ได้นะครับ.
+    </string>
     <string name="story">เนื้อเรื่อง</string>
     <string name="comment">ความคิดเห็น</string>
     <string name="postcomment">แสดงความคิดเห็น</string>
@@ -70,12 +72,13 @@
     <string name="textmode">เปิดอ่านด้วย App</string>
     <string name="TTS">อ่านออกเสียง</string>
     <string name="lightlevel">ปรับแสง</string>
-    <string name="inctext">เพื่มขนาด</string>
+    <string name="inctext">เพิ่มขนาด</string>
     <string name="dectext">ลดขนาดตัวอักษร</string>
     <string name="rollsc">หมุนหน้าจอ</string>
     <string name="title_activity_flow3">Flow3</string>
     <string name="flow31">สามารถเลื่อนขึ้นลงหน้าจอได้โดยการกดปุ่มเพิ่ม-ลดเสียง</string>
-    <string name="flow32">"กด menu เพื่อรับความสามารถในการเลื่อนไปยังส่วนต่าง ๆ เพิ่อ-ลดขนาดตัวอักษร อ่านออกเสียง "</string>
+    <string name="flow32">"กด menu เพื่อรับความสามารถในการเลื่อนไปยังส่วนต่าง ๆ เพิ่อ-ลดขนาดตัวอักษร อ่านออกเสียง "
+    </string>
     <string name="flow33">สามารถเปลี่ยนสีตัวอักษรและพื้นหลังได้ในหน้าตั้งค่า</string>
     <string name="title_activity_long_read">LongRead</string>
     <string name="longread">อ่านแบบหลายตอนต่อเนื่อง</string>
@@ -91,9 +94,9 @@
     <string name="blue">ฟ้า</string>
     <string name="wi_blue">น้ำเงิน</string>
     <string name="chBgColor">เลือกสีพื้นหลัง</string>
-	<string name="oldrose">โอรส (old rose)</string>
+    <string name="oldrose">โอรส (old rose)</string>
     <string name="orange">ส้ม</string>
-   	<string name="green">เขียว</string>
+    <string name="green">เขียว</string>
     <string name="pink">ชมพู</string>
     <string name="fuchsia">บายเย็น</string>
     <string name="siver">เงิน</string>
@@ -102,8 +105,10 @@
     <string name="selectScRol">เลือกแนวหน้าจอ</string>
     <string name="notifyCheck">แจ้งเตือนการอัพเดต</string>
     <string name="autoAdd">เพิ่มตอนอัตโนมัติหลังอ่านจบ</string>
-    <string name="imageDisplay">แสดงรูป  ในหน้าเว็บ</string>
+    <string name="imageDisplay">แสดงรูป ในหน้าเว็บ</string>
     <string name="startNotifyTime">เวลาที่เริ่มเตือน</string>
     <string name="newcprange">เลือกช่วงตอนใหม่</string>
     <string name="newlongread">อ่านหลายตอน แบบใหม่</string>
+    <string name="fastmode">อ่านแบบเร็ว</string>
+    <string name="NewWebFind">ค้นหาด้วยเว็บ</string>
 </resources>
