@@ -490,7 +490,7 @@ public class DekTTSActivity extends Service implements OnInitListener {
                         while (text.contains("..")) {
                             text = text.replaceAll("\\.\\.", "");
                         }
-                        text = text.replace(" ๆ", "ๆ").trim();
+                        text = text.replace(" ๆ", "ๆ").replace("ปล.", "ปัจฉิมลิขิต").replace("อก.", "อก .").replace("มอก .", "มอก.").trim();
                         final int size = text.length();
                         if (size < 2) continue;
                         i++;
