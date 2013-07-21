@@ -179,7 +179,7 @@ public class NiyayService extends WakefulIntentService {
 
 
         Log.v("listView", "listView");
-		/*		for (String i : ListViewContent)
+        /*		for (String i : ListViewContent)
 			Log.v("ListViewContent", i);*/
     }
 
@@ -354,8 +354,8 @@ public class NiyayService extends WakefulIntentService {
 			Log.e("compare",Integer.toString(text1.compareTo(title)));		*/
 
         if (title == null) title = "";
-        else if (title.contains(">")) title = title.substring(title.indexOf(">") + 2);
-        if (text1.contains(">")) text1 = text1.substring(text1.indexOf(">") + 2);
+        else if (title.contains(">") && title.length() > 3) title = title.substring(title.indexOf(">") + 2);
+        if (text1.contains(">") && text1.length() > 3) text1 = text1.substring(text1.indexOf(">") + 2);
         if (title.isEmpty()) {
             //title = text1;
             status = -1;

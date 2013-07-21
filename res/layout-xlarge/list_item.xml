@@ -23,8 +23,8 @@
         android:contentDescription="@string/next"
         android:src="@drawable/arrow"/>
 
-    <!--    <TextView
-            android:id="@+id/textView2"
+    <TextView
+        android:id="@+id/textView2"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/textView1"
@@ -39,6 +39,6 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_alignTop="@+id/textView2"
-            android:layout_toRightOf="@+id/textView2" />-->
+            android:layout_toRightOf="@+id/textView2"/>
 
 </RelativeLayout>

@@ -247,7 +247,7 @@ public class DekTTSActivity extends Service implements OnInitListener {
         }
 
 		/*		for(Node n: doc.childNodes()){
-			if(n instanceof Comment){
+            if(n instanceof Comment){
 				n.remove();
 			}
 		}*/
@@ -321,7 +321,7 @@ public class DekTTSActivity extends Service implements OnInitListener {
             while (input.contains(" ๆ")) {
                 input = input.replace(" ๆ", "ๆ");
             }
-            List<String> temp = Arrays.asList(input.split(" "));
+            List<String> temp = new ArrayList<String>(Arrays.asList(input.split(" ")));
             temp.add("หมดข้อความที่จะอ่านออกเสียง");
             return new ArrayList<String>(temp);
         } else {

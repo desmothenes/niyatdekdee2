@@ -1,8 +1,47 @@
 package com.niyatdekdee.notfy;
 
-class doback {
-} /*
-class doback0 extends AsyncTask<Context, String, Long> {
+import android.content.Context;
+import android.content.ContextWrapper;
+import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.os.AsyncTask;
+import android.preference.PreferenceManager;
+import android.text.format.Time;
+import android.util.Log;
+import android.widget.Toast;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.ResponseHandler;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.cookie.Cookie;
+import org.apache.http.impl.client.BasicResponseHandler;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.HttpConnectionParams;
+import org.apache.http.params.HttpParams;
+import org.apache.http.protocol.HTTP;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
+import java.io.*;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * Created by E425 on 17/7/2556.
+ */
+class Do_Back2 extends AsyncTask<Context, String, Long> {
     static Map<String, Long> sessionTime = new HashMap<String, Long>();
     static Map<String, String> sessionStatus = new HashMap<String, String>();
     static Map<String, String> sessionStatusTitle = new HashMap<String, String>();
@@ -13,11 +52,14 @@ class doback0 extends AsyncTask<Context, String, Long> {
     static Map<String, String> sessionId = new HashMap<String, String>();
     private ArrayList<String> Listtemp = new ArrayList<String>();
     final static ArrayList<String> ListViewContent = new ArrayList<String>();
-
+    final static ArrayList<String> ListViewStatus = new ArrayList<String>();
     private Time now;
     static List<Cookie> cookies;
+    private boolean isTemp;
+    private boolean isErr = false;
+    private boolean loginsuscess = false;
 
-    public doback(Context context) {
+    public Do_Back2(Context context) {
         // TODO Auto-generated constructor stub
         this.context = context;
     }
@@ -25,105 +67,21 @@ class doback0 extends AsyncTask<Context, String, Long> {
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        MainActivity.dialog.show();
+        //MainActivity.dialog.show();
+        MainActivity.ListViewStatus.clear();
         MainActivity.ListViewContent.clear();
         MainActivity.niyayTable.clear();
-    }
-
-    @Override
-    protected Long doInBackground(Context... arg0) {
-        // TODO Auto-generated method stub
-        try {
-            now = new Time();
-            now.setToNow();
-            //showAllBookOffline() ;
-            if (MainActivity.isOnline()) {
-
-                if (Setting.getisLogin(context)) {
-                    Log.e("login", "login");
+        showAllBookOffline();
 
 
-                    SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
-                    //now.set(pref.getLong("timecookies", 0));
-                    //System.out.println(now.format3339(false));
-                    //now.setToNow();
-                    long time;
-
-                    if (sessionTime.get("fav") != null) time = sessionTime.get("fav");
-                    else time = 0;
-                    *//*if (now.toMillis(true) < pref.getLong("timecookies", 0)) Log.e("sessionTime","true");
-                else Log.e("sessionTime","false");
-
-				if ((now.toMillis(true) < pref.getLong("timecookies", 0)) && (pref.getString("usercookie","").equals(Setting.getUserName(context)))) {
-					sessionId.put(pref.getString("keycookies1", ""),pref.getString("valuecookies1", ""));
-					sessionId.put(pref.getString("keycookies2", ""),pref.getString("valuecookies2", ""));
-					sessionId.put(pref.getString("keycookies3", ""),pref.getString("valuecookies3", ""));
-				}
-				else {
-					login();
-				}*//*
-
-                    //Log.v("usercookie", pref.getString("usercookie","space"));
-
-                    if ((now.toMillis(true) - time > 330000) || (!pref.getString("usercookie", " ").equals(Setting.getUserName(context)))) {
-                        if (!pref.getString("usercookie", " ").equals(Setting.getUserName(context))) sessionId.clear();
-                        login();
-                        sessionTime.put("fav", now.toMillis(true));
-                        //Log.e("login","time login");
-                    }
-                    Log.e("login", "end login");
-
-                    if (Setting.getdisplayResult(context)) {
-                        if (sessionId.size() != 0) {
-                            *//*							for(String key: doback.sessionId.keySet()){
-                                //Log.v(key, doback.sessionId.get(key));
-								//cookieString.append(key + "=" +doback.sessionId.get(key)+ "; ");
-							}*//*
-                            loadUpdate();
-                        }
-
-                        if (Setting.getonlyFavorite(context)) return null;
-                    }
-
-                }
-
-                showAllBook();
-                //showAllBookOffline() ;
-
-            } else {
-                Log.e("zone", "offline");
-                showAllBookOffline();
-            }
-        } catch (Exception e) {
-
-        }
-        return null;
-    }
-
-    protected void onProgressUpdate(String... progress) {
-        if (progress[0].equals("-1")) {
-            //Toast.makeText(context, "การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่", Toast.LENGTH_LONG).show();
-            Log.e("onProgressUpdate", "การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่");
-            if (!tried) {
-                tried = true;
-                //this.cancel(true);
-                //this.execute(context);
-            }
-        } else {
-            MainActivity.dialog.setMessage(progress[0]);
-        }
-
-    }
-
-    protected void onPostExecute(Long result) {
-        //MainActivity.db = new DatabaseAdapter(context);
         if (MainActivity.db != null)
             MainActivity.db.close();
         if (MainActivity.dialog.isShowing())
             MainActivity.dialog.dismiss();
 
-        Log.e("end back", "end back");
+
         MainActivity.ListViewContent = ListViewContent;
+        MainActivity.ListViewStatus = ListViewStatus;
         if (MainActivity.ListViewContent.size() == 0) {
             if (loginsuscess && Setting.getisLogin(context) && Setting.getdisplayResult(context))
                 Toast.makeText(context, "ไม่พบตอนใหม่ใน Favorite Writer", Toast.LENGTH_LONG).show();
@@ -134,130 +92,79 @@ class doback0 extends AsyncTask<Context, String, Long> {
                 MainActivity.ListViewContent.add("<big><big>โปรดเพิ่มนิยายเรื่องแรก\n(กดเครื่องหมายบวกสีเขียว\nเพื่อเลือกวิธีการเพิ่มนิยาย)</big></big>");
             else {
                 Toast.makeText(context, "การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่", Toast.LENGTH_LONG).show();
-                Log.e("onPostExecute", "การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่");
+                Log.e("onPreExecute", "การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่");
             }
 
             //if (MainActivity.niyayTable.size() == 0) MainActivity.niyayTable.add(new String[4]);
         }
+
         if (isErr) {
-            Log.e("onPostExecute", "isErr");
+            Log.e("onPreExecute", "isErr");
             Toast.makeText(context, "การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่", Toast.LENGTH_LONG).show();
         }
+
         MainActivity.myList.setAdapter(MainActivity.listAdap);
         //MainActivity.dialog.dismiss();
         tried = false;
-        Time post = new Time();
+    }
+
+    protected void onProgressUpdate(String... progress) {
+        if (progress[0].equals("-1")) {
+            //Toast.makeText(context, "การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่", Toast.LENGTH_LONG).show();
+            Log.e("onProgressUpdate", "การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่");
+            if (!tried) {
+                tried = true;
+                this.cancel(true);
+                //this.execute(context);
+            }
+        } else if (progress[0].equals("-99")) {
+            int index = Integer.parseInt(progress[1]);
+            ListViewContent.set(index, progress[2]);
+            ListViewStatus.set(index, "ตรวจสอบเสร็จสิ้น");
+            MainActivity.myList.setAdapter(MainActivity.listAdap);
+        } else {
+            MainActivity.dialog.setMessage(progress[0]);
+        }
+
+    }
+
+    @Override
+    protected Long doInBackground(Context... contexts) {
+        int index = 0;
+        for (String data[] : MainActivity.niyayTable) {
+            String result = check_new_cp(index, data);
+            if (result.equals("err")) {
+
+            } else {
+                MainActivity.niyayTable.get(index)[4] = result;
+            }
+            index++;
+        }
+        return null;
+    }
+
+
+    protected void onPostExecute(Long result) {
+        Log.e("end back", "end back");
+        //MainActivity.db = new DatabaseAdapter(context);
+/*        Time post = new Time();
         post.setToNow();
         if (MainActivity.mGaTracker != null)
-            MainActivity.mGaTracker.sendTiming("resources", post.toMillis(true) - now.toMillis(true), "doback", null);
+            MainActivity.mGaTracker.sendTiming("resources", post.toMillis(true) - now.toMillis(true), "doback", null);*/
 
-		*//*		for (Map.Entry<String, String> entry : sessionStatus.entrySet())
-			Log.e(entry.getKey(), entry.getValue());*//*
+		/*		for (Map.Entry<String, String> entry : sessionStatus.entrySet())
+            Log.e(entry.getKey(), entry.getValue());*/
     }
 
-    private boolean isTemp;
-    private boolean isErr = false;
-    private boolean loginsuscess = false;
-
-    private void showAllBook() {
-        // TODO Auto-generated method stub
-        MainActivity.db = new DatabaseAdapter(context);
-        MainActivity.db.close();
-        MainActivity.db.open();
-        Listtemp.clear();
-        final Cursor c = MainActivity.db.getAllNiyay();
-        floop = c.getCount();
-        Log.e("floop", Integer.toString(floop));
-        if (floop == 0) {
-            Log.e("ck db", "not ok");
-            MainActivity.db.close();
-            return;
-        } else {
-            Log.e("ok ?", "ok");
-            if (MainActivity.mGaTracker != null)
-                MainActivity.mGaTracker.sendTiming("resources", 1000 * floop, "story_count", null);
-        }
-
-        int i2 = 0;
-        Time now = new Time();
-        now.setToNow();
-        final ArrayList<String[]> tempTable = new ArrayList<String[]>();
-        final long curtime = now.toMillis(true);
-        c.moveToFirst();
-        do {
-            i2++;
-            *//*Runnable runnable = new Runnable() {
-				public void run() {*//*
-            String[] temp = new String[5];
-            temp[0] = c.getString(0);
-            temp[1] = c.getString(1);
-            temp[2] = c.getString(2);
-            temp[3] = c.getString(3);
-
-            publishProgress(temp[1]);
-            long time;
-            if ((sessionTime.get(temp[2])) != null) time = sessionTime.get(temp[2]);
-            else time = 0;
-            //Log.e("curtime",Long.toString(curtime));
-            //Log.e("old "+temp[2],Long.toString(time));
-            if ((curtime - time) > 600000) {
-                Log.e("zone", "download");
-                temp[4] = displayBook(c);
-                sessionStatusTitle.put(temp[2] + temp[3], temp[4]);
-                if (temp[4].equals("err")) {
-                    isErr = true;
-                    return;
-                }
-            } else if (sessionStatus.get(temp[2] + temp[3]) != null) {
-                Log.e("zone", "load sessionStatus");
-                temp[4] = sessionStatus.get(temp[2] + temp[3]) != null ? sessionStatus.get(temp[2] + temp[3]) : c.getString(4);
-                isTemp = false;
-                ListViewContent.add(sessionStatus.get(temp[2] + temp[3]));
-            } else {
-                isTemp = true;
-                Log.e("zone", "load displayBookOffline");
-                temp[4] = c.getString(4);
-                displayBookOffline(temp);
-            }
-
-            //Log.e("temp[4]", temp[4]);
-            if (isTemp)
-                tempTable.add(temp);
-            else
-                MainActivity.niyayTable.add(temp);
-            *//*
-					Thread t = new Thread() {
-						public void run() {
-							listAdap.notifyDataSetChanged();
-						}
-					};
-					t.start();
-			 *//*
-			*//*				}
-			};
-			new Thread(runnable).start();*//*
-        } while (c.moveToNext());
-
-        Log.e("loop end", Integer.toString(i2));
-        MainActivity.db.close();
-        for (String stemp : Listtemp) {
-            //System.out.println("Listtemp: "+stemp);
-            ListViewContent.add(stemp);
-        }
-        for (String[] stemp : tempTable)
-            MainActivity.niyayTable.add(stemp);
-    }
-
-    private String displayBook(Cursor c) {
-        //Log.e("displayBook","displayBook");
+    private String check_new_cp(final int index, final String[] data) {
 
         int status = 0;
-        //Log.e("c.getString(4)",c.getString(4));
-        String title = c.getString(4).equals("non") ? "ยังไม่มีตอนปัจจุบัน รอตอนใหม่" : c.getString(4);
-        //Log.e("c.getString(4)",c.getString(4));
-        final String id = c.getString(0);
-        final String url = c.getString(2);
-        final String chapter = c.getString(3);
+        //Log.e("data[4]",data[4]);
+        String title = data[4].equals("non") ? "ยังไม่มีตอนปัจจุบัน รอตอนใหม่" : data[4];
+        //Log.e("data[4]",data[4]);
+        final String id = data[0];
+        final String url = data[2];
+        final String chapter = data[3];
         String text1 = "";
 
         //if (title.contains(">")) title = title.substring(title.indexOf(">"));
@@ -366,9 +273,9 @@ class doback0 extends AsyncTask<Context, String, Long> {
             text1 = "ยังไม่มีตอนปัจจุบัน รอตอนใหม่";
         }
 
-		*//*		Log.e("title",(title == null) ? "null" : title);
+		/*		Log.e("title",(title == null) ? "null" : title);
         Log.e("text1",text1);
-		Log.e("compare",Integer.toString(text1.compareTo(title)));		*//*
+		Log.e("compare",Integer.toString(text1.compareTo(title)));		*/
 
         if (title == null) title = "";
         else if (title.contains(">")) title = title.substring(title.indexOf(">") + 2);
@@ -378,10 +285,10 @@ class doback0 extends AsyncTask<Context, String, Long> {
             title = text1;
             status = -1;
         } else if (!text1.trim().contains(title.trim())) {
-            *//*Log.e("title",title);
+            /*Log.e("title",title);
 			Log.e("text1",text1);
-			Log.e("compare",(text1.equals(title))? "same" : "not same");*//*
-			*//*			System.out.println("text1");
+			Log.e("compare",(text1.equals(title))? "same" : "not same");*/
+			/*			System.out.println("text1");
 			System.out.println(text1);
 			for (int i=0; i < text1.trim().length();i++) {
 				System.out.print(text1.trim().charAt(i));System.out.println((int)text1.trim().charAt(i));
@@ -390,7 +297,7 @@ class doback0 extends AsyncTask<Context, String, Long> {
 			System.out.println(title);
 			for (int i=0; i < title.trim().length();i++) {
 				System.out.print(title.trim().charAt(i));System.out.println((int)title.trim().charAt(i));
-			}*//*
+			}*/
             status = 1; //current chapter update
         } else if (!text1.contains("ยังไม่มีตอนปัจจุบัน รอตอนใหม่") && !text1.contains("non")) {
             status = 2;
@@ -399,35 +306,34 @@ class doback0 extends AsyncTask<Context, String, Long> {
 
 
         if (status == 0) {
-            isTemp = true;
-            Listtemp.add(
-                    "<br /><p><font color=#33B6EA>เรื่อง :" + c.getString(1) + "</font><br />" +
-                            "<font color=#cc0029> ล่าสุด ตอน : " + title + " (" + chapter + ")</font></p>");
+            String temp =
+                    "<br /><p><font color=#33B6EA>เรื่อง :" + data[1] + "</font><br />" +
+                            "<font color=#cc0029> ล่าสุด ตอน : " + title + " (" + chapter + ")</font></p>";
+            publishProgress("-99", Integer.toString(index), temp);
         } else if (status == 2) {
-            isTemp = true;
-            Listtemp.add(
+            String temp =
                     "<br /><p><font color=#6E6E6E>ถ้าจบตอน กดปุ่มเพิ่มตอน เพื่อเข้าสู่สถานะรอตอนใหม่</font><br />" +
-                            "<font color=#33B6EA>เรื่อง :" + c.getString(1) + "</font><br />" +
-                            "<font color=#cc0029> ล่าสุด ตอน : " + title + " (" + chapter + ")</font></p>");
-            sessionStatus.put(url + chapter, Listtemp.get(Listtemp.size() - 1));
+                            "<font color=#33B6EA>เรื่อง :" + data[1] + "</font><br />" +
+                            "<font color=#cc0029> ล่าสุด ตอน : " + title + " (" + chapter + ")</font></p>";
+            publishProgress("-99", Integer.toString(index), temp);
+            sessionStatus.put(url + chapter, temp);
         } else if (status == 1 || status == -1) {
-            //displayNotification(c.getString(0),c.getString(1),chapter,text1,url+chapter);
-            isTemp = false;
-            ListViewContent.add(
+            String temp =
                     "<br /><p><font color=#339900>มีการอัพเดตตอนปัจจุบัน</font><br />" +
-                            "<font color=#33B6EA>เรื่อง :" + c.getString(1) + "</font><br />" +
-                            "<font color=#cc0029> ตอน : " + text1 + " (" + chapter + ")</font></p>");
-            sessionStatus.put(url + chapter, ListViewContent.get(ListViewContent.size() - 1).replace("มีการอัพเดตตอนปัจจุบัน", "มีการอัพเดตตอนปัจจุบัน\nถ้าจบตอน กดปุ่มเพิ่มตอน\nเพื่อเข้าสู่สถานะรอตอนใหม่"));
+                            "<font color=#33B6EA>เรื่อง :" + data[1] + "</font><br />" +
+                            "<font color=#cc0029> ตอน : " + text1 + " (" + chapter + ")</font></p>";
+            publishProgress("-99", Integer.toString(index), temp);
+            sessionStatus.put(url + chapter, temp.replace("มีการอัพเดตตอนปัจจุบัน", "มีการอัพเดตตอนปัจจุบัน\nถ้าจบตอน กดปุ่มเพิ่มตอน\nเพื่อเข้าสู่สถานะรอตอนใหม่"));
         }
 
-		*//*		Log.e("content",
-				"id: " +c.getString(0)+"\n"+
-						"name: " +c.getString(1)+"\n" +
-						"url: " +c.getString(2)+"\n"+
-						"chapter: " +c.getString(3)+"\n"+
-						"status: " +c.getString(4)+"\n"+
+		/*		Log.e("content",
+				"id: " +data[0]+"\n"+
+						"name: " +data[1]+"\n" +
+						"url: " +data[2]+"\n"+
+						"chapter: " +data[3]+"\n"+
+						"status: " +data[4]+"\n"+
 						"title: " +Integer.toString(status)+"\n"+
-						"text1: " +text1);*//*
+						"text1: " +text1);*/
         Time now = new Time();
         now.setToNow();
         sessionTime.put(url, now.toMillis(true));
@@ -438,12 +344,13 @@ class doback0 extends AsyncTask<Context, String, Long> {
         return "";
     }
 
+
     private void showAllBookOffline() {
         // TODO Auto-generated method stub
         Log.e("in", "showAllBookOffline");
 
-		*//*		ListViewContent.clear();
-		MainActivity.niyayTable.clear();*//*
+		/*		ListViewContent.clear();
+		MainActivity.niyayTable.clear();*/
         MainActivity.db = new DatabaseAdapter(context);
         MainActivity.db.close();
         MainActivity.db.open();
@@ -461,8 +368,6 @@ class doback0 extends AsyncTask<Context, String, Long> {
         }
 
         c.moveToFirst();
-        //ArrayList<String[]> tempTable = new ArrayList<String[]> ();
-        //ArrayList<String[]> container = new ArrayList<String[]>();
         int i = 0;
         do {
             i++;
@@ -472,12 +377,12 @@ class doback0 extends AsyncTask<Context, String, Long> {
             temp[2] = c.getString(2);
             temp[3] = c.getString(3);
             temp[4] = c.getString(4);
-            *//*Log.e("content",
+            /*Log.e("content",
 					"id: " +c.getString(0)+"\n"+
 							"name:" +c.getString(1)+"\n" +
 							"url: " +c.getString(2)+"\n"+
 							"chapter: " +c.getString(3)+"\n"+
-							"title: " +c.getString(4));*//*
+							"title: " +c.getString(4));*/
             MainActivity.niyayTable.add(temp);
         } while (c.moveToNext());
         Log.e("loop end", Integer.toString(i));
@@ -487,17 +392,16 @@ class doback0 extends AsyncTask<Context, String, Long> {
         for (String stemp : Listtemp) {
             //System.out.println("Listtemp: "+ stemp);
             ListViewContent.add(stemp);
+            ListViewStatus.add("กำลังตรวจสอบตอนใหม่");
         }
         MainActivity.db.close();
-
-        //Toast.makeText(context, "Show Data", Toast.LENGTH_SHORT).show();
     }
 
 
     private void displayBookOffline(String c[]) {
         Log.e("in", "displayBookOffline");
 
-        //Log.e("title0",(c.getString(4) != null) ? c.getString(4):"");
+        //Log.e("title0",(data[4] != null) ? data[4]:"");
         String title = c[4];
 
         //if (title.contains(">")) title = title.substring(title.indexOf(">"));
@@ -511,12 +415,12 @@ class doback0 extends AsyncTask<Context, String, Long> {
                     "<br /><p><font color=#33B6EA>เรื่อง :" + c[1] + "</font><br />" +
                             "<font color=#cc0029> ล่าสุด ตอน : " + title + " (" + c[3] + ")</font></p>");
         }
-        *//*Log.e("content",
-				"id: " +c.getString(0)+"\n"+
-						"name:" +c.getString(1)+"\n" +
-						"url: " +c.getString(2)+"\n"+
-						"chapter: " +c.getString(3)+"\n"+
-						"title: " +c.getString(4));*//*
+        /*Log.e("content",
+				"id: " +data[0]+"\n"+
+						"name:" +data[1]+"\n" +
+						"url: " +data[2]+"\n"+
+						"chapter: " +data[3]+"\n"+
+						"title: " +data[4]);*/
     }
 
     private void loadUpdate() {
@@ -563,15 +467,15 @@ class doback0 extends AsyncTask<Context, String, Long> {
         }
 
         Log.v("listView", "listView");
-        *//*		for (String i : ListViewContent)
-			Log.v("ListViewContent", i);*//*
+        /*		for (String i : ListViewContent)
+			Log.v("ListViewContent", i);*/
     }
 
     private void login() {
         Log.v("zone", "login");
         //System.out.println(Setting.getUserName(context));
         //System.out.println(Setting.getPassWord(context));
-        *//*		Connection.Response res;
+        /*		Connection.Response res;
 		try {
 			res = Jsoup.connect("http://my.dek-d.com/dekdee/my.id_station/login.php")
 					.data("username", Setting.getUserName(context))
@@ -584,7 +488,7 @@ class doback0 extends AsyncTask<Context, String, Long> {
 			//Toast.makeText(getBaseContext(), "การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่", Toast.LENGTH_LONG).show();
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}  *//*
+		}  */
         publishProgress("log in");
 
         HttpParams httpParameters = new BasicHttpParams();
@@ -673,4 +577,3 @@ class doback0 extends AsyncTask<Context, String, Long> {
         }
     }
 }
-*/

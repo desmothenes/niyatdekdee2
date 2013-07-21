@@ -114,7 +114,7 @@ public class add_web extends Activity {
                 @Override
                 public void onClick(View v) {
                     // TODO Auto-generated method stub
-                    if (MainActivity.context != null) new doback(MainActivity.context).execute();
+                    //if (MainActivity.context != null) new doback(MainActivity.context).execute();
                     finish();
                 }
             });
@@ -262,7 +262,7 @@ public class add_web extends Activity {
         } else {
             //in this fomat http://writer.dek-d.com/dek-d/writer/view.php?id=580483
             /*			final String stext = "id=";
-			//หาหลักของตอน
+            //หาหลักของตอน
 			final int start = url.lastIndexOf(stext)+stext.length();
 			if (start - stext.length() == -1) {
 				Toast.makeText(getBaseContext(), "Error not correct niyay page", Toast.LENGTH_SHORT).show();

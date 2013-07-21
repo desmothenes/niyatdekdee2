@@ -185,7 +185,7 @@ public class ChapterListActivity extends ListActivity {
             }
         });
         /*		list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-	        @Override
+            @Override
 	        public boolean onItemLongClick(AdapterView<?> av, View v, int pos, long id) {
 	            return super.onItemLongClick(v,pos,id);
 	        }
@@ -216,11 +216,11 @@ public class ChapterListActivity extends ListActivity {
                 Intent browserIntent = new Intent(getBaseContext(), DekdeeBrowserActivity.class);
                 browserIntent.putExtra("url", url);
                 browserIntent.putExtra("title", title);
-                if (doback.sessionId != null) {
+                if (MainActivity.sessionId != null) {
                     StringBuilder cookieString = new StringBuilder();
-                    for (String key : doback.sessionId.keySet()) {
-                        Log.v(key, doback.sessionId.get(key));
-                        cookieString.append(key).append("=").append(doback.sessionId.get(key)).append(";");
+                    for (String key : MainActivity.sessionId.keySet()) {
+                        Log.v(key, MainActivity.sessionId.get(key));
+                        cookieString.append(key).append("=").append(MainActivity.sessionId.get(key)).append(";");
                     }
                     browserIntent.putExtra("cookieString", cookieString.toString());
                 }

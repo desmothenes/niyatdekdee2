@@ -95,6 +95,7 @@ public class URLImageParser implements Html.ImageGetter {
                 InputStream is = fetch(urlString);
                 if (is == null) return null;
                 Drawable drawable = Drawable.createFromStream(is, "src");
+                if (drawable == null) return null;
                 drawable.setBounds(0, 0, 0 + drawable.getIntrinsicWidth(), 0
                         + drawable.getIntrinsicHeight());
                 return drawable;

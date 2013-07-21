@@ -70,12 +70,22 @@ public class webfind2 extends Activity {
                     finish();
                 }
             } else {
-                doc = Jsoup.connect("http://www.dek-d.com/writer/frame.php").get();
+                int count_loop = 0;
+                while (doc == null && count_loop < 3) {
+                    doc = Jsoup.connect("http://www.dek-d.com/writer/frame.php").timeout(12000).get();
+                    count_loop++;
+                }
             }
 
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        if (doc == null) {
+            Toast.makeText(this, "การเชื่อมต่อมีปัญหา กรุณาตรวจสอบอินเตอร์เน็ต", Toast.LENGTH_LONG);
+            return;
+        }
+
         for (Element item : doc.select("#topline")) {
             item.remove();
         }//.attr("style","display:none");
