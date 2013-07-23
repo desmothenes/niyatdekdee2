@@ -185,7 +185,7 @@ public class MainActivity extends ListActivity {
 
         //titleColor = Integer.parseInt(Setting.getColorSelectSetting(MainActivity.this));
 
-        ImageButton btnRefresh = (ImageButton) findViewById(R.id.imageButton1);
+        final ImageButton btnRefresh = (ImageButton) findViewById(R.id.imageButton1);
         ImageButton btnAdd = (ImageButton) findViewById(R.id.imageButton2);
         ImageButton btnSetting = (ImageButton) findViewById(R.id.btnSetting);
 
@@ -198,14 +198,27 @@ public class MainActivity extends ListActivity {
             @Override
             public void onClick(View arg0) {
                 // TODO Auto-generated method stub
-                dialog = ProgressDialog.show(MainActivity.this, "Loading", "โปรดรอ...\nถ้ารู้สึกช้า โปรดออกแแล้วเข้าใหม่", true);
+                btnRefresh.setEnabled(false);
+                dialog = new ProgressDialog(MainActivity.this);
+                dialog.setMessage("โปรดรอ...\nถ้ารู้สึกช้า โปรดออกแแล้วเข้าใหม่");
+                dialog.setTitle("Loading");
                 dialog.setCancelable(true);
                 dialog.setCanceledOnTouchOutside(false);
                 Log.e("doback at", "btnRefresh");
                 //new doback(getApplicationContext()).execute();
                 ////new Do_Back2(getApplicationContext()).execute();
+                dialog.show();
                 do_back_3();
+                if (dialog.isShowing()) {
+                    try {
+                        Thread.sleep(2000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    dialog.dismiss();
+                }
                 mGaTracker.sendEvent("ui_action", "button_press", "refresh", (long) 0);
+                btnRefresh.setEnabled(true);
             }
         });
 
@@ -320,7 +333,7 @@ public class MainActivity extends ListActivity {
 
         myList = getListView();
 
-        dialog = ProgressDialog.show(MainActivity.this, "Loading", "Please Wait...\nถ้ารู้สึกช้า ออกแล้วเข้าใหม่", true);
+        dialog = new ProgressDialog(MainActivity.this);
         dialog.setCancelable(true);
         dialog.setCanceledOnTouchOutside(false);
         //dob=;
@@ -563,9 +576,7 @@ public class MainActivity extends ListActivity {
             addmenu();
             return;
         }
-        if (ListViewContent.get(0).equals("<big><big>โปรดเพิ่มนิยายเรื่องแรก\n" +
-                "(กดเครื่องหมายบวกสีเขียว\n" +
-                "เพื่อเลือกวิธีการเพิ่มนิยาย)</big></big>")) {
+        if (ListViewContent.get(0).equals("<big><big>โปรดเพิ่มนิยายเรื่องแรก\n(กดเครื่องหมายบวกสีเขียว\nแล้วเลือกวิธีการเพิ่มนิยาย)</big></big>")) {
             addmenu();
             return;
         }
@@ -618,8 +629,8 @@ public class MainActivity extends ListActivity {
                 return item_longread(listItemName);
             case R.id.newlongread:
                 return item_newlongread(listItemName);
-            case R.id.openfast:
-                return item_openfast(listItemName);
+            /*case R.id.openfast:
+                return item_openfast(listItemName);*/
             default:
                 return super.onContextItemSelected(item);
         }
@@ -1740,7 +1751,8 @@ public class MainActivity extends ListActivity {
 
     private boolean item_newlongread(final int listItemName) {
         Intent longread1 = new Intent(context, LongRead2.class);
-        if (niyayTable.size() < listItemName + 1) return true;
+        if (niyayTable.size() < listItemName + 1 || niyayTable.get(listItemName) == null || niyayTable.get(listItemName)[0] == null)
+            return true;
         if (niyayTable.get(listItemName)[0].equals("-2")) {
             final String unum = MyAppClass.findnum(niyayTable.get(listItemName)[2], "story_id=", getBaseContext());
             //final String chapter = MyAppClass.findnum(niyayTable.get(listItemName)[4], "ตอนที่ ", getBaseContext());
@@ -1750,14 +1762,16 @@ public class MainActivity extends ListActivity {
             longread1.putExtra("url", niyayTable.get(listItemName)[2]);
             mGaTracker.sendEvent("ui_action", "button_press", "longread", (long) 0);
         }
+        longread1.putExtra("cp", niyayTable.get(listItemName)[3]);
+        longread1.putExtra("from", "ncp");
         startActivity(longread1);
         return true;
     }
+/*
 
     private boolean item_openfast(final int listItemName) {
         Intent FastReadActivity = new Intent(getBaseContext(), LongRead2.class);
-        if (niyayTable.size() < listItemName + 1 || niyayTable.get(listItemName) == null || niyayTable.get(listItemName)[0] == null)
-            return true;
+        if (niyayTable.size() < listItemName + 1 || niyayTable.get(listItemName) == null || niyayTable.get(listItemName)[0] == null)  return true;
         if (niyayTable.get(listItemName)[0].equals("-2")) {
             final String unum = MyAppClass.findnum(niyayTable.get(listItemName)[2], "story_id=", getBaseContext());
             FastReadActivity.putExtra("url", "http://writer.dek-d.com/dek-d/writer/viewlongc.php?id=" + unum + "&chapter=");
@@ -1766,10 +1780,10 @@ public class MainActivity extends ListActivity {
         }
         FastReadActivity.putExtra("cp", niyayTable.get(listItemName)[3]);
         FastReadActivity.putExtra("from", "cp");
-
         startActivity(FastReadActivity);
         return true;
     }
+*/
 
     private boolean item_openweb(final int listItemName) {
         String url;
@@ -2719,11 +2733,37 @@ public class MainActivity extends ListActivity {
     void do_back_3() {
         onPre();
         onBack();
-        onPost();
+        //onPost();
     }
 
     private void onPost() {
+        if (MainActivity.ListViewContent.size() == 0) {
+            if (loginsuscess && Setting.getisLogin(context) && Setting.getdisplayResult(context))
+                Toast.makeText(context, "ไม่พบตอนใหม่ใน Favorite Writer", Toast.LENGTH_LONG).show();
+            else if (Setting.getisLogin(context) && Setting.getdisplayResult(context))
+                Toast.makeText(context, "ไม่มีตอนใหม่ หรือ เข้าสู่ระบบไม่ได้", Toast.LENGTH_LONG).show();
 
+            if (loginsuscess) {
+                ListViewContent.add("<big><big>ไม่พบนิยายอัพเดทในรายการ Favorite Writer\nคุณสามารถเพิ่มนิยายเรื่องแรก\n" +
+                        "(กดเครื่องหมายบวกสีเขียว\n" +
+                        "เพื่อเลือกวิธีการเพิ่มนิยาย)</big></big>");
+            } else if ((floop == 0 && ListViewContent.size() == 0)) {
+                MainActivity.ListViewContent.add("<big><big>โปรดเพิ่มนิยายเรื่องแรก\n(กดเครื่องหมายบวกสีเขียว\nแล้วเลือกวิธีการเพิ่มนิยาย)</big></big>");
+                addmenu();
+            } else {
+                Toast.makeText(context, "การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่", Toast.LENGTH_LONG).show();
+                Log.e("onPreExecute", "การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่");
+            }
+
+            //if (MainActivity.niyayTable.size() == 0) MainActivity.niyayTable.add(new String[4]);
+        }
+
+        if (isErr) {
+            Log.e("onPreExecute", "isErr");
+            Toast.makeText(context, "การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่", Toast.LENGTH_LONG).show();
+        } else {
+
+        }
     }
 
     private void onBack() {
@@ -2779,8 +2819,11 @@ public class MainActivity extends ListActivity {
                                 loadUpdate();
                             }
                         }
+                        onPost();
                     }
                 }).start();
+            } else {
+                onPost();
             }
         }
     }
@@ -2842,29 +2885,9 @@ public class MainActivity extends ListActivity {
 
         if (MainActivity.db != null)
             MainActivity.db.close();
-        if (MainActivity.dialog.isShowing())
-            MainActivity.dialog.dismiss();
+/*        if (MainActivity.dialog.isShowing())
+            MainActivity.dialog.dismiss();*/
 
-        if (MainActivity.ListViewContent.size() == 0) {
-            if (loginsuscess && Setting.getisLogin(context) && Setting.getdisplayResult(context))
-                Toast.makeText(context, "ไม่พบตอนใหม่ใน Favorite Writer", Toast.LENGTH_LONG).show();
-            else if (Setting.getisLogin(context) && Setting.getdisplayResult(context))
-                Toast.makeText(context, "ไม่มีตอนใหม่ หรือ เข้าสู่ระบบไม่ได้", Toast.LENGTH_LONG).show();
-
-            if (floop == 0 || loginsuscess)
-                MainActivity.ListViewContent.add("<big><big>โปรดเพิ่มนิยายเรื่องแรก\n(กดเครื่องหมายบวกสีเขียว\nเพื่อเลือกวิธีการเพิ่มนิยาย)</big></big>");
-            else {
-                Toast.makeText(context, "การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่", Toast.LENGTH_LONG).show();
-                Log.e("onPreExecute", "การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่");
-            }
-
-            //if (MainActivity.niyayTable.size() == 0) MainActivity.niyayTable.add(new String[4]);
-        }
-
-        if (isErr) {
-            Log.e("onPreExecute", "isErr");
-            Toast.makeText(context, "การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่", Toast.LENGTH_LONG).show();
-        }
 
         MainActivity.myList.setAdapter(MainActivity.listAdap);
         //MainActivity.dialog.dismiss();
@@ -3082,7 +3105,7 @@ public class MainActivity extends ListActivity {
             //Log.e("ok ?", "ok");
         }
 
-        c.moveToFirst();
+        if (!c.moveToFirst()) return;
         int i = 0;
         do {
             i++;
@@ -3150,7 +3173,7 @@ public class MainActivity extends ListActivity {
                     .get();
         } catch (IOException e) {
             publishProgress("-1");
-            Toast.makeText(getBaseContext(), "การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่", Toast.LENGTH_LONG).show();
             e.printStackTrace();
         }
         //System.out.println(doc.html());

@@ -1,0 +1,39 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <item
+        android:id="@+id/story"
+        android:title="@string/story">
+    </item>
+    <item
+        android:id="@+id/postcomment"
+        android:title="@string/postcomment"/>
+    <item
+        android:id="@+id/tts"
+        android:title="@string/TTS"/>
+    <item
+        android:id="@+id/light"
+        android:title="@string/lightlevel"/>
+    <item
+        android:id="@+id/dectext"
+        android:title="@string/dectext"/>
+    <item
+        android:id="@+id/inctext"
+        android:title="@string/inctext"/>
+    <item
+        android:id="@+id/comment"
+        android:title="@string/comment">
+    </item>
+    <item
+        android:id="@+id/Top"
+        android:title="@string/top"/>
+    <item
+        android:id="@+id/buttom"
+        android:title="@string/botton">
+    </item>
+    <item
+        android:id="@+id/roll"
+        android:title="@string/rollsc"/>
+
+
+</menu>

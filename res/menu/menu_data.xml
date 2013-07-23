@@ -14,10 +14,10 @@
         android:title="@string/chapterlist"
         android:orderInCategory="30">
     </item>
-    <item
+    <!--<item
         android:id="@+id/openfast"
         android:title="@string/fastmode"
-        android:orderInCategory="31"/>
+        android:orderInCategory="31"/>-->
     <item
         android:id="@+id/newlongread"
         android:title="@string/newlongread"

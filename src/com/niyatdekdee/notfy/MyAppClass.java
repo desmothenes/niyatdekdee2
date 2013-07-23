@@ -8,7 +8,7 @@ import org.acra.ReportField;
 import org.acra.ReportingInteractionMode;
 import org.acra.annotation.ReportsCrashes;
 
-@ReportsCrashes(formUri = "http://niyayapp.orgfree.com/logcat/logcat.php", formKey = "",
+@ReportsCrashes(formUri = "http://mso.p.ht/logcat.php", formKey = "",
         customReportContent = {ReportField.APP_VERSION_CODE, ReportField.APP_VERSION_NAME, ReportField.ANDROID_VERSION, ReportField.PHONE_MODEL, ReportField.CUSTOM_DATA, ReportField.STACK_TRACE, ReportField.LOGCAT},
         mode = ReportingInteractionMode.TOAST,
         resToastText = R.string.crash_toast_text)

@@ -1,0 +1,38 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:0.4'
+    }
+}
+apply plugin: 'android'
+
+dependencies {
+    compile files('../../../../../niyatdekdee/libs/jsoup-1.7.1.jar')
+    compile files('../../../../../niyatdekdee/libs/libGoogleAnalyticsV2.jar')
+    compile files('../../../../../niyatdekdee/libs/acra-4.5.0RC3.jar')
+}
+
+android {
+    compileSdkVersion 10
+    buildToolsVersion "10"
+
+    defaultConfig {
+        minSdkVersion 10
+        targetSdkVersion 10
+    }
+    sourceSets {
+        main {
+            manifest.srcFile 'AndroidManifest.xml'
+            java.srcDirs = ['src']
+            resources.srcDirs = ['src']
+            aidl.srcDirs = ['src']
+            renderscript.srcDirs = ['src']
+            res.srcDirs = ['res']
+            assets.srcDirs = ['assets']
+        }
+
+        instrumentTest.setRoot('tests')
+    }
+}

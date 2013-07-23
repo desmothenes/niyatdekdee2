@@ -1,0 +1,20 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/opentext"
+        android:title="@string/textmode"/>
+    <item
+        android:id="@+id/open"
+        android:title="@string/open"/>
+    <item
+        android:id="@+id/openweb"
+        android:title="@string/openbrower"/>
+    <item
+        android:id="@+id/openfast"
+        android:title="@string/fastmode"/>
+    <item
+        android:id="@+id/cptts"
+        android:title="@string/TTS"/>
+
+
+</menu>

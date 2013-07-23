@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_niyatdekdee" default="compile.module.niyatdekdee">
+    <dirname property="module.niyatdekdee.basedir" file="${ant.file.module_niyatdekdee}"/>
+
+    <property name="module.jdk.home.niyatdekdee" value="${jdk.home.android_2.3.3_platform}"/>
+    <property name="module.jdk.bin.niyatdekdee" value="${jdk.bin.android_2.3.3_platform}"/>
+    <property name="module.jdk.classpath.niyatdekdee" value="jdk.classpath.android_2.3.3_platform"/>
+
+    <property name="compiler.args.niyatdekdee" value="${compiler.args}"/>
+
+    <property name="niyatdekdee.output.dir" value="${module.niyatdekdee.basedir}/out/production/niyatdekdee"/>
+    <property name="niyatdekdee.testoutput.dir" value="${module.niyatdekdee.basedir}/out/test/niyatdekdee"/>
+
+    <path id="niyatdekdee.module.bootclasspath">
+        <!-- Paths to be included in compilation bootclasspath -->
+    </path>
+
+    <path id="niyatdekdee.module.production.classpath">
+        <path refid="${module.jdk.classpath.niyatdekdee}"/>
+        <path refid="library.libs.classpath"/>
+    </path>
+
+    <path id="niyatdekdee.runtime.production.module.classpath">
+        <pathelement location="${niyatdekdee.output.dir}"/>
+        <path refid="library.libs.classpath"/>
+    </path>
+
+    <path id="niyatdekdee.module.classpath">
+        <path refid="${module.jdk.classpath.niyatdekdee}"/>
+        <pathelement location="${niyatdekdee.output.dir}"/>
+        <path refid="library.libs.classpath"/>
+    </path>
+
+    <path id="niyatdekdee.runtime.module.classpath">
+        <pathelement location="${niyatdekdee.testoutput.dir}"/>
+        <pathelement location="${niyatdekdee.output.dir}"/>
+        <path refid="library.libs.classpath"/>
+    </path>
+
+
+    <patternset id="excluded.from.module.niyatdekdee">
+        <patternset refid="ignored.files"/>
+    </patternset>
+
+    <patternset id="excluded.from.compilation.niyatdekdee">
+        <patternset refid="compiler.excluded"/>
+        <patternset refid="excluded.from.module.niyatdekdee"/>
+    </patternset>
+
+    <path id="niyatdekdee.module.sourcepath">
+        <dirset dir="${module.niyatdekdee.basedir}">
+            <include name="gen"/>
+            <include name="src"/>
+        </dirset>
+    </path>
+
+
+    <target name="compile.module.niyatdekdee"
+            depends="compile.module.niyatdekdee.production,compile.module.niyatdekdee.tests"
+            description="Compile module niyatdekdee"/>
+
+    <target name="compile.module.niyatdekdee.production" depends="register.custom.compilers"
+            description="Compile module niyatdekdee; production classes">
+        <mkdir dir="${niyatdekdee.output.dir}"/>
+        <javac2 destdir="${niyatdekdee.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}"
+                memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.niyatdekdee}/javac">
+            <compilerarg line="${compiler.args.niyatdekdee}"/>
+            <bootclasspath refid="niyatdekdee.module.bootclasspath"/>
+            <classpath refid="niyatdekdee.module.production.classpath"/>
+            <src refid="niyatdekdee.module.sourcepath"/>
+            <patternset refid="excluded.from.compilation.niyatdekdee"/>
+        </javac2>
+
+        <copy todir="${niyatdekdee.output.dir}">
+            <fileset dir="${module.niyatdekdee.basedir}/gen">
+                <patternset refid="compiler.resources"/>
+                <type type="file"/>
+                <patternset refid="excluded.from.compilation.niyatdekdee"/>
+            </fileset>
+            <fileset dir="${module.niyatdekdee.basedir}/src">
+                <patternset refid="compiler.resources"/>
+                <type type="file"/>
+                <patternset refid="excluded.from.compilation.niyatdekdee"/>
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="compile.module.niyatdekdee.tests"
+            depends="register.custom.compilers,compile.module.niyatdekdee.production"
+            description="compile module niyatdekdee; test classes" unless="skip.tests"/>
+
+    <target name="clean.module.niyatdekdee" description="cleanup module">
+        <delete dir="${niyatdekdee.output.dir}"/>
+        <delete dir="${niyatdekdee.testoutput.dir}"/>
+    </target>
+</project>

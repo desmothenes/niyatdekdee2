@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.niyatdekdee.notfy"
           android:installLocation="auto"
-          android:versionCode="46"
+          android:versionCode="47"
           android:versionName="1.421b">
 
 <uses-sdk
@@ -26,8 +26,8 @@
         android:theme="@style/customTitlebar">
         <activity
             android:name="com.niyatdekdee.notfy.MainActivity"
+            android:screenOrientation="user"
             android:configChanges="keyboardHidden|orientation"
-            android:screenOrientation="nosensor"
             android:label="@string/app_name"
             android:launchMode="singleTop">
 
@@ -155,12 +155,14 @@
         </activity>
         <activity
             android:name="com.niyatdekdee.notfy.LongRead"
+            android:configChanges="orientation"
             android:screenOrientation="nosensor"
             android:label="@string/title_activity_long_read">
         </activity>
         <activity
             android:name="com.niyatdekdee.notfy.LongRead2"
             android:screenOrientation="nosensor"
+            android:configChanges="orientation"
             android:label="@string/title_activity_long_read">
         </activity>
         <activity
