@@ -3,7 +3,7 @@
           package="com.niyatdekdee.notfy"
           android:installLocation="auto"
           android:versionCode="48"
-          android:versionName="1.421c">
+          android:versionName="1.421d">
 
 <uses-sdk
         android:minSdkVersion="9"
