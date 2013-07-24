@@ -2853,6 +2853,10 @@ public class MainActivity extends ListActivity {
                 //this.cancel(true);
                 //this.execute(context);
             }
+        } else if (s.equals("-97")) {
+            int index = Integer.parseInt(s1);
+            ListViewStatus.set(index, "ตรวจสอบเสร็จสิ้น");
+            mHandler.postDelayed(runnable2, 1);
         } else if (s.equals("-99")) {
             int index = Integer.parseInt(s1);
             ListViewContent.set(index, temp);
@@ -2961,23 +2965,24 @@ public class MainActivity extends ListActivity {
 
         } catch (IOException e) {
             Log.e("IOException", e.getMessage());
-            //	Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+            publishProgress("-97", Integer.toString(index), "ผิดพลาด โปรดลองใหม่");//	Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
             e.printStackTrace();
             return "err";
 
         } catch (URISyntaxException e) {
             Log.e("URISyntaxException", e.getMessage());
-            //Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+            publishProgress("-97", Integer.toString(index), "ผิดพลาด โปรดลองใหม่");//Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
             e.printStackTrace();
             return "err";
 
         } catch (IllegalStateException e) {
             Log.e("IllegalStateException", text1);
-            //Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+            publishProgress("-97", Integer.toString(index), "ผิดพลาด โปรดลองใหม่");//Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
             e.printStackTrace();
             return "err";
 
         } catch (Exception e) {
+            publishProgress("-97", Integer.toString(index), "ผิดพลาด โปรดลองใหม่");
             System.err.println(e);
             e.printStackTrace();
             return "err";
@@ -3006,7 +3011,11 @@ public class MainActivity extends ListActivity {
                 }
             }.start();
             final String start = text1.substring(text1.indexOf("<title>") + 7);
-            text1 = Jsoup.parse((start.substring(start.indexOf(">") + 2, start.indexOf("</title>")))).text();
+            try {
+                text1 = Jsoup.parse((start.substring(start.indexOf(">") + 2, start.indexOf("</title>")))).text();
+            } catch (IndexOutOfBoundsException ex) {
+                text1 = "error";
+            }
         } else {
             text1 = "ยังไม่มีตอนปัจจุบัน รอตอนใหม่";
         }
@@ -3173,7 +3182,7 @@ public class MainActivity extends ListActivity {
                     .get();
         } catch (IOException e) {
             publishProgress("-1");
-            Toast.makeText(getApplicationContext(), "การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่", Toast.LENGTH_LONG).show();
+            mHandler.postDelayed(runnable2, 1);
             e.printStackTrace();
         }
         //System.out.println(doc.html());
@@ -3318,4 +3327,9 @@ public class MainActivity extends ListActivity {
         }
     }
 
+    private Runnable runnable2 = new Runnable() {
+        public void run() {
+            Toast.makeText(context, "การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่", Toast.LENGTH_LONG);
+        }
+    };
 }

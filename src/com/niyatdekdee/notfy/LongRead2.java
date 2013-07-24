@@ -579,7 +579,15 @@ public class LongRead2 extends Activity {
                     Elements color = story.select("span[style^=color");
                     for (Element span : color) {
                         if (!span.attr("style").isEmpty() && span.attr("style").length() > 0)
-                            span.wrap("<font " + span.attr("style").replace(":", "=\"").replace(";", "\"") + "></font>");
+                            span.attr("style", span.attr("style").replace(":", "=\"").replace(";", "\""));
+                        if (span.attr("style").length() > 0) {
+                            try {
+                                span.wrap("<font " + span.attr("style") + "></font>");
+                            } catch (IndexOutOfBoundsException ex) {
+
+                            }
+                        }
+
                         //span.append("</font>");
                     }
                     Elements els = story.select("style");

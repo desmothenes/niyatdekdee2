@@ -9,7 +9,6 @@ import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.util.Log;
@@ -26,7 +25,8 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 @SuppressLint("SetJavaScriptEnabled")
@@ -849,10 +849,10 @@ public class TextReadActivity extends Activity {
                     "</div></body></html>");
 
             publishProgress("80 %");
-            doc = null;
+/*            doc = null;
             try {
                 //ContextWrapper cw = new ContextWrapper(getBaseContext());
-                temp = new File(/*cw.getDir("temp", Context.MODE_PRIVATE)*/Environment.getExternalStorageDirectory(), "niyay_temp");
+                temp = new File(*//*cw.getDir("temp", Context.MODE_PRIVATE)*//*Environment.getExternalStorageDirectory(), "niyay_temp");
                 //System.out.println(temp.getAbsolutePath());
 
                 BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(temp), "tis620"));
@@ -863,7 +863,7 @@ public class TextReadActivity extends Activity {
             } catch (IOException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
-            }
+            }*/
 
         }
 
