@@ -225,7 +225,7 @@ public class DekTTSActivity extends Service implements OnInitListener {
                     //Toast.makeText(MainActivity.context, "การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่", Toast.LENGTH_LONG).show();
                     Log.e("totext", "การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่");
                     if (dialog.isShowing()) dialog.dismiss();
-                    Toast.makeText(getBaseContext(), "การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(getBaseContext(), "การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่", Toast.LENGTH_LONG).show();
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
@@ -297,8 +297,8 @@ public class DekTTSActivity extends Service implements OnInitListener {
         //removeComments(doc);
         Log.e("str1", doc.html());
         StringBuilder sum = new StringBuilder();
-		/*Elements link1 = doc.select("#story_body");
-		if(link1 == null)  {
+        /*Elements link1 = doc.select("#story_body");
+        if(link1 == null)  {
 			Toast.makeText(getApplicationContext(), "IOException Failed!", Toast.LENGTH_SHORT).show();
 			return;
 		}*/

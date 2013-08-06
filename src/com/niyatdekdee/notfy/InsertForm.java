@@ -21,6 +21,7 @@ import org.jsoup.select.Elements;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class InsertForm extends Activity {
     private DatabaseAdapter db;
@@ -247,6 +248,7 @@ public class InsertForm extends Activity {
                 }
             }
         }
+
         protected void onPostExecute(String result) {
             try {
                 txtChapter.setText(chapter);
@@ -280,7 +282,7 @@ public class InsertForm extends Activity {
             if (doc == null) {
                 publishProgress("-2");
                 Log.v("txtChapter", "can't find chapter please fill by yourself");
-                chapter = "can't find chapter please fill by yourself";
+                chapter = "หาตอนล่าสุดไม่ได้โปรดใส่ด้วยตัวเอง";
                 return false;
             }
 
@@ -295,7 +297,7 @@ public class InsertForm extends Activity {
                 name = title;
             }
 
-            final String html = doc.html();
+            //final String html = doc.html();
             /*			try {
                 URL link = new URL(url.replace("&chapter=", "").replace("http://writer.dek-d.com/dek-d/writer/viewlongc.php?id=", "http://writer.dek-d.com/story/writer/view.php?id="));
 				URLConnection connection = link.openConnection();
@@ -346,7 +348,7 @@ public class InsertForm extends Activity {
 			}*/
             //publishProgress(40);
             /*			try {
-				ContextWrapper cw = new ContextWrapper(InsertForm.this);
+                ContextWrapper cw = new ContextWrapper(InsertForm.this);
 				File temp =  new File(cw.getDir("temp", Context.MODE_PRIVATE),"insert.html");
 				BufferedWriter bw;
 				bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(temp),"tis620"));
@@ -364,6 +366,7 @@ public class InsertForm extends Activity {
 				e.printStackTrace();
 			}*/
             publishProgress("50");
+/*
 
             final int start = html.lastIndexOf("<tr>\n          <td align=\"middle\">");
             final int end = html.lastIndexOf("</td>\n          <td><a target=\"_blank\"");
@@ -380,7 +383,7 @@ public class InsertForm extends Activity {
                 Log.v("ed", Integer.toString(ed));
                 if (op == -1 || ed == -1) {
                     Log.v("txtChapter", "can't find chapter please fill by yourself");
-                    chapter = "can't find chapter please fill by yourself";
+                    chapter =  "หาตอนล่าสุดไม่ได้โปรดใส่ด้วยตัวเอง";
                     return false;
                 } else {
                     chapter = html.substring(op + "</td></tr><tr><td align=middle>".length(), ed);
@@ -388,9 +391,26 @@ public class InsertForm extends Activity {
             } else {
                 chapter = html.substring(start + "</td>\n</tr><tr><td align=\"middle\">".length(), end);
             }
+*/
+
+            Elements cplist = doc.select("td[align=middle]");
+            Collections.reverse(cplist);
+            for (Element i : cplist) {
+                try {
+                    int cp = Integer.parseInt(i.text());
+                    chapter = Integer.toString(cp);
+                    publishProgress("70");
+                    Log.v("url", url + chapter);
+                    return true;
+                } catch (NumberFormatException ee) {
+                    //continue;
+                }
+            }
+
             publishProgress("70");
-            Log.v("url", url + chapter);
-            return true;
+            Log.v("txtChapter", "can't find chapter please fill by yourself");
+            chapter = "หาตอนล่าสุดไม่ได้โปรดใส่ด้วยตัวเอง";
+            return false;
             //HttpClient httpclient1 = new DefaultHttpClient();
             /*
             try {

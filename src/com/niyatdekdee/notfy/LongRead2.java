@@ -17,6 +17,7 @@ import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.text.Html;
+import android.util.TypedValue;
 import android.view.*;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
@@ -428,12 +429,12 @@ public class LongRead2 extends Activity {
             case R.id.inctext:
                 //เพิ่มขนาด font
                 Toast.makeText(getBaseContext(), "โปรดรอ", Toast.LENGTH_SHORT).show();
-                webView.setTextSize(webView.getTextSize() + 1);
+                webView.setTextSize(TypedValue.COMPLEX_UNIT_PX, webView.getTextSize() + 1);
                 return true;
             case R.id.dectext:
                 //ลดขนาด font
                 Toast.makeText(getBaseContext(), "โปรดรอ", Toast.LENGTH_SHORT).show();
-                webView.setTextSize(webView.getTextSize() - 1);
+                webView.setTextSize(TypedValue.COMPLEX_UNIT_PX, webView.getTextSize() - 1);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

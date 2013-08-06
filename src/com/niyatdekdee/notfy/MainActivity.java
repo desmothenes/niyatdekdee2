@@ -81,7 +81,7 @@ public class MainActivity extends ListActivity {
     static ArrayList<String> ListViewStatus = new ArrayList<String>();
     private Time now;
     static List<Cookie> cookies;
-    private boolean isTemp;
+    //private boolean isTemp;
     private boolean isErr = false;
     private boolean loginsuscess = false;
     static Map<String, Long> sessionTime = new HashMap<String, Long>();
@@ -90,6 +90,7 @@ public class MainActivity extends ListActivity {
     private static int floop;
     static Map<String, String> sessionId = new HashMap<String, String>();
     private ArrayList<String> Listtemp = new ArrayList<String>();
+    private boolean falselogin;
 
     void update() {
         Log.e("doback at", "update static");
@@ -160,6 +161,7 @@ public class MainActivity extends ListActivity {
                 cm.getActiveNetworkInfo().isConnectedOrConnecting();
     }
 
+    //static  boolean isOnline() { return true;}
     /*	protected void onListItemClick(ListView l, View v, int position, long id) {
 
         super.onListItemClick(l, v, position, id);
@@ -576,11 +578,40 @@ public class MainActivity extends ListActivity {
             addmenu();
             return;
         }
-        if (ListViewContent.get(0).equals("<big><big>โปรดเพิ่มนิยายเรื่องแรก\n(กดเครื่องหมายบวกสีเขียว\nแล้วเลือกวิธีการเพิ่มนิยาย)</big></big>")) {
+        if (ListViewContent.get(0).equals(getString(R.string.first_add_main))) {
             addmenu();
             return;
         }
+        if (ListViewContent.get(0).equals(getString(R.string.no_fav_update))) {
+            //addmenu();
+            return;
+        }
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
+        int position = info.position;
+        if (position < ListViewStatus.size() && ListViewStatus.get(position).equals("มีปัญหา โปรดลองใหม่")) {
+            reconnect(position);
+            return;
+        }
+
         getMenuInflater().inflate(R.menu.menu_data, menu);
+    }
+
+    private void reconnect(final int index) {
+        context = MainActivity.this;
+        CharSequence[] items = {"ลองเชื่อมต่อใหม่"};
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setCancelable(true)
+                .setSingleChoiceItems(items, -1, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                        if (index < niyayTable.size()) {
+                            check_new_cp(index, niyayTable.get(index));
+                        }
+                    }
+
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
     }
 
 
@@ -588,8 +619,9 @@ public class MainActivity extends ListActivity {
     public boolean onContextItemSelected(MenuItem item) {
         //setContentView(R.layout.activity_main);
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-        final int listItemName = (int) info.id;
-		/*		int i_index = -1;
+        if (info != null) {
+            final int listItemName = (int) info.id;
+        /*		int i_index = -1;
         for(String[] i:niyayTable) {
 			i_index++;
 			Log.e("table "+Integer.toString(i_index), i[1]);
@@ -602,43 +634,46 @@ public class MainActivity extends ListActivity {
 		Log.e("niyayTable 4",niyayTable.get(listItemName)[4]);
 		Log.e("get item", Integer.toString(item.getItemId()));*/
 
-        cw = new ContextWrapper(this);
+            cw = new ContextWrapper(this);
 
-        switch (item.getItemId()) {
-            case R.id.open:
-                return item_open(listItemName);
-            case R.id.addcp:
-                return item_addcp(listItemName);
-            case R.id.openweb:
-                return item_openweb(listItemName);
-            case R.id.opentext:
-                return item_opentext(listItemName);
-            case R.id.red:
-                return item_red(listItemName);
-            case R.id.tts:
-                return item_tts(listItemName);
-            case R.id.edit:
-                return item_edit(listItemName);
-            case R.id.chapterlist:
-                return item_chapterlist(listItemName);
-            case R.id.dec:
-                return item_dec(listItemName);
-            case R.id.delete:
-                return item_delete(listItemName);
-            case R.id.longread:
-                return item_longread(listItemName);
-            case R.id.newlongread:
-                return item_newlongread(listItemName);
+            switch (item.getItemId()) {
+                case R.id.open:
+                    return item_open(listItemName);
+                case R.id.addcp:
+                    return item_addcp(listItemName);
+                case R.id.openweb:
+                    return item_openweb(listItemName);
+                case R.id.opentext:
+                    return item_opentext(listItemName);
+                case R.id.red:
+                    return item_red(listItemName);
+                case R.id.tts:
+                    return item_tts(listItemName);
+                case R.id.edit:
+                    return item_edit(listItemName);
+                case R.id.chapterlist:
+                    return item_chapterlist(listItemName);
+                case R.id.dec:
+                    return item_dec(listItemName);
+                case R.id.delete:
+                    return item_delete(listItemName);
+                case R.id.longread:
+                    return item_longread(listItemName);
+                case R.id.newlongread:
+                    return item_newlongread(listItemName);
             /*case R.id.openfast:
                 return item_openfast(listItemName);*/
-            default:
-                return super.onContextItemSelected(item);
+                default:
+                    return super.onContextItemSelected(item);
+            }
+        } else {
+            return super.onContextItemSelected(item);
         }
     }
 
     private boolean item_open(final int listItemName) {
         String url;
-        if (niyayTable.size() < listItemName + 1) return true;
+        if (niyayTable != null && niyayTable.size() < listItemName + 1) return true;
         if (niyayTable.get(listItemName)[0].equals("-2")) {
             final String unum = MyAppClass.findnum(niyayTable.get(listItemName)[2], "story_id=", getBaseContext());
             final String chapter = MyAppClass.findnum(niyayTable.get(listItemName)[4], "ตอนที่ ", getBaseContext());
@@ -685,7 +720,7 @@ public class MainActivity extends ListActivity {
                     try {
                         Jsoup.connect("http://www.dek-d.com/" + niyayTable.get(listItemName)[2]).cookies(sessionId).timeout(3000).get();
                     } catch (IOException e) {
-                        //Toast.makeText(getBaseContext(), "การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่", Toast.LENGTH_LONG).show();
+                        //Toast.makeText(getBaseContext(), getString(R.string.connection_error), Toast.LENGTH_LONG).show();
                         // TODO Auto-generated catch block
                         publishProgress("-1");
                         e.printStackTrace();
@@ -698,8 +733,8 @@ public class MainActivity extends ListActivity {
 
                 protected void onProgressUpdate(String... progress) {        //publishProgress
                     if (progress[0].equals("-1")) {
-                        Toast.makeText(context, "การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่", Toast.LENGTH_LONG).show();
-                        Log.e("onProgressUpdate", "การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่");
+                        Toast.makeText(context, getString(R.string.connection_error), Toast.LENGTH_LONG).show();
+                        Log.e("onProgressUpdate", getString(R.string.connection_error));
                     } else {
                         Toast.makeText(context, progress[0], Toast.LENGTH_SHORT).show();
                     }
@@ -728,7 +763,7 @@ public class MainActivity extends ListActivity {
                         try {
                             Jsoup.connect("http://www.dek-d.com/" + niyayTable.get(listItemName)[2]).cookies(sessionId).timeout(3000).get();
                         } catch (IOException e) {
-                            //Toast.makeText(getBaseContext(), "การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่", Toast.LENGTH_LONG).show();
+                            //Toast.makeText(getBaseContext(), getString(R.string.connection_error), Toast.LENGTH_LONG).show();
                             // TODO Auto-generated catch block
                             publishProgress("-1");
                             e.printStackTrace();
@@ -744,10 +779,10 @@ public class MainActivity extends ListActivity {
 
                     protected void onProgressUpdate(String... progress) {        //publishProgress
                         if (progress[0].equals("-1")) {
-                            Toast.makeText(context, "การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่", Toast.LENGTH_LONG).show();
-                            Log.e("onProgressUpdate", "การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่");
+                            Toast.makeText(context, getString(R.string.connection_error), Toast.LENGTH_LONG).show();
+                            Log.e("onProgressUpdate", getString(R.string.connection_error));
                         } else {
-                            //Toast.makeText(context, progress[0] , Toast.LENGTH_SHORT).show();
+                            showToast(progress[0]);
                         }
                     }
 
@@ -792,7 +827,7 @@ public class MainActivity extends ListActivity {
                             HttpResponse response = client.execute(method);
                             in = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "TIS620"));
                             StringBuffer sb = new StringBuffer("");
-                            String line = "";
+                            String line;
                             String NL = System.getProperty("line.separator");
                             while ((line = in.readLine()) != null) {
                                 sb.append(line).append(NL);
@@ -831,8 +866,8 @@ public class MainActivity extends ListActivity {
                     if (progress[0] == null) return;
                     else if (progress[0].isEmpty()) return;
                     else if (progress[0].equals("-1")) {
-                        Toast.makeText(context, "การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่", Toast.LENGTH_LONG).show();
-                        Log.e("onProgressUpdate", "การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่");
+                        Toast.makeText(context, getString(R.string.connection_error), Toast.LENGTH_LONG).show();
+                        Log.e("onProgressUpdate", getString(R.string.connection_error));
                     } else {
                         Toast.makeText(context, progress[0], Toast.LENGTH_SHORT).show();
                     }
@@ -857,7 +892,7 @@ public class MainActivity extends ListActivity {
                         doc = doc.substring(start + 7, doc.indexOf("</title>"));
                         doc = Jsoup.parse((doc.substring(doc.indexOf(">") + 2))).text();
                     } else {
-                        doc = "ยังไม่มีตอนปัจจุบัน รอตอนใหม่";
+                        doc = getString(R.string.wait_for_new);
                     }
                     db.open();
 
@@ -865,9 +900,9 @@ public class MainActivity extends ListActivity {
                             Integer.parseInt(niyayTable.get(listItemName)[3]),
                             "");
                     if (flag) {
-                        Toast.makeText(context, "inc succeed", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "เพิ่มเรียบร้อย", Toast.LENGTH_SHORT).show();
                     } else {
-                        Toast.makeText(context, "inc failed", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "เพิ่มไม่สำเร็จ", Toast.LENGTH_SHORT).show();
                         niyayTable.get(listItemName)[3] = Integer.toString(Integer.parseInt(niyayTable.get(listItemName)[3]) - 1);
                     }
                     niyayTable.get(listItemName)[4] = doc;
@@ -915,7 +950,7 @@ public class MainActivity extends ListActivity {
                     try {
                         Jsoup.connect("http://www.dek-d.com/" + niyayTable.get(listItemName)[2]).cookies(sessionId).timeout(3000).get();
                     } catch (IOException e) {
-                        //Toast.makeText(getBaseContext(), "การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่", Toast.LENGTH_LONG).show();
+                        //Toast.makeText(getBaseContext(), getString(R.string.connection_error), Toast.LENGTH_LONG).show();
                         // TODO Auto-generated catch block
                         publishProgress("-1");
                         e.printStackTrace();
@@ -931,11 +966,11 @@ public class MainActivity extends ListActivity {
 
                 protected void onProgressUpdate(String... progress) {        //publishProgress
                     if (progress[0].equals("-1")) {
-                        Toast.makeText(context, "การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่", Toast.LENGTH_LONG).show();
-                        Log.e("onProgressUpdate", "การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่");
-                    } else {
-                        //Toast.makeText(context, progress[0] , Toast.LENGTH_SHORT).show();
-                    }
+                        Toast.makeText(context, getString(R.string.connection_error), Toast.LENGTH_LONG).show();
+                        Log.e("onProgressUpdate", getString(R.string.connection_error));
+                    } /*else {
+                        Toast.makeText(context, progress[0] , Toast.LENGTH_SHORT).show();
+                    }*/
                 }
 
                 protected void onPostExecute(Void result) {
@@ -979,7 +1014,7 @@ public class MainActivity extends ListActivity {
                         HttpResponse response = client.execute(method);
                         in = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "TIS620"));
                         StringBuffer sb = new StringBuffer("");
-                        String line = "";
+                        String line;
                         String NL = System.getProperty("line.separator");
                         while ((line = in.readLine()) != null) {
                             sb.append(line).append(NL);
@@ -1018,8 +1053,8 @@ public class MainActivity extends ListActivity {
                 if (progress[0] == null) return;
                 else if (progress[0].isEmpty()) return;
                 else if (progress[0].equals("-1")) {
-                    Toast.makeText(context, "การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่", Toast.LENGTH_LONG).show();
-                    Log.e("onProgressUpdate", "การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่");
+                    Toast.makeText(context, getString(R.string.connection_error), Toast.LENGTH_LONG).show();
+                    Log.e("onProgressUpdate", getString(R.string.connection_error));
                 } else {
                     Toast.makeText(context, progress[0], Toast.LENGTH_SHORT).show();
                 }
@@ -1044,7 +1079,7 @@ public class MainActivity extends ListActivity {
                     doc = doc.substring(start + 7, doc.indexOf("</title>"));
                     doc = Jsoup.parse((doc.substring(doc.indexOf(">") + 2))).text();
                 } else {
-                    doc = "ยังไม่มีตอนปัจจุบัน รอตอนใหม่";
+                    doc = getString(R.string.wait_for_new);
                 }
                 db.open();
 
@@ -1062,11 +1097,11 @@ public class MainActivity extends ListActivity {
                     return;
                 flag = db.updateTitle(Long.parseLong(niyayTable.get(listItemName)[0]),
                         niyayTable.get(listItemName)[4]);
-                if (flag) {
+                /*if (flag) {
                     //Toast.makeText(context, "rec succeed", Toast.LENGTH_SHORT).show();
                 } else {
                     //Toast.makeText(context, "rec failed", Toast.LENGTH_SHORT).show();
-                }
+                }*/
                 //Intent i = new Intent(context,MainActivity.class);
                 db.close();
                 ListViewContent.set(listItemName, "<br /><p><font color=#33B6EA>เรื่อง :" + niyayTable.get(listItemName)[1] + "</font><br />" +
@@ -1145,7 +1180,7 @@ public class MainActivity extends ListActivity {
                     try {
                         Jsoup.connect("http://www.dek-d.com/" + niyayTable.get(listItemName)[2]).cookies(sessionId).timeout(3000).get();
                     } catch (IOException e) {
-                        //Toast.makeText(getBaseContext(), "การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่", Toast.LENGTH_LONG).show();
+                        //Toast.makeText(getBaseContext(), getString(R.string.connection_error), Toast.LENGTH_LONG).show();
                         // TODO Auto-generated catch block
                         publishProgress("-1");
                         e.printStackTrace();
@@ -1158,8 +1193,8 @@ public class MainActivity extends ListActivity {
 
                 protected void onProgressUpdate(String... progress) {        //publishProgress
                     if (progress[0].equals("-1")) {
-                        Toast.makeText(context, "การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่", Toast.LENGTH_LONG).show();
-                        Log.e("onProgressUpdate", "การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่");
+                        Toast.makeText(context, getString(R.string.connection_error), Toast.LENGTH_LONG).show();
+                        Log.e("onProgressUpdate", getString(R.string.connection_error));
                     } else {
                         Toast.makeText(context, progress[0], Toast.LENGTH_SHORT).show();
                     }
@@ -1188,7 +1223,7 @@ public class MainActivity extends ListActivity {
                         try {
                             Jsoup.connect("http://www.dek-d.com/" + niyayTable.get(listItemName)[2]).cookies(sessionId).timeout(3000).get();
                         } catch (IOException e) {
-                            //Toast.makeText(getBaseContext(), "การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่", Toast.LENGTH_LONG).show();
+                            //Toast.makeText(getBaseContext(), getString(R.string.connection_error), Toast.LENGTH_LONG).show();
                             // TODO Auto-generated catch block
                             publishProgress("-1");
                             e.printStackTrace();
@@ -1204,11 +1239,11 @@ public class MainActivity extends ListActivity {
 
                     protected void onProgressUpdate(String... progress) {        //publishProgress
                         if (progress[0].equals("-1")) {
-                            Toast.makeText(context, "การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่", Toast.LENGTH_LONG).show();
-                            Log.e("onProgressUpdate", "การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่");
-                        } else {
+                            Toast.makeText(context, getString(R.string.connection_error), Toast.LENGTH_LONG).show();
+                            Log.e("onProgressUpdate", getString(R.string.connection_error));
+                        } /*else {
                             //Toast.makeText(context, progress[0] , Toast.LENGTH_SHORT).show();
-                        }
+                        }*/
                     }
 
                     protected void onPostExecute(Void result) {
@@ -1252,7 +1287,7 @@ public class MainActivity extends ListActivity {
                             HttpResponse response = client.execute(method);
                             in = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "TIS620"));
                             StringBuffer sb = new StringBuffer("");
-                            String line = "";
+                            String line;
                             String NL = System.getProperty("line.separator");
                             while ((line = in.readLine()) != null) {
                                 sb.append(line).append(NL);
@@ -1291,8 +1326,8 @@ public class MainActivity extends ListActivity {
                     if (progress[0] == null) ;
                     else if (progress[0].isEmpty()) ;
                     else if (progress[0].equals("-1")) {
-                        Toast.makeText(context, "การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่", Toast.LENGTH_LONG).show();
-                        Log.e("onProgressUpdate", "การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่");
+                        Toast.makeText(context, getString(R.string.connection_error), Toast.LENGTH_LONG).show();
+                        Log.e("onProgressUpdate", getString(R.string.connection_error));
                     } else {
                         Toast.makeText(context, progress[0], Toast.LENGTH_SHORT).show();
                     }
@@ -1317,7 +1352,7 @@ public class MainActivity extends ListActivity {
                         doc = doc.substring(start + 7, doc.indexOf("</title>"));
                         doc = Jsoup.parse((doc.substring(doc.indexOf(">") + 2))).text();
                     } else {
-                        doc = "ยังไม่มีตอนปัจจุบัน รอตอนใหม่";
+                        doc = getString(R.string.wait_for_new);
                     }
                     db.open();
 
@@ -1335,11 +1370,11 @@ public class MainActivity extends ListActivity {
                         return;
                     flag = db.updateTitle(Long.parseLong(niyayTable.get(listItemName)[0]),
                             niyayTable.get(listItemName)[4]);
-                    if (flag) {
+                    /*if (flag) {
                         //Toast.makeText(context, "rec succeed", Toast.LENGTH_SHORT).show();
                     } else {
                         //Toast.makeText(context, "rec failed", Toast.LENGTH_SHORT).show();
-                    }
+                    }*/
                     //Intent i = new Intent(context,MainActivity.class);
                     db.close();
                     ListViewContent.set(listItemName, "<br /><p><font color=#33B6EA>เรื่อง :" + niyayTable.get(listItemName)[1] + "</font><br />" +
@@ -1388,8 +1423,8 @@ public class MainActivity extends ListActivity {
 
                 protected void onProgressUpdate(String... progress) {        //publishProgress
                     if (progress[0].equals("-1")) {
-                        Toast.makeText(context, "การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่", Toast.LENGTH_LONG).show();
-                        Log.e("onProgressUpdate", "การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่");
+                        Toast.makeText(context, getString(R.string.connection_error), Toast.LENGTH_LONG).show();
+                        Log.e("onProgressUpdate", getString(R.string.connection_error));
                     }
                 }
 
@@ -1580,7 +1615,7 @@ public class MainActivity extends ListActivity {
                         HttpResponse response = client.execute(method);
                         in = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "TIS620"));
                         StringBuffer sb = new StringBuffer("");
-                        String line = "";
+                        String line;
                         String NL = System.getProperty("line.separator");
                         while ((line = in.readLine()) != null) {
                             sb.append(line).append(NL);
@@ -1622,8 +1657,8 @@ public class MainActivity extends ListActivity {
 
             protected void onProgressUpdate(String... progress) {
                 if (progress[0] != null) if (!progress[0].isEmpty()) if (progress[0].equals("-1")) {
-                    //Toast.makeText(context, "การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่", Toast.LENGTH_LONG).show();
-                    Log.e("onProgressUpdate", "การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่");
+                    //Toast.makeText(context, getString(R.string.connection_error), Toast.LENGTH_LONG).show();
+                    Log.e("onProgressUpdate", getString(R.string.connection_error));
                 } else {
                     Toast.makeText(context, progress[0], Toast.LENGTH_SHORT).show();
                 }
@@ -1650,7 +1685,7 @@ public class MainActivity extends ListActivity {
                         //Log.e("url", doc);
                         doc = Jsoup.parse((doc.substring(doc.indexOf(">") + 2))).text();
                     } else {
-                        doc = "ยังไม่มีตอนปัจจุบัน รอตอนใหม่";
+                        doc = getString(R.string.wait_for_new);
                     }
                     db.open();
                     boolean flag = db.updateChapter((Long.parseLong(niyayTable.get(listItemName)[0])),
@@ -1668,11 +1703,11 @@ public class MainActivity extends ListActivity {
                         return;
                     flag = db.updateTitle(Long.parseLong(niyayTable.get(listItemName)[0]),
                             niyayTable.get(listItemName)[4]);
-                    if (flag) {
+                    /*if (flag) {
                         //Toast.makeText(context, "rec succeed", Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(context, "rec failed", Toast.LENGTH_SHORT).show();
-                    }
+                    }*/
                     //Intent i = new Intent(context,MainActivity.class);
                     db.close();
                     ListViewContent.set(listItemName, "<br /><p><font color=#33B6EA>เรื่อง :" + niyayTable.get(listItemName)[1] + "</font><br />" +
@@ -1682,8 +1717,6 @@ public class MainActivity extends ListActivity {
                 }
                 if (dialog.isShowing()) dialog.dismiss();
             }
-
-            ;
         }.execute();
         //Toast.makeText(context, "dec", Toast.LENGTH_SHORT).show();
         return true;
@@ -1817,7 +1850,7 @@ public class MainActivity extends ListActivity {
                     try {
                         Jsoup.connect("http://www.dek-d.com/" + niyayTable.get(listItemName)[2]).cookies(sessionId).timeout(3000).get();
                     } catch (IOException e) {
-                        //Toast.makeText(getBaseContext(), "การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่", Toast.LENGTH_LONG).show();
+                        //Toast.makeText(getBaseContext(), getString(R.string.connection_error), Toast.LENGTH_LONG).show();
                         // TODO Auto-generated catch block
                         publishProgress("-1");
                         e.printStackTrace();
@@ -1830,8 +1863,8 @@ public class MainActivity extends ListActivity {
 
                 protected void onProgressUpdate(String... progress) {        //publishProgress
                     if (progress[0].equals("-1")) {
-                        Toast.makeText(context, "การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่", Toast.LENGTH_LONG).show();
-                        Log.e("onProgressUpdate", "การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่");
+                        Toast.makeText(context, getString(R.string.connection_error), Toast.LENGTH_LONG).show();
+                        Log.e("onProgressUpdate", getString(R.string.connection_error));
                     } else {
                         Toast.makeText(context, progress[0], Toast.LENGTH_SHORT).show();
                     }
@@ -1860,7 +1893,7 @@ public class MainActivity extends ListActivity {
                         try {
                             Jsoup.connect("http://www.dek-d.com/" + niyayTable.get(listItemName)[2]).cookies(sessionId).timeout(3000).get();
                         } catch (IOException e) {
-                            //Toast.makeText(getBaseContext(), "การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่", Toast.LENGTH_LONG).show();
+                            //Toast.makeText(getBaseContext(), getString(R.string.connection_error), Toast.LENGTH_LONG).show();
                             // TODO Auto-generated catch block
                             publishProgress("-1");
                             e.printStackTrace();
@@ -1876,11 +1909,11 @@ public class MainActivity extends ListActivity {
 
                     protected void onProgressUpdate(String... progress) {        //publishProgress
                         if (progress[0].equals("-1")) {
-                            Toast.makeText(context, "การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่", Toast.LENGTH_LONG).show();
-                            Log.e("onProgressUpdate", "การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่");
-                        } else {
+                            Toast.makeText(context, getString(R.string.connection_error), Toast.LENGTH_LONG).show();
+                            Log.e("onProgressUpdate", getString(R.string.connection_error));
+                        } /*else {
                             //Toast.makeText(context, progress[0] , Toast.LENGTH_SHORT).show();
-                        }
+                        }*/
                     }
 
                     protected void onPostExecute(Void result) {
@@ -1924,7 +1957,7 @@ public class MainActivity extends ListActivity {
                             HttpResponse response = client.execute(method);
                             in = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "TIS620"));
                             StringBuffer sb = new StringBuffer("");
-                            String line = "";
+                            String line;
                             String NL = System.getProperty("line.separator");
                             while ((line = in.readLine()) != null) {
                                 sb.append(line).append(NL);
@@ -1962,8 +1995,8 @@ public class MainActivity extends ListActivity {
                 protected void onProgressUpdate(String... progress) {        //publishProgress
                     if (progress == null || progress[0] == null || progress[0].isEmpty()) return;
                     else if (progress[0].equals("-1")) {
-                        Toast.makeText(context, "การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่", Toast.LENGTH_LONG).show();
-                        Log.e("onProgressUpdate", "การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่");
+                        Toast.makeText(context, getString(R.string.connection_error), Toast.LENGTH_LONG).show();
+                        Log.e("onProgressUpdate", getString(R.string.connection_error));
                     } else {
                         Toast.makeText(context, progress[0], Toast.LENGTH_SHORT).show();
                     }
@@ -1991,7 +2024,7 @@ public class MainActivity extends ListActivity {
                         else
                             doc = Jsoup.parse((doc)).text();
                     } else {
-                        doc = "ยังไม่มีตอนปัจจุบัน รอตอนใหม่";
+                        doc = getString(R.string.wait_for_new);
                     }
                     db.open();
 
@@ -2009,11 +2042,11 @@ public class MainActivity extends ListActivity {
                         return;
                     flag = db.updateTitle(Long.parseLong(niyayTable.get(listItemName)[0]),
                             niyayTable.get(listItemName)[4]);
-                    if (flag) {
+                    /*if (flag) {
                         //Toast.makeText(context, "rec succeed", Toast.LENGTH_SHORT).show();
                     } else {
                         //Toast.makeText(context, "rec failed", Toast.LENGTH_SHORT).show();
-                    }
+                    }*/
                     //Intent i = new Intent(context,MainActivity.class);
                     db.close();
                     ListViewContent.set(listItemName, "<br /><p><font color=#33B6EA>เรื่อง :" + niyayTable.get(listItemName)[1] + "</font><br />" +
@@ -2026,7 +2059,7 @@ public class MainActivity extends ListActivity {
                     mGaTracker.sendEvent("ui_action", "button_press", "add_cp", (long) 0);
                 }
 
-                ;
+
             }.execute();
         }
         return true;
@@ -2240,7 +2273,7 @@ public class MainActivity extends ListActivity {
         //Toast.makeText(context, "Show Data", Toast.LENGTH_SHORT).show();
     }*/
 	/*
-	private String displayBook(Cursor c) {
+    private String displayBook(Cursor c) {
 		//Log.e("displayBook","displayBook");
 
 		int status = 0;
@@ -2303,7 +2336,7 @@ public class MainActivity extends ListActivity {
 			text1 = Jsoup.parse((start.substring(start.indexOf(">")+2, start.indexOf("</title>")))).text();
 		}
 		else {
-			text1 = "ยังไม่มีตอนปัจจุบัน รอตอนใหม่";
+			text1 =getString(R.string.wait_for_new);
 		}
 
 				Log.e("title",(title == null) ? "null" : title);
@@ -2473,7 +2506,7 @@ public class MainActivity extends ListActivity {
     //			text1 = Jsoup.parse((start.substring(start.indexOf(">")+2, start.indexOf("</title>")))).text();
     //		}
     //		else {
-    //			text1 = "ยังไม่มีตอนปัจจุบัน รอตอนใหม่";
+    //			text1 =getString(R.string.wait_for_new);
     //		}
     //
     //		if (title == null ) title = "";
@@ -2651,7 +2684,7 @@ public class MainActivity extends ListActivity {
                 ViewHolder viewHolder = new ViewHolder();
                 viewHolder.text = (TextView) arg1.findViewById(R.id.textView1);
                 viewHolder.status = (TextView) arg1.findViewById(R.id.textView2);
-                viewHolder.arrow = (ImageButton) arg1.findViewById(R.id.arrow1);
+                viewHolder.arrow = (Button) arg1.findViewById(R.id.arrow1);
                 arg1.setTag(viewHolder);
             }
             arg1.setOnClickListener(new OnClickListener() {
@@ -2678,6 +2711,10 @@ public class MainActivity extends ListActivity {
                     public void onClick(View arg3) {
                         // TODO Auto-generated method stub
                         if (niyayTable.size() - 1 < arg0 && ListViewContent.size() > arg0) return;
+                        if (arg0 < ListViewStatus.size() && ListViewStatus.get(arg0).equals("มีปัญหา โปรดลองใหม่")) {
+                            reconnect(arg0);
+                            return;
+                        }
                         if (niyayTable.size() != 0) {
                             String url = niyayTable.get(arg0)[2] + niyayTable.get(arg0)[3];
                             if (!url.startsWith("http://") && !url.startsWith("https://"))
@@ -2726,7 +2763,7 @@ public class MainActivity extends ListActivity {
         private class ViewHolder {
             TextView text;
             TextView status;
-            ImageButton arrow;
+            Button arrow;
         }
     }
 
@@ -2737,57 +2774,56 @@ public class MainActivity extends ListActivity {
     }
 
     private void onPost() {
-        if (MainActivity.ListViewContent.size() == 0) {
+        if (MainActivity.ListViewContent.size() == 0) {/*
             if (loginsuscess && Setting.getisLogin(context) && Setting.getdisplayResult(context))
                 Toast.makeText(context, "ไม่พบตอนใหม่ใน Favorite Writer", Toast.LENGTH_LONG).show();
             else if (Setting.getisLogin(context) && Setting.getdisplayResult(context))
                 Toast.makeText(context, "ไม่มีตอนใหม่ หรือ เข้าสู่ระบบไม่ได้", Toast.LENGTH_LONG).show();
-
-            if (loginsuscess) {
-                ListViewContent.add("<big><big>ไม่พบนิยายอัพเดทในรายการ Favorite Writer\nคุณสามารถเพิ่มนิยายเรื่องแรก\n" +
-                        "(กดเครื่องหมายบวกสีเขียว\n" +
-                        "เพื่อเลือกวิธีการเพิ่มนิยาย)</big></big>");
+*/
+            if (loginsuscess || falselogin) {
+                ListViewContent.add(getString(R.string.no_fav_update));
             } else if ((floop == 0 && ListViewContent.size() == 0)) {
-                MainActivity.ListViewContent.add("<big><big>โปรดเพิ่มนิยายเรื่องแรก\n(กดเครื่องหมายบวกสีเขียว\nแล้วเลือกวิธีการเพิ่มนิยาย)</big></big>");
+                MainActivity.ListViewContent.add(getString(R.string.first_add_main));
                 addmenu();
             } else {
-                Toast.makeText(context, "การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่", Toast.LENGTH_LONG).show();
-                Log.e("onPreExecute", "การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่");
+                if (Setting.getisLogin(context) && Setting.getdisplayResult(context)) return;
+                Toast.makeText(context, getString(R.string.connection_error), Toast.LENGTH_LONG).show();
+                Log.e("onPostExecute", getString(R.string.connection_error));
             }
 
             //if (MainActivity.niyayTable.size() == 0) MainActivity.niyayTable.add(new String[4]);
         }
 
         if (isErr) {
-            Log.e("onPreExecute", "isErr");
-            Toast.makeText(context, "การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่", Toast.LENGTH_LONG).show();
-        } else {
+            if (Setting.getisLogin(context) && Setting.getdisplayResult(context)) return;
+            Log.e("onPostExecute", "isErr");
+            Toast.makeText(context, getString(R.string.connection_error), Toast.LENGTH_LONG).show();
+        }/* else {
 
-        }
+        }*/
     }
 
     private void onBack() {
         int temp = 0;
         if (MainActivity.isOnline()) {
 
-            if (!Setting.getonlyFavorite(context)) {
+            if (!Setting.getisLogin(context) || !Setting.getdisplayResult(context) || !Setting.getonlyFavorite(context))
                 for (final String data[] : MainActivity.niyayTable) {
                     final int index = temp;
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
                             String result = check_new_cp(index, data);
-                            if (result.equals("err")) {
+                            if (!result.equals("err")) {
+                                if (index < niyayTable.size()) MainActivity.niyayTable.get(index)[4] = result;
+                            } /*else {
 
-                            } else {
-                                MainActivity.niyayTable.get(index)[4] = result;
-                            }
+                            }*/
                         }
                     }).start();
 
                     temp++;
                 }
-            }
 
             if (Setting.getisLogin(context)) {
                 Log.e("login", "login");
@@ -2802,69 +2838,75 @@ public class MainActivity extends ListActivity {
                 now.setToNow();
                 if (sessionTime.get("fav") != null) time = sessionTime.get("fav");
                 else time = 0;
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        if ((now.toMillis(true) - time > 330000) || (!pref.getString("usercookie", " ").equals(Setting.getUserName(context)))) {
-                            if (!pref.getString("usercookie", " ").equals(Setting.getUserName(context)))
-                                sessionId.clear();
-                            login();
-                            sessionTime.put("fav", now.toMillis(true));
-                            //Log.e("login","time login");
-                        }
-                        Log.e("login", "end login");
+                //new Thread(new Runnable() {
+                //    @Override
+                //    public void run() {
+                if ((falselogin) || (now.toMillis(true) - time > 330000) || (!pref.getString("usercookie", " ").equals(Setting.getUserName(context)))) {
+                    if (!pref.getString("usercookie", " ").equals(Setting.getUserName(context)))
+                        sessionId.clear();
+                    login();
+                    sessionTime.put("fav", now.toMillis(true));
+                    //Log.e("login","time login");
+                }
+                Log.e("login", "end login");
 
-                        if (Setting.getdisplayResult(context)) {
-                            if (sessionId.size() != 0) {
-                                loadUpdate();
-                            }
-                        }
-                        onPost();
+                if (Setting.getdisplayResult(context)) {
+                    if (sessionId.size() != 0) {
+                        loadUpdate();
                     }
-                }).start();
+                }
+                onPost();
+                //   }
+                //}).start();
             } else {
                 onPost();
+            }
+        } else {
+            Toast.makeText(context, getString(R.string.connection_error), Toast.LENGTH_LONG);
+            for (int i = 0; i < ListViewStatus.size(); i++) {
+                ListViewStatus.set(i, "การเชื่อมต่อมีปัญหา");
             }
         }
     }
 
     private void publishProgress(String s) {
         if (s.equals("-1")) {
-            //Toast.makeText(context, "การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่", Toast.LENGTH_LONG).show();
-            Log.e("onProgressUpdate", "การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่");
+            showToast(getString(R.string.connection_error));
+            Log.e("onProgressUpdate", getString(R.string.connection_error));
             if (!tried) {
                 tried = true;
                 //this.cancel(true);
                 //this.execute(context);
             }
         } else {
-            MainActivity.dialog.setMessage(s);
+            showToast(s);
         }
     }
 
     private Handler mHandler = new Handler();
 
     private void publishProgress(String s, String s1, String temp) {
-        if (s.equals("-1")) {
-            //Toast.makeText(context, "การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่", Toast.LENGTH_LONG).show();
-            Log.e("onProgressUpdate", "การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่");
+        int index = Integer.parseInt(s1);
+        if (!(index < ListViewStatus.size()) || !(index < ListViewContent.size()))
+            return;
+        else if (s.equals("-1")) {
+            //Toast.makeText(context, getString(R.string.connection_error), Toast.LENGTH_LONG).show();
+            Log.e("onProgressUpdate", getString(R.string.connection_error));
             if (!tried) {
                 tried = true;
                 //this.cancel(true);
                 //this.execute(context);
             }
         } else if (s.equals("-97")) {
-            int index = Integer.parseInt(s1);
-            ListViewStatus.set(index, "ตรวจสอบเสร็จสิ้น");
-            mHandler.postDelayed(runnable2, 1);
+            if (index < ListViewStatus.size())
+                ListViewStatus.set(index, "มีปัญหา โปรดลองใหม่");
+            mHandler.postDelayed(runnable, 1);
         } else if (s.equals("-99")) {
-            int index = Integer.parseInt(s1);
             ListViewContent.set(index, temp);
             ListViewStatus.set(index, "ตรวจสอบเสร็จสิ้น");
             mHandler.postDelayed(runnable, 1);
             //listAdap.notifyDataSetChanged();
         } else if (s.equals("-98")) {
-            int index = Integer.parseInt(s1);
             ListViewContent.set(index, temp);
             ListViewStatus.set(index, "แฟนพันธ์แท้");
             mHandler.postDelayed(runnable, 1);
@@ -2880,18 +2922,25 @@ public class MainActivity extends ListActivity {
         }
     };
 
+    public void showToast(final String toast) {
+        runOnUiThread(new Runnable() {
+            public void run() {
+                Toast.makeText(MainActivity.this, toast, Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
     private void onPre() {
         MainActivity.ListViewStatus.clear();
         MainActivity.ListViewContent.clear();
         MainActivity.niyayTable.clear();
-        showAllBookOffline();
-
+        if (!Setting.getisLogin(context) || !Setting.getdisplayResult(context) || !Setting.getonlyFavorite(context))
+            showAllBookOffline();
 
         if (MainActivity.db != null)
             MainActivity.db.close();
 /*        if (MainActivity.dialog.isShowing())
             MainActivity.dialog.dismiss();*/
-
 
         MainActivity.myList.setAdapter(MainActivity.listAdap);
         //MainActivity.dialog.dismiss();
@@ -2902,7 +2951,7 @@ public class MainActivity extends ListActivity {
 
         int status = 0;
         //Log.e("data[4]",data[4]);
-        String title = data[4].equals("non") ? "ยังไม่มีตอนปัจจุบัน รอตอนใหม่" : data[4];
+        String title = data[4].equals("non") ? getString(R.string.wait_for_new) : data[4];
         //Log.e("data[4]",data[4]);
         final String id = data[0];
         final String url = data[2];
@@ -2916,7 +2965,7 @@ public class MainActivity extends ListActivity {
             HttpGet httpget = new HttpGet(new URI(url + chapter));
             httpget.setHeader("User-Agent", "Mozilla/5.0 (Linux; U; Android 4.0.2; en-us; Galaxy Nexus Build/ICL53F) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30");
             HttpParams params = new BasicHttpParams();
-            HttpConnectionParams.setConnectionTimeout(params, 4000);
+            HttpConnectionParams.setConnectionTimeout(params, 8000);
             HttpConnectionParams.setSoTimeout(params, 10000);
             if (cookies != null && !cookies.isEmpty()) {
                 for (Cookie cookie : cookies) {
@@ -2936,11 +2985,11 @@ public class MainActivity extends ListActivity {
                 DefaultHttpClient client = new DefaultHttpClient();
                 HttpGet request = new HttpGet();
                 request.setURI(new URI(url + chapter));
-                request.setHeader("Range", "bytes=0-1023");
+                //request.setHeader("Range", "bytes=0-1023");
                 HttpResponse response = client.execute(method);
                 in = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "TIS620"));
                 StringBuffer sb = new StringBuffer("");
-                String line = "";
+                String line;
                 String NL = System.getProperty("line.separator");
                 while ((line = in.readLine()) != null) {
                     sb.append(line).append(NL);
@@ -2950,40 +2999,47 @@ public class MainActivity extends ListActivity {
             } catch (IOException e1) {
                 // TODO Auto-generated catch block
                 e1.printStackTrace();
+                publishProgress("-97", Integer.toString(index), "ผิดพลาด โปรดลองใหม่");//	Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+                e.printStackTrace();
+                return "err";
             } catch (URISyntaxException e1) {
                 // TODO Auto-generated catch block
                 e1.printStackTrace();
+                publishProgress("-97", Integer.toString(index), "ผิดพลาด โปรดลองใหม่");//	Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+                e.printStackTrace();
+                return "err";
             } finally {
                 if (in != null) {
                     try {
                         in.close();
                     } catch (IOException e1) {
                         e1.printStackTrace();
+
                     }
                 }
             }
 
         } catch (IOException e) {
-            Log.e("IOException", e.getMessage());
+            //Log.e("IOException", e.getMessage());
             publishProgress("-97", Integer.toString(index), "ผิดพลาด โปรดลองใหม่");//	Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
             e.printStackTrace();
             return "err";
 
         } catch (URISyntaxException e) {
-            Log.e("URISyntaxException", e.getMessage());
+            //Log.e("URISyntaxException", e.getMessage());
             publishProgress("-97", Integer.toString(index), "ผิดพลาด โปรดลองใหม่");//Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
             e.printStackTrace();
             return "err";
 
         } catch (IllegalStateException e) {
-            Log.e("IllegalStateException", text1);
+            //Log.e("IllegalStateException", text1);
             publishProgress("-97", Integer.toString(index), "ผิดพลาด โปรดลองใหม่");//Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
             e.printStackTrace();
             return "err";
 
         } catch (Exception e) {
             publishProgress("-97", Integer.toString(index), "ผิดพลาด โปรดลองใหม่");
-            System.err.println(e);
+            //System.err.println(e);
             e.printStackTrace();
             return "err";
 
@@ -3017,7 +3073,7 @@ public class MainActivity extends ListActivity {
                 text1 = "error";
             }
         } else {
-            text1 = "ยังไม่มีตอนปัจจุบัน รอตอนใหม่";
+            text1 = getString(R.string.wait_for_new);
         }
 
 		/*		Log.e("title",(title == null) ? "null" : title);
@@ -3025,8 +3081,10 @@ public class MainActivity extends ListActivity {
 		Log.e("compare",Integer.toString(text1.compareTo(title)));		*/
 
         if (title == null) title = "";
-        else if (title.contains(">")) title = title.substring(title.indexOf(">") + 2);
-        if (text1.contains(">")) text1 = text1.substring(text1.indexOf(">") + 2);
+        else if (title.contains(">") && (title.indexOf(">") + 2 < title.length()))
+            title = title.substring(title.indexOf(">") + 2);
+        if (text1.contains(">") && (text1.indexOf(">") + 2 < text1.length()))
+            text1 = text1.substring(text1.indexOf(">") + 2);
         if (title.isEmpty()) {
             Log.e(id, "title isEmpty()");
             title = text1;
@@ -3110,9 +3168,9 @@ public class MainActivity extends ListActivity {
             //Log.e("ck db", "not ok");
             //MainActivity.db.close();
             return;
-        } else {
+        } /*else {
             //Log.e("ok ?", "ok");
-        }
+        }*/
 
         if (!c.moveToFirst()) return;
         int i = 0;
@@ -3155,7 +3213,7 @@ public class MainActivity extends ListActivity {
         //Log.e("title",(title != null) ? title:" ");
 
         if (title != null) {
-            if (title.contains(">"))
+            if (title.contains(">") && (title.length() - 1 > title.indexOf(">") + 2))
                 title = title.substring(title.indexOf(">") + 2);
             //dialog.setTitle(title);
             Listtemp.add(
@@ -3182,10 +3240,10 @@ public class MainActivity extends ListActivity {
                     .get();
         } catch (IOException e) {
             publishProgress("-1");
-            mHandler.postDelayed(runnable2, 1);
+            //mHandler.postDelayed(runnable2, 1);
             e.printStackTrace();
         }
-        //System.out.println(doc.html());
+        if (doc == null) return;//System.out.println(doc.html());
         Elements link1 = doc.select(".novel");
         if (link1 == null) return;
         for (Element link : link1) {
@@ -3197,7 +3255,7 @@ public class MainActivity extends ListActivity {
             temp[2] = link.select("a").attr("href");
             temp[3] = "-2";
             temp[4] = stext.substring(stext.indexOf("ตอนที่"));
-            ;
+
             dialog.setMessage(temp[1]);
             MainActivity.niyayTable.add(temp);
 
@@ -3226,7 +3284,7 @@ public class MainActivity extends ListActivity {
         //System.out.println(Setting.getUserName(context));
         //System.out.println(Setting.getPassWord(context));
         /*		Connection.Response res;
-		try {
+        try {
 			res = Jsoup.connect("http://my.dek-d.com/dekdee/my.id_station/login.php")
 					.data("username", Setting.getUserName(context))
 					.data("password", Setting.getPassWord(context))
@@ -3235,12 +3293,11 @@ public class MainActivity extends ListActivity {
 			sessionId = res.cookies();
 		} catch (IOException e) {
 			publishProgress(-1);
-			//Toast.makeText(getBaseContext(), "การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่", Toast.LENGTH_LONG).show();
-			// TODO Auto-generated catch block
+			//Toast.makeText(getBaseContext(), getString(R.string.connection_error), Toast.LENGTH_LONG).show();
 			e.printStackTrace();
 		}  */
         dialog.setMessage("log in");
-
+        falselogin = true;
         HttpParams httpParameters = new BasicHttpParams();
         final int timeoutConnection = 3000;
         HttpConnectionParams.setConnectionTimeout(httpParameters, timeoutConnection);
@@ -3248,8 +3305,8 @@ public class MainActivity extends ListActivity {
         HttpConnectionParams.setSoTimeout(httpParameters, timeoutSocket);
         DefaultHttpClient httpclient = new DefaultHttpClient(httpParameters);
         HttpPost httpost = new HttpPost("http://my.dek-d.com/dekdee/my.id_station/login.php");
-        HttpResponse response = null;
-        HttpEntity entity = null;
+        HttpResponse response;
+        HttpEntity entity;
         List<NameValuePair> nvps = new ArrayList<NameValuePair>();
         nvps.add(new BasicNameValuePair("username", Setting.getUserName(context)));
         nvps.add(new BasicNameValuePair("password", Setting.getPassWord(context)));
@@ -3265,12 +3322,14 @@ public class MainActivity extends ListActivity {
             }
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
+            showToast("ไม่สามารถเชื่อมต่อเพื่อเข้าสู่ระบบได้");
         } catch (ClientProtocolException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
+            showToast("ไม่สามารถเชื่อมต่อเพื่อเข้าสู่ระบบได้");
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
+            //mHandler.postDelayed(runnable3, 1);
+            showToast("ไม่สามารถเชื่อมต่อเพื่อเข้าสู่ระบบได้");
         }
 
         //System.out.println("Post logon cookies:");
@@ -3283,7 +3342,7 @@ public class MainActivity extends ListActivity {
         } else {
             System.out.print("size");
             System.out.println(cookies.size());
-
+            falselogin = false;
             for (Cookie cooky : cookies) {
                 System.out.println("- " + cooky.toString());
                 final String temp = cooky.toString().substring(cooky.toString().indexOf("name: ") + 6);
@@ -3316,7 +3375,7 @@ public class MainActivity extends ListActivity {
             loginsuscess = true;
         } else {
             System.out.println("Username หรือ Password ไม่ถูกต้อง");
-            dialog.setMessage("Username หรือ Password ไม่ถูกต้อง");
+            showToast("Username หรือ Password ไม่ถูกต้อง");
             try {
                 Thread.sleep(3000);
             } catch (InterruptedException e) {
@@ -3327,9 +3386,5 @@ public class MainActivity extends ListActivity {
         }
     }
 
-    private Runnable runnable2 = new Runnable() {
-        public void run() {
-            Toast.makeText(context, "การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่", Toast.LENGTH_LONG);
-        }
-    };
+
 }

@@ -111,4 +111,15 @@
     <string name="newlongread">อ่านหลายตอน แบบใหม่</string>
     <string name="fastmode">อ่านแบบเร็ว</string>
     <string name="NewWebFind">ค้นหาด้วยเว็บ</string>
+    <string name="next_cp">ตอนถัดไป</string>
+    <string name="retry">ลองใหม่</string>
+    <string name="first_add_main"><![CDATA[<big><big>โปรดเพิ่มนิยายเรื่องแรก
+(กดเครื่องหมายบวกสีเขียว
+แล้วเลือกวิธีการเพิ่มนิยาย)</big></big>]]></string>
+    <string name="wait_for_new">ยังไม่มีตอนปัจจุบัน รอตอนใหม่</string>
+    <string name="connection_error">การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่</string>
+    <string name="no_fav_update"><![CDATA[<big><big>ไม่พบนิยายอัพเดทในรายการ Favorite Writer
+คุณสามารถเพิ่มนิยายเรื่องแรก
+(กดเครื่องหมายบวกสีเขียว
+เพื่อเลือกวิธีการเพิ่มนิยาย)</big></big>]]></string>
 </resources>

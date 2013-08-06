@@ -9,6 +9,7 @@ import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.util.Log;
@@ -25,15 +26,14 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 
 @SuppressLint("SetJavaScriptEnabled")
 public class TextReadActivity extends Activity {
     private static int scRoll;
     private static int sclight = 0;
-    Intent intent;
+    static Intent intent;
     private WebView webView;
     private String ttstext;
     private String oriurl;
@@ -42,6 +42,8 @@ public class TextReadActivity extends Activity {
     private int cp;
     //private boolean isFile;
     private File temp;
+    private Text_Doback text_doback;
+    private static int font_size = 0;
 
     static int getScRoll() {
         return scRoll;
@@ -82,7 +84,7 @@ public class TextReadActivity extends Activity {
             editor.putBoolean("text_first_run", false);
             editor.commit();
         }
-
+        intent = null;
         webView = new WebView(this);
         webView.getSettings().setDefaultTextEncodingName("TIS-620");
 
@@ -94,21 +96,15 @@ public class TextReadActivity extends Activity {
         dialog.setMessage("โปรดรอ...\nถ้ารู้สึกช้า ออกแล้วเข้าใหม่");
         dialog.setCancelable(true);
         dialog.setCanceledOnTouchOutside(false);
-        if (intent.getStringExtra("id") != null) {
-            if (!intent.getStringExtra("id").equals("-2")) {
-                //isFile = true;
-                new Text_Doback().execute(false);
-            } else {
-                //System.out.println(intent.getStringExtra("url"));
-                oriurl = intent.getStringExtra("url");
-                //dialog = ProgressDialog.show(TextReadActivity.this,"Loading", "Please Wait...\nถ้ารู้สึกช้า ออกแล้วเข้าใหม่",true);
-                new Text_Doback().execute(true);
-            }
+        if (intent.getStringExtra("id") != null && !intent.getStringExtra("id").equals("-2")) {
+            //isFile = true;
+            text_doback = new Text_Doback();
+            text_doback.execute(false);
         } else {
             oriurl = intent.getStringExtra("url");
             //dialog = ProgressDialog.show(TextReadActivity.this,"Loading", "Please Wait...\nถ้ารู้สึกช้า ออกแล้วเข้าใหม่",true);
-            new Text_Doback().execute(true);
-
+            text_doback = new Text_Doback();
+            text_doback.execute(true);
         }
 
         //webView.getSettings().setLayoutAlgorithm(LayoutAlgorithm.SINGLE_COLUMN);
@@ -168,6 +164,16 @@ public class TextReadActivity extends Activity {
                     webView.loadUrl("javascript: document.getElementsByName('t_password')[0].value='" + Setting.getPassWord(getApplicationContext()) + "';");
                 } else {
                     webView.loadUrl("javascript: document.getElementsByName('t_mem')[1].checked  = false;");
+                }
+
+                if (font_size > 0) {
+                    for (int i = 0; i < font_size; i++) {
+                        webView.loadUrl("javascript: var arr = document.getElementById('story_body').getElementsByTagName('span');" +
+                                "for (var i = 0;i<arr.length;i++) { if (arr[i].fontSize != '') arr[i].style.fontSize=parseInt(arr[i].style.fontSize)+5+'px'};");
+                    }
+                } else if (font_size < 0) {
+                    webView.loadUrl("javascript: var arr = document.getElementById('story_body').getElementsByTagName('span');" +
+                            "for (var i = 0;i<arr.length;i++) { if (arr[i].fontSize != '') arr[i].style.fontSize=parseInt(arr[i].style.fontSize)-5+'px'};");
                 }
 
 
@@ -440,16 +446,27 @@ public class TextReadActivity extends Activity {
                 return true;
             case R.id.inctext:
                 //เพิ่มขนาด font
+                font_size += 1;
                 Toast.makeText(getBaseContext(), "โปรดรอ", Toast.LENGTH_SHORT).show();
                 webView.loadUrl("javascript: var arr = document.getElementById('story_body').getElementsByTagName('span');" +
                         "for (var i = 0;i<arr.length;i++) { if (arr[i].fontSize != '') arr[i].style.fontSize=parseInt(arr[i].style.fontSize)+5+'px'};");
                 return true;
             case R.id.dectext:
                 //ลดขนาด font
+                font_size -= 1;
                 Toast.makeText(getBaseContext(), "โปรดรอ", Toast.LENGTH_SHORT).show();
                 webView.loadUrl("javascript: var arr = document.getElementById('story_body').getElementsByTagName('span');" +
                         "for (var i = 0;i<arr.length;i++) { if (arr[i].fontSize != '') arr[i].style.fontSize=parseInt(arr[i].style.fontSize)-5+'px'};");
                 return true;
+            case R.id.next_cp:
+                String url = "http://writer.dek-d.com/dek-d/writer/viewlongc.php?id=" + urlid + "&chapter=" + Integer.toString(cp + 1);
+                Intent newtext = new Intent(getBaseContext(), TextReadActivity.class);
+                newtext.putExtra("url", url);
+                newtext.putExtra("from", "text");
+                if (TextReadActivity.intent != null)
+                    newtext.putExtra("fromindex", TextReadActivity.intent.getBooleanExtra("fromindex", false));
+                startActivity(newtext);
+                finish();
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -562,9 +579,10 @@ public class TextReadActivity extends Activity {
                         doc = Jsoup.connect(tempurl).timeout(16000).get();
 
                 } catch (IOException e) {
-                    publishProgress("-1");
+                    publishProgress("-3");
                     e.printStackTrace();
-                    finish();
+                    return null;
+                    //finish();
                 }
 
             } else {
@@ -611,6 +629,50 @@ public class TextReadActivity extends Activity {
                 dialog.setMessage("ตอนที่ ไม่ได้อยู่ในรูปแบบของตัวเลข");
                 Toast.makeText(getApplicationContext(), "ตอนที่ ไม่ได้อยู่ในรูปแบบของตัวเลข", Toast.LENGTH_SHORT).show();
                 //Log.e("onProgressUpdate", "การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่");
+            } else if (progress[0].equals("-3")) {
+                dialog.setMessage("การเชื่อมต่อมีปัญหา");
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                dialog.dismiss();
+                AlertDialog.Builder builder = new AlertDialog.Builder(TextReadActivity.this);
+                builder.setMessage("การเชื่อมต่อมีปัญหา คุณต้องการที่จะ ?")
+                        .setCancelable(true)
+                        .setPositiveButton("ออกจากหน้านี้", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                if (DekTTSActivity.tts != null && DekTTSActivity.isSpeak) {
+                                    DekTTSActivity.tts.stop();
+                                    DekTTSActivity.stop = true;
+                                    DekTTSActivity.isSpeak = false;
+                                    DekTTSActivity.tts.stop();
+                                    DekTTSActivity.stop = true;
+                                    DekTTSActivity.isSpeak = false;
+                                    Toast.makeText(getBaseContext(), "Stop TTS", Toast.LENGTH_LONG).show();
+                                }
+                                if (text_doback != null)
+                                    text_doback.cancel(true);
+                                finish();
+                            }
+                        })
+                        .setNegativeButton("ลองใหม่", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                                if (text_doback != null)
+                                    text_doback.cancel(true);
+                                if (intent.getStringExtra("id") != null && !intent.getStringExtra("id").equals("-2")) {
+                                    text_doback = new Text_Doback();
+                                    text_doback.execute(false);
+                                } else {
+                                    text_doback = new Text_Doback();
+                                    text_doback.execute(true);
+                                }
+                            }
+                        });
+
+                AlertDialog alert = builder.create();
+                alert.show();
             } else {
                 dialog.setMessage(progress[0]);
             }
@@ -837,7 +899,7 @@ public class TextReadActivity extends Activity {
                     if (page != null && page.first() != null) {
                         Elements page3 = page.first().select("p");
                         if (page3 != null) page3.remove();
-                        HTMLdata.append("<br><br>").append(page.first().outerHtml().replace("width=\"97%\"", "width=\"50%\"").replace("&nbsp;", "").replace("size=\"-1\"", "size=\"3\"").replace("<form", "<form style='margin: 0 auto;'accept-charset=\"tis-620\" style='margin: 0 auto; " + "width: 100%;'").replace("ชื่อ* ", "<br>ชื่อ* ").replace("รูปตัวแทน ", "<br>รูปตัวแทน ").replace("email <input", "<br>email <input").replace("Password", "<br>Password").replace("Login name", "<br>Login name").replace("ROWS=\"10\" COLS=\"100\"", "ROWS=\"20\" COLS=\"30\"").replace("700", "100%").replace("550", "95%")).append("<br><br>");
+                        HTMLdata.append("<br><br>").append(page.first().outerHtml().replace("width=\"97%\"", "width=\"50%\"").replace("&nbsp;", "").replace("size=\"-1\"", "size=\"3\"").replace("<form", "<form style='margin: 0 auto;'accept-charset=\"tis-620\" style='margin: 0 auto; " + "width: 100%;'").replace("ชื่อ* ", "<br>ชื่อ* ").replace("รูปตัวแทน ", "<br>รูปตัวแทน ").replace("email <input", "<br>email <input").replace("Password", "<br>Password").replace("Login name", "<br>Login name").replace("ROWS=\"10\" COLS=\"100\"", "ROWS=\"20\" COLS=\"30\"").replace("700", "100%").replace("550", "95%").replace("width:670px;", "")).append("<br><br>");
                     }
                 }
             }
@@ -849,10 +911,10 @@ public class TextReadActivity extends Activity {
                     "</div></body></html>");
 
             publishProgress("80 %");
-/*            doc = null;
+            doc = null;
             try {
                 //ContextWrapper cw = new ContextWrapper(getBaseContext());
-                temp = new File(*//*cw.getDir("temp", Context.MODE_PRIVATE)*//*Environment.getExternalStorageDirectory(), "niyay_temp");
+                temp = new File(/*cw.getDir("temp", Context.MODE_PRIVATE)*/Environment.getExternalStorageDirectory(), "niyay_temp");
                 //System.out.println(temp.getAbsolutePath());
 
                 BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(temp), "tis620"));
@@ -863,7 +925,7 @@ public class TextReadActivity extends Activity {
             } catch (IOException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
-            }*/
+            }
 
         }
 

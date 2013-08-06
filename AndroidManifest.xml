@@ -2,10 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.niyatdekdee.notfy"
           android:installLocation="auto"
-          android:versionCode="48"
-          android:versionName="1.421d">
+          android:versionCode="52"
+          android:versionName="1.423a">
 
-<uses-sdk
+    <uses-sdk
         android:minSdkVersion="9"
         android:targetSdkVersion="9"/>
 

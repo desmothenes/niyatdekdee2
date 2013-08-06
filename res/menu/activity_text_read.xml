@@ -2,8 +2,8 @@
 
 
     <item
-        android:id="@+id/story"
-        android:title="@string/story">
+        android:id="@+id/next_cp"
+        android:title="@string/next_cp">
     </item>
     <item
         android:id="@+id/postcomment"
@@ -15,11 +15,12 @@
         android:id="@+id/light"
         android:title="@string/lightlevel"/>
     <item
-        android:id="@+id/dectext"
-        android:title="@string/dectext"/>
-    <item
         android:id="@+id/inctext"
         android:title="@string/inctext"/>
+    <item
+        android:id="@+id/dectext"
+        android:title="@string/dectext"/>
+
     <item
         android:id="@+id/comment"
         android:title="@string/comment">
@@ -30,6 +31,10 @@
     <item
         android:id="@+id/buttom"
         android:title="@string/botton">
+    </item>
+    <item
+        android:id="@+id/story"
+        android:title="@string/story">
     </item>
     <item
         android:id="@+id/roll"

@@ -12,26 +12,29 @@
         android:layout_marginLeft="5dp"
         android:layout_marginRight="35dp"/>
 
-    <ImageButton
+
+    <Button
         android:id="@+id/arrow1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="50dp"
+        android:layout_height="match_parent"
+        android:text=">"
+        android:textSize="34dip"
+        android:background="@android:color/transparent"
+        android:textStyle="bold"
+        android:layout_alignParentTop="true"
+        android:includeFontPadding="false"
         android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:layout_marginRight="15dip"
-        android:background="@null"
-        android:contentDescription="@string/next"
-        android:src="@drawable/arrow"/>
+        android:gravity="center_vertical"/>
 
     <TextView
         android:id="@+id/textView2"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/textView1"
-            android:layout_alignParentRight="true"
-            android:layout_below="@+id/textView1"
-            android:gravity="right" />
-
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textView1"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/textView1"
+        android:gravity="right"/>
+    <!--
         <ProgressBar
             android:id="@+id/progressBar1"
             style="?android:attr/progressBarStyleHorizontal"
@@ -39,6 +42,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_alignTop="@+id/textView2"
-            android:layout_toRightOf="@+id/textView2"/>
+            android:layout_toRightOf="@+id/textView2"/>-->
+
 
 </RelativeLayout>
