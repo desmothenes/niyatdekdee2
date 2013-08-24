@@ -558,6 +558,7 @@ public class TextReadActivity extends Activity {
 
         private StringBuilder HTMLdata;
         private Document doc;
+        private boolean fail = false;
 
         @Override
         protected void onPreExecute() {
@@ -581,9 +582,12 @@ public class TextReadActivity extends Activity {
                 } catch (IOException e) {
                     publishProgress("-3");
                     e.printStackTrace();
+                    fail =true;
                     return null;
                     //finish();
                 }
+
+                HTMLMake();
 
             } else {
                 ContextWrapper cw = new ContextWrapper(getApplicationContext());
@@ -607,29 +611,13 @@ public class TextReadActivity extends Activity {
                         finish();
                     }
                 }
+                HTMLMake();
             }
-            HTMLMake();
             return null;
         }
 
         protected void onPostExecute(Void result) {
-            ttstext = HTMLdata.toString();
-            if (temp != null)
-                webView.loadDataWithBaseURL(oriurl, ttstext, "text/html", "utf-8", "file://" + temp.getAbsolutePath());
-            else
-                webView.loadDataWithBaseURL(oriurl, ttstext, "text/html", "utf-8", null);
-        }
-
-        protected void onProgressUpdate(String... progress) {
-            if (progress[0].equals("-1")) {
-                dialog.setMessage("การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่");
-                Toast.makeText(getApplicationContext(), "การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่", Toast.LENGTH_SHORT).show();
-                Log.e("onProgressUpdate", "การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่");
-            } else if (progress[0].equals("-2")) {
-                dialog.setMessage("ตอนที่ ไม่ได้อยู่ในรูปแบบของตัวเลข");
-                Toast.makeText(getApplicationContext(), "ตอนที่ ไม่ได้อยู่ในรูปแบบของตัวเลข", Toast.LENGTH_SHORT).show();
-                //Log.e("onProgressUpdate", "การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่");
-            } else if (progress[0].equals("-3")) {
+            if (fail) {
                 dialog.setMessage("การเชื่อมต่อมีปัญหา");
                 try {
                     Thread.sleep(2000);
@@ -673,6 +661,68 @@ public class TextReadActivity extends Activity {
 
                 AlertDialog alert = builder.create();
                 alert.show();
+                return;
+            }
+            ttstext = HTMLdata.toString();
+            if (temp != null)
+                webView.loadDataWithBaseURL(oriurl, ttstext, "text/html", "utf-8", "file://" + temp.getAbsolutePath());
+            else
+                webView.loadDataWithBaseURL(oriurl, ttstext, "text/html", "utf-8", null);
+        }
+
+        protected void onProgressUpdate(String... progress) {
+            if (progress[0].equals("-1")) {
+                dialog.setMessage("การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่");
+                Toast.makeText(getApplicationContext(), "การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่", Toast.LENGTH_SHORT).show();
+                Log.e("onProgressUpdate", "การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่");
+            } else if (progress[0].equals("-2")) {
+                dialog.setMessage("ตอนที่ ไม่ได้อยู่ในรูปแบบของตัวเลข");
+                Toast.makeText(getApplicationContext(), "ตอนที่ ไม่ได้อยู่ในรูปแบบของตัวเลข", Toast.LENGTH_SHORT).show();
+                //Log.e("onProgressUpdate", "การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่");
+            } else if (progress[0].equals("-3")) {
+                /*dialog.setMessage("การเชื่อมต่อมีปัญหา");
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                dialog.dismiss();
+                AlertDialog.Builder builder = new AlertDialog.Builder(TextReadActivity.this);
+                builder.setMessage("การเชื่อมต่อมีปัญหา คุณต้องการที่จะ ?")
+                        .setCancelable(true)
+                        .setPositiveButton("ออกจากหน้านี้", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                if (DekTTSActivity.tts != null && DekTTSActivity.isSpeak) {
+                                    DekTTSActivity.tts.stop();
+                                    DekTTSActivity.stop = true;
+                                    DekTTSActivity.isSpeak = false;
+                                    DekTTSActivity.tts.stop();
+                                    DekTTSActivity.stop = true;
+                                    DekTTSActivity.isSpeak = false;
+                                    Toast.makeText(getBaseContext(), "Stop TTS", Toast.LENGTH_LONG).show();
+                                }
+                                if (text_doback != null)
+                                    text_doback.cancel(true);
+                                finish();
+                            }
+                        })
+                        .setNegativeButton("ลองใหม่", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                                if (text_doback != null)
+                                    text_doback.cancel(true);
+                                if (intent.getStringExtra("id") != null && !intent.getStringExtra("id").equals("-2")) {
+                                    text_doback = new Text_Doback();
+                                    text_doback.execute(false);
+                                } else {
+                                    text_doback = new Text_Doback();
+                                    text_doback.execute(true);
+                                }
+                            }
+                        });
+
+                AlertDialog alert = builder.create();
+                alert.show();*/
             } else {
                 dialog.setMessage(progress[0]);
             }
@@ -783,6 +833,8 @@ public class TextReadActivity extends Activity {
                 HTMLdata.append("<body bgColor='#FFFFFF'>");
             } else if (theme == 3) {
                 HTMLdata.append("<body bgColor='#808080'>");
+            } else if (theme == 4) {
+                HTMLdata.append("<body bgColor='#FFFFD8'>");
             }
 
             urlid = MyAppClass.findnum(oriurl, "id=", getBaseContext());

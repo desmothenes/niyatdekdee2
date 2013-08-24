@@ -68,12 +68,14 @@
         <item>ดำ</item>
         <item>ขาว</item>
         <item>เทา</item>
+        <item>เหลืองครีม</item>
     </string-array>
     <string-array name="bgColorValue">
         <item>0</item>
         <item>1</item>
         <item>2</item>
         <item>3</item>
+        <item>4</item>
     </string-array>
     <string-array name="textColorOptions">
         <item>ดั่งเดิม</item>

@@ -72,12 +72,23 @@ public class LongRead2 extends Activity {
         }
 
         webView = new EditText(this);
+        final int theme = Integer.parseInt(Setting.getBgColorSetting(getApplicationContext()));
+        if (theme == 2) {
+            webView.setBackgroundColor(0xFFFFFFFF);
+        } else if (theme == 3) {
+            webView.setBackgroundColor(0xFF808080);
+        } else if (theme == 4) {
+            webView.setBackgroundColor(0xFFFFFFD8);
+        } else {
+            webView.setBackgroundColor(0);
+        }
+
         setContentView(webView);
         webView.setKeyListener(null);
         webView.setLongClickable(false);
         webView.setGravity(Gravity.TOP);
         webView.setLineSpacing(1.5f, 1.75f);
-        webView.setBackgroundColor(0);
+
         webView.setOnTouchListener(new OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
 /*			        Toast toast = Toast.makeText(
@@ -577,6 +588,25 @@ public class LongRead2 extends Activity {
                     if (story.select("div") != null) if (story.select("div").last() != null)
                         story.select("div").last().remove();
                     //HTMLdata.append(Jsoup.parse(story.first().html().replace("</div>", "</div>br2n").replace("</p>", "</p>br2n").replaceAll("(?i)<br[^>]*>", "br2n")).text().replace("br2n", "\r\n\r\n"));
+                    final int thcc = Integer.parseInt(Setting.getTextColorSetting(getApplicationContext()));
+                    if (thcc == 2 || thcc == 3) {
+                        for (Element span : story.select("span")) {
+                            if (thcc == 2)
+                                try {
+                                    span.wrap("<font color=\"#000000\"></font>");
+                                } catch (IndexOutOfBoundsException ex) {
+
+                                }
+                            else if (thcc == 3)
+                                try {
+                                    span.wrap("<font color=\"#0000FF\"></font>");
+                                } catch (IndexOutOfBoundsException ex) {
+
+                                }
+                        }
+                    }
+
+
                     Elements color = story.select("span[style^=color");
                     for (Element span : color) {
                         if (!span.attr("style").isEmpty() && span.attr("style").length() > 0)
@@ -588,7 +618,6 @@ public class LongRead2 extends Activity {
 
                             }
                         }
-
                         //span.append("</font>");
                     }
                     Elements els = story.select("style");
