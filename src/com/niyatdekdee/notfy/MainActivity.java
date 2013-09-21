@@ -57,7 +57,7 @@ import java.util.Map;
 //import com.bugsense.trace.BugSenseHandler;
 
 public class MainActivity extends ListActivity {
-    final static ArrayList<String[]> niyayTable = new ArrayList<String[]>();
+    //final static ArrayList<String[]> niyayTable = new ArrayList<String[]>();
     static DatabaseAdapter db;
     static Context context;
     static ArrayList<String> ListViewContent = new ArrayList<String>();
@@ -71,7 +71,7 @@ public class MainActivity extends ListActivity {
     //static boolean LoadPage = false;
     static int titleColor = -1;
     //static int floop;
-    //static Map<String, String> sessionStatus = new HashMap<String, String>();
+    final static Map<String, String> niyayTable = new HashMap<String, String>();
     static Tracker mGaTracker;
     private ImageButton btnDirection;
     //static doback dob;
@@ -312,22 +312,6 @@ public class MainActivity extends ListActivity {
         if (customTitleSupported) {
             draw_head();
         }
-
-        //		ArrayList<String> allLaunchers = new ArrayList<String>();
-        //
-        //		Intent allApps = new Intent(Intent.ACTION_MAIN);
-        //		List<ResolveInfo> allAppList = getPackageManager().queryIntentActivities(allApps, 0);
-        //		for(int i =0;i<allAppList.size();i++) allLaunchers.add(allAppList.get(i).activityInfo.packageName);
-        //
-        //		Intent myApps = new Intent(Intent.ACTION_VIEW);
-        //		       myApps.setData(Uri.parse("http://www.google.es"));
-        //		List<ResolveInfo> myAppList = getPackageManager().queryIntentActivities(myApps, 0);
-        //		for(int i =0;i<myAppList.size();i++){
-        //		    if(allLaunchers.contains(myAppList.get(i).activityInfo.packageName)){
-        //		        Log.e("match",myAppList.get(i).activityInfo.packageName+"");
-        //		    }
-        //		}
-        //
         context = getBaseContext();
         //db = new DatabaseAdapter(this);
         listAdap = new ListViewAdapter(this);
@@ -341,23 +325,7 @@ public class MainActivity extends ListActivity {
         //dob=;
 
         Log.e("doback at", "main");
-        ////new Do_Back2(getApplicationContext()).execute();
         do_back_3();
-        //Intent i = new Intent(getBaseContext(), FlowActivity.class);
-        //startActivity(i);
-        //myList=(ListView)findViewById(android.R.id.list);
-        //myList.setScrollingCacheEnabled(false);
-        //myList.setAdapter(listAdap);
-
-		/*	    myList.setOnItemClickListener(new OnItemClickListener() {
-            @Override
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
-				Toast.makeText(getApplicationContext(),
-						"Click ListItem Number " + position, Toast.LENGTH_LONG)
-						.show();
-			}
-		});*/
 
         myList.setFastScrollEnabled(true);
         myList.smoothScrollToPosition(0);
@@ -365,72 +333,6 @@ public class MainActivity extends ListActivity {
         registerForContextMenu(myList);
         WebView obj = new WebView(this);
         obj.clearCache(true);
-        /*		if (prefs.getBoolean("ttsinstall", true)) {
-            Intent intent = new Intent(getBaseContext(), DekTTSActivity.class);
-			DekTTSActivity.type = 99;
-			getBaseContext().startService(intent);
-		}*/
-        //myList.setOnItemClickListener(new OnItemClickListener() {});
-		/*		myList.setOnItemClickListener(new OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int position,
-					long id) {
-
-				String item = ((TextView)view).getText().toString();
-
-				Toast.makeText(getBaseContext(), item, Toast.LENGTH_LONG).show();
-
-			}
-		});		*/
-		/*		if (isOnline())	{
-			showAllBook();
-			//showAllBookOffline() ;
-		}
-		else {
-			AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
-			alertDialog.setTitle("Error.");
-			alertDialog.setMessage("Not connect to internet.\nPlease check your internet connection");
-			alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog, int which) {
-					// here you can add functions
-				}
-			});
-			alertDialog.show();
-
-			showAllBookOffline() ;
-		}*/
-
-        //WakefulIntentService.acquireStaticLock(context);
-        //context.startService(new Intent(context, NiyayService.class));
-        //context.startService(new Intent(context, Alarm.class));
-		/*		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-		if (prefs.getBoolean("first_run", true)) {
-			Log.e("doback at", "first_run");
-			SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit();
-			editor.putLong("alarm_time", System.currentTimeMillis());
-			editor.putString("keySelectItem", "6");
-			editor.putBoolean("first_run", false);
-			editor.commit();
-			Toast.makeText(context, "สามารถเปลี่ยนแนวหน้าจอได้จากตั่งค่า เท่านั้น", Toast.LENGTH_LONG).show();
-			//Display getOrient = getWindowManager().getDefaultDisplay();
-			if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
-				System.out.print("sc ");System.out.println(getResources().getConfiguration().orientation );// orientation = Configuration.ORIENTATION_LANDSCAPE;
-				editor.putString("sreenRol", "1");
-			}
-			new Alarm().SetAlarm(getApplicationContext());
-			Toast.makeText(context, "สามารถเปลี่ยนแนวหน้าจอได้จากตั่งค่า เท่านั้น", Toast.LENGTH_LONG).show();
-		}*/
-        //context.startService(new Intent(context, AutoStart.class));
-		/*		while (LoadPage)
-			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		//myList.setAdapter(listAdap);
-		//setListAdapter(listAdap);
-		listAdap.notifyDataSetChanged();*/
     }
 
     @Override
@@ -2963,7 +2865,7 @@ public class MainActivity extends ListActivity {
         DefaultHttpClient httpclient = new DefaultHttpClient();
         try {
             HttpGet httpget = new HttpGet(new URI(url + chapter));
-            httpget.setHeader("User-Agent", "Mozilla/5.0 (Linux; U; Android 4.0.2; en-us; Galaxy Nexus Build/ICL53F) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30");
+            httpget.setHeader("User-Agent", "Mozilla/5.0 (Linux; Android 4.0.4; Galaxy Nexus Build/IMM76B) AppleWebKit/535.19 (KHTML, like Gecko) Chrome/18.0.1025.133 Mobile Safari/535.19");
             HttpParams params = new BasicHttpParams();
             HttpConnectionParams.setConnectionTimeout(params, 8000);
             HttpConnectionParams.setSoTimeout(params, 10000);
@@ -2976,9 +2878,6 @@ public class MainActivity extends ListActivity {
             text1 = httpclient.execute(httpget, responseHandler);
         } catch (ClientProtocolException e) {
             Log.e("ClientProtocolException", e.getMessage());
-            //Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
-            //e.printStackTrace();
-            //return "err";
             HttpGet method = new HttpGet(url + chapter);
             BufferedReader in = null;
             try {
@@ -3020,26 +2919,22 @@ public class MainActivity extends ListActivity {
             }
 
         } catch (IOException e) {
-            //Log.e("IOException", e.getMessage());
-            publishProgress("-97", Integer.toString(index), "ผิดพลาด โปรดลองใหม่");//	Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+            publishProgress("-97", Integer.toString(index), "ผิดพลาด โปรดลองใหม่");
             e.printStackTrace();
             return "err";
 
         } catch (URISyntaxException e) {
-            //Log.e("URISyntaxException", e.getMessage());
-            publishProgress("-97", Integer.toString(index), "ผิดพลาด โปรดลองใหม่");//Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+            publishProgress("-97", Integer.toString(index), "ผิดพลาด โปรดลองใหม่");
             e.printStackTrace();
             return "err";
 
         } catch (IllegalStateException e) {
-            //Log.e("IllegalStateException", text1);
-            publishProgress("-97", Integer.toString(index), "ผิดพลาด โปรดลองใหม่");//Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+            publishProgress("-97", Integer.toString(index), "ผิดพลาด โปรดลองใหม่");
             e.printStackTrace();
             return "err";
 
         } catch (Exception e) {
             publishProgress("-97", Integer.toString(index), "ผิดพลาด โปรดลองใหม่");
-            //System.err.println(e);
             e.printStackTrace();
             return "err";
 
@@ -3054,9 +2949,7 @@ public class MainActivity extends ListActivity {
                     try {
                         ContextWrapper cw = new ContextWrapper(context);
                         File temp = new File(cw.getDir("temp", Context.MODE_PRIVATE), id + ".html");
-                        //System.out.println(temp.getAbsolutePath());
                         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(temp), "tis620"));
-                        //bw.write(text1.replace("href=\"/", String.format("href=\"%s/",url.substring(0, url.lastIndexOf("/")))).replace("href=\"view", String.format("href=\"%s/view",url.substring(0, url.lastIndexOf("/")))));
                         bw.write(text2);
                         bw.flush();
                         bw.close();
@@ -3090,19 +2983,6 @@ public class MainActivity extends ListActivity {
             title = text1;
             status = -1;
         } else if (!text1.trim().contains(title.trim())) {
-            /*Log.e("title",title);
-            Log.e("text1",text1);
-			Log.e("compare",(text1.equals(title))? "same" : "not same");*/
-			/*			System.out.println("text1");
-			System.out.println(text1);
-			for (int i=0; i < text1.trim().length();i++) {
-				System.out.print(text1.trim().charAt(i));System.out.println((int)text1.trim().charAt(i));
-			}
-			System.out.println("title");
-			System.out.println(title);
-			for (int i=0; i < title.trim().length();i++) {
-				System.out.print(title.trim().charAt(i));System.out.println((int)title.trim().charAt(i));
-			}*/
             status = 1; //current chapter update
         } else if (!text1.contains("ยังไม่มีตอนปัจจุบัน รอตอนใหม่") && !text1.contains("non")) {
             status = 2;
@@ -3257,18 +3137,18 @@ public class MainActivity extends ListActivity {
             temp[4] = stext.substring(stext.indexOf("ตอนที่"));
 
             dialog.setMessage(temp[1]);
-            MainActivity.niyayTable.add(temp);
+            MainActivity.niyayTable.add(0,temp);
 
             if (sessionStatus.get(temp[2]) != null) {
-                ListViewContent.add(sessionStatus.get(temp[2]));
-                ListViewStatus.add("แฟนพันธ์แท้");
+                ListViewContent.add(0,sessionStatus.get(temp[2]));
+                ListViewStatus.add(0,"แฟนพันธ์แท้");
             } else {
                 //MainActivity.ListViewContent.add(stext.replace("ตอนที่", "\nตอนที่"));
-                ListViewContent.add(
+                ListViewContent.add(0,
                         "<br /><p><font color=#339900>[fav]มีการอัพเดตตอนปัจจุบัน</font><br />" +
                                 "<font color=#33B6EA>เรื่อง :" + temp[1] + "</font><br />" +
                                 "<font color=#cc0029>" + temp[4] + "</font></p>");
-                ListViewStatus.add("แฟนพันธ์แท้");
+                ListViewStatus.add(0,"แฟนพันธ์แท้");
                 sessionStatus.put(temp[2], ListViewContent.get(ListViewContent.size() - 1).replace("มีการอัพเดตตอนปัจจุบัน", "มีการอัพเดตตอนปัจจุบัน\nถ้าจบตอน กดปุ่มเพิ่มตอน\nเพื่อเข้าสู่สถานะรอตอนใหม่"));
             }
         }

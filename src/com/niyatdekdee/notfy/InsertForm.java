@@ -1,7 +1,10 @@
 package com.niyatdekdee.notfy;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.AsyncTask;
@@ -11,8 +14,15 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
-import android.widget.*;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import com.google.analytics.tracking.android.EasyTracker;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -165,7 +175,26 @@ public class InsertForm extends Activity {
         try {
             Integer.parseInt(txtChapter.getText().toString());
         } catch (NumberFormatException e) {
-            Toast.makeText(getBaseContext(), "ตอนที่ ไม่ได้อยู่ในรูปแบบของตัวเลข", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getBaseContext(), "ตอนที่ ไม่ได้อยู่ในรูปแบบของตัวเลข/n/nโปรดใส่ตัวเลขในช่องตอนที่", Toast.LENGTH_LONG).show();
+            AlertDialog.Builder builder = new AlertDialog.Builder(InsertForm.this);
+            builder.setMessage("ตอนที่ ไม่ได้อยู่ในรูปแบบของตัวเลข")
+                    .setCancelable(false)
+                    .setPositiveButton("ใส่เป็นตอนที่ 1", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            txtChapter.setText("1");
+                        }
+                    })
+                    .setNegativeButton("ใส่ตอนที่ด้วยตัวเอง", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            txtChapter.setText("");
+                            txtChapter.requestFocusFromTouch();
+                            InputMethodManager lManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                            lManager.showSoftInput(txtChapter, 0);
+                            dialog.cancel();
+                        }
+                    });
+            AlertDialog alert = builder.create();
+            alert.show();
             return;
         }
 

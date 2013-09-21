@@ -6,9 +6,10 @@
 
     <LinearLayout
         android:id="@+id/LinearLayout01"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp" >
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp">
 
         <TextView
             android:id="@+id/textView2"
@@ -24,7 +25,7 @@
 
         <EditText
             android:id="@+id/LongReadText"
-            android:layout_width="200dip"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="@string/thname"
@@ -33,15 +34,10 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/LinearLayout02"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" >
-    </LinearLayout>
-
-    <LinearLayout
         android:id="@+id/LinearLayout03"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" >
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dp">
 
         <TextView
             android:id="@+id/TextView01"
@@ -57,7 +53,7 @@
 
         <EditText
             android:id="@+id/editText3"
-            android:layout_width="200dip"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:focusable="true"
             android:hint="@string/chapter"
@@ -68,7 +64,8 @@
     <LinearLayout
         android:id="@+id/LinearLayout04"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
 
         <TextView
             android:id="@+id/TextView02"
@@ -89,7 +86,8 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_marginLeft="3dp"
-        android:layout_marginRight="3dp" >
+        android:layout_marginRight="3dp"
+        android:layout_marginTop="10dp">
 
         <TextView
             android:id="@+id/textreview"

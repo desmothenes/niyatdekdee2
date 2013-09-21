@@ -24,5 +24,16 @@
         <item name="android:textColor">?android:attr/textColorPrimary</item>
         <item name="android:textStyle">bold</item>
     </style>
+    <style name="CentreDialogCP" parent="@android:style/Theme.Dialog">
+        <item name="android:windowTitleStyle">@style/CentreDialogTitle</item>
+    </style>
 
+    <style name="CentreDialogTitle" parent="@android:style/TextAppearance.DialogWindowTitle">
+        <item name="android:gravity">center_horizontal</item>
+    </style>
+    <style name="DialogWindowTitle">
+        <item name="android:maxLines">1</item>
+        <item name="android:scrollHorizontally">true</item>
+        <item name="android:textAppearance">@android:style/TextAppearance.DialogWindowTitle</item>
+    </style>
 </resources>

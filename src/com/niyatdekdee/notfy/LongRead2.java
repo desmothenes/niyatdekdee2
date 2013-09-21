@@ -106,13 +106,19 @@ public class LongRead2 extends Activity {
         });
         Intent intent = getIntent();
         url = intent.getStringExtra("url");
-        dialog = new Dialog(this);
+        dialog = new Dialog(this,R.style.CentreDialogCP);
         dialog.setContentView(R.layout.activity_long_read);
         dialog.setTitle("เลือกช่วงตอน");
         dialog.setCancelable(false);
         Button dialogButton = (Button) dialog.findViewById(R.id.longbutton1);
         final EditText start = (EditText) dialog.findViewById(R.id.longeditText1);
         final EditText end = (EditText) dialog.findViewById(R.id.longeditText2);
+        start.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                start.setSelection(start.getText().length());
+            }
+        });
         end.setOnEditorActionListener(new EditText.OnEditorActionListener() {
 
             @Override
@@ -187,6 +193,25 @@ public class LongRead2 extends Activity {
             public void onClick(View v) {
                 dialog.dismiss();
                 finish();
+            }
+        });
+
+        ImageButton addCP = (ImageButton) dialog.findViewById(R.id.button);
+        addCP.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                start.setText(Integer.toString(Integer.parseInt(start.getText().toString()) + 1));
+            }
+        });
+
+        ImageButton addCPR = (ImageButton) dialog.findViewById(R.id.button2);
+        addCPR.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (start.getText().toString().equals("") || end.getText().toString().equals("")) return;
+                int range = Integer.parseInt(end.getText().toString())-Integer.parseInt(start.getText().toString()) + 1;
+                start.setText(Integer.toString(Integer.parseInt(start.getText().toString()) + range));
+                end.setText(Integer.toString(Integer.parseInt(end.getText().toString()) + range));
             }
         });
 
