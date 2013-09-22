@@ -87,7 +87,7 @@ public class TextReadActivity extends Activity {
         intent = null;
         webView = new WebView(this);
         webView.getSettings().setDefaultTextEncodingName("TIS-620");
-
+        webView.setScrollBarStyle(0);
         //System.out.println(test.substring(test.indexOf("<title>")+7));
         intent = getIntent();
         System.out.println(intent.getStringExtra("id") != null ? intent.getStringExtra("id") : "null");

@@ -37,13 +37,4 @@
         android:layout_below="@+id/textView1"
         android:gravity="right"/>
 
-    <!--        <ProgressBar
-                android:id="@+id/progressBar1"
-                style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="30dp"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_alignTop="@+id/textView2"
-                android:layout_toRightOf="@+id/textView2"/>-->
-
 </RelativeLayout>

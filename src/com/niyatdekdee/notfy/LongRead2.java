@@ -45,6 +45,7 @@ public class LongRead2 extends Activity {
     private Handler mHandler = new Handler();
     private boolean roll_flag = false;
     private int currentPositon;
+    ScrollView scroller;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,13 +83,15 @@ public class LongRead2 extends Activity {
         } else {
             webView.setBackgroundColor(0);
         }
-
-        setContentView(webView);
+        scroller = new ScrollView(this);
+        scroller.addView(webView);
+        setContentView(scroller);
         webView.setKeyListener(null);
         webView.setLongClickable(false);
         webView.setGravity(Gravity.TOP);
         webView.setLineSpacing(1.5f, 1.75f);
-
+        webView.setCursorVisible(true);
+        //webView.setMovementMethod(new ScrollingMovementMethod());
         webView.setOnTouchListener(new OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
 /*			        Toast toast = Toast.makeText(
@@ -319,22 +322,22 @@ public class LongRead2 extends Activity {
 				webView.setSelection(webView.getSelectionEnd()+700);
 			else
 				webView.setSelection(webView.length());*/
-            if (webView.getScrollY() + webView.getHeight() - 40 < webView.getLayout().getHeight())
+            scroller.pageScroll(View.FOCUS_DOWN);
+            /*if (webView.getScrollY() + webView.getHeight() - 40 < webView.getLayout().getHeight())
                 webView.scrollTo(0, webView.getScrollY() + webView.getHeight() - 40);
             else
-                webView.scrollTo(0, webView.getLayout().getHeight() - 1);
+                webView.scrollTo(0, webView.getLayout().getHeight() - 1);*/
             touchSimu();
             return true;
         } else if (keyCode == KeyEvent.KEYCODE_VOLUME_UP) {
-            if (webView.getScrollY() - webView.getHeight() + 20 > 0)
+            /*if (webView.getScrollY() - webView.getHeight() + 20 > 0)
                 webView.scrollTo(0, webView.getScrollY() - webView.getHeight() + 20);
             else
-                webView.scrollTo(0, 0);
+                webView.scrollTo(0, 0);*/
+            scroller.pageScroll(View.FOCUS_UP);
             touchSimu();
             return true;
-        } /*else if (keyCode == KeyEvent.KEYCODE_HEADSETHOOK) {
-            Toast.makeText(getBaseContext(), "Pause TTS", Toast.LENGTH_LONG).show();
-            return true;*/ else if (keyCode == KeyEvent.KEYCODE_BACK) {
+        } else if (keyCode == KeyEvent.KEYCODE_BACK) {
             if (DekTTSActivity.tts != null && DekTTSActivity.isSpeak) {
                 DekTTSActivity.tts.stop();
                 DekTTSActivity.stop = true;
@@ -375,12 +378,7 @@ public class LongRead2 extends Activity {
             alert.show();
 
             return true;
-        } /*else if (keyCode == KeyEvent.KEYCODE_SEARCH) {
-            currentPositon = webView.getSelectionEnd();
-            webView.setSelection(currentPositon,webView.getText().toString().indexOf(10,currentPositon));
-            currentPositon = webView.getText().toString().indexOf(10,currentPositon);
-            return true;
-        } */ else {
+        } else {
             return super.onKeyDown(keyCode, event);
         }
     }
@@ -663,17 +661,6 @@ public class LongRead2 extends Activity {
             publishProgress("0");
         }
 
-        /*        private void removeComments(Node node) {
-                    for (int i = 0; i < node.childNodes().size();) {
-                        Node child = node.childNode(i);
-                        if (child.nodeName().equals("#comment"))
-                            child.remove();
-                        else {
-                            removeComments(child);
-                            i++;
-                        }
-                    }
-                }*/
         @Override
         protected Long doInBackground(Context... arg0) {
             // TODO Auto-generated method stub

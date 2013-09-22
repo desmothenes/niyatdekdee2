@@ -50,14 +50,11 @@ import org.jsoup.select.Elements;
 import java.io.*;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 //import com.bugsense.trace.BugSenseHandler;
 
 public class MainActivity extends ListActivity {
-    //final static ArrayList<String[]> niyayTable = new ArrayList<String[]>();
+    final static ArrayList<String[]> niyayTable = new ArrayList<String[]>();
     static DatabaseAdapter db;
     static Context context;
     static ArrayList<String> ListViewContent = new ArrayList<String>();
@@ -71,7 +68,7 @@ public class MainActivity extends ListActivity {
     //static boolean LoadPage = false;
     static int titleColor = -1;
     //static int floop;
-    final static Map<String, String> niyayTable = new HashMap<String, String>();
+    //final static Map<String, String> niyayTable = new HashMap<String, String>();
     static Tracker mGaTracker;
     private ImageButton btnDirection;
     //static doback dob;
@@ -328,6 +325,7 @@ public class MainActivity extends ListActivity {
         do_back_3();
 
         myList.setFastScrollEnabled(true);
+        //myList.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
         myList.smoothScrollToPosition(0);
         myList.setItemsCanFocus(true);
         registerForContextMenu(myList);
@@ -884,6 +882,7 @@ public class MainActivity extends ListActivity {
             }.execute();
             return true;
         }
+        
         niyayTable.get(listItemName)[3] = Integer.toString(Integer.parseInt(niyayTable.get(listItemName)[3]) + 1);
         new AsyncTask<Integer, String, Void>() {
             String doc = "";
@@ -1994,12 +1993,65 @@ public class MainActivity extends ListActivity {
                 //new doback(getApplicationContext()).execute();
                 do_back_3();
                 return true;
+            case R.id.sort:
+/*                Collections.sort(ListViewContent,new Comparator<String>()
+                {
+                    public int compare(String s1,String s2)
+                    {
+                        if (s1.contains("มีการอัพเดตตอนปัจจุบัน"))
+                            return -1;
+                        else if (s2.contains("มีการอัพเดตตอนปัจจุบัน"))
+                            return 1;
+                        else if (s1.contains("ถ้าจบตอน"))
+                            return -1;
+                        else if (s2.contains("ถ้าจบตอน"))
+                            return 1;
+                        return s1.length() - s2.length();
+                    }
+                });*/
+                sortby1st(ListViewContent, ListViewStatus, niyayTable);
+                listAdap.notifyDataSetChanged();
+                return true;
             case R.id.menu_settings:
                 mGaTracker.sendEvent("ui_action", "button_press", "menu_settings", (long) 0);
                 startActivityForResult(new Intent(getBaseContext(), Setting.class), 0);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void sortby1st(List... lists) {
+        assert lists.length > 0;
+
+        Object[][] objects = new Object[lists[0].size()][lists.length];
+
+        for (int i = 0; i < lists.length; i++) {
+            int j = 0;
+            for (Object object : lists[i]) {
+                objects[j++][i] = object;
+            }
+        }
+
+        Arrays.sort(objects, new Comparator<Object[]>() {
+            public int compare(Object[] o1, Object[] o2) {
+                if (((String) o1[0]).contains("มีการอัพเดตตอนปัจจุบัน"))
+                    return -1;
+                else if (((String) o2[0]).contains("มีการอัพเดตตอนปัจจุบัน"))
+                    return 1;
+                else if (((String) o1[0]).contains("ถ้าจบตอน"))
+                    return -1;
+                else if (((String) o2[0]).contains("ถ้าจบตอน"))
+                    return 1;
+                return ((Comparable) o2[0]).compareTo(o1[0]);
+            }
+        });
+
+        for (int i = 0; i < lists.length; i++) {
+            lists[i].clear();
+            for (Object[] tuple : objects) {
+                lists[i].add(tuple[i]);
+            }
         }
     }
 
@@ -2709,24 +2761,34 @@ public class MainActivity extends ListActivity {
         int temp = 0;
         if (MainActivity.isOnline()) {
 
-            if (!Setting.getisLogin(context) || !Setting.getdisplayResult(context) || !Setting.getonlyFavorite(context))
+            if (!Setting.getisLogin(context) || !Setting.getdisplayResult(context) || !Setting.getonlyFavorite(context)) {
+                Thread[] threads = new Thread[niyayTable.size()];
+                cThreadsize = niyayTable.size();
+                cThreadFin = 0;
                 for (final String data[] : MainActivity.niyayTable) {
                     final int index = temp;
-                    new Thread(new Runnable() {
+                    threads[index] = new Thread(new Runnable() {
                         @Override
                         public void run() {
                             String result = check_new_cp(index, data);
                             if (!result.equals("err")) {
                                 if (index < niyayTable.size()) MainActivity.niyayTable.get(index)[4] = result;
-                            } /*else {
-
-                            }*/
+                            }
+                            mHandler.postDelayed(threadCount, 1);
                         }
-                    }).start();
-
+                    });
+                    threads[index].start();
                     temp++;
                 }
 
+               /* for (Thread thread : threads) {
+                    try {
+                        thread.join();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }*/
+            }
             if (Setting.getisLogin(context)) {
                 Log.e("login", "login");
 
@@ -2823,6 +2885,18 @@ public class MainActivity extends ListActivity {
             listAdap.notifyDataSetChanged();
         }
     };
+    int cThreadFin;
+    int cThreadsize;
+    private Runnable threadCount = new Runnable() {
+        public void run() {
+            cThreadFin++;
+            Log.e("cfin", Integer.toString(cThreadFin));
+            if (cThreadFin == cThreadsize) {
+                sortby1st(ListViewContent, ListViewStatus, niyayTable);
+                listAdap.notifyDataSetChanged();
+            }
+        }
+    };
 
     public void showToast(final String toast) {
         runOnUiThread(new Runnable() {
@@ -2860,6 +2934,30 @@ public class MainActivity extends ListActivity {
         final String chapter = data[3];
         String text1 = "";
 
+        if (url.contains("inlove-book.com")) {
+            try {
+                Document doc = Jsoup.connect(url).get();
+                Elements allCP = doc.select(".style1[target=_self]");
+                text1 = allCP.last().text().trim();
+                if (allCP.size() > Integer.parseInt(chapter)) {
+                    String temp =
+                            "<br /><p><font color=#339900>มีการอัพเดตตอนปัจจุบัน</font><br />" +
+                                    "<font color=#33B6EA>เรื่อง :" + data[1] + "</font><br />" +
+                                    "<font color=#cc0029> ตอน : " + text1 + " (" + chapter + ")</font></p>";
+                    publishProgress("-99", Integer.toString(index), temp);
+                    sessionStatus.put(url + chapter, temp.replace("มีการอัพเดตตอนปัจจุบัน", "มีการอัพเดตตอนปัจจุบัน\nถ้าจบตอน กดปุ่มเพิ่มตอน\nเพื่อเข้าสู่สถานะรอตอนใหม่"));
+                } else {
+                    String temp =
+                            "<br /><p><font color=#33B6EA>เรื่อง :" + data[1] + "</font><br />" +
+                                    "<font color=#cc0029> ล่าสุด ตอน : " + title + " (" + chapter + ")</font></p>";
+                    publishProgress("-99", Integer.toString(index), temp);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                publishProgress("-97", Integer.toString(index), "ผิดพลาด โปรดลองใหม่");
+            }
+            return "";
+        }
         //if (title.contains(">")) title = title.substring(title.indexOf(">"));
 
         DefaultHttpClient httpclient = new DefaultHttpClient();
@@ -3097,8 +3195,8 @@ public class MainActivity extends ListActivity {
                 title = title.substring(title.indexOf(">") + 2);
             //dialog.setTitle(title);
             Listtemp.add(
-                    "<br /><p><font color=#33B6EA>เรื่อง :" + c[1] + "</font><br />" +
-                            "<font color=#cc0029> ล่าสุด ตอน : " + title + " (" + c[3] + ")</font></p>");
+                    "<br /><br /><br /><br /><p><font color=#33B6EA>เรื่อง :" + c[1] + "</font><br />" +
+                            "<font color=#cc0029> ล่าสุด ตอน : " + title + " (" + c[3] + ")</font></p><br /><br />");
         }
         /*Log.e("content",
 				"id: " +data[0]+"\n"+
