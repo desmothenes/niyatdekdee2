@@ -882,7 +882,7 @@ public class MainActivity extends ListActivity {
             }.execute();
             return true;
         }
-        
+
         niyayTable.get(listItemName)[3] = Integer.toString(Integer.parseInt(niyayTable.get(listItemName)[3]) + 1);
         new AsyncTask<Integer, String, Void>() {
             String doc = "";
@@ -2704,7 +2704,7 @@ public class MainActivity extends ListActivity {
                 if (ListViewContent.size() > arg0)
                     holder.text.setText(Html.fromHtml(ListViewContent.get(arg0)));
                 if (ListViewStatus.size() > arg0)
-                    holder.status.setText(ListViewStatus.get(arg0));
+                    holder.status.setText(Html.fromHtml(ListViewStatus.get(arg0)));
             }
             return arg1;
         }
@@ -2828,7 +2828,7 @@ public class MainActivity extends ListActivity {
         } else {
             Toast.makeText(context, getString(R.string.connection_error), Toast.LENGTH_LONG);
             for (int i = 0; i < ListViewStatus.size(); i++) {
-                ListViewStatus.set(i, "การเชื่อมต่อมีปัญหา");
+                ListViewStatus.set(i, "<font color=#cc0029>การเชื่อมต่อมีปัญหา</font>");
             }
         }
     }
@@ -2863,7 +2863,7 @@ public class MainActivity extends ListActivity {
             }
         } else if (s.equals("-97")) {
             if (index < ListViewStatus.size())
-                ListViewStatus.set(index, "มีปัญหา โปรดลองใหม่");
+                ListViewStatus.set(index, "<font color=#cc0029>มีปัญหา โปรดลองใหม่</font>");
             mHandler.postDelayed(runnable, 1);
         } else if (s.equals("-99")) {
             ListViewContent.set(index, temp);

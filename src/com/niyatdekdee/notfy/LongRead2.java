@@ -550,13 +550,19 @@ public class LongRead2 extends Activity {
         }
 
         private void HTMLAdd(int index) {
-            // TODO Auto-generated method stub
+
             HTMLdata2 = new StringBuilder();
-            try {
-                doc = Jsoup.connect(url + Integer.toString(index)).get();
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+            int a = 0;
+            while (true) {
+                try {
+                    doc = Jsoup.connect(url + Integer.toString(index)).get();
+                } catch (IOException e) {
+                    if (a < 3) a++;
+                    else break;
+                    e.printStackTrace();
+                } finally {
+                    break;
+                }
             }
             if (doc == null) {
                 System.out.println("doc null");
