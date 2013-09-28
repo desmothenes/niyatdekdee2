@@ -187,6 +187,10 @@ public class Setting extends PreferenceActivity implements OnSharedPreferenceCha
         return PreferenceManager.getDefaultSharedPreferences(context).getBoolean("autoAdd", false);
     }
 
+    public static boolean getAdvance(Context context) {
+        return PreferenceManager.getDefaultSharedPreferences(context).getBoolean("advance", false);
+    }
+
     public static boolean getNotifyFav(Context context) {
         return getisLogin(context) && PreferenceManager.getDefaultSharedPreferences(context).getBoolean("notifyFov", true);
     }

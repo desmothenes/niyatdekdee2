@@ -72,6 +72,15 @@
             android:title="การแนะนำการใช้งาน"/>
 
         <CheckBoxPreference
+            android:name="advance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:defaultValue="false"
+            android:key="advance"
+            android:summary="แสดงเมนูการใช้งานเพิ่มเติม"
+            android:title="การใช้งานขั้นสูง"/>
+
+        <CheckBoxPreference
             android:name="TTSTipSpeak"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

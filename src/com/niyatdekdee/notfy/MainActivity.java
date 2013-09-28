@@ -2070,51 +2070,90 @@ public class MainActivity extends ListActivity {
 
     private void addmenu() {
         context = MainActivity.this;
-        CharSequence[] items = {"ค้นหาจากหน้า Web แบบใหม่", "ค้นหาแบ่งตามหมวด (แบบใหม่)", "ค้นหาจากข้อมูล ", "จาก Favorite Writer", "ค้นหาจากหน้า Web", "ค้นหาแบ่งตามหมวด (ปรับปรุง)", "ค้นหาแบ่งตามหมวด (แบบเก่า)", "Facebook"};
-        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-        builder.setCancelable(true)
-                .setSingleChoiceItems(items, -1, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.dismiss();
-                        if (id == 4) {
-                            mGaTracker.sendEvent("ui_action", "dialog_press", "add_web_add", (long) 0);
-                            Intent i = new Intent(getApplicationContext(), add_web.class);
-                            startActivityForResult(i, 0);
-                        } else if (id == 3) {
-                            mGaTracker.sendEvent("ui_action", "dialog_press", "add_Fav_add", (long) 0);
-                            //Toast.makeText(getApplicationContext(), "this function not enable in this version"/*items[id]*/, Toast.LENGTH_SHORT).show();
-                            Intent i = new Intent(getApplicationContext(), Fav_add.class);
-                            startActivityForResult(i, 0);
-                        } else if (id == 1) {
-                            mGaTracker.sendEvent("ui_action", "dialog_press", "add_SearchGroupActivity2", (long) 0);
-                            Intent i = new Intent(getApplicationContext(), webfind2.class);
-                            startActivityForResult(i, 0);
-                        } else if (id == 2) {
-                            mGaTracker.sendEvent("ui_action", "dialog_press", "add_SearchNameActivity", (long) 0);
-                            Intent i = new Intent(getApplicationContext(), SearchNameActivity.class);
-                            startActivityForResult(i, 0);
-                        } else if (id == 0) {
-                            mGaTracker.sendEvent("ui_action", "dialog_press", "add_SearchNewWeb", (long) 0);
-                            Intent i = new Intent(getApplicationContext(), webfind.class);
-                            startActivityForResult(i, 0);
-                        } else if (id == 5) {
-                            mGaTracker.sendEvent("ui_action", "dialog_press", "add_SearchNewWeb2", (long) 0);
-                            Intent i = new Intent(getApplicationContext(), SearchGroupActivity.class);
-                            startActivityForResult(i, 0);
-                        } else if (id == 6) {
-                            mGaTracker.sendEvent("ui_action", "dialog_press", "add_SearchGroupActivity", (long) 0);
-                            Intent i = new Intent(getApplicationContext(), SearchGroupActivity2.class);
-                            startActivityForResult(i, 0);
-                        } else if (id == 7) {
-                            mGaTracker.sendEvent("ui_action", "dialog_press", "add_FBGroupActivity", (long) 0);
-                            Intent i = new Intent(getApplication(), FBlogin.class);
-                            startActivityForResult(i, 0);
-                        }
-                    }
 
-                });
-        AlertDialog alert = builder.create();
-        alert.show();
+        if (Setting.getAdvance(getApplicationContext())) {
+            CharSequence[] items = {"ค้นหาจากหน้า Web แบบใหม่", "ค้นหาแบ่งตามหมวด (แบบใหม่)", "ค้นหาจากข้อมูล ", "จาก Favorite Writer", "ค้นหาจากหน้า Web", "ค้นหาแบ่งตามหมวด (ปรับปรุง)", "ค้นหาแบ่งตามหมวด (แบบเก่า)", "FaceBook"};
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+            builder.setCancelable(true)
+                    .setSingleChoiceItems(items, -1, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.dismiss();
+                            if (id == 5) {
+                                mGaTracker.sendEvent("ui_action", "dialog_press", "add_web_add", (long) 0);
+                                Intent i = new Intent(getApplicationContext(), add_web.class);
+                                startActivityForResult(i, 0);
+                            } else if (id == 3) {
+                                mGaTracker.sendEvent("ui_action", "dialog_press", "add_Fav_add", (long) 0);
+                                //Toast.makeText(getApplicationContext(), "this function not enable in this version"/*items[id]*/, Toast.LENGTH_SHORT).show();
+                                Intent i = new Intent(getApplicationContext(), Fav_add.class);
+                                startActivityForResult(i, 0);
+                            } else if (id == 1) {
+                                mGaTracker.sendEvent("ui_action", "dialog_press", "add_SearchGroupActivity2", (long) 0);
+                                Intent i = new Intent(getApplicationContext(), webfind2.class);
+                                startActivityForResult(i, 0);
+                            } else if (id == 2) {
+                                mGaTracker.sendEvent("ui_action", "dialog_press", "add_SearchNameActivity", (long) 0);
+                                Intent i = new Intent(getApplicationContext(), SearchNameActivity.class);
+                                startActivityForResult(i, 0);
+                            } else if (id == 0) {
+                                mGaTracker.sendEvent("ui_action", "dialog_press", "add_SearchNewWeb", (long) 0);
+                                Intent i = new Intent(getApplicationContext(), webfind.class);
+                                startActivityForResult(i, 0);
+                            } else if (id == 6) {
+                                mGaTracker.sendEvent("ui_action", "dialog_press", "add_SearchNewWeb2", (long) 0);
+                                Intent i = new Intent(getApplicationContext(), SearchGroupActivity.class);
+                                startActivityForResult(i, 0);
+                            } else if (id == 7) {
+                                mGaTracker.sendEvent("ui_action", "dialog_press", "add_SearchGroupActivity", (long) 0);
+                                Intent i = new Intent(getApplicationContext(), SearchGroupActivity2.class);
+                                startActivityForResult(i, 0);
+                            } else if (id == 4) {
+                                mGaTracker.sendEvent("ui_action", "dialog_press", "add_FBGroupActivity", (long) 0);
+                                Intent i = new Intent(getApplication(), FBlogin.class);
+                                startActivityForResult(i, 0);
+                            }
+                        }
+
+                    });
+            AlertDialog alert = builder.create();
+            alert.show();
+        } else {
+            CharSequence[] items = {"ค้นหาจากหน้า Web แบบใหม่", "ค้นหาแบ่งตามหมวด (แบบใหม่)", "ค้นหาจากข้อมูล ", "จาก Favorite Writer", "FaceBook"};
+            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+            builder.setCancelable(true)
+                    .setSingleChoiceItems(items, -1, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.dismiss();
+                            if (id == 3) {
+                                mGaTracker.sendEvent("ui_action", "dialog_press", "add_Fav_add", (long) 0);
+                                Intent i = new Intent(getApplicationContext(), Fav_add.class);
+                                startActivityForResult(i, 0);
+                            } else if (id == 1) {
+                                mGaTracker.sendEvent("ui_action", "dialog_press", "add_SearchGroupActivity2", (long) 0);
+                                Intent i = new Intent(getApplicationContext(), webfind2.class);
+                                startActivityForResult(i, 0);
+                            } else if (id == 2) {
+                                mGaTracker.sendEvent("ui_action", "dialog_press", "add_SearchNameActivity", (long) 0);
+                                Intent i = new Intent(getApplicationContext(), SearchNameActivity.class);
+                                startActivityForResult(i, 0);
+                            } else if (id == 0) {
+                                mGaTracker.sendEvent("ui_action", "dialog_press", "add_SearchNewWeb", (long) 0);
+                                Intent i = new Intent(getApplicationContext(), webfind.class);
+                                startActivityForResult(i, 0);
+                            } else if (id == 4) {
+                                mGaTracker.sendEvent("ui_action", "dialog_press", "add_FBGroupActivity", (long) 0);
+                                Intent i = new Intent(getApplication(), FBlogin.class);
+                                startActivityForResult(i, 0);
+                            }
+                        }
+
+                    });
+            AlertDialog alert = builder.create();
+            alert.show();
+        }
+
+
     }
 
     private void settingmenu() {
