@@ -267,7 +267,7 @@ public class ChapterListActivity extends ListActivity {
 
         return (dob);
     }
-	/*
+    /*
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.activity_chapter_list, menu);
@@ -380,7 +380,7 @@ public class ChapterListActivity extends ListActivity {
             if (dialog.isShowing()) dialog.dismiss();
             list.setAdapter(adapter);
             list.setSelection(cp);
-            title.setText(" " + doc_title);
+            title.setText(doc_title);
             spiner.setVisibility(View.GONE);
         }
 

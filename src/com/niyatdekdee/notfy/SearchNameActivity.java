@@ -22,6 +22,7 @@ public class SearchNameActivity extends Activity {
     protected String sub = "";
     private Spinner subGP;
     ScrollView mainScrollView;
+    private boolean result = false;
 
     @Override
     protected void onResume() {
@@ -304,9 +305,19 @@ public class SearchNameActivity extends Activity {
         intent.putExtra("nwriter", nwriter.getText().toString());
         intent.putExtra("nabstract_w", nabstract_w.getText().toString());
         intent.putExtra("from", "na");
-        startActivity(intent);
+        startActivityForResult(intent, 0);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            setResult(RESULT_OK);
+            result = true;
+        } else if (!result) {
+            setResult(RESULT_CANCELED);
+        }
+    }
 
     /*    @Override
     public boolean onCreateOptionsMenu(Menu menu) {

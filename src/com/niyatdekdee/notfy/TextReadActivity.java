@@ -574,7 +574,7 @@ public class TextReadActivity extends Activity {
                 try {
                     final String tempurl = intent.getStringExtra("url");
                     if (tempurl == null) return null;
-                    if (MainActivity.sessionId == null)
+                    if (MainActivity.sessionId != null)
                         doc = Jsoup.connect(tempurl).cookies(MainActivity.sessionId).timeout(16000).get();
                     else
                         doc = Jsoup.connect(tempurl).timeout(16000).get();

@@ -352,7 +352,7 @@
         <PreferenceScreen
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:title="วิธีการใช้งานเบื้องต้น V. 1.423e">
+            android:title="วิธีการใช้งานเบื้องต้น V. 1.424c">
 
             <intent
                 android:layout_width="wrap_content"
@@ -392,6 +392,18 @@
                 android:layout_height="wrap_content"
                 android:action="android.intent.action.VIEW"
                 android:data="http://www.facebook.com/pages/%E0%B8%99%E0%B8%B4%E0%B8%A2%E0%B8%B2%E0%B8%A2%E0%B9%80%E0%B8%94%E0%B9%87%E0%B8%81%E0%B8%94%E0%B8%B5-Notify-non-member/304818186302824?ref=stream"/>
+        </PreferenceScreen>
+
+        <PreferenceScreen
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:title="สมัครเป็นผู้เข้าร่วมทดสอบ">
+
+            <intent
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:action="android.intent.action.VIEW"
+                android:data="https://plus.google.com/communities/108017292919564231441"/>
         </PreferenceScreen>
     </PreferenceCategory>
 

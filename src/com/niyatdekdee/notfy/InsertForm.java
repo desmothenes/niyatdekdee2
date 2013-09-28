@@ -15,14 +15,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-import android.widget.Toast;
-
+import android.widget.*;
 import com.google.analytics.tracking.android.EasyTracker;
-
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -49,6 +43,7 @@ public class InsertForm extends Activity {
 
     @Override
     public void onBackPressed() {
+        setResult(RESULT_CANCELED);
         finish();
     }
 
@@ -215,6 +210,7 @@ public class InsertForm extends Activity {
             Toast.makeText(getBaseContext(), "Insert Succeed.", Toast.LENGTH_SHORT).show();
             //Intent i = new Intent(getBaseContext(),MainActivity.class);
             //i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            setResult(RESULT_OK);
             finish();
             //startActivity(i);
         } else {

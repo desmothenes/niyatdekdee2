@@ -41,8 +41,6 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 
 public class Find extends ListActivity {
-    private ProgressDialog dialog;
-    private InteractiveArrayAdapter adapter;
     private final ArrayList<String> ListViewContent = new ArrayList<String>();
     private final ArrayList<String> linktable = new ArrayList<String>();
     private final ArrayList<String> authortable = new ArrayList<String>();
@@ -50,6 +48,8 @@ public class Find extends ListActivity {
     private final ArrayList<String> chaptertable = new ArrayList<String>();
     private final ArrayList<String> viewtable = new ArrayList<String>();
     private final ArrayList<String> Content = new ArrayList<String>();
+    private ProgressDialog dialog;
+    private InteractiveArrayAdapter adapter;
     private int page = 1;
     private String story_type;
     private String main;
@@ -65,6 +65,7 @@ public class Find extends ListActivity {
     private String nabstract_w;
     private ListView list;
     private ProgressBar spiner;
+    private boolean result = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -210,12 +211,22 @@ public class Find extends ListActivity {
                 final String chapter = chaptertable.get(arg2).replace(" ตอน", "");
                 Log.v("chapter", chapter);
                 i.putExtra("chapter", chapter);
-                startActivity(i);
+                startActivityForResult(i, 0);
             }
         });
         list.setOnScrollListener(new LoadMoreListView());
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            setResult(RESULT_OK);
+            result = true;
+        } else if (!result) {
+            setResult(RESULT_CANCELED);
+        }
+    }
 
     private boolean isOnline() {
         ConnectivityManager cm =
@@ -223,6 +234,17 @@ public class Find extends ListActivity {
 
         return cm.getActiveNetworkInfo() != null &&
                 cm.getActiveNetworkInfo().isConnectedOrConnecting();
+    }
+
+    public void onStart() {
+        super.onStart();
+        EasyTracker.getInstance().activityStart(this); // Add this method.
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EasyTracker.getInstance().activityStop(this); // Add this method.
     }
 
     /*@Override
@@ -315,7 +337,7 @@ public class Find extends ListActivity {
             }
         }
         /*
-		public void execute(int i) {
+        public void execute(int i) {
 			// TODO Auto-generated method stub
 
 		}*/
@@ -388,7 +410,7 @@ public class Find extends ListActivity {
         private void showAllFind() {
             Log.v("showAllFind", "showAllFind");
             // TODO Auto-generated method stub
-			/*		String story_type = "2";
+            /*		String story_type = "2";
 			String main = "1";
 			String sub = "17";
 			String isend = "1";
@@ -629,16 +651,5 @@ public class Find extends ListActivity {
         @Override
         public void onScrollStateChanged(AbsListView view, int scrollState) {
         }
-    }
-
-    public void onStart() {
-        super.onStart();
-        EasyTracker.getInstance().activityStart(this); // Add this method.
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        EasyTracker.getInstance().activityStop(this); // Add this method.
     }
 }

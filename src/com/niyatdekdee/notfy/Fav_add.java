@@ -53,12 +53,14 @@ public class Fav_add extends ListActivity {
     //private static final int DISK_CACHE_SIZE = 1024 * 1024 * 10; // 10MB
     //private static final String DISK_CACHE_SUBDIR = "thumbnails";
     private ListView listView;
+    private boolean result = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         boolean customTitleSupported = requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
         setContentView(R.layout.activity_fav_add);
+
         if (Setting.getScreenSetting(getApplicationContext()).equals("1"))
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         if (customTitleSupported) {
@@ -240,7 +242,7 @@ public class Fav_add extends ListActivity {
 
                 //Log.v("url", url);
                 i.putExtra("url", url);
-                startActivity(i);
+                startActivityForResult(i, 0);
             }
         });
     }
@@ -315,7 +317,7 @@ public class Fav_add extends ListActivity {
             Log.v("zone", "loadFav");
             Document doc = null;
             try {
-                doc = Jsoup.connect("http://my.dek-d.com/desmos/control/writer_favorite.php")
+                doc = Jsoup.connect("http://my.dek-d.com/dekdee/control/writer_favorite.php")
                         .cookies(sessionId).timeout(3000)
                         .get();
             } catch (IOException e) {
@@ -372,6 +374,17 @@ public class Fav_add extends ListActivity {
                 e.printStackTrace();
             }
             return null;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            setResult(RESULT_OK);
+            result = true;
+        } else if (!result) {
+            setResult(RESULT_CANCELED);
         }
     }
 

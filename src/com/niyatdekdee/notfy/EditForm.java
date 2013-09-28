@@ -24,6 +24,7 @@ public class EditForm extends Activity {
     public void onBackPressed() {
         Intent intent = new Intent(getBaseContext(), MainActivity.class);
         finish();
+        setResult(RESULT_CANCELED);
         startActivity(intent);
     }
 
@@ -79,7 +80,7 @@ public class EditForm extends Activity {
 
                 @Override
                 public void onClick(View v) {
-                    // TODO Auto-generated method stub
+                    setResult(RESULT_OK);
                     finish();
                 }
             });
@@ -105,7 +106,6 @@ public class EditForm extends Activity {
 
             @Override
             public void onClick(View arg0) {
-                // TODO Auto-generated method stub
                 db.open();
                 boolean id;
                 try {

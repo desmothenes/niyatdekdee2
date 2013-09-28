@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.niyatdekdee.notfy"
           android:installLocation="auto"
-          android:versionCode="55"
-          android:versionName="1.423f">
+          android:versionCode="57"
+          android:versionName="1.424b">
 
     <uses-sdk
         android:minSdkVersion="9"
@@ -178,6 +178,7 @@
             android:theme="@style/AppThemeNoTitleBar">
 
         </activity>
+        <activity android:name=".FBlogin"/>
     </application>
 
 </manifest>

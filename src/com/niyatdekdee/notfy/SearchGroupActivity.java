@@ -22,6 +22,7 @@ public class SearchGroupActivity extends Activity {
     private String sub = "0";
     private String isend = "0";
     private String sort = "1";
+    private boolean result = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -310,7 +311,18 @@ public class SearchGroupActivity extends Activity {
         intent.putExtra("isend", isend);
         intent.putExtra("sort", sort);
         intent.putExtra("from", "gp");
-        startActivity(intent);
+        startActivityForResult(intent, 0);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            setResult(RESULT_OK);
+            result = true;
+        } else if (!result) {
+            setResult(RESULT_CANCELED);
+        }
     }
 
     /*	@Override

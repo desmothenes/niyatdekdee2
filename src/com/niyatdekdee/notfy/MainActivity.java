@@ -1978,7 +1978,7 @@ public class MainActivity extends ListActivity {
         super.onActivityResult(requestCode, resultCode, data);
         Log.e("doback at", "onActivityResult");
         //new doback(getApplicationContext()).execute();
-        do_back_3();
+        if (resultCode == RESULT_OK) do_back_3();
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -2070,7 +2070,7 @@ public class MainActivity extends ListActivity {
 
     private void addmenu() {
         context = MainActivity.this;
-        CharSequence[] items = {"ค้นหาจากหน้า Web แบบใหม่", "ค้นหาแบ่งตามหมวด (แบบใหม่)", "ค้นหาจากข้อมูล ", "จาก Favorite Writer", "ค้นหาจากหน้า Web", "ค้นหาแบ่งตามหมวด (ปรับปรุง)", "ค้นหาแบ่งตามหมวด (แบบเก่า)"};
+        CharSequence[] items = {"ค้นหาจากหน้า Web แบบใหม่", "ค้นหาแบ่งตามหมวด (แบบใหม่)", "ค้นหาจากข้อมูล ", "จาก Favorite Writer", "ค้นหาจากหน้า Web", "ค้นหาแบ่งตามหมวด (ปรับปรุง)", "ค้นหาแบ่งตามหมวด (แบบเก่า)", "Facebook"};
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         builder.setCancelable(true)
                 .setSingleChoiceItems(items, -1, new DialogInterface.OnClickListener() {
@@ -2105,9 +2105,11 @@ public class MainActivity extends ListActivity {
                             mGaTracker.sendEvent("ui_action", "dialog_press", "add_SearchGroupActivity", (long) 0);
                             Intent i = new Intent(getApplicationContext(), SearchGroupActivity2.class);
                             startActivityForResult(i, 0);
+                        } else if (id == 7) {
+                            mGaTracker.sendEvent("ui_action", "dialog_press", "add_FBGroupActivity", (long) 0);
+                            Intent i = new Intent(getApplication(), FBlogin.class);
+                            startActivityForResult(i, 0);
                         }
-
-
                     }
 
                 });
@@ -2670,7 +2672,16 @@ public class MainActivity extends ListActivity {
                             return;
                         }
                         if (niyayTable.size() != 0) {
-                            String url = niyayTable.get(arg0)[2] + niyayTable.get(arg0)[3];
+                            String url;
+
+                            if (niyayTable.get(arg0)[0].equals("-2")) {
+                                final String unum = MyAppClass.findnum(niyayTable.get(arg0)[2], "story_id=", getBaseContext());
+                                final String chapter = MyAppClass.findnum(niyayTable.get(arg0)[4], "ตอนที่ ", getBaseContext());
+                                url = "http://writer.dek-d.com/dek-d/writer/viewlongc.php?id=" + unum + "&chapter=" + chapter;
+                            } else {
+                                url = niyayTable.get(arg0)[2];// + niyayTable.get(arg0)[3];
+                            }
+
                             if (!url.startsWith("http://") && !url.startsWith("https://"))
                                 url = "http://" + url;
 
@@ -2891,7 +2902,7 @@ public class MainActivity extends ListActivity {
         public void run() {
             cThreadFin++;
             Log.e("cfin", Integer.toString(cThreadFin));
-            if (cThreadFin == cThreadsize) {
+            if (cThreadFin == niyayTable.size()) {
                 sortby1st(ListViewContent, ListViewStatus, niyayTable);
                 listAdap.notifyDataSetChanged();
             }

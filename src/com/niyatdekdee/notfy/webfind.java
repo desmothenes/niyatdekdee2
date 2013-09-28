@@ -15,6 +15,7 @@ import android.widget.Toast;
  */
 public class webfind extends Activity {
     private WebView webView;
+    private boolean result;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -105,5 +106,16 @@ public class webfind extends Activity {
 
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            setResult(RESULT_OK);
+            result = true;
+        } else if (!result) {
+            setResult(RESULT_CANCELED);
+        }
     }
 }

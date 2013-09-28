@@ -31,6 +31,7 @@ public class add_web extends Activity {
     private boolean loading;
     static boolean addclick;
     String htmltext;
+    private boolean result = false;
 
     @SuppressLint("SetJavaScriptEnabled")
     @Override
@@ -346,6 +347,12 @@ public class add_web extends Activity {
         super.onActivityResult(requestCode, resultCode, data);
         addclick = true;
         webView.reload();
+        if (resultCode == RESULT_OK) {
+            setResult(RESULT_OK);
+            result = true;
+        } else if (!result) {
+            setResult(RESULT_CANCELED);
+        }
     }
 
     class MyJavaScriptInterface {
