@@ -136,8 +136,8 @@ public class FBlogin extends Activity {
                 super.onPageFinished(view, url);
 
 
-                webView.loadUrl("javascript: var con = document.getElementsByTagName('table')[2];" +
-                        "con.innerHTML = \"<a href=\\\"#\\\" onclick=\\\"fbLogin( true , '' ); return false;\\\" id=\\\"fb-sprite\\\" class=\\\"badge-large\\\"></a>\";");
+                /*webView.loadUrl("javascript: var con = document.getElementsByTagName('table')[2];" +
+                        "con.innerHTML = \"<a href=\\\"#\\\" onclick=\\\"fbLogin( true , '' ); return false;\\\" id=\\\"fb-sprite\\\" class=\\\"badge-large\\\"></a>\";");*/
 
             }
 

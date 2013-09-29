@@ -269,7 +269,7 @@ public class LongRead2 extends Activity {
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        setContentView(webView);
+        //setContentView(webView);
         webView.setSelection(currentPositon);
     }
 
