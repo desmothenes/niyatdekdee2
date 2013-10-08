@@ -361,9 +361,9 @@
         <PreferenceScreen
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:title="วิธีการใช้งานเบื้องต้น V. 1.424c">
+            android:title="วิธีการใช้งานเบื้องต้น V. 1.425k">
 
-            <intent
+        <intent
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:action="android.intent.action.VIEW"

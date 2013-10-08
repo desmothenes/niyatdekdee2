@@ -106,7 +106,7 @@ public class ChapterListActivity extends ListActivity {
             //เชื่อม btnSearch btnDirection เข้ากับ View
             title = (TextView) findViewById(R.id.textViewBar);
             title.setTextSize(15);
-            title.setText(String.format(" %s", intent.getStringExtra("title") == null ? "" : intent.getStringExtra("title").replace("นิยาย ", "")));
+            title.setText(String.format("%s", intent.getStringExtra("title") == null ? "" : intent.getStringExtra("title").replace("นิยาย ", "")));
 
             ImageButton btnDirection = (ImageButton) findViewById(R.id.btnDirection);
             btnDirection.setOnClickListener(new View.OnClickListener() {
@@ -328,19 +328,41 @@ public class ChapterListActivity extends ListActivity {
 
         @Override
         protected Long doInBackground(String... origin0) {
-            try {
-                final String origin = origin0[0].contains("=") ? origin0[0].substring(0, origin0[0].lastIndexOf("=") + 1) : origin0[0];
+
+            final String origin = origin0[0].contains("=") ? origin0[0].substring(0, origin0[0].lastIndexOf("=") + 1) : origin0[0];
                 System.out.println("ori: " + origin0[0]);
                 //System.out.println(origin);
-                Document doc;
+            Document doc = null;
+            int j = 0;
+            while (true) {
                 try {
                     final String idnum = Integer.toString(Integer.parseInt(MyAppClass.findnum(origin, "id=", activity)));
                     doc = Jsoup.connect("http://writer.dek-d.com/dek-d/writer/view.php?id=" + idnum).timeout(15000).get();
                 } catch (NumberFormatException e) {
-                    doc = Jsoup.connect("http://writer.dek-d.com/dek-d/writer/view.php?id" + origin.substring(origin.indexOf("="), origin.indexOf("&"))).timeout(15000).get();
+                    try {
+                        doc = Jsoup.connect("http://writer.dek-d.com/dek-d/writer/view.php?id" + origin.substring(origin.indexOf("="), origin.indexOf("&"))).timeout(15000).get();
+                    } catch (IOException e1) {
+                        j++;
+                        if (j > 3) {
+                            publishProgress("-1");
+                            return null;
+                        }
+                    }
+                } catch (IOException ex) {
+                    j++;
+                    if (j > 3) {
+                        publishProgress("-1");
+                        return null;
+                    }
+                } finally {
+                    if (doc == null) {
+                        publishProgress("-1");
+                        return null;
+                    }
+                    break;
                 }
-
-                if (!doc.title().isEmpty()) doc_title = doc.title();
+            }
+            if (!doc.title().isEmpty()) doc_title = doc.title();
                 int c = 1;
                 Elements link1 = doc.select("table.tableblack[border=1]");//[href~=/dek-d/writer/view.php]");
                 for (Element link : link1) {
@@ -369,10 +391,7 @@ public class ChapterListActivity extends ListActivity {
                 for (int i = 0; i < 4; i++)
                     if (ListViewContent.size() != 0) ListViewContent.remove(ListViewContent.size() - 1);
                     else publishProgress("ไม่พบผลการค้นหา");
-            } catch (IOException e) {
-                publishProgress("-1");
-                e.printStackTrace();
-            }
+
             return null;
         }
 

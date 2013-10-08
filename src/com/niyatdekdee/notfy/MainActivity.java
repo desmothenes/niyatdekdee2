@@ -2032,21 +2032,38 @@ public class MainActivity extends ListActivity {
                 objects[j++][i] = object;
             }
         }
-
-        Arrays.sort(objects, new Comparator<Object[]>() {
-            public int compare(Object[] o1, Object[] o2) {
-                if (((String) o1[0]).contains("มีการอัพเดตตอนปัจจุบัน"))
-                    return -1;
-                else if (((String) o2[0]).contains("มีการอัพเดตตอนปัจจุบัน"))
-                    return 1;
-                else if (((String) o1[0]).contains("ถ้าจบตอน"))
-                    return -1;
-                else if (((String) o2[0]).contains("ถ้าจบตอน"))
-                    return 1;
-                return ((Comparable) o2[0]).compareTo(o1[0]);
-            }
-        });
-
+        try {
+            Arrays.sort(objects, new Comparator<Object[]>() {
+                public int compare(Object[] o1, Object[] o2) {
+                    if (((String) o1[0]).contains("มีการอัพเดตตอนปัจจุบัน")) {
+                        if (((String) o2[0]).contains("มีการอัพเดตตอนปัจจุบัน")) {
+                            return ((String) o2[0]).compareTo((String) o1[0]);
+                        }
+                        return -1;
+                    } else if (((String) o2[0]).contains("มีการอัพเดตตอนปัจจุบัน"))
+                        return 1;
+                    else if (((String) o1[0]).contains("[fav]")) {
+                        if (((String) o2[0]).contains("[fav]")) {
+                            return ((String) o2[0]).compareTo((String) o1[0]);
+                        }
+                        return -1;
+                    } else if (((String) o1[0]).contains("[fav]"))
+                        return 1;
+                    else if (((String) o1[0]).contains("ถ้าจบตอน")) {
+                        if (((String) o2[0]).contains("ถ้าจบตอน")) {
+                            return ((String) o2[0]).compareTo((String) o1[0]);
+                        }
+                        return -1;
+                    } else if (((String) o2[0]).contains("ถ้าจบตอน"))
+                        return 1;
+                    else if (((String) o2[0]).equals((String) o1[0]))
+                        return 0;
+                    return ((String) o2[0]).compareTo((String) o1[0]);
+                }
+            });
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        }
         for (int i = 0; i < lists.length; i++) {
             lists[i].clear();
             for (Object[] tuple : objects) {
@@ -2718,7 +2735,7 @@ public class MainActivity extends ListActivity {
                                 final String chapter = MyAppClass.findnum(niyayTable.get(arg0)[4], "ตอนที่ ", getBaseContext());
                                 url = "http://writer.dek-d.com/dek-d/writer/viewlongc.php?id=" + unum + "&chapter=" + chapter;
                             } else {
-                                url = niyayTable.get(arg0)[2];// + niyayTable.get(arg0)[3];
+                                url = niyayTable.get(arg0)[2] + niyayTable.get(arg0)[3];
                             }
 
                             if (!url.startsWith("http://") && !url.startsWith("https://"))

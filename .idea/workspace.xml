@@ -46,10 +46,19 @@
   <component name="ChangeListManager">
     <list default="true" id="1c8432e1-6392-4e57-95ab-836015d16f80" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/niyatdekdee.apk" afterPath="$PROJECT_DIR$/niyatdekdee.apk" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/AndroidManifest.xml" afterPath="$PROJECT_DIR$/AndroidManifest.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/niyatdekdee/notfy/ChapterListActivity.java" afterPath="$PROJECT_DIR$/src/com/niyatdekdee/notfy/ChapterListActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/niyatdekdee/notfy/DekTTSActivity.java" afterPath="$PROJECT_DIR$/src/com/niyatdekdee/notfy/DekTTSActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/niyatdekdee/notfy/FBlogin.java" afterPath="$PROJECT_DIR$/src/com/niyatdekdee/notfy/FBlogin.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/niyatdekdee/notfy/LongRead2.java" afterPath="$PROJECT_DIR$/src/com/niyatdekdee/notfy/LongRead2.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/proguard-project.txt" afterPath="$PROJECT_DIR$/proguard-project.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/project.properties" afterPath="$PROJECT_DIR$/project.properties" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/niyatdekdee/notfy/MainActivity.java" afterPath="$PROJECT_DIR$/src/com/niyatdekdee/notfy/MainActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/niyatdekdee/notfy/MyAppClass.java" afterPath="$PROJECT_DIR$/src/com/niyatdekdee/notfy/MyAppClass.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/niyatdekdee/notfy/TextReadActivity.java" afterPath="$PROJECT_DIR$/src/com/niyatdekdee/notfy/TextReadActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/menu/activity_long_read.xml" afterPath="$PROJECT_DIR$/res/menu/activity_long_read.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/activity_setting.xml" afterPath="$PROJECT_DIR$/res/layout/activity_setting.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/menu/activity_text_read.xml" afterPath="$PROJECT_DIR$/res/menu/activity_text_read.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/values/strings.xml" afterPath="$PROJECT_DIR$/res/values/strings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/niyatdekdee/notfy/webfind2.java" afterPath="$PROJECT_DIR$/src/com/niyatdekdee/notfy/webfind2.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="niyatdekdee.iws" />
@@ -76,6 +85,7 @@
     <disable_hints />
   </component>
   <component name="DebuggerManager">
+    <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
     <breakpoint_any default_suspend_policy="SuspendAll" default_condition_enabled="true">
       <breakpoint>
         <option name="NOTIFY_CAUGHT" value="true" />
@@ -112,7 +122,6 @@
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
     </breakpoint_any>
-    <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
     <line_breakpoints default_suspend_policy="SuspendAll" default_condition_enabled="true">
       <breakpoint url="file://$PROJECT_DIR$/src/com/niyatdekdee/notfy/doback.java" line="197" class="doback.java" package="">
         <option name="ENABLED" value="true" />
@@ -174,7 +183,7 @@
         <option name="CONDITION" value="" />
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/src/com/niyatdekdee/notfy/DekTTSActivity.java" line="393" class="com.niyatdekdee.notfy.DekTTSActivity$3" package="com.niyatdekdee.notfy">
+      <breakpoint url="file://$PROJECT_DIR$/src/com/niyatdekdee/notfy/DekTTSActivity.java" line="413" class="com.niyatdekdee.notfy.DekTTSActivity$3" package="com.niyatdekdee.notfy">
         <option name="ENABLED" value="true" />
         <option name="LOG_ENABLED" value="false" />
         <option name="LOG_EXPRESSION_ENABLED" value="false" />
@@ -189,7 +198,7 @@
         <option name="CONDITION" value="" />
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/src/com/niyatdekdee/notfy/TextReadActivity.java" line="297" class="com.niyatdekdee.notfy.TextReadActivity$5" package="com.niyatdekdee.notfy">
+      <breakpoint url="file://$PROJECT_DIR$/src/com/niyatdekdee/notfy/webfind2.java" line="44" class="com.niyatdekdee.notfy.webfind2" package="com.niyatdekdee.notfy">
         <option name="ENABLED" value="true" />
         <option name="LOG_ENABLED" value="false" />
         <option name="LOG_EXPRESSION_ENABLED" value="false" />
@@ -204,7 +213,7 @@
         <option name="CONDITION" value="" />
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/src/com/niyatdekdee/notfy/webfind2.java" line="45" class="com.niyatdekdee.notfy.webfind2" package="com.niyatdekdee.notfy">
+      <breakpoint url="file://$PROJECT_DIR$/src/com/niyatdekdee/notfy/LongRead2.java" line="562" class="com.niyatdekdee.notfy.LongRead2.Long_doback" package="com.niyatdekdee.notfy">
         <option name="ENABLED" value="true" />
         <option name="LOG_ENABLED" value="false" />
         <option name="LOG_EXPRESSION_ENABLED" value="false" />
@@ -219,7 +228,7 @@
         <option name="CONDITION" value="" />
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/src/com/niyatdekdee/notfy/LongRead2.java" line="598" class="com.niyatdekdee.notfy.LongRead2.Long_doback" package="com.niyatdekdee.notfy">
+      <breakpoint url="file://$PROJECT_DIR$/src/com/niyatdekdee/notfy/LongRead2.java" line="687" class="com.niyatdekdee.notfy.LongRead2.Long_doback" package="com.niyatdekdee.notfy">
         <option name="ENABLED" value="true" />
         <option name="LOG_ENABLED" value="false" />
         <option name="LOG_EXPRESSION_ENABLED" value="false" />
@@ -234,37 +243,7 @@
         <option name="CONDITION" value="" />
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/src/com/niyatdekdee/notfy/LongRead2.java" line="557" class="com.niyatdekdee.notfy.LongRead2.Long_doback" package="com.niyatdekdee.notfy">
-        <option name="ENABLED" value="true" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="false" />
-        <option name="REMOVE_AFTER_HIT" value="false" />
-        <option name="SUSPEND_POLICY" value="SuspendAll" />
-        <option name="SUSPEND" value="true" />
-        <option name="COUNT_FILTER_ENABLED" value="false" />
-        <option name="COUNT_FILTER" value="0" />
-        <option name="CONDITION_ENABLED" value="true" />
-        <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="" />
-        <option name="LOG_MESSAGE" value="" />
-      </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/src/com/niyatdekdee/notfy/LongRead2.java" line="660" class="com.niyatdekdee.notfy.LongRead2.Long_doback" package="com.niyatdekdee.notfy">
-        <option name="ENABLED" value="true" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="false" />
-        <option name="REMOVE_AFTER_HIT" value="false" />
-        <option name="SUSPEND_POLICY" value="SuspendAll" />
-        <option name="SUSPEND" value="true" />
-        <option name="COUNT_FILTER_ENABLED" value="false" />
-        <option name="COUNT_FILTER" value="0" />
-        <option name="CONDITION_ENABLED" value="true" />
-        <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="" />
-        <option name="LOG_MESSAGE" value="" />
-      </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/src/com/niyatdekdee/notfy/TextReadActivity.java" line="672" class="com.niyatdekdee.notfy.TextReadActivity.Text_Doback" package="com.niyatdekdee.notfy">
+      <breakpoint url="file://$PROJECT_DIR$/src/com/niyatdekdee/notfy/TextReadActivity.java" line="691" class="com.niyatdekdee.notfy.TextReadActivity.Text_Doback" package="com.niyatdekdee.notfy">
         <option name="ENABLED" value="true" />
         <option name="LOG_ENABLED" value="false" />
         <option name="LOG_EXPRESSION_ENABLED" value="false" />
@@ -294,7 +273,7 @@
         <option name="CONDITION" value="" />
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/src/com/niyatdekdee/notfy/TextReadActivity.java" line="574" class="com.niyatdekdee.notfy.TextReadActivity.Text_Doback" package="com.niyatdekdee.notfy">
+      <breakpoint url="file://$PROJECT_DIR$/src/com/niyatdekdee/notfy/FBlogin.java" line="129" class="com.niyatdekdee.notfy.FBlogin.UriWebViewClient" package="com.niyatdekdee.notfy">
         <option name="ENABLED" value="true" />
         <option name="LOG_ENABLED" value="false" />
         <option name="LOG_EXPRESSION_ENABLED" value="false" />
@@ -309,7 +288,112 @@
         <option name="CONDITION" value="" />
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/src/com/niyatdekdee/notfy/FBlogin.java" line="151" class="com.niyatdekdee.notfy.FBlogin$2" package="com.niyatdekdee.notfy">
+      <breakpoint url="file://$PROJECT_DIR$/src/com/niyatdekdee/notfy/FBlogin.java" line="80" class="com.niyatdekdee.notfy.FBlogin.UriWebViewClient" package="com.niyatdekdee.notfy">
+        <option name="ENABLED" value="true" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="REMOVE_AFTER_HIT" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="SUSPEND" value="true" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="true" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
+      <breakpoint url="file://$PROJECT_DIR$/src/com/niyatdekdee/notfy/LongRead2.java" line="680" class="com.niyatdekdee.notfy.LongRead2.Long_doback" package="com.niyatdekdee.notfy">
+        <option name="ENABLED" value="true" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="REMOVE_AFTER_HIT" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="SUSPEND" value="true" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="true" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
+      <breakpoint url="file://$PROJECT_DIR$/src/com/niyatdekdee/notfy/LongRead2.java" line="675" class="com.niyatdekdee.notfy.LongRead2.Long_doback" package="com.niyatdekdee.notfy">
+        <option name="ENABLED" value="true" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="REMOVE_AFTER_HIT" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="SUSPEND" value="true" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="true" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
+      <breakpoint url="file://$PROJECT_DIR$/src/com/niyatdekdee/notfy/LongRead2.java" line="217" class="com.niyatdekdee.notfy.LongRead2" package="com.niyatdekdee.notfy">
+        <option name="ENABLED" value="true" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="REMOVE_AFTER_HIT" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="SUSPEND" value="true" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="true" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
+      <breakpoint url="file://$PROJECT_DIR$/src/com/niyatdekdee/notfy/MainActivity.java" line="2735" class="com.niyatdekdee.notfy.MainActivity.ListViewAdapter$2" package="com.niyatdekdee.notfy">
+        <option name="ENABLED" value="true" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="REMOVE_AFTER_HIT" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="SUSPEND" value="true" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="true" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
+      <breakpoint url="file://$PROJECT_DIR$/src/com/niyatdekdee/notfy/TextReadActivity.java" line="297" class="com.niyatdekdee.notfy.TextReadActivity$5" package="com.niyatdekdee.notfy">
+        <option name="ENABLED" value="true" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="REMOVE_AFTER_HIT" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="SUSPEND" value="true" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="true" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
+      <breakpoint url="file://$PROJECT_DIR$/src/com/niyatdekdee/notfy/MainActivity.java" line="2035" class="com.niyatdekdee.notfy.MainActivity" package="com.niyatdekdee.notfy">
+        <option name="ENABLED" value="true" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="REMOVE_AFTER_HIT" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="SUSPEND" value="true" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="true" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
+      <breakpoint url="file://$PROJECT_DIR$/src/com/niyatdekdee/notfy/DekTTSActivity.java" line="345" class="com.niyatdekdee.notfy.DekTTSActivity" package="com.niyatdekdee.notfy">
         <option name="ENABLED" value="true" />
         <option name="LOG_ENABLED" value="false" />
         <option name="LOG_EXPRESSION_ENABLED" value="false" />
@@ -341,7 +425,7 @@
       <file leaf-file-name="MainActivity.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/niyatdekdee/notfy/MainActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="60" column="25" selection-start="2256" selection-end="2256" vertical-scroll-proportion="0.0" vertical-offset="1020" max-vertical-offset="58208">
+            <state line="2051" column="20" selection-start="102124" selection-end="102124" vertical-scroll-proportion="0.0" vertical-offset="34867" max-vertical-offset="58548">
               <folding />
             </state>
           </provider>
@@ -350,52 +434,93 @@
       <file leaf-file-name="LongRead2.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/niyatdekdee/notfy/LongRead2.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="271" column="10" selection-start="11689" selection-end="11689" vertical-scroll-proportion="0.0" vertical-offset="3740" max-vertical-offset="12087">
+            <state line="227" column="0" selection-start="10119" selection-end="10119" vertical-scroll-proportion="0.0" vertical-offset="3859" max-vertical-offset="13651">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Setting.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/niyatdekdee/notfy/Setting.java">
+      <file leaf-file-name="TextReadActivity.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/niyatdekdee/notfy/TextReadActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="190" column="89" selection-start="8144" selection-end="8151" vertical-scroll-proportion="0.0" vertical-offset="3230" max-vertical-offset="6715">
+            <state line="367" column="83" selection-start="18407" selection-end="18407" vertical-scroll-proportion="0.0" vertical-offset="6239" max-vertical-offset="17170">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="webfind2.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/niyatdekdee/notfy/webfind2.java">
+      <file leaf-file-name="ChapterListActivity.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/niyatdekdee/notfy/ChapterListActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="1117" column="45" selection-start="78424" selection-end="78424" vertical-scroll-proportion="0.0" vertical-offset="18989" max-vertical-offset="27795">
+            <state line="416" column="16" selection-start="18947" selection-end="18967" vertical-scroll-proportion="0.0" vertical-offset="7072" max-vertical-offset="7735">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="FBlogin.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="activity_text_read.xml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/res/menu/activity_text_read.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="50" column="33" selection-start="1294" selection-end="1294" vertical-scroll-proportion="0.0" vertical-offset="850" max-vertical-offset="969">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DekTTSActivity.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/niyatdekdee/notfy/DekTTSActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="362" column="21" selection-start="14302" selection-end="14302" vertical-scroll-proportion="0.0" vertical-offset="6137" max-vertical-offset="13906">
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#5236#5252#0" expanded="true" />
+                <element signature="e#7020#7036#0" expanded="true" />
+                <element signature="e#9335#9351#0" expanded="true" />
+                <element signature="e#10930#10946#0" expanded="true" />
+                <element signature="e#13546#13554#0" expanded="true" />
+                <element signature="e#16254#16270#0" expanded="true" />
+                <element signature="e#20498#20514#0" expanded="true" />
+                <element signature="e#27908#27916#0" expanded="true" />
+                <element signature="e#33514#33522#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MyAppClass.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/niyatdekdee/notfy/MyAppClass.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="16" column="13" selection-start="689" selection-end="689" vertical-scroll-proportion="0.0" vertical-offset="272" max-vertical-offset="1139">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="activity_setting.xml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/res/layout/activity_setting.xml">
+          <provider editor-type-id="android-designer">
+            <state />
+          </provider>
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="363" column="59" selection-start="14162" selection-end="14162" vertical-scroll-proportion="-0.68" vertical-offset="6154" max-vertical-offset="7225">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AndroidManifest.xml" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="5" column="37" selection-start="263" selection-end="263" vertical-scroll-proportion="0.089709766" vertical-offset="51" max-vertical-offset="3213">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="FBlogin.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/niyatdekdee/notfy/FBlogin.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="160" column="24" selection-start="7248" selection-end="7248" vertical-scroll-proportion="-1.2603878" vertical-offset="2971" max-vertical-offset="3332">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="add_web.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/niyatdekdee/notfy/add_web.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="383" column="0" selection-start="15362" selection-end="15362" vertical-scroll-proportion="0.0" vertical-offset="6511" max-vertical-offset="6613">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="webfind.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/niyatdekdee/notfy/webfind.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="112" column="48" selection-start="4965" selection-end="4965" vertical-scroll-proportion="0.0" vertical-offset="1904" max-vertical-offset="2142">
+            <state line="139" column="0" selection-start="6797" selection-end="6797" vertical-scroll-proportion="0.0" vertical-offset="2363" max-vertical-offset="2975">
               <folding />
             </state>
           </provider>
@@ -438,22 +563,22 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/com/niyatdekdee/notfy/SearchNameActivity.java" />
-        <option value="$PROJECT_DIR$/src/com/niyatdekdee/notfy/webfind.java" />
-        <option value="$PROJECT_DIR$/res/layout/activity_fb_add.xml" />
-        <option value="$PROJECT_DIR$/res/layout/custom_titlebar_nonmain.xml" />
-        <option value="$PROJECT_DIR$/src/com/niyatdekdee/notfy/ChapterListActivity.java" />
-        <option value="$PROJECT_DIR$/res/layout/list_item.xml" />
-        <option value="$PROJECT_DIR$/src/com/niyatdekdee/notfy/Fav_add.java" />
         <option value="$PROJECT_DIR$/src/com/niyatdekdee/notfy/add_web.java" />
-        <option value="$PROJECT_DIR$/src/com/niyatdekdee/notfy/webfind2.java" />
         <option value="$PROJECT_DIR$/src/com/niyatdekdee/notfy/Setting.java" />
-        <option value="$PROJECT_DIR$/res/layout/activity_setting.xml" />
-        <option value="$PROJECT_DIR$/src/com/niyatdekdee/notfy/MainActivity.java" />
         <option value="$PROJECT_DIR$/project.properties" />
         <option value="$PROJECT_DIR$/proguard-project.txt" />
-        <option value="$PROJECT_DIR$/src/com/niyatdekdee/notfy/LongRead2.java" />
         <option value="$PROJECT_DIR$/src/com/niyatdekdee/notfy/FBlogin.java" />
+        <option value="$PROJECT_DIR$/src/com/niyatdekdee/notfy/webfind2.java" />
+        <option value="$PROJECT_DIR$/res/menu/activity_long_read.xml" />
+        <option value="$PROJECT_DIR$/src/com/niyatdekdee/notfy/LongRead2.java" />
+        <option value="$PROJECT_DIR$/src/com/niyatdekdee/notfy/MyAppClass.java" />
+        <option value="$PROJECT_DIR$/res/menu/activity_text_read.xml" />
+        <option value="$PROJECT_DIR$/src/com/niyatdekdee/notfy/TextReadActivity.java" />
+        <option value="$PROJECT_DIR$/src/com/niyatdekdee/notfy/ChapterListActivity.java" />
+        <option value="$PROJECT_DIR$/src/com/niyatdekdee/notfy/MainActivity.java" />
+        <option value="$PROJECT_DIR$/src/com/niyatdekdee/notfy/DekTTSActivity.java" />
+        <option value="$PROJECT_DIR$/res/layout/activity_setting.xml" />
+        <option value="$PROJECT_DIR$/AndroidManifest.xml" />
       </list>
     </option>
   </component>
@@ -511,6 +636,7 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="PackagesPane" />
       <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
@@ -518,10 +644,6 @@
             <PATH_ELEMENT>
               <option name="myItemId" value="niyatdekdee" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="External Libraries" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ExternalLibrariesNode" />
             </PATH_ELEMENT>
           </PATH>
           <PATH>
@@ -536,7 +658,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -563,11 +684,11 @@
     <property name="options.splitter.details.proportions" value="0.2" />
     <property name="GoToFile.includeJavaFiles" value="false" />
     <property name="AndroidProguardConfigPath" value="C:\Users\E425\niyay\niyatdekdee\proguard-project.txt" />
-    <property name="options.lastSelected" value="project.propCompiler" />
+    <property name="options.lastSelected" value="appearance" />
     <property name="GenerateAntBuildDialog.forceTargetJdk" value="true" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="MemberChooser.copyJavadoc" value="false" />
-    <property name="AndroidRunProguardForReleaseBuild" value="true" />
+    <property name="AndroidRunProguardForReleaseBuild" value="false" />
     <property name="project.structure.last.edited" value="Android SDK" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="OverrideImplement.combined" value="true" />
@@ -626,6 +747,7 @@
       <option name="NETWORK_SPEED" value="full" />
       <option name="NETWORK_LATENCY" value="none" />
       <option name="CLEAR_LOGCAT" value="true" />
+      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="true" />
       <RunnerSettings RunnerId="AndroidDebugRunner" />
       <ConfigurationWrapper RunnerId="AndroidDebugRunner" />
       <method />
@@ -655,6 +777,7 @@
       <option name="NETWORK_SPEED" value="full" />
       <option name="NETWORK_LATENCY" value="none" />
       <option name="CLEAR_LOGCAT" value="false" />
+      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="true" />
       <method />
     </configuration>
     <configuration default="true" type="Remote" factoryName="Remote">
@@ -767,6 +890,7 @@
       <option name="NETWORK_SPEED" value="full" />
       <option name="NETWORK_LATENCY" value="none" />
       <option name="CLEAR_LOGCAT" value="true" />
+      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="true" />
       <method />
     </configuration>
     <configuration default="false" name="niyatdekdee" type="AndroidRunConfigurationType" factoryName="Android Application">
@@ -783,6 +907,7 @@
       <option name="NETWORK_SPEED" value="full" />
       <option name="NETWORK_LATENCY" value="none" />
       <option name="CLEAR_LOGCAT" value="true" />
+      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="true" />
       <RunnerSettings RunnerId="AndroidDebugRunner" />
       <ConfigurationWrapper RunnerId="AndroidDebugRunner" />
       <method />
@@ -898,7 +1023,11 @@
       <created>1380393226460</created>
       <updated>1380393226461</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="1.145b2">
+      <created>1380438920780</created>
+      <updated>1380438920781</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
@@ -931,20 +1060,21 @@
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3287879" sideWeight="0.67291313" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3253833" sideWeight="0.4227273" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3287879" sideWeight="0.67291313" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.27769348" sideWeight="0.67291313" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.34517765" sideWeight="0.46515152" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.42086956" sideWeight="0.50080514" order="8" side_tool="true" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32918397" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.50930625" sideWeight="0.6227273" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3147208" sideWeight="0.37727273" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.1659091" sideWeight="0.27299702" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32589287" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.20785071" sideWeight="0.28730822" order="4" side_tool="true" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.38240272" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.34517765" sideWeight="0.5348485" order="11" side_tool="true" content_ui="tabs" x="358" y="452" width="1203" height="462" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.50930625" sideWeight="0.37727273" order="11" side_tool="true" content_ui="tabs" x="358" y="452" width="1203" height="462" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3253833" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.16515152" sideWeight="0.65482235" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.20833333" sideWeight="0.6852792" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4002574" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.27121213" sideWeight="0.5854484" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.1969697" sideWeight="0.6852792" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.36886632" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Documentation" active="true" anchor="right" auto_hide="true" internal_type="SLIDING" type="FLOATING" visible="true" weight="0.32954547" sideWeight="0.50425893" order="8" side_tool="true" content_ui="tabs" x="61" y="330" width="1182" height="544" />
       <window_info id="Problems" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.37691003" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
@@ -952,7 +1082,6 @@
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24924242" sideWeight="0.5875371" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.27769348" sideWeight="0.67291313" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32859176" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Module Dependencies" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32947233" sideWeight="0.67224544" order="5" side_tool="false" content_ui="tabs" />
@@ -1011,7 +1140,8 @@
     <MESSAGE value="1.143a" />
     <MESSAGE value="1.145a" />
     <MESSAGE value="1.145b" />
-    <option name="LAST_COMMIT_MESSAGE" value="1.145b" />
+    <MESSAGE value="1.145b2" />
+    <option name="LAST_COMMIT_MESSAGE" value="1.145b2" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
@@ -1019,114 +1149,116 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/res/layout/list_item.xml">
+    <entry file="file://$PROJECT_DIR$/res/menu/activity_long_read.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="36" selection-start="923" selection-end="923" vertical-scroll-proportion="0.5619048" vertical-offset="214" max-vertical-offset="765">
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
+        <state line="28" column="0" selection-start="805" selection-end="805" vertical-scroll-proportion="0.0" vertical-offset="324" max-vertical-offset="663" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/niyatdekdee/notfy/Fav_add.java">
+    <entry file="file://$PROJECT_DIR$/src/com/niyatdekdee/notfy/LongRead2.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="382" column="0" selection-start="16780" selection-end="16959" vertical-scroll-proportion="0.0" vertical-offset="5361" max-vertical-offset="8857" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/niyatdekdee/notfy/add_web.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="383" column="0" selection-start="15362" selection-end="15362" vertical-scroll-proportion="0.0" vertical-offset="5219" max-vertical-offset="6018">
+        <state line="227" column="0" selection-start="10119" selection-end="10119" vertical-scroll-proportion="0.0" vertical-offset="2853" max-vertical-offset="12410">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/niyatdekdee/notfy/webfind.java">
+    <entry file="jar://$APPLICATION_HOME_DIR$/sdk/platforms/android-18/android.jar!/java/lang/Object.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="112" column="48" selection-start="4965" selection-end="4965" vertical-scroll-proportion="0.0" vertical-offset="1411" max-vertical-offset="1955">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Desktop/paging_utf8.min.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="4849" vertical-scroll-proportion="-1.0" vertical-offset="340" max-vertical-offset="680" />
+        <state line="29" column="29" selection-start="929" selection-end="929" vertical-scroll-proportion="0.0" vertical-offset="331" max-vertical-offset="595" />
       </provider>
     </entry>
     <entry file="jar://$APPLICATION_HOME_DIR$/sdk/platforms/android-18/android.jar!/java/lang/reflect/Method.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="1" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1020" />
+        <state line="51" column="28" selection-start="2051" selection-end="2051" vertical-scroll-proportion="0.0" vertical-offset="773" max-vertical-offset="1037" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/niyatdekdee/notfy/webfind2.java">
+    <entry file="jar://$APPLICATION_HOME_DIR$/sdk/platforms/android-18/android.jar!/android/os/Looper.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1117" column="45" selection-start="78424" selection-end="78424" vertical-scroll-proportion="0.0" vertical-offset="19482" max-vertical-offset="28679">
+        <state line="25" column="16" selection-start="766" selection-end="766" vertical-scroll-proportion="0.0" vertical-offset="320" max-vertical-offset="629" />
+      </provider>
+    </entry>
+    <entry file="jar://$APPLICATION_HOME_DIR$/sdk/platforms/android-18/android.jar!/android/os/MessageQueue.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="1" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="391" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/niyatdekdee.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.57954544" vertical-offset="153" max-vertical-offset="2040" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/niyatdekdee/notfy/FBlogin.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="139" column="0" selection-start="6797" selection-end="6797" vertical-scroll-proportion="0.0" vertical-offset="2203" max-vertical-offset="3094">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/niyatdekdee/notfy/Setting.java">
+    <entry file="file://$PROJECT_DIR$/res/menu/activity_text_read.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="190" column="89" selection-start="8144" selection-end="8151" vertical-scroll-proportion="0.0" vertical-offset="2652" max-vertical-offset="6341">
+        <state line="50" column="33" selection-start="1294" selection-end="1294" vertical-scroll-proportion="0.0" vertical-offset="554" max-vertical-offset="969">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/activity_setting.xml">
+    <entry file="file://$PROJECT_DIR$/src/com/niyatdekdee/notfy/MyAppClass.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="79" column="55" selection-start="3203" selection-end="3203" vertical-scroll-proportion="0.0" vertical-offset="1343" max-vertical-offset="7208">
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/niyatdekdee/notfy/MainActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="60" column="25" selection-start="2256" selection-end="2256" vertical-scroll-proportion="0.0" vertical-offset="153" max-vertical-offset="57205">
+        <state line="16" column="13" selection-start="689" selection-end="689" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1156">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/niyatdekdee/notfy/TextReadActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="570" column="23" selection-start="26664" selection-end="26664" vertical-scroll-proportion="0.0" vertical-offset="9690" max-vertical-offset="16847">
+        <state line="367" column="83" selection-start="18407" selection-end="18407" vertical-scroll-proportion="0.0" vertical-offset="5603" max-vertical-offset="17323">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/niyatdekdee.properties">
+    <entry file="file://$PROJECT_DIR$/src/com/niyatdekdee/notfy/ChapterListActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="329">
+        <state line="416" column="16" selection-start="18947" selection-end="18967" vertical-scroll-proportion="0.0" vertical-offset="6376" max-vertical-offset="7327">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/proguard-project.txt">
+    <entry file="file://$PROJECT_DIR$/src/com/niyatdekdee/notfy/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="45" column="1" selection-start="1717" selection-end="1717" vertical-scroll-proportion="0.899705" vertical-offset="460" max-vertical-offset="935">
+        <state line="2051" column="20" selection-start="102124" selection-end="102124" vertical-scroll-proportion="0.0" vertical-offset="34867" max-vertical-offset="58548">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/project.properties">
+    <entry file="file://$PROJECT_DIR$/src/com/niyatdekdee/notfy/DekTTSActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="53" selection-start="228" selection-end="228" vertical-scroll-proportion="0.0" vertical-offset="18" max-vertical-offset="357">
+        <state line="362" column="21" selection-start="14302" selection-end="14302" vertical-scroll-proportion="0.0" vertical-offset="6137" max-vertical-offset="13906">
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#5236#5252#0" expanded="true" />
+            <element signature="e#7020#7036#0" expanded="true" />
+            <element signature="e#9335#9351#0" expanded="true" />
+            <element signature="e#10930#10946#0" expanded="true" />
+            <element signature="e#13546#13554#0" expanded="true" />
+            <element signature="e#16254#16270#0" expanded="true" />
+            <element signature="e#20498#20514#0" expanded="true" />
+            <element signature="e#27908#27916#0" expanded="true" />
+            <element signature="e#33514#33522#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/activity_setting.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="363" column="59" selection-start="14162" selection-end="14162" vertical-scroll-proportion="-0.68" vertical-offset="6154" max-vertical-offset="7225">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/niyatdekdee/notfy/LongRead2.java">
+    <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="271" column="10" selection-start="11689" selection-end="11689" vertical-scroll-proportion="0.0" vertical-offset="3740" max-vertical-offset="12087">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/niyatdekdee/notfy/FBlogin.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="160" column="24" selection-start="7248" selection-end="7248" vertical-scroll-proportion="-1.2603878" vertical-offset="2971" max-vertical-offset="3332">
+        <state line="5" column="37" selection-start="263" selection-end="263" vertical-scroll-proportion="0.089709766" vertical-offset="51" max-vertical-offset="3213">
           <folding />
         </state>
       </provider>

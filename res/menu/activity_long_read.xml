@@ -20,9 +20,15 @@
         android:id="@+id/inctext"
         android:title="@string/inctext"
         android:orderInCategory="102"/>
+
     <item
         android:id="@+id/roll"
         android:title="@string/rollsc"
         android:orderInCategory="109"/>
+
+    <item
+        android:id="@+id/switchl"
+        android:title="@string/switchmode"
+        android:orderInCategory="119"/>
 
 </menu>

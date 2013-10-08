@@ -37,8 +37,16 @@
         android:title="@string/story">
     </item>
     <item
+        android:id="@+id/switcht"
+        android:title="@string/switchmode">
+    </item>
+    <item
         android:id="@+id/roll"
         android:title="@string/rollsc"/>
-
-
+    <item
+        android:id="@+id/day"
+        android:title="ธีมกลางวัน"/>
+    <item
+        android:id="@+id/night"
+        android:title="ธีมกลางคืน"/>
 </menu>

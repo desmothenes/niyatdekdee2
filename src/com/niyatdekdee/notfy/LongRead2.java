@@ -45,7 +45,6 @@ public class LongRead2 extends Activity {
     private Handler mHandler = new Handler();
     private boolean roll_flag = false;
     private int currentPositon;
-    ScrollView scroller;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,15 +82,13 @@ public class LongRead2 extends Activity {
         } else {
             webView.setBackgroundColor(0);
         }
-        scroller = new ScrollView(this);
-        scroller.addView(webView);
-        setContentView(scroller);
+
+        setContentView(webView);
         webView.setKeyListener(null);
         webView.setLongClickable(false);
         webView.setGravity(Gravity.TOP);
         webView.setLineSpacing(1.5f, 1.75f);
-        webView.setCursorVisible(true);
-        //webView.setMovementMethod(new ScrollingMovementMethod());
+
         webView.setOnTouchListener(new OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
 /*			        Toast toast = Toast.makeText(
@@ -269,7 +266,7 @@ public class LongRead2 extends Activity {
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        //setContentView(webView);
+        setContentView(webView);
         webView.setSelection(currentPositon);
     }
 
@@ -322,22 +319,22 @@ public class LongRead2 extends Activity {
 				webView.setSelection(webView.getSelectionEnd()+700);
 			else
 				webView.setSelection(webView.length());*/
-            scroller.pageScroll(View.FOCUS_DOWN);
-            /*if (webView.getScrollY() + webView.getHeight() - 40 < webView.getLayout().getHeight())
+            if (webView.getScrollY() + webView.getHeight() - 40 < webView.getLayout().getHeight())
                 webView.scrollTo(0, webView.getScrollY() + webView.getHeight() - 40);
             else
-                webView.scrollTo(0, webView.getLayout().getHeight() - 1);*/
+                webView.scrollTo(0, webView.getLayout().getHeight() - 1);
             touchSimu();
             return true;
         } else if (keyCode == KeyEvent.KEYCODE_VOLUME_UP) {
-            /*if (webView.getScrollY() - webView.getHeight() + 20 > 0)
+            if (webView.getScrollY() - webView.getHeight() + 20 > 0)
                 webView.scrollTo(0, webView.getScrollY() - webView.getHeight() + 20);
             else
-                webView.scrollTo(0, 0);*/
-            scroller.pageScroll(View.FOCUS_UP);
+                webView.scrollTo(0, 0);
             touchSimu();
             return true;
-        } else if (keyCode == KeyEvent.KEYCODE_BACK) {
+        } /*else if (keyCode == KeyEvent.KEYCODE_HEADSETHOOK) {
+            Toast.makeText(getBaseContext(), "Pause TTS", Toast.LENGTH_LONG).show();
+            return true;*/ else if (keyCode == KeyEvent.KEYCODE_BACK) {
             if (DekTTSActivity.tts != null && DekTTSActivity.isSpeak) {
                 DekTTSActivity.tts.stop();
                 DekTTSActivity.stop = true;
@@ -378,7 +375,12 @@ public class LongRead2 extends Activity {
             alert.show();
 
             return true;
-        } else {
+        } /*else if (keyCode == KeyEvent.KEYCODE_SEARCH) {
+            currentPositon = webView.getSelectionEnd();
+            webView.setSelection(currentPositon,webView.getText().toString().indexOf(10,currentPositon));
+            currentPositon = webView.getText().toString().indexOf(10,currentPositon);
+            return true;
+        } */ else {
             return super.onKeyDown(keyCode, event);
         }
     }
@@ -470,6 +472,15 @@ public class LongRead2 extends Activity {
                 Toast.makeText(getBaseContext(), "โปรดรอ", Toast.LENGTH_SHORT).show();
                 webView.setTextSize(TypedValue.COMPLEX_UNIT_PX, webView.getTextSize() - 1);
                 return true;
+            case R.id.switchl:
+                Intent TextReadActivity = new Intent(getBaseContext(), TextReadActivity.class);
+                final EditText start = (EditText) dialog.findViewById(R.id.longeditText1);
+                TextReadActivity.putExtra("url", url + start.getText().toString());
+                TextReadActivity.putExtra("from", "cp");
+
+                startActivity(TextReadActivity);
+                finish();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -555,7 +566,7 @@ public class LongRead2 extends Activity {
             int a = 0;
             while (true) {
                 try {
-                    doc = Jsoup.connect(url + Integer.toString(index)).get();
+                    doc = Jsoup.connect(url + Integer.toString(index)).timeout(8000).get();
                 } catch (IOException e) {
                     if (a < 3) a++;
                     else break;
@@ -595,22 +606,26 @@ public class LongRead2 extends Activity {
         }
 
         private void HTMLMake(int start) {
-            try {
-                doc = Jsoup.connect(url + start).get();
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+            int a = 0;
+            while (true) {
+                try {
+                    doc = Jsoup.connect(url + start).timeout(8000).get();
+                } catch (IOException e) {
+                    if (a < 3) a++;
+                    else break;
+                    e.printStackTrace();
+                } finally {
+                    break;
+                }
             }
-
             if (doc == null) {
                 System.out.println("doc null");
                 publishProgress("2");
                 return;
             }
 
-            if (doc.title() != null) HTMLdata.append("\r\n\r\n").append(doc.title()).append("\r\n\r\n");
-
-            {
+            if (doc.title() != null) {
+                HTMLdata.append("\r\n\r\n").append(doc.title()).append("\r\n\r\n");
                 Elements story = doc.select("#story_body").select("td");
                 if (story != null && story.first() != null) {
 
@@ -667,6 +682,17 @@ public class LongRead2 extends Activity {
             publishProgress("0");
         }
 
+        /*        private void removeComments(Node node) {
+                    for (int i = 0; i < node.childNodes().size();) {
+                        Node child = node.childNode(i);
+                        if (child.nodeName().equals("#comment"))
+                            child.remove();
+                        else {
+                            removeComments(child);
+                            i++;
+                        }
+                    }
+                }*/
         @Override
         protected Long doInBackground(Context... arg0) {
             // TODO Auto-generated method stub

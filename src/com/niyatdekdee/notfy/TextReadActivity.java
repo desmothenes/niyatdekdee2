@@ -364,6 +364,14 @@ public class TextReadActivity extends Activity {
                         "}" +
                         "window.scrollTo(x, y-90);");
                 return true;
+            case R.id.day:
+                webView.loadUrl("javascript:  document.querySelector('*').style.background='black'; " +
+                        "document.querySelector('body').style.background='white';");
+                return true;
+            case R.id.night:
+                webView.loadUrl("javascript:  document.querySelector('*').style.background='white'; " +
+                        "document.querySelector('body').style.background='black';");
+                return true;
             case R.id.Top:
                 webView.pageUp(true);
                 return true;
@@ -467,6 +475,17 @@ public class TextReadActivity extends Activity {
                     newtext.putExtra("fromindex", TextReadActivity.intent.getBooleanExtra("fromindex", false));
                 startActivity(newtext);
                 finish();
+                return true;
+            case R.id.switcht:
+                Intent FastReadActivity = new Intent(getBaseContext(), LongRead2.class);
+                //final String unum = MyAppClass.findnum(url, "story_id=", getBaseContext());
+                FastReadActivity.putExtra("url", "http://writer.dek-d.com/dek-d/writer/viewlongc.php?id=" + urlid + "&chapter=");
+                FastReadActivity.putExtra("cp", Integer.toString(cp));
+                FastReadActivity.putExtra("from", "cp");
+
+                startActivity(FastReadActivity);
+                finish();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -828,13 +847,13 @@ public class TextReadActivity extends Activity {
                 HTMLdata.append("<body>");
             }
             if (theme == 1) {
-                HTMLdata.append("<body bgColor='#000000'>");
+                HTMLdata.append("<body bgColor='#000000' style=\"background: #000000;\">");
             } else if (theme == 2) {
-                HTMLdata.append("<body bgColor='#FFFFFF'>");
+                HTMLdata.append("<body bgColor='#FFFFFF' style=\"background: #FFFFFF;\">");
             } else if (theme == 3) {
-                HTMLdata.append("<body bgColor='#808080'>");
+                HTMLdata.append("<body bgColor='#808080' style=\"background: #808080;\">");
             } else if (theme == 4) {
-                HTMLdata.append("<body bgColor='#FFFFD8'>");
+                HTMLdata.append("<body bgColor='#FFFFD8' style=\"background: #FFFFD8;\">");
             }
 
             urlid = MyAppClass.findnum(oriurl, "id=", getBaseContext());

@@ -24,6 +24,8 @@ import java.io.File;
 import java.io.IOException;
 import java.text.BreakIterator;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class DekTTSActivity extends Service implements OnInitListener {
 
@@ -317,11 +319,29 @@ public class DekTTSActivity extends Service implements OnInitListener {
     }
 
     static ArrayList<String> SubText(String input) {
+        StringBuffer newnum = new StringBuffer();
+        Pattern rexexp = Pattern.compile("\\.\\d+");
+        Matcher matcher = rexexp.matcher(input);
+        while (matcher.find()) {
+            //System.out.println("in: "+matcher.group(0));
+            matcher.appendReplacement(newnum, floatDigit(matcher.group(0).replace(",", "")));
+        }
+        matcher.appendTail(newnum);
+        input = newnum.toString();
+        rexexp = Pattern.compile("\\d+(\\d{0,2})(,\\d{3})*");
+        newnum = new StringBuffer();
+        matcher = rexexp.matcher(input);
+        while (matcher.find()) {
+            //System.out.println("in: "+matcher.group(0));
+            matcher.appendReplacement(newnum, conto(matcher.group(0).replace(",", "")));
+        }
+        matcher.appendTail(newnum);
+        input = newnum.toString();
         if (tts.getDefaultEngine().contains("vaja")) {
             while (input.contains(" ๆ")) {
                 input = input.replace(" ๆ", "ๆ");
             }
-            List<String> temp = new ArrayList<String>(Arrays.asList(input.split(" ")));
+            List<String> temp = new ArrayList<String>(Arrays.asList(input.split("\\s+")));
             temp.add("หมดข้อความที่จะอ่านออกเสียง");
             return new ArrayList<String>(temp);
         } else {
@@ -395,7 +415,7 @@ public class DekTTSActivity extends Service implements OnInitListener {
                     for (String text : cuttext) {
                         Log.e("cuttext", text);
                         while (text.contains("..")) {
-                            text = text.replaceAll("\\.\\.", "");
+                            text = text.replaceAll("\\.\\.", " ");
                         }
                         text = text.replaceAll("…", " ").trim();
                         i++;
@@ -488,9 +508,9 @@ public class DekTTSActivity extends Service implements OnInitListener {
                         //Log.e( "cuttext",text);
 
                         while (text.contains("..")) {
-                            text = text.replaceAll("\\.\\.", "");
+                            text = text.replaceAll("\\.\\.", " ");
                         }
-                        text = text.replace(" ๆ", "ๆ").replace("ปล.", "ปัจฉิมลิขิต").replace("อก.", "อก .").replace("มอก .", "มอก.").trim();
+                        text = text.replace(" ๆ", "ๆ").replace("ปล.", "ปัจฉิมลิขิต").replace("ช.ม.", "ชั่วโมง").replace("อก.", "อก .").replace("มอก .", "มอก.").replace("[", "ก้ามปูเปิด").replace("]", "ก้ามปูปิด").replace("[", "ก้ามปูเปิด").replace(":", "ต่อ").replace("+", "บวก").trim();
                         final int size = text.length();
                         if (size < 2) continue;
                         i++;
@@ -651,7 +671,7 @@ public class DekTTSActivity extends Service implements OnInitListener {
             int result = tts.setLanguage(new Locale("tha", "TH"));
 
             if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
-                Toast.makeText(getApplicationContext(), "TTS engine ของคุณไม่รองรับภาษาไทย", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "TTS engine ในเครื่องของคุณไม่รองรับภาษาไทย", Toast.LENGTH_SHORT).show();
                 Log.e("TTS", "Thai language is not supported on your TTS");
                 MainActivity.isTTS = false;
                 SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit();
@@ -720,4 +740,74 @@ public class DekTTSActivity extends Service implements OnInitListener {
         return null;
     }
 
+    final static String[] lek = {"ศูนย์", "หนึ่ง", "สอง", "สาม", "สี่", "ห้า", "หก", "เจ็ด", "แปด", "เก้า"};
+    final static String[] luk = {"สิบ", "ร้อย", "พัน", "หมื่น", "แสน", "ล้าน"};
+
+    static String floatDigit(String val) {
+        StringBuilder text = new StringBuilder("จุด");
+        val = val.replace(".", "");
+        for (char i : val.toCharArray()) {
+            text.append(lek[Character.getNumericValue(i)]);
+        }
+
+        //System.out.println("out: "+text);
+        return text.toString();
+    }
+
+    static StringBuilder thainumtext(String val) {
+        StringBuilder text = new StringBuilder();
+        int i = 0, temp_int = 0;
+        int n = val.length();
+        while (n > 0) {
+            temp_int = Integer.parseInt(Character.toString(val.charAt(i)));
+            if (temp_int > 0) {
+                if ((n == 1) && temp_int == 1)
+                    text.append("เอ็ด");
+                else if ((2 == n) && temp_int == 1)
+                    ;
+                else if ((2 == n) && temp_int == 2)
+                    text.append("ยี่");
+                else
+                    text.append(lek[temp_int]);
+
+                if (n > 1)
+                    text.append(luk[n - 2]);
+            }
+            n--;
+            i++;
+        }
+        return text;
+    }
+
+    static String conto(String val) {
+        StringBuilder text = new StringBuilder();
+        int n = val.length();
+        if (n == 1) return lek[Integer.parseInt(val)];
+        ArrayList<String> nlist = new ArrayList<String>();
+        n = 6;
+        StringBuilder temp = new StringBuilder();
+        for (int index = val.length() - 1; index >= 0; index--) {
+            temp.insert(0, val.charAt(index));
+            n--;
+            if (n == 0) {
+                nlist.add(temp.toString());
+                temp = new StringBuilder();
+                n = 6;
+            }
+        }
+        if (temp.length() != 0)
+            nlist.add(temp.toString());
+
+        n = 1;
+        for (String i : nlist) {
+            if (n == 1) {
+                text.insert(0, thainumtext(i));
+                n = 0;
+            } else {
+                text.insert(0, thainumtext(i) + "ล้าน");
+            }
+        }
+        //System.out.println("out: "+text);
+        return text.toString();
+    }
 }
