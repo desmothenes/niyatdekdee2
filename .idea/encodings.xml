@@ -1,5 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="Encoding" useUTFGuessing="true" native2AsciiForPropertiesFiles="false" />
+  <component name="Encoding" useUTFGuessing="true" native2AsciiForPropertiesFiles="false">
+    <file url="file://$PROJECT_DIR$/src/com/niyatdekdee/notfy/Alarm.java" charset="x-windows-874" />
+    <file url="file://$PROJECT_DIR$/src/com/niyatdekdee/notfy/ChapterListActivity.java" charset="x-windows-874" />
+    <file url="file://$PROJECT_DIR$/src/com/niyatdekdee/notfy/DatabaseAdapter.java" charset="x-windows-874" />
+    <file url="file://$PROJECT_DIR$/src/com/niyatdekdee/notfy/DekTTSActivity.java" charset="x-windows-874" />
+    <file url="file://$PROJECT_DIR$/src/com/niyatdekdee/notfy/DekdeeBrowserActivity.java" charset="x-windows-874" />
+    <file url="file://$PROJECT_DIR$/src/com/niyatdekdee/notfy/Do_Back2.java" charset="x-windows-874" />
+    <file url="file://$PROJECT_DIR$/src/com/niyatdekdee/notfy/EditForm.java" charset="x-windows-874" />
+    <file url="file://$PROJECT_DIR$/src/com/niyatdekdee/notfy/Fav_add.java" charset="x-windows-874" />
+    <file url="file://$PROJECT_DIR$/src/com/niyatdekdee/notfy/Find.java" charset="x-windows-874" />
+    <file url="file://$PROJECT_DIR$/src/com/niyatdekdee/notfy/Flow2.java" charset="x-windows-874" />
+    <file url="file://$PROJECT_DIR$/src/com/niyatdekdee/notfy/InsertForm.java" charset="x-windows-874" />
+    <file url="file://$PROJECT_DIR$/src/com/niyatdekdee/notfy/LongRead.java" charset="x-windows-874" />
+    <file url="file://$PROJECT_DIR$/src/com/niyatdekdee/notfy/LongRead2.java" charset="x-windows-874" />
+    <file url="file://$PROJECT_DIR$/src/com/niyatdekdee/notfy/MainActivity.java" charset="x-windows-874" />
+    <file url="file://$PROJECT_DIR$/src/com/niyatdekdee/notfy/NetworkSwitcher.java" charset="x-windows-874" />
+    <file url="file://$PROJECT_DIR$/src/com/niyatdekdee/notfy/NiyayService.java" charset="x-windows-874" />
+    <file url="file://$PROJECT_DIR$/src/com/niyatdekdee/notfy/SearchGroupActivity.java" charset="x-windows-874" />
+    <file url="file://$PROJECT_DIR$/src/com/niyatdekdee/notfy/SearchGroupActivity2.java" charset="x-windows-874" />
+    <file url="file://$PROJECT_DIR$/src/com/niyatdekdee/notfy/SearchNameActivity.java" charset="x-windows-874" />
+    <file url="file://$PROJECT_DIR$/src/com/niyatdekdee/notfy/Setting.java" charset="x-windows-874" />
+    <file url="file://$PROJECT_DIR$/src/com/niyatdekdee/notfy/TextReadActivity.java" charset="x-windows-874" />
+    <file url="file://$PROJECT_DIR$/src/com/niyatdekdee/notfy/WebNotifyActivity.java" charset="x-windows-874" />
+    <file url="file://$PROJECT_DIR$/src/com/niyatdekdee/notfy/add_web.java" charset="x-windows-874" />
+    <file url="file://$PROJECT_DIR$/src/com/niyatdekdee/notfy/doback.java" charset="x-windows-874" />
+    <file url="file://$PROJECT_DIR$/src/com/niyatdekdee/notfy/passPreference.java" charset="x-windows-874" />
+    <file url="file://$PROJECT_DIR$/src/com/niyatdekdee/notfy/webfind2.java" charset="x-windows-874" />
+    <file url="PROJECT" charset="x-windows-874" />
+  </component>
 </project>
 

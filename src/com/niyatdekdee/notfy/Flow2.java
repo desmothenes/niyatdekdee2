@@ -17,9 +17,9 @@ public class Flow2 extends Activity {
         setContentView(R.layout.activity_flow2);
         if (Setting.getScreenSetting(getApplicationContext()).equals("1"))
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-        CharSequence[] items = {"ค้นหาจาก Play Store", "Vaja(ทดลองใช้ฟรี 30 วัน ตัวเต็ม 100 บาท)", "SVOX Thai Kanya Voice(ทดลองใช้ฟรี 14 วัน ตัวเต็ม 90 บาท)"};
+        CharSequence[] items = {"���Ҩҡ Play Store", "Vaja(���ͧ���� 30 �ѹ ������ 100 �ҷ)", "SVOX Thai Kanya Voice(���ͧ���� 14 �ѹ ������ 90 �ҷ)"};
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setCancelable(false).setTitle("ไม่รองรับ TTS ภาษาไทย เลือกรายการด้านล่างแทน")
+        builder.setCancelable(false).setTitle("����ͧ�Ѻ TTS ������ ���͡��¡�ô�ҹ��ҧ᷹")
                 .setSingleChoiceItems(items, -1, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.dismiss();
@@ -44,7 +44,7 @@ public class Flow2 extends Activity {
                         }
                         finish();
                     }
-                }).setNeutralButton("ออก", new DialogInterface.OnClickListener() {
+                }).setNeutralButton("�͡", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 dialog.dismiss();
                 finish();

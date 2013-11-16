@@ -2,10 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.niyatdekdee.notfy"
           android:installLocation="auto"
-          android:versionCode="61"
-          android:versionName="1.425k">
+          android:versionCode="63"
+          android:versionName="1.425n">
 
-<uses-sdk
+    <uses-sdk
         android:minSdkVersion="9"
         android:targetSdkVersion="9"/>
 
@@ -147,6 +147,23 @@
             android:label="@string/title_activity_text_read"
             android:screenOrientation="nosensor"
             android:theme="@style/AppThemeNoTitleBar">
+            <intent-filter
+                android:priority="50">
+                <action android:name="android.intent.action.VIEW"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+
+                <data
+                    android:scheme="http"
+                    android:host="writer.dek-d.com"
+                    android:pathPattern="/.*\\/.*\\/viewlongc.*"/>
+                <data
+                    android:scheme="https"
+                    android:host="writer.dek-d.com"
+                    android:pathPattern="/.*\\/.*\\/viewlongc.*"/>
+
+            </intent-filter>
         </activity>
         <activity
             android:name="com.niyatdekdee.notfy.Flow3"

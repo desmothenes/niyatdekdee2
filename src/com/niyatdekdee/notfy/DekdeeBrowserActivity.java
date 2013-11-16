@@ -26,7 +26,7 @@ import com.google.analytics.tracking.android.EasyTracker;
 import java.io.File;
 import java.util.HashMap;
 
-public class DekdeeBrowserActivity extends Activity  {
+public class DekdeeBrowserActivity extends Activity {
     private static MyWebView webView;
     private String url;
     private ImageButton btnOk;
@@ -185,7 +185,7 @@ public class DekdeeBrowserActivity extends Activity  {
                 @Override
                 public void onClick(View arg0) {
 
-                    CharSequence[] items = {"‡∏≠‡πà‡∏≤‡∏ô‡∏≠‡∏≠‡∏Å‡πÄ‡∏™‡∏µ‡∏¢‡∏á", "‡πÇ‡∏´‡∏•‡∏î‡πÉ‡∏´‡∏°‡πà", "‡∏´‡∏°‡∏∏‡∏ô‡∏´‡∏ô‡πâ‡∏≤‡∏à‡∏≠", "‡πÄ‡∏û‡∏¥‡πà‡∏°‡∏Ç‡∏ô‡∏≤‡∏î‡∏ï‡∏±‡∏ß‡∏≠‡∏±‡∏Å‡∏©‡∏£", "‡∏•‡∏î‡∏Ç‡∏ô‡∏≤‡∏î‡∏ï‡∏±‡∏ß‡∏≠‡∏±‡∏Å‡∏©‡∏£", "‡πÅ‡∏™‡∏î‡∏á‡∏Ñ‡∏ß‡∏≤‡∏°‡∏Ñ‡∏¥‡∏î‡πÄ‡∏´‡πá‡∏ô", "‡πÄ‡∏ô‡∏∑‡πâ‡∏≠‡πÄ‡∏£‡∏∑‡πà‡∏≠‡∏á", "‡∏Ñ‡∏ß‡∏≤‡∏°‡∏Ñ‡∏¥‡∏î‡πÄ‡∏´‡πá‡∏ô", "‡∏£‡∏≤‡∏¢‡∏ä‡∏∑‡πà‡∏≠‡∏ï‡∏≠‡∏ô‡∏ó‡∏±‡πâ‡∏á‡∏´‡∏°‡∏î"};
+                    CharSequence[] items = {"ÕË“πÕÕ°‡ ’¬ß", "‚À≈¥„À¡Ë", "À¡ÿπÀπÈ“®Õ", "‡æ‘Ë¡¢π“¥µ—«Õ—°…√", "≈¥¢π“¥µ—«Õ—°…√", "· ¥ß§«“¡§‘¥‡ÀÁπ", "‡π◊ÈÕ‡√◊ËÕß", "§«“¡§‘¥‡ÀÁπ", "√“¬™◊ËÕµÕπ∑—ÈßÀ¡¥"};
                     AlertDialog.Builder builder = new AlertDialog.Builder(DekdeeBrowserActivity.this);
                     builder.setCancelable(true)
                             .setSingleChoiceItems(items, -1, new DialogInterface.OnClickListener() {
@@ -195,9 +195,9 @@ public class DekdeeBrowserActivity extends Activity  {
                                         Log.e("zone", "click tts");
                                         if (!MainActivity.isTTS) {
                                             Log.e("zone", "false tts");
-                                            CharSequence[] items = {"‡∏Ñ‡πâ‡∏ô‡∏´‡∏≤‡∏à‡∏≤‡∏Å Play Store", "Vaja", "SVOX Thai Kanya Voice"};
+                                            CharSequence[] items = {"§ÈπÀ“®“° Play Store", "Vaja", "SVOX Thai Kanya Voice"};
                                             AlertDialog.Builder builder = new AlertDialog.Builder(DekdeeBrowserActivity.this);
-                                            builder.setCancelable(true).setTitle("‡πÑ‡∏°‡πà‡∏£‡∏≠‡∏á‡∏£‡∏±‡∏ö TTS ‡∏†‡∏≤‡∏©‡∏≤‡πÑ‡∏ó‡∏¢ ‡πÄ‡∏•‡∏∑‡∏≠‡∏Å‡∏£‡∏≤‡∏¢‡∏Å‡∏≤‡∏£‡∏î‡πâ‡∏≤‡∏ô‡∏•‡πà‡∏≤‡∏á‡πÅ‡∏ó‡∏ô")
+                                            builder.setCancelable(true).setTitle("‰¡Ë√Õß√—∫ TTS ¿“…“‰∑¬ ‡≈◊Õ°√“¬°“√¥È“π≈Ë“ß·∑π")
                                                     .setSingleChoiceItems(items, -1, new DialogInterface.OnClickListener() {
                                                         public void onClick(DialogInterface dialog, int id) {
                                                             dialog.dismiss();
@@ -227,9 +227,9 @@ public class DekdeeBrowserActivity extends Activity  {
                                             DekTTSActivity.tts.stop();
                                             DekTTSActivity.isSpeak = false;
                                             DekTTSActivity.stop = true;
-                                            Toast.makeText(getBaseContext(), "tts ‡∏Å‡∏≥‡∏•‡∏±‡∏á‡∏´‡∏¢‡∏∏‡∏î‡∏´‡∏•‡∏±‡∏á‡∏õ‡∏£‡∏∞‡πÇ‡∏¢‡∏Ñ‡∏™‡∏∏‡∏î‡∏ó‡πâ‡∏≤‡∏¢", Toast.LENGTH_LONG).show();
+                                            Toast.makeText(getBaseContext(), "tts °”≈—ßÀ¬ÿ¥À≈—ßª√–‚¬§ ÿ¥∑È“¬", Toast.LENGTH_LONG).show();
                                         } else {
-                                            Toast.makeText(getBaseContext(), "‡πÇ‡∏õ‡∏£‡∏î‡∏£‡∏≠‡∏™‡∏±‡∏Å‡∏Ñ‡∏£‡∏π‡πà ‡∏Å‡∏≥‡∏•‡∏±‡∏á‡∏õ‡∏£‡∏∞‡∏°‡∏ß‡∏•‡∏ú‡∏•\n‡∏™‡∏≤‡∏°‡∏≤‡∏£‡∏ñ‡∏Å‡∏î Back ‡πÄ‡∏û‡∏∑‡πà‡∏≠‡∏´‡∏¢‡∏∏‡∏î TTS ‡πÑ‡∏î‡πâ", Toast.LENGTH_LONG).show();
+                                            Toast.makeText(getBaseContext(), "‚ª√¥√Õ —°§√ŸË °”≈—ßª√–¡«≈º≈\n “¡“√∂°¥ Back ‡æ◊ËÕÀ¬ÿ¥ TTS ‰¥È", Toast.LENGTH_LONG).show();
                                             Log.e("zone", "totext tts");
                                             //tts = new TTS(DekdeeBrowserActivity.this.getBaseContext(),DekdeeBrowserActivity.this);
                                             if (webView.getUrl().contains(url) && temp != null) {
@@ -278,18 +278,18 @@ public class DekdeeBrowserActivity extends Activity  {
                                         }
                                         scRoll = -scRoll;
                                     } else if (id == 3) {
-                                        //‡πÄ‡∏û‡∏¥‡πà‡∏°‡∏Ç‡∏ô‡∏≤‡∏î font
-                                        Toast.makeText(getBaseContext(), "‡πÇ‡∏õ‡∏£‡∏î‡∏£‡∏≠", Toast.LENGTH_SHORT).show();
+                                        //‡æ‘Ë¡¢π“¥ font
+                                        Toast.makeText(getBaseContext(), "‚ª√¥√Õ", Toast.LENGTH_SHORT).show();
                                         webView.loadUrl("javascript: var arr = document.getElementById('story_body').getElementsByTagName('span');" +
                                                 "for (var i = 0;i<arr.length;i++) { if (arr[i].fontSize != '') arr[i].style.fontSize=parseInt(arr[i].style.fontSize)+5+'px'};");
                                     } else if (id == 4) {
-                                        //‡∏•‡∏î‡∏Ç‡∏ô‡∏≤‡∏î font
-                                        Toast.makeText(getBaseContext(), "‡πÇ‡∏õ‡∏£‡∏î‡∏£‡∏≠", Toast.LENGTH_SHORT).show();
+                                        //≈¥¢π“¥ font
+                                        Toast.makeText(getBaseContext(), "‚ª√¥√Õ", Toast.LENGTH_SHORT).show();
                                         webView.loadUrl("javascript: var arr = document.getElementById('story_body').getElementsByTagName('span');" +
                                                 "for (var i = 0;i<arr.length;i++) { if (arr[i].fontSize != '') arr[i].style.fontSize=parseInt(arr[i].style.fontSize)-5+'px'};");
                                     } else if (id == 5) {
                                         //post comment
-                                        Toast.makeText(getBaseContext(), "‡πÇ‡∏õ‡∏£‡∏î‡∏£‡∏≠", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getBaseContext(), "‚ª√¥√Õ", Toast.LENGTH_SHORT).show();
                                         //Toast.makeText(getApplicationContext(), "this function not enable in this version"/*items[id]*/, Toast.LENGTH_SHORT).show();
                                         webView.loadUrl("javascript: var elem = document.getElementsByName('t_msg')[0];" +
                                                 "var x = 0; var y = 0;" +
@@ -301,7 +301,7 @@ public class DekdeeBrowserActivity extends Activity  {
 
                                     } else if (id == 6) {
                                         //story body
-                                        Toast.makeText(getBaseContext(), "‡πÇ‡∏õ‡∏£‡∏î‡∏£‡∏≠", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getBaseContext(), "‚ª√¥√Õ", Toast.LENGTH_SHORT).show();
                                         webView.loadUrl("javascript: var elem = document.getElementById('story_body');" +
                                                 "var x = 0; var y = 0;" +
                                                 "    while (elem != null) {" +
@@ -311,7 +311,7 @@ public class DekdeeBrowserActivity extends Activity  {
                                                 "window.scrollTo(x, y);");
                                     } else if (id == 7) {
                                         //comment
-                                        Toast.makeText(getBaseContext(), "‡πÇ‡∏õ‡∏£‡∏î‡∏£‡∏≠", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getBaseContext(), "‚ª√¥√Õ", Toast.LENGTH_SHORT).show();
                                         webView.loadUrl("javascript: var elem = document.getElementById('ed_1');" +
                                                 "var x = 0; var y = 0;" +
                                                 "    while (elem != null) {" +
@@ -373,7 +373,7 @@ public class DekdeeBrowserActivity extends Activity  {
                     sixty = false;
                     final String newtitle = webView.getTitle();
                     if (newtitle != null)
-                        if (newtitle.contains("‡∏ï‡∏≠‡∏ô‡∏ó‡∏µ‡πà")) {
+                        if (newtitle.contains("µÕπ∑’Ë")) {
 
                             if (getPreferences(MODE_PRIVATE).getInt(String.format("scroll %s", url), 0) == 0) {
                                 webView.loadUrl("javascript: var elem = document.getElementById('story_body');" +
@@ -387,7 +387,7 @@ public class DekdeeBrowserActivity extends Activity  {
 
                             if (useFullscreen != 1)
                                 if (title != null)
-                                    title.setText(String.format(" %s", newtitle.substring(newtitle.indexOf("‡∏ï‡∏≠‡∏ô‡∏ó‡∏µ‡πà"))));
+                                    title.setText(String.format(" %s", newtitle.substring(newtitle.indexOf("µÕπ∑’Ë"))));
                             webView.loadUrl("javascript: var x = document.getElementsByTagName('table');" +
                                     "for( var i = 0; i < x.length ; i++ ) {x[i].align='left'; x[i].border='0'; }");
 
@@ -399,7 +399,7 @@ public class DekdeeBrowserActivity extends Activity  {
                                     "for (var i = 0;i<arr.length;i++) {arr[i].style.textAlign = 'left'} ;" +
                                     "document.getElementsByName('t_mem')[1].checked  = true;" +
                                     (Setting.getsinglecolum(getApplicationContext()) ? "document.getElementsByClassName('accord-big')[0].innerHTML = '';" : "") +
-                                    "document.getElementsByName('t_name')[0].value='" + Setting.getPosttext(getApplicationContext()) + " (‡πÄ‡∏Ç‡∏µ‡∏¢‡∏ô‡∏ö‡∏ô android)';" +
+                                    "document.getElementsByName('t_name')[0].value='" + Setting.getPosttext(getApplicationContext()) + " (‡¢’¬π∫π android)';" +
                                     "images = story.getElementsByTagName('img');" +
                                     "tables = story.getElementsByTagName('table');" +
                                     "for (i=0;i<tables.length;i++) {tables[i].outerHTML = \"<div style='overflow: scroll;'>\"+tables[i].outerHTML+\"</div>\";}" +
@@ -499,15 +499,15 @@ public class DekdeeBrowserActivity extends Activity  {
                 dialog.setTitle("Loading");
                 final double rand = Math.random();
                 if (rand < 0.2)
-                    dialog.setMessage("‡∏™‡∏≤‡∏°‡∏≤‡∏£‡∏ñ‡πÉ‡∏ä‡πâ‡∏õ‡∏∏‡πà‡∏°‡πÄ‡∏û‡∏¥‡πà‡∏°-‡∏•‡∏î‡πÄ‡∏™‡∏µ‡∏¢‡∏á ‡πÄ‡∏û‡∏∑‡πà‡∏≠‡πÄ‡∏•‡∏∑‡πà‡∏≠‡∏ô‡∏´‡∏ô‡πâ‡∏≤‡∏à‡∏≠‡πÑ‡∏î‡πâ");
+                    dialog.setMessage(" “¡“√∂„™ÈªÿË¡‡æ‘Ë¡-≈¥‡ ’¬ß ‡æ◊ËÕ‡≈◊ËÕπÀπÈ“®Õ‰¥È");
                 else if (rand < 0.4)
-                    dialog.setMessage("‡∏™‡∏≤‡∏°‡∏≤‡∏£‡∏ñ‡∏Å‡∏î menu ‡πÄ‡∏û‡∏∑‡πà‡∏≠‡πÄ‡∏•‡∏∑‡πà‡∏≠‡∏ô‡πÑ‡∏õ‡∏¢‡∏±‡∏á‡∏™‡πà‡∏ß‡∏ô‡∏ï‡πà‡∏≤‡∏á ‡πÜ ‡∏Ç‡∏≠‡∏á‡∏´‡∏ô‡πâ‡∏≤‡πÑ‡∏î‡πâ ‡πÄ‡∏ä‡πà‡∏ô ‡πÅ‡∏™‡∏î‡∏á‡∏Ñ‡∏ß‡∏≤‡∏°‡∏Ñ‡∏¥‡∏î‡πÄ‡∏´‡πá‡∏ô");
+                    dialog.setMessage(" “¡“√∂°¥ menu ‡æ◊ËÕ‡≈◊ËÕπ‰ª¬—ß Ë«πµË“ß Ê ¢ÕßÀπÈ“‰¥È ‡™Ëπ · ¥ß§«“¡§‘¥‡ÀÁπ");
                 else if (rand < 0.6)
-                    dialog.setMessage("‡∏™‡∏≤‡∏°‡∏≤‡∏£‡∏ñ‡∏Å‡∏î Back ‡πÄ‡∏û‡∏∑‡πà‡∏≠‡∏¢‡πâ‡∏≠‡∏ô‡∏Å‡∏•‡∏±‡∏ö‡πÑ‡∏õ‡∏´‡∏ô‡πâ‡∏≤‡πÄ‡∏î‡∏¥‡∏°‡πÑ‡∏î‡πâ");
+                    dialog.setMessage(" “¡“√∂°¥ Back ‡æ◊ËÕ¬ÈÕπ°≈—∫‰ªÀπÈ“‡¥‘¡‰¥È");
                 else if (rand < 0.6)
-                    dialog.setMessage("‡∏™‡∏≤‡∏°‡∏≤‡∏£‡∏ñ‡∏Å‡∏î F ‡πÄ‡∏û‡∏∑‡πà‡∏≠‡∏≠‡πà‡∏≤‡∏ô‡πÉ‡∏ô‡∏£‡∏π‡∏õ‡πÅ‡∏ö‡∏ö‡πÅ‡∏ô‡∏ß‡∏ô‡∏≠‡∏ô‡πÄ‡∏ï‡πá‡∏°‡∏à‡∏≠");
+                    dialog.setMessage(" “¡“√∂°¥ F ‡æ◊ËÕÕË“π„π√Ÿª·∫∫·π«πÕπ‡µÁ¡®Õ");
                 else
-                    dialog.setMessage("‡∏™‡∏≤‡∏°‡∏≤‡∏£‡∏ñ‡∏õ‡∏¥‡∏î‡∏Å‡∏£‡∏≠‡∏ö‡∏ô‡∏µ‡πâ‡πÇ‡∏î‡∏¢‡πÉ‡∏ä‡πâ‡∏õ‡∏∏‡πà‡∏° Back ‡πÑ‡∏î‡πâ ‡πÅ‡∏ï‡πà‡πÄ‡∏°‡∏∑‡πà‡∏≠‡πÇ‡∏´‡∏•‡∏î‡πÄ‡∏™‡∏£‡πá‡∏à‡∏≠‡∏≤‡∏à‡∏°‡∏µ‡∏Å‡∏≤‡∏£‡πÄ‡∏•‡∏∑‡πà‡∏≠‡∏ô‡∏≠‡∏±‡∏ï‡πÇ‡∏ô‡∏°‡∏±‡∏ï‡∏¥");
+                    dialog.setMessage(" “¡“√∂ª‘¥°√Õ∫π’È‚¥¬„™ÈªÿË¡ Back ‰¥È ·µË‡¡◊ËÕ‚À≈¥‡ √Á®Õ“®¡’°“√‡≈◊ËÕπÕ—µ‚π¡—µ‘");
                 dialog.setMax(100);
                 dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
                 dialog.setCancelable(true);
@@ -699,9 +699,9 @@ public class DekdeeBrowserActivity extends Activity  {
             editor.commit();
 
             if (webView.getUrl() == null) {
-                Toast.makeText(getBaseContext(), "‡∏Å‡∏≤‡∏£‡∏¢‡πâ‡∏≠‡∏ô‡πÉ‡∏ä‡πâ‡πÄ‡∏ß‡∏•‡∏≤‡∏™‡∏±‡∏Å‡∏Ñ‡∏£‡∏π‡πà ‡πÇ‡∏õ‡∏£‡∏î‡∏£‡∏≠\n\n‡∏ñ‡πâ‡∏≤‡∏ï‡πâ‡∏≠‡∏á‡∏Å‡∏≤‡∏£‡∏≠‡∏≠‡∏Å ‡∏Å‡∏£‡∏∏‡∏ì‡∏≤‡∏Å‡∏î‡∏•‡∏π‡∏Å‡∏®‡∏£‡∏î‡πâ‡∏≤‡∏ô‡∏ö‡∏ô", Toast.LENGTH_LONG).show();
+                Toast.makeText(getBaseContext(), "°“√¬ÈÕπ„™È‡«≈“ —°§√ŸË ‚ª√¥√Õ\n\n∂È“µÈÕß°“√ÕÕ° °√ÿ≥“°¥≈Ÿ°»√¥È“π∫π", Toast.LENGTH_LONG).show();
             } else if (webView.getUrl().equals(url)) {
-                Toast.makeText(getBaseContext(), "‡∏Å‡∏≤‡∏£‡∏¢‡πâ‡∏≠‡∏ô‡πÉ‡∏ä‡πâ‡πÄ‡∏ß‡∏•‡∏≤‡∏™‡∏±‡∏Å‡∏Ñ‡∏£‡∏π‡πà ‡πÇ‡∏õ‡∏£‡∏î‡∏£‡∏≠\n\n‡∏ñ‡πâ‡∏≤‡∏ï‡πâ‡∏≠‡∏á‡∏Å‡∏≤‡∏£‡∏≠‡∏≠‡∏Å ‡∏Å‡∏£‡∏∏‡∏ì‡∏≤‡∏Å‡∏î‡∏•‡∏π‡∏Å‡∏®‡∏£‡∏î‡πâ‡∏≤‡∏ô‡∏ö‡∏ô", Toast.LENGTH_LONG).show();
+                Toast.makeText(getBaseContext(), "°“√¬ÈÕπ„™È‡«≈“ —°§√ŸË ‚ª√¥√Õ\n\n∂È“µÈÕß°“√ÕÕ° °√ÿ≥“°¥≈Ÿ°»√¥È“π∫π", Toast.LENGTH_LONG).show();
                 finish();
             } else if (!webView.canGoBack()) {
                 if (intent.getStringExtra("from") == null)
@@ -716,7 +716,7 @@ public class DekdeeBrowserActivity extends Activity  {
     }
 
     public boolean onKeyUp(int keyCode, KeyEvent event) {
-        return  keyCode == KeyEvent.KEYCODE_VOLUME_DOWN ||	keyCode == KeyEvent.KEYCODE_VOLUME_UP || super.onKeyDown(keyCode, event);
+        return keyCode == KeyEvent.KEYCODE_VOLUME_DOWN || keyCode == KeyEvent.KEYCODE_VOLUME_UP || super.onKeyDown(keyCode, event);
     }
 
     @Override

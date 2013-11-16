@@ -177,7 +177,7 @@ public class MainActivity extends ListActivity {
      }*/
     private void draw_head() {
 
-        //ตั้งค่า custom titlebar จาก custom_titlebar.xml
+        //��駤�� custom titlebar �ҡ custom_titlebar.xml
         getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.custom_titlebar_main);
 
         //RelativeLayout barLayout =  (RelativeLayout) findViewById(R.id.mainbar);
@@ -190,7 +190,7 @@ public class MainActivity extends ListActivity {
 
 
         TextView title = (TextView) findViewById(R.id.textViewTitle);
-        title.setText(" รายการนิยาย");
+        title.setText(" ��¡�ù����");
 
         btnRefresh.setOnClickListener(new View.OnClickListener() {
 
@@ -199,7 +199,7 @@ public class MainActivity extends ListActivity {
                 // TODO Auto-generated method stub
                 btnRefresh.setEnabled(false);
                 dialog = new ProgressDialog(MainActivity.this);
-                dialog.setMessage("โปรดรอ...\nถ้ารู้สึกช้า โปรดออกแแล้วเข้าใหม่");
+                dialog.setMessage("�ô��...\n�������֡��� �ô�͡������������");
                 dialog.setTitle("Loading");
                 dialog.setCancelable(true);
                 dialog.setCanceledOnTouchOutside(false);
@@ -245,13 +245,13 @@ public class MainActivity extends ListActivity {
                 // TODO Auto-generated method stub
                 if (DekTTSActivity.tts != null) {
                     if (DekTTSActivity.isSpeak)
-                        Toast.makeText(getBaseContext(), "tts กำลังหยุดปรธโยคสุดท้าย", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getBaseContext(), "tts ���ѧ��ش�ø�¤�ش����", Toast.LENGTH_SHORT).show();
                     DekTTSActivity.stop = true;
                 }
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                builder.setMessage("ต้องการที่จะออก?\n\nช่วยแนะนำติชมเพิ่มเติมผ่านทางช่องทางต่างๆ เช่น e-mail fanpage review เพื่อนำมาปรับปรุงต่อไปครับ")
+                builder.setMessage("��ͧ��÷����͡?\n\n�����йӵԪ����������ҹ�ҧ��ͧ�ҧ��ҧ� �� e-mail fanpage review ���͹��һ�Ѻ��ا���令�Ѻ")
                         .setCancelable(false)
-                        .setPositiveButton("ออก", new DialogInterface.OnClickListener() {
+                        .setPositiveButton("�͡", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 dialog.cancel();
                                 if (DekTTSActivity.tts != null) DekTTSActivity.tts.shutdown();
@@ -259,7 +259,7 @@ public class MainActivity extends ListActivity {
                                 finish();
                             }
                         })
-                        .setNegativeButton("ยกเลิก", new DialogInterface.OnClickListener() {
+                        .setNegativeButton("¡��ԡ", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 dialog.cancel();
                             }
@@ -411,7 +411,7 @@ public class MainActivity extends ListActivity {
 		}*/
 
 		/*		if (Setting.getCheckSetting(getApplicationContext()) tipCheck) {
-			final Toast tag  = Toast.makeText(getBaseContext(), "ถ้าตอนดังกล่าวมีการเพิ่มเติมภายหลังโดยมีอัพเดตชื่อตอนกรุณากดว่าอ่านแล้วเพิ่มให้แจ้งเตือนในครั้งหน้าว่ามีการอัพเดต แต่ถ้าจบตอนแล้วกรุณากดเพิ่มเพื่อรอตอนใหม่", Toast.LENGTH_LONG);
+            final Toast tag  = Toast.makeText(getBaseContext(), "��ҵ͹�ѧ������ա��������������ѧ�����Ѿവ���͵͹��سҡ������ҹ���������������͹㹤���˹������ա���Ѿവ ���Ҩ��͹���ǡ�سҡ����������͵͹����", Toast.LENGTH_LONG);
 			tag.show();
 			new CountDownTimer(7000, 1000)
 			{
@@ -428,18 +428,18 @@ public class MainActivity extends ListActivity {
     public void onBackPressed() {
         if (DekTTSActivity.tts != null) {
             if (DekTTSActivity.isSpeak)
-                Toast.makeText(getBaseContext(), "tts กำลังหยุดหลังประโยคสุดท้าย", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getBaseContext(), "tts ���ѧ��ش��ѧ����¤�ش����", Toast.LENGTH_SHORT).show();
             DekTTSActivity.isSpeak = false;
             DekTTSActivity.stop = true;
         }
         if (dialog.isShowing()) {
-            Toast.makeText(getBaseContext(), "การดำเนินการยังดำเนินอยู่", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getBaseContext(), "��ô��Թ����ѧ���Թ����", Toast.LENGTH_SHORT).show();
             dialog.dismiss();
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-        builder.setMessage("ต้องการที่จะออก?\n\nช่วยแนะนำติชมเพิ่มเติมผ่านทางช่องทางต่าง ๆ เช่น e-mail fanpage review เพื่อนำมาปรับปรุงต่อไปด้วยครับ")
+        builder.setMessage("��ͧ��÷����͡?\n\n�����йӵԪ����������ҹ�ҧ��ͧ�ҧ��ҧ � �� e-mail fanpage review ���͹��һ�Ѻ��ا���仴��¤�Ѻ")
                 .setCancelable(false)
-                .setPositiveButton("ออก", new DialogInterface.OnClickListener() {
+                .setPositiveButton("�͡", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         //if (DekTTSActivity.tts != null) DekTTSActivity.tts.shutdown();
                         //if (wl != null) wl.release();
@@ -458,7 +458,7 @@ public class MainActivity extends ListActivity {
                         finish();
                     }
                 })
-                .setNegativeButton("ยกเลิก", new DialogInterface.OnClickListener() {
+                .setNegativeButton("¡��ԡ", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
                     }
@@ -488,7 +488,7 @@ public class MainActivity extends ListActivity {
         }
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
         int position = info.position;
-        if (position < ListViewStatus.size() && ListViewStatus.get(position).equals("มีปัญหา โปรดลองใหม่")) {
+        if (position < ListViewStatus.size() && ListViewStatus.get(position).equals("<font color=#cc0029>�ջѭ�� �ô�ͧ����</font>")) {
             reconnect(position);
             return;
         }
@@ -498,7 +498,7 @@ public class MainActivity extends ListActivity {
 
     private void reconnect(final int index) {
         context = MainActivity.this;
-        CharSequence[] items = {"ลองเชื่อมต่อใหม่"};
+        CharSequence[] items = {"�ͧ������������"};
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         builder.setCancelable(true)
                 .setSingleChoiceItems(items, -1, new DialogInterface.OnClickListener() {
@@ -576,7 +576,7 @@ public class MainActivity extends ListActivity {
         if (niyayTable != null && niyayTable.size() < listItemName + 1) return true;
         if (niyayTable.get(listItemName)[0].equals("-2")) {
             final String unum = MyAppClass.findnum(niyayTable.get(listItemName)[2], "story_id=", getBaseContext());
-            final String chapter = MyAppClass.findnum(niyayTable.get(listItemName)[4], "ตอนที่ ", getBaseContext());
+            final String chapter = MyAppClass.findnum(niyayTable.get(listItemName)[4], "�͹��� ", getBaseContext());
             url = "http://writer.dek-d.com/dek-d/writer/viewlongc.php?id=" + unum + "&chapter=" + chapter;
             mGaTracker.sendEvent("ui_action", "button_press", "open", (long) 0);
         } else {
@@ -603,7 +603,7 @@ public class MainActivity extends ListActivity {
             browserIntent.putExtra("cookieString", cookieString.toString());
         }
         startActivity(browserIntent);
-        if (!Setting.getAutoAdd(getApplicationContext()) || niyayTable.get(listItemName)[4].equals("ยังไม่มีตอนปัจจุบัน รอตอนใหม่"))
+        if (!Setting.getAutoAdd(getApplicationContext()) || niyayTable.get(listItemName)[4].equals("�ѧ����յ͹�Ѩ�غѹ �͵͹����"))
             return true;
         else if (niyayTable.get(listItemName)[0].equals("-2")) {
             //open
@@ -653,7 +653,7 @@ public class MainActivity extends ListActivity {
                     //addcp
                     protected void onPreExecute() {
                         Log.d("ASYNCTASK", "Pre execute for task : ");
-                        //Toast.makeText(getApplicationContext(), "รอสักครู่ กำลังทำงานอยู่เบื้องหลัง", Toast.LENGTH_LONG).show();
+                        //Toast.makeText(getApplicationContext(), "���ѡ���� ���ѧ�ӧҹ�������ͧ��ѧ", Toast.LENGTH_LONG).show();
                         dialog = ProgressDialog.show(MainActivity.this, "Loading", "Please Wait...", true);
                     }
 
@@ -702,7 +702,7 @@ public class MainActivity extends ListActivity {
                 //addcp
                 protected void onPreExecute() {
                     Log.d("ASYNCTASK", "Pre execute for task : ");
-                    //Toast.makeText(getApplicationContext(), "รอสักครู่ กำลังทำงานอยู่เบื้องหลัง", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(getApplicationContext(), "���ѡ���� ���ѧ�ӧҹ�������ͧ��ѧ", Toast.LENGTH_LONG).show();
 
                     dialog = ProgressDialog.show(MainActivity.this, "Loading", "Please Wait...", true);
                     ////dialog.setCancelable(true);
@@ -800,9 +800,9 @@ public class MainActivity extends ListActivity {
                             Integer.parseInt(niyayTable.get(listItemName)[3]),
                             "");
                     if (flag) {
-                        Toast.makeText(context, "เพิ่มเรียบร้อย", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "�������º����", Toast.LENGTH_SHORT).show();
                     } else {
-                        Toast.makeText(context, "เพิ่มไม่สำเร็จ", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "������������", Toast.LENGTH_SHORT).show();
                         niyayTable.get(listItemName)[3] = Integer.toString(Integer.parseInt(niyayTable.get(listItemName)[3]) - 1);
                     }
                     niyayTable.get(listItemName)[4] = doc;
@@ -817,8 +817,8 @@ public class MainActivity extends ListActivity {
                     }
                     //Intent i = new Intent(context,MainActivity.class);
                     db.close();
-                    ListViewContent.set(listItemName, "<br /><p><font color=#33B6EA>เรื่อง :" + niyayTable.get(listItemName)[1] + "</font><br />" +
-                            "<font color=#cc0029> ล่าสุด ตอน : " + doc + " (" + niyayTable.get(listItemName)[3] + ")</font></p>"
+                    ListViewContent.set(listItemName, "<br /><p><font color=#33B6EA>����ͧ :" + niyayTable.get(listItemName)[1] + "</font><br />" +
+                            "<font color=#cc0029> ����ش �͹ : " + doc + " (" + niyayTable.get(listItemName)[3] + ")</font></p>"
                     );
                     //doback.sessionStatus.put(niyayTable.get(listItemName)[2]+niyayTable.get(listItemName)[3], ListViewContent.get(listItemName));
                     sessionStatus.remove(niyayTable.get(listItemName)[2] + niyayTable.get(listItemName)[3]);
@@ -840,7 +840,7 @@ public class MainActivity extends ListActivity {
                 //addcp
                 protected void onPreExecute() {
                     Log.d("ASYNCTASK", "Pre execute for task : ");
-                    //Toast.makeText(getApplicationContext(), "รอสักครู่ กำลังทำงานอยู่เบื้องหลัง", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(getApplicationContext(), "���ѡ���� ���ѧ�ӧҹ�������ͧ��ѧ", Toast.LENGTH_LONG).show();
                     dialog = ProgressDialog.show(MainActivity.this, "Loading", "Please Wait...", true);
                 }
 
@@ -890,7 +890,7 @@ public class MainActivity extends ListActivity {
             //addcp
             protected void onPreExecute() {
                 Log.d("ASYNCTASK", "Pre execute for task : ");
-                //Toast.makeText(getApplicationContext(), "รอสักครู่ กำลังทำงานอยู่เบื้องหลัง", Toast.LENGTH_LONG).show();
+                //Toast.makeText(getApplicationContext(), "���ѡ���� ���ѧ�ӧҹ�������ͧ��ѧ", Toast.LENGTH_LONG).show();
 
                 dialog = ProgressDialog.show(MainActivity.this, "Loading", "Please Wait...", true);
                 ////dialog.setCancelable(true);
@@ -1005,8 +1005,8 @@ public class MainActivity extends ListActivity {
                 }*/
                 //Intent i = new Intent(context,MainActivity.class);
                 db.close();
-                ListViewContent.set(listItemName, "<br /><p><font color=#33B6EA>เรื่อง :" + niyayTable.get(listItemName)[1] + "</font><br />" +
-                        "<font color=#cc0029> ล่าสุด ตอน : " + doc + " (" + niyayTable.get(listItemName)[3] + ")</font></p>"
+                ListViewContent.set(listItemName, "<br /><p><font color=#33B6EA>����ͧ :" + niyayTable.get(listItemName)[1] + "</font><br />" +
+                        "<font color=#cc0029> ����ش �͹ : " + doc + " (" + niyayTable.get(listItemName)[3] + ")</font></p>"
                 );
                 //doback.sessionStatus.put(niyayTable.get(listItemName)[2]+niyayTable.get(listItemName)[3], ListViewContent.get(listItemName));
                 sessionStatus.remove(niyayTable.get(listItemName)[2] + niyayTable.get(listItemName)[3]);
@@ -1026,7 +1026,7 @@ public class MainActivity extends ListActivity {
             return true;
         if (niyayTable.get(listItemName)[0].equals("-2")) {
             final String unum = MyAppClass.findnum(niyayTable.get(listItemName)[2], "story_id=", getBaseContext());
-            final String chapter = MyAppClass.findnum(niyayTable.get(listItemName)[4], "ตอนที่ ", getBaseContext());
+            final String chapter = MyAppClass.findnum(niyayTable.get(listItemName)[4], "�͹��� ", getBaseContext());
             url = "http://writer.dek-d.com/dek-d/writer/viewlongc.php?id=" + unum + "&chapter=" + chapter;
             mGaTracker.sendEvent("ui_action", "button_press", "open_text_fav", (long) 0);
             mGaTracker.sendEvent("url", "story", "http://writer.dek-d.com/dek-d/writer/viewlongc.php?id=" + unum + "&chapter=", (long) 0);
@@ -1064,7 +1064,7 @@ public class MainActivity extends ListActivity {
 				TextReadActivity.putExtra("cookieString",cookieString.toString());
 			}*/
         startActivity(TextReadActivity);
-        if (!Setting.getAutoAdd(getApplicationContext()) || niyayTable.get(listItemName)[4].equals("ยังไม่มีตอนปัจจุบัน รอตอนใหม่"))
+        if (!Setting.getAutoAdd(getApplicationContext()) || niyayTable.get(listItemName)[4].equals("�ѧ����յ͹�Ѩ�غѹ �͵͹����"))
             return true;
         else if (niyayTable.get(listItemName)[0].equals("-2")) {
             //open
@@ -1114,7 +1114,7 @@ public class MainActivity extends ListActivity {
                     //addcp
                     protected void onPreExecute() {
                         Log.d("ASYNCTASK", "Pre execute for task : ");
-                        //Toast.makeText(getApplicationContext(), "รอสักครู่ กำลังทำงานอยู่เบื้องหลัง", Toast.LENGTH_LONG).show();
+                        //Toast.makeText(getApplicationContext(), "���ѡ���� ���ѧ�ӧҹ�������ͧ��ѧ", Toast.LENGTH_LONG).show();
                         dialog = ProgressDialog.show(MainActivity.this, "Loading", "Please Wait...", true);
                     }
 
@@ -1163,7 +1163,7 @@ public class MainActivity extends ListActivity {
                 //addcp
                 protected void onPreExecute() {
                     Log.d("ASYNCTASK", "Pre execute for task : ");
-                    //Toast.makeText(getApplicationContext(), "รอสักครู่ กำลังทำงานอยู่เบื้องหลัง", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(getApplicationContext(), "���ѡ���� ���ѧ�ӧҹ�������ͧ��ѧ", Toast.LENGTH_LONG).show();
 
                     dialog = ProgressDialog.show(MainActivity.this, "Loading", "Please Wait...", true);
                     ////dialog.setCancelable(true);
@@ -1278,8 +1278,8 @@ public class MainActivity extends ListActivity {
                     }*/
                     //Intent i = new Intent(context,MainActivity.class);
                     db.close();
-                    ListViewContent.set(listItemName, "<br /><p><font color=#33B6EA>เรื่อง :" + niyayTable.get(listItemName)[1] + "</font><br />" +
-                            "<font color=#cc0029> ล่าสุด ตอน : " + doc + " (" + niyayTable.get(listItemName)[3] + ")</font></p>"
+                    ListViewContent.set(listItemName, "<br /><p><font color=#33B6EA>����ͧ :" + niyayTable.get(listItemName)[1] + "</font><br />" +
+                            "<font color=#cc0029> ����ش �͹ : " + doc + " (" + niyayTable.get(listItemName)[3] + ")</font></p>"
                     );
                     //doback.sessionStatus.put(niyayTable.get(listItemName)[2]+niyayTable.get(listItemName)[3], ListViewContent.get(listItemName));
                     sessionStatus.remove(niyayTable.get(listItemName)[2] + niyayTable.get(listItemName)[3]);
@@ -1302,7 +1302,7 @@ public class MainActivity extends ListActivity {
                 //red
                 protected void onPreExecute() {
                     Log.d("ASYNCTASK", "Pre execute for task : ");
-                    //Toast.makeText(getApplicationContext(), "รอสักครู่ กำลังทำงานอยู่เบื้องหลัง", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(getApplicationContext(), "���ѡ���� ���ѧ�ӧҹ�������ͧ��ѧ", Toast.LENGTH_LONG).show();
                     dialog = ProgressDialog.show(MainActivity.this, "Loading", "Please Wait...", true);
                 }
 
@@ -1349,8 +1349,8 @@ public class MainActivity extends ListActivity {
         //Intent i = new Intent(context,MainActivity.class);
         db.close();
         //reload();
-        ListViewContent.set(listItemName, "<br /><p><font color=#33B6EA>เรื่อง :" + niyayTable.get(listItemName)[1] + "</font><br />" +
-                "<font color=#cc0029> ล่าสุด ตอน : " + niyayTable.get(listItemName)[4] + " (" + niyayTable.get(listItemName)[3] + ")</font></p>"
+        ListViewContent.set(listItemName, "<br /><p><font color=#33B6EA>����ͧ :" + niyayTable.get(listItemName)[1] + "</font><br />" +
+                "<font color=#cc0029> ����ش �͹ : " + niyayTable.get(listItemName)[4] + " (" + niyayTable.get(listItemName)[3] + ")</font></p>"
         );
         //doback.sessionStatus.put(niyayTable.get(listItemName)[2]+niyayTable.get(listItemName)[3], ListViewContent.get(listItemName));
         sessionStatus.remove(niyayTable.get(listItemName)[2] + niyayTable.get(listItemName)[3]);
@@ -1372,12 +1372,12 @@ public class MainActivity extends ListActivity {
         if (DekTTSActivity.tts != null) {
             DekTTSActivity.tts.stop();
             DekTTSActivity.stop = true;
-            //Toast.makeText(getBaseContext(), "tts กำลังหยุดหลังประโยคสุดท้าย", Toast.LENGTH_LONG).show();
+            //Toast.makeText(getBaseContext(), "tts ���ѧ��ش��ѧ����¤�ش����", Toast.LENGTH_LONG).show();
         }
 
         if (niyayTable.get(listItemName)[0].equals("-2")) {
             final String unum = MyAppClass.findnum(niyayTable.get(listItemName)[2], "story_id=", getBaseContext());
-            final String chapter = MyAppClass.findnum(niyayTable.get(listItemName)[4], "ตอนที่ ", getBaseContext());
+            final String chapter = MyAppClass.findnum(niyayTable.get(listItemName)[4], "�͹��� ", getBaseContext());
             //TTS.totext("http://writer.dek-d.com/dek-d/writer/viewlongc.php?id="+unum+"&chapter="+chapter);
             Intent intent = new Intent(getApplicationContext(), DekTTSActivity.class);
             intent.putExtra("from", "main");
@@ -1399,7 +1399,7 @@ public class MainActivity extends ListActivity {
 					System.out.println(niyayTable.get(listItemName)[4]);*/
 
                 final String unum = MyAppClass.findnum(niyayTable.get(listItemName)[2], "id=", getBaseContext());
-                //	final String chapter = MyAppClass.findnum(, "ตอนที่ ", getBaseContext());
+                //	final String chapter = MyAppClass.findnum(, "�͹��� ", getBaseContext());
                 DekTTSActivity.text = "http://writer.dek-d.com/dek-d/writer/viewlongc.php?id=" + unum + "&chapter=" + niyayTable.get(listItemName)[3];
                 startService(intent);
 
@@ -1413,7 +1413,7 @@ public class MainActivity extends ListActivity {
         mGaTracker.sendEvent("ui_action", "button_press", "edit", (long) 0);
         if (niyayTable.size() < listItemName + 1) return true;
         if (niyayTable.get(listItemName)[0].equals("-2")) {
-            Toast.makeText(context, "ไม่รองรับกับ favorite writer", Toast.LENGTH_LONG).show();
+            Toast.makeText(context, "����ͧ�Ѻ�Ѻ favorite writer", Toast.LENGTH_LONG).show();
             return true;
         }
             /*
@@ -1454,7 +1454,7 @@ public class MainActivity extends ListActivity {
         if (niyayTable.size() < listItemName + 1) return true;
         if (niyayTable.get(listItemName)[0].equals("-2")) {
             final String unum = MyAppClass.findnum(niyayTable.get(listItemName)[2], "story_id=", getBaseContext());
-            //final String chapter = MyAppClass.findnum(niyayTable.get(listItemName)[4], "ตอนที่ ", getBaseContext());
+            //final String chapter = MyAppClass.findnum(niyayTable.get(listItemName)[4], "�͹��� ", getBaseContext());
             chapterlist.putExtra("url", "http://writer.dek-d.com/dek-d/writer/viewlongc.php?id=" + unum + "&chapter=");
             mGaTracker.sendEvent("ui_action", "button_press", "cplist_fav", (long) 0);
         } else {
@@ -1470,7 +1470,7 @@ public class MainActivity extends ListActivity {
         mGaTracker.sendEvent("ui_action", "button_press", "dec", (long) 0);
         if (niyayTable.size() < listItemName + 1) return true;
         if (niyayTable.get(listItemName)[0].equals("-2")) {
-            Toast.makeText(context, "ไม่รองรับกับ favorite writer", Toast.LENGTH_LONG).show();
+            Toast.makeText(context, "����ͧ�Ѻ�Ѻ favorite writer", Toast.LENGTH_LONG).show();
             return true;
         }
         new AsyncTask<Integer, String, Boolean>() {
@@ -1490,7 +1490,7 @@ public class MainActivity extends ListActivity {
                 if (Integer.parseInt(niyayTable.get(listItemName)[3]) - 1 > 0) {
                     niyayTable.get(listItemName)[3] = Integer.toString(Integer.parseInt(niyayTable.get(listItemName)[3]) - 1);
                 } else {
-                    publishProgress("ไม่สามารถลดต่ำกว่า 1 ได้");
+                    publishProgress("�������öŴ��ӡ��� 1 ��");
                     return false;
                 }
 
@@ -1611,8 +1611,8 @@ public class MainActivity extends ListActivity {
                     }*/
                     //Intent i = new Intent(context,MainActivity.class);
                     db.close();
-                    ListViewContent.set(listItemName, "<br /><p><font color=#33B6EA>เรื่อง :" + niyayTable.get(listItemName)[1] + "</font><br />" +
-                            "<font color=#cc0029> ล่าสุด ตอน : " + doc + " (" + niyayTable.get(listItemName)[3] + ")</font></p>"
+                    ListViewContent.set(listItemName, "<br /><p><font color=#33B6EA>����ͧ :" + niyayTable.get(listItemName)[1] + "</font><br />" +
+                            "<font color=#cc0029> ����ش �͹ : " + doc + " (" + niyayTable.get(listItemName)[3] + ")</font></p>"
                     );
                     listAdap.notifyDataSetChanged();
                 }
@@ -1627,13 +1627,13 @@ public class MainActivity extends ListActivity {
         mGaTracker.sendEvent("ui_action", "button_press", "delete", (long) 0);
         if (niyayTable.size() < listItemName + 1) return true;
         if (niyayTable.get(listItemName)[0].equals("-2")) {
-            Toast.makeText(context, "ไม่รองรับกับ favorite writer", Toast.LENGTH_LONG).show();
+            Toast.makeText(context, "����ͧ�Ѻ�Ѻ favorite writer", Toast.LENGTH_LONG).show();
             return true;
         }
         //Toast.makeText(context, "del ", Toast.LENGTH_SHORT).show();
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         builder.setIcon(R.drawable.delete);
-        builder.setMessage("คุณต้องการที่จะลบเรื่อง " + niyayTable.get(listItemName)[1] + " ?")
+        builder.setMessage("�س��ͧ��÷���ź����ͧ " + niyayTable.get(listItemName)[1] + " ?")
                 .setCancelable(false)
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
@@ -1672,7 +1672,7 @@ public class MainActivity extends ListActivity {
         if (niyayTable.size() < listItemName + 1) return true;
         if (niyayTable.get(listItemName)[0].equals("-2")) {
             final String unum = MyAppClass.findnum(niyayTable.get(listItemName)[2], "story_id=", getBaseContext());
-            //final String chapter = MyAppClass.findnum(niyayTable.get(listItemName)[4], "ตอนที่ ", getBaseContext());
+            //final String chapter = MyAppClass.findnum(niyayTable.get(listItemName)[4], "�͹��� ", getBaseContext());
             longread.putExtra("url", "http://writer.dek-d.com/dek-d/writer/viewlongc.php?id=" + unum + "&chapter=");
             mGaTracker.sendEvent("ui_action", "button_press", "longread_fav", (long) 0);
         } else {
@@ -1689,7 +1689,7 @@ public class MainActivity extends ListActivity {
             return true;
         if (niyayTable.get(listItemName)[0].equals("-2")) {
             final String unum = MyAppClass.findnum(niyayTable.get(listItemName)[2], "story_id=", getBaseContext());
-            //final String chapter = MyAppClass.findnum(niyayTable.get(listItemName)[4], "ตอนที่ ", getBaseContext());
+            //final String chapter = MyAppClass.findnum(niyayTable.get(listItemName)[4], "�͹��� ", getBaseContext());
             longread1.putExtra("url", "http://writer.dek-d.com/dek-d/writer/viewlongc.php?id=" + unum + "&chapter=");
             mGaTracker.sendEvent("ui_action", "button_press", "longread_fav", (long) 0);
         } else {
@@ -1724,7 +1724,7 @@ public class MainActivity extends ListActivity {
         if (niyayTable.size() < listItemName + 1) return true;
         if (niyayTable.get(listItemName)[0].equals("-2")) {
             final String unum = MyAppClass.findnum(niyayTable.get(listItemName)[2], "story_id=", getBaseContext());
-            final String chapter = MyAppClass.findnum(niyayTable.get(listItemName)[4], "ตอนที่ ", getBaseContext());
+            final String chapter = MyAppClass.findnum(niyayTable.get(listItemName)[4], "�͹��� ", getBaseContext());
             url = "http://writer.dek-d.com/dek-d/writer/viewlongc.php?id=" + unum + "&chapter=" + chapter + "#story_body";
             mGaTracker.sendEvent("ui_action", "button_press", "web_fav", (long) 0);
         } else {
@@ -1734,7 +1734,7 @@ public class MainActivity extends ListActivity {
         if (!url.startsWith("http://") && !url.startsWith("https://"))
             url = "http://" + url;
         startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
-        if (!Setting.getAutoAdd(getApplicationContext()) || niyayTable.get(listItemName)[4].equals("ยังไม่มีตอนปัจจุบัน รอตอนใหม่"))
+        if (!Setting.getAutoAdd(getApplicationContext()) || niyayTable.get(listItemName)[4].equals("�ѧ����յ͹�Ѩ�غѹ �͵͹����"))
             return true;
         else if (niyayTable.get(listItemName)[0].equals("-2")) {
             //open
@@ -1784,7 +1784,7 @@ public class MainActivity extends ListActivity {
                     //addcp
                     protected void onPreExecute() {
                         Log.d("ASYNCTASK", "Pre execute for task : ");
-                        //Toast.makeText(getApplicationContext(), "รอสักครู่ กำลังทำงานอยู่เบื้องหลัง", Toast.LENGTH_LONG).show();
+                        //Toast.makeText(getApplicationContext(), "���ѡ���� ���ѧ�ӧҹ�������ͧ��ѧ", Toast.LENGTH_LONG).show();
                         dialog = ProgressDialog.show(MainActivity.this, "Loading", "Please Wait...", true);
                     }
 
@@ -1833,7 +1833,7 @@ public class MainActivity extends ListActivity {
                 //addcp
                 protected void onPreExecute() {
                     Log.d("ASYNCTASK", "Pre execute for task : ");
-                    //Toast.makeText(getApplicationContext(), "รอสักครู่ กำลังทำงานอยู่เบื้องหลัง", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(getApplicationContext(), "���ѡ���� ���ѧ�ӧҹ�������ͧ��ѧ", Toast.LENGTH_LONG).show();
 
                     dialog = ProgressDialog.show(MainActivity.this, "Loading", "Please Wait...", true);
                     ////dialog.setCancelable(true);
@@ -1950,8 +1950,8 @@ public class MainActivity extends ListActivity {
                     }*/
                     //Intent i = new Intent(context,MainActivity.class);
                     db.close();
-                    ListViewContent.set(listItemName, "<br /><p><font color=#33B6EA>เรื่อง :" + niyayTable.get(listItemName)[1] + "</font><br />" +
-                            "<font color=#cc0029> ล่าสุด ตอน : " + doc + " (" + niyayTable.get(listItemName)[3] + ")</font></p>"
+                    ListViewContent.set(listItemName, "<br /><p><font color=#33B6EA>����ͧ :" + niyayTable.get(listItemName)[1] + "</font><br />" +
+                            "<font color=#cc0029> ����ش �͹ : " + doc + " (" + niyayTable.get(listItemName)[3] + ")</font></p>"
                     );
                     //doback.sessionStatus.put(niyayTable.get(listItemName)[2]+niyayTable.get(listItemName)[3], ListViewContent.get(listItemName));
                     sessionStatus.remove(niyayTable.get(listItemName)[2] + niyayTable.get(listItemName)[3]);
@@ -1968,8 +1968,9 @@ public class MainActivity extends ListActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.activity_main, menu);
-        return true;
+        //getMenuInflater().inflate(R.menu.activity_main, menu);
+        settingmenu();
+        return false;
     }
 
     @Override
@@ -1982,7 +1983,8 @@ public class MainActivity extends ListActivity {
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
+        return false;
+        /*switch (item.getItemId()) {
             case R.id.add:
                 mGaTracker.sendEvent("ui_action", "button_press", "menu_add", (long) 0);
                 addmenu();
@@ -1994,21 +1996,21 @@ public class MainActivity extends ListActivity {
                 do_back_3();
                 return true;
             case R.id.sort:
-/*                Collections.sort(ListViewContent,new Comparator<String>()
+*//*                Collections.sort(ListViewContent,new Comparator<String>()
                 {
                     public int compare(String s1,String s2)
                     {
-                        if (s1.contains("มีการอัพเดตตอนปัจจุบัน"))
+                        if (s1.contains("�ա���Ѿവ�͹�Ѩ�غѹ"))
                             return -1;
-                        else if (s2.contains("มีการอัพเดตตอนปัจจุบัน"))
+                        else if (s2.contains("�ա���Ѿവ�͹�Ѩ�غѹ"))
                             return 1;
-                        else if (s1.contains("ถ้าจบตอน"))
+                        else if (s1.contains("��Ҩ��͹"))
                             return -1;
-                        else if (s2.contains("ถ้าจบตอน"))
+                        else if (s2.contains("��Ҩ��͹"))
                             return 1;
                         return s1.length() - s2.length();
                     }
-                });*/
+                });*//*
                 sortby1st(ListViewContent, ListViewStatus, niyayTable);
                 listAdap.notifyDataSetChanged();
                 return true;
@@ -2018,7 +2020,7 @@ public class MainActivity extends ListActivity {
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
-        }
+        }*/
     }
 
     private void sortby1st(List... lists) {
@@ -2035,12 +2037,12 @@ public class MainActivity extends ListActivity {
         try {
             Arrays.sort(objects, new Comparator<Object[]>() {
                 public int compare(Object[] o1, Object[] o2) {
-                    if (((String) o1[0]).contains("มีการอัพเดตตอนปัจจุบัน")) {
-                        if (((String) o2[0]).contains("มีการอัพเดตตอนปัจจุบัน")) {
+                    if (((String) o1[0]).contains("�ա���Ѿവ�͹�Ѩ�غѹ")) {
+                        if (((String) o2[0]).contains("�ա���Ѿവ�͹�Ѩ�غѹ")) {
                             return ((String) o2[0]).compareTo((String) o1[0]);
                         }
                         return -1;
-                    } else if (((String) o2[0]).contains("มีการอัพเดตตอนปัจจุบัน"))
+                    } else if (((String) o2[0]).contains("�ա���Ѿവ�͹�Ѩ�غѹ"))
                         return 1;
                     else if (((String) o1[0]).contains("[fav]")) {
                         if (((String) o2[0]).contains("[fav]")) {
@@ -2049,16 +2051,14 @@ public class MainActivity extends ListActivity {
                         return -1;
                     } else if (((String) o1[0]).contains("[fav]"))
                         return 1;
-                    else if (((String) o1[0]).contains("ถ้าจบตอน")) {
-                        if (((String) o2[0]).contains("ถ้าจบตอน")) {
+                    else if (((String) o1[0]).contains("��Ҩ��͹")) {
+                        if (((String) o2[0]).contains("��Ҩ��͹")) {
                             return ((String) o2[0]).compareTo((String) o1[0]);
                         }
                         return -1;
-                    } else if (((String) o2[0]).contains("ถ้าจบตอน"))
+                    } else if (((String) o2[0]).contains("��Ҩ��͹"))
                         return 1;
-                    else if (((String) o2[0]).equals((String) o1[0]))
-                        return 0;
-                    return ((String) o2[0]).compareTo((String) o1[0]);
+                    return ((String) ((String[]) o2[2])[0]).compareTo((String) ((String[]) o1[2])[0]);
                 }
             });
         } catch (IllegalArgumentException e) {
@@ -2089,7 +2089,7 @@ public class MainActivity extends ListActivity {
         context = MainActivity.this;
 
         if (Setting.getAdvance(getApplicationContext())) {
-            CharSequence[] items = {"ค้นหาจากหน้า Web แบบใหม่", "ค้นหาแบ่งตามหมวด (แบบใหม่)", "ค้นหาจากข้อมูล ", "จาก Favorite Writer", "ค้นหาจากหน้า Web", "ค้นหาแบ่งตามหมวด (ปรับปรุง)", "ค้นหาแบ่งตามหมวด (แบบเก่า)", "FaceBook"};
+            CharSequence[] items = {"���Ҩҡ˹�� Web Ẻ����", "�����觵����Ǵ (Ẻ����)", "���Ҩҡ������ ", "�ҡ Favorite Writer", "���Ҩҡ˹�� Web", "�����觵����Ǵ (��Ѻ��ا)", "�����觵����Ǵ (Ẻ���)", "FaceBook"};
 
             AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
             builder.setCancelable(true)
@@ -2136,7 +2136,7 @@ public class MainActivity extends ListActivity {
             AlertDialog alert = builder.create();
             alert.show();
         } else {
-            CharSequence[] items = {"ค้นหาจากหน้า Web แบบใหม่", "ค้นหาแบ่งตามหมวด (แบบใหม่)", "ค้นหาจากข้อมูล ", "จาก Favorite Writer", "FaceBook"};
+            CharSequence[] items = {"���Ҩҡ˹�� Web Ẻ����", "�����觵����Ǵ (Ẻ����)", "���Ҩҡ������ ", "�ҡ Favorite Writer", "FaceBook"};
             AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
             builder.setCancelable(true)
                     .setSingleChoiceItems(items, -1, new DialogInterface.OnClickListener() {
@@ -2175,8 +2175,9 @@ public class MainActivity extends ListActivity {
 
     private void settingmenu() {
         context = MainActivity.this;
-        CharSequence[] items = {"ตั่งค่า", "อัพเดตจาก Favorite Writer แบบประหยัด"};
+        CharSequence[] items = {"��觤��", "�Ѿവ�ҡ Favorite Writer Ẻ�����Ѵ", "���§"};
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+
         builder.setCancelable(true)
                 .setSingleChoiceItems(items, -1, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
@@ -2188,13 +2189,18 @@ public class MainActivity extends ListActivity {
                             mGaTracker.sendEvent("ui_action", "dialog_press", "settingmenu_webcheck", (long) 0);
                             //Toast.makeText(getApplicationContext(), "this function not enable in this version"/*items[id]*/, Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(getApplicationContext(), WebNotifyActivity.class));
-                        } /*else if(id == 2) {
-					startActivity(new Intent(getApplicationContext(),MainLayout.class));
-				} */
+                        } else if (id == 2) {
+                            sortby1st(ListViewContent, ListViewStatus, niyayTable);
+                            listAdap.notifyDataSetChanged();
+                        }
                     }
 
                 });
         AlertDialog alert = builder.create();
+        alert.getWindow().setGravity(Gravity.TOP | Gravity.RIGHT);
+        alert.getWindow().getAttributes().y = 30
+        ;
+        alert.getWindow().setLayout(100, 200);
         alert.show();
     }
 
@@ -2397,7 +2403,7 @@ public class MainActivity extends ListActivity {
 
 		}
 
-		else if (!text1.contains("ยังไม่มีตอนปัจจุบัน")) {
+		else if (!text1.contains("�ѧ����յ͹�Ѩ�غѹ")) {
 			status = 2;
 		}
 		//Log.e("status", Integer.toString(status));
@@ -2405,22 +2411,22 @@ public class MainActivity extends ListActivity {
 
 		if (status == 0 ) {
 			ListViewContent.add(
-					"<br /><p><font color=#33B6EA>เรื่อง :" +c.getString(1)+"</font><br />" +
-							"<font color=#cc0029> ล่าสุด ตอน : " +title+" ("+chapter+")</font></p>");
+					"<br /><p><font color=#33B6EA>����ͧ :" +c.getString(1)+"</font><br />" +
+							"<font color=#cc0029> ����ش �͹ : " +title+" ("+chapter+")</font></p>");
 		}
 		else if (status == 2 ) {
 			ListViewContent.add(
-					"<br /><p><font color=#6E6E6E>ถ้าจบตอน กดปุ่มเพิ่มตอนเพื่อเข้าสู่สถานะรอตอนใหม่</font><br />" +
-							"<font color=#33B6EA>เรื่อง :" +c.getString(1)+"</font><br />" +
-							"<font color=#cc0029> ล่าสุด ตอน : " +title+" ("+chapter+")</font></p>");
+					"<br /><p><font color=#6E6E6E>��Ҩ��͹ �����������͹����������ʶҹ��͵͹����</font><br />" +
+							"<font color=#33B6EA>����ͧ :" +c.getString(1)+"</font><br />" +
+							"<font color=#cc0029> ����ش �͹ : " +title+" ("+chapter+")</font></p>");
 			sessionStatus.put(url+chapter, ListViewContent.get(ListViewContent.size()-1));
 		}
 		else if (status == 1 || status == -1) {
 			//displayNotification(c.getString(0),c.getString(1),chapter,text1,url+chapter);
 			ListViewContent.add(
-					"<br /><p><font color=#339900>มีการอัพเดตตอนปัจจุบัน</font><br />" +
-							"<font color=#33B6EA>เรื่อง :" +c.getString(1)+"</font><br />" +
-							"<font color=#cc0029> ตอน : " +text1+" ("+chapter+")</font></p>");
+					"<br /><p><font color=#339900>�ա���Ѿവ�͹�Ѩ�غѹ</font><br />" +
+							"<font color=#33B6EA>����ͧ :" +c.getString(1)+"</font><br />" +
+							"<font color=#cc0029> �͹ : " +text1+" ("+chapter+")</font></p>");
 			sessionStatus.put(url+chapter, ListViewContent.get(ListViewContent.size()-1));
 		}
 
@@ -2535,7 +2541,7 @@ public class MainActivity extends ListActivity {
     //
     //		}
     //
-    //		else if (!text1.contains("ยังไม่มีตอนปัจจุบัน")) {
+    //		else if (!text1.contains("�ѧ����յ͹�Ѩ�غѹ")) {
     //			status = 2;
     //		}
     //		Log.e("status", Integer.toString(status));
@@ -2543,20 +2549,20 @@ public class MainActivity extends ListActivity {
     //
     //		if (status == 0 ) {
     //			ListViewContent.set(index,
-    //					"<br /><p><font color=#33B6EA>เรื่อง :" +c.getString(1)+"</font><br />" +
-    //							"<font color=#cc0029> ล่าสุด ตอน : " +title+" ("+chapter+")</font></p>");
+    //					"<br /><p><font color=#33B6EA>����ͧ :" +c.getString(1)+"</font><br />" +
+    //							"<font color=#cc0029> ����ش �͹ : " +title+" ("+chapter+")</font></p>");
     //		}
     //		else if (status == 2 ) {
     //			ListViewContent.set(index,
-    //					"<br /><p><font color=#6E6E6E>อ่านจบแล้วกรุณากดเพิ่มเพื่อรอตอนใหม่ด้วย</font><br />" +
-    //							"<font color=#33B6EA>เรื่อง :" +c.getString(1)+"</font><br />" +
-    //							"<font color=#cc0029> ล่าสุด ตอน : " +title+" ("+chapter+")</font></p>");
+    //					"<br /><p><font color=#6E6E6E>��ҹ�����ǡ�سҡ����������͵͹�������</font><br />" +
+    //							"<font color=#33B6EA>����ͧ :" +c.getString(1)+"</font><br />" +
+    //							"<font color=#cc0029> ����ش �͹ : " +title+" ("+chapter+")</font></p>");
     //		}
     //		else if (status == 1 || status == -1) {
     //			ListViewContent.set(index,
-    //					"<br /><p><font color=#339900>มีการอัพเดตตอนปัจจุบัน</font><br />" +
-    //							"<font color=#33B6EA>เรื่อง :" +c.getString(1)+"</font><br />" +
-    //							"<font color=#cc0029> ตอน : " +text1+" ("+chapter+")</font></p>");
+    //					"<br /><p><font color=#339900>�ա���Ѿവ�͹�Ѩ�غѹ</font><br />" +
+    //							"<font color=#33B6EA>����ͧ :" +c.getString(1)+"</font><br />" +
+    //							"<font color=#cc0029> �͹ : " +text1+" ("+chapter+")</font></p>");
     //		}
     //
     //		Log.e("content",
@@ -2595,7 +2601,7 @@ public class MainActivity extends ListActivity {
 	}
 	 */
 	/*
-	private void displayBookOffline(Cursor c) {
+    private void displayBookOffline(Cursor c) {
 		//Log.e("title0",(c.getString(4) != null) ? c.getString(4):"");
 		String title = c.getString(4);
 
@@ -2607,8 +2613,8 @@ public class MainActivity extends ListActivity {
 				title = title.substring(title.indexOf(">")+2);
 		//dialog.setTitle(title);
 		ListViewContent.add(
-				"<br /><p><font color=#33B6EA>เรื่อง :" +c.getString(1)+"</font><br />" +
-						"<font color=#cc0029> ล่าสุด ตอน : " +title+" ("+c.getString(3)+")</font></p>");
+				"<br /><p><font color=#33B6EA>����ͧ :" +c.getString(1)+"</font><br />" +
+						"<font color=#cc0029> ����ش �͹ : " +title+" ("+c.getString(3)+")</font></p>");
 		Log.e("content",
 				"id: " +c.getString(0)+"\n"+
 						"name:" +c.getString(1)+"\n" +
@@ -2723,7 +2729,7 @@ public class MainActivity extends ListActivity {
                     public void onClick(View arg3) {
                         // TODO Auto-generated method stub
                         if (niyayTable.size() - 1 < arg0 && ListViewContent.size() > arg0) return;
-                        if (arg0 < ListViewStatus.size() && ListViewStatus.get(arg0).equals("มีปัญหา โปรดลองใหม่")) {
+                        if (arg0 < ListViewStatus.size() && ListViewStatus.get(arg0).equals("<font color=#cc0029>�ջѭ�� �ô�ͧ����</font>")) {
                             reconnect(arg0);
                             return;
                         }
@@ -2732,7 +2738,7 @@ public class MainActivity extends ListActivity {
 
                             if (niyayTable.get(arg0)[0].equals("-2")) {
                                 final String unum = MyAppClass.findnum(niyayTable.get(arg0)[2], "story_id=", getBaseContext());
-                                final String chapter = MyAppClass.findnum(niyayTable.get(arg0)[4], "ตอนที่ ", getBaseContext());
+                                final String chapter = MyAppClass.findnum(niyayTable.get(arg0)[4], "�͹��� ", getBaseContext());
                                 url = "http://writer.dek-d.com/dek-d/writer/viewlongc.php?id=" + unum + "&chapter=" + chapter;
                             } else {
                                 url = niyayTable.get(arg0)[2] + niyayTable.get(arg0)[3];
@@ -2743,7 +2749,7 @@ public class MainActivity extends ListActivity {
 
                             if (Setting.getArrowSelectSetting(getApplicationContext()).equals("0")) {
                                 if (Setting.getCheckSetting(getApplicationContext()))
-                                    Toast.makeText(getBaseContext(), "ถ้าต้องการเปิดโดยใช้ App ไปที่ \nตั่งค่า -> ตั่งค่าการการเลือกรายการ", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getBaseContext(), "��ҵ�ͧ����Դ���� App 价�� \n��觤�� -> ��觤�ҡ�á�����͡��¡��", Toast.LENGTH_LONG).show();
                                 mGaTracker.sendEvent("ui_action", "button_press", "arrow_web", (long) 0);
                                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
                             } else if (Setting.getArrowSelectSetting(getApplicationContext()).equals("2")) {
@@ -2754,7 +2760,7 @@ public class MainActivity extends ListActivity {
                                 mGaTracker.sendEvent("ui_action", "button_press", "arrow_text", (long) 0);
                             } else {
                                 if (Setting.getCheckSetting(getApplicationContext()))
-                                    Toast.makeText(getBaseContext(), "ถ้าต้องการเปิดโดยใช้ Browser ไปที่ \nตั่งค่า -> ตั่งค่าการการเลือกรายการ", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getBaseContext(), "��ҵ�ͧ����Դ���� Browser 价�� \n��觤�� -> ��觤�ҡ�á�����͡��¡��", Toast.LENGTH_LONG).show();
                                 Intent browserIntent = new Intent(getBaseContext(), DekdeeBrowserActivity.class);
                                 browserIntent.putExtra("id", niyayTable.get(arg0)[0]);
                                 browserIntent.putExtra("url", url);
@@ -2797,9 +2803,9 @@ public class MainActivity extends ListActivity {
     private void onPost() {
         if (MainActivity.ListViewContent.size() == 0) {/*
             if (loginsuscess && Setting.getisLogin(context) && Setting.getdisplayResult(context))
-                Toast.makeText(context, "ไม่พบตอนใหม่ใน Favorite Writer", Toast.LENGTH_LONG).show();
+                Toast.makeText(context, "��辺�͹����� Favorite Writer", Toast.LENGTH_LONG).show();
             else if (Setting.getisLogin(context) && Setting.getdisplayResult(context))
-                Toast.makeText(context, "ไม่มีตอนใหม่ หรือ เข้าสู่ระบบไม่ได้", Toast.LENGTH_LONG).show();
+                Toast.makeText(context, "����յ͹���� ���� �������к������", Toast.LENGTH_LONG).show();
 */
             if (loginsuscess || falselogin) {
                 ListViewContent.add(getString(R.string.no_fav_update));
@@ -2895,7 +2901,7 @@ public class MainActivity extends ListActivity {
         } else {
             Toast.makeText(context, getString(R.string.connection_error), Toast.LENGTH_LONG);
             for (int i = 0; i < ListViewStatus.size(); i++) {
-                ListViewStatus.set(i, "<font color=#cc0029>การเชื่อมต่อมีปัญหา</font>");
+                ListViewStatus.set(i, "<font color=#cc0029>������������ջѭ��</font>");
             }
         }
     }
@@ -2930,16 +2936,16 @@ public class MainActivity extends ListActivity {
             }
         } else if (s.equals("-97")) {
             if (index < ListViewStatus.size())
-                ListViewStatus.set(index, "<font color=#cc0029>มีปัญหา โปรดลองใหม่</font>");
+                ListViewStatus.set(index, "<font color=#cc0029>�ջѭ�� �ô�ͧ����</font>");
             mHandler.postDelayed(runnable, 1);
         } else if (s.equals("-99")) {
             ListViewContent.set(index, temp);
-            ListViewStatus.set(index, "ตรวจสอบเสร็จสิ้น");
+            ListViewStatus.set(index, "��Ǩ�ͺ�������");
             mHandler.postDelayed(runnable, 1);
             //listAdap.notifyDataSetChanged();
         } else if (s.equals("-98")) {
             ListViewContent.set(index, temp);
-            ListViewStatus.set(index, "แฟนพันธ์แท้");
+            ListViewStatus.set(index, "Ό�ѹ����");
             mHandler.postDelayed(runnable, 1);
             //listAdap.notifyDataSetChanged();
         } else {
@@ -3008,20 +3014,20 @@ public class MainActivity extends ListActivity {
                 text1 = allCP.last().text().trim();
                 if (allCP.size() > Integer.parseInt(chapter)) {
                     String temp =
-                            "<br /><p><font color=#339900>มีการอัพเดตตอนปัจจุบัน</font><br />" +
-                                    "<font color=#33B6EA>เรื่อง :" + data[1] + "</font><br />" +
-                                    "<font color=#cc0029> ตอน : " + text1 + " (" + chapter + ")</font></p>";
+                            "<br /><p><font color=#339900>�ա���Ѿവ�͹�Ѩ�غѹ</font><br />" +
+                                    "<font color=#33B6EA>����ͧ :" + data[1] + "</font><br />" +
+                                    "<font color=#cc0029> �͹ : " + text1 + " (" + chapter + ")</font></p>";
                     publishProgress("-99", Integer.toString(index), temp);
-                    sessionStatus.put(url + chapter, temp.replace("มีการอัพเดตตอนปัจจุบัน", "มีการอัพเดตตอนปัจจุบัน\nถ้าจบตอน กดปุ่มเพิ่มตอน\nเพื่อเข้าสู่สถานะรอตอนใหม่"));
+                    sessionStatus.put(url + chapter, temp.replace("�ա���Ѿവ�͹�Ѩ�غѹ", "�ա���Ѿവ�͹�Ѩ�غѹ\n��Ҩ��͹ �����������͹\n����������ʶҹ��͵͹����"));
                 } else {
                     String temp =
-                            "<br /><p><font color=#33B6EA>เรื่อง :" + data[1] + "</font><br />" +
-                                    "<font color=#cc0029> ล่าสุด ตอน : " + title + " (" + chapter + ")</font></p>";
+                            "<br /><p><font color=#33B6EA>����ͧ :" + data[1] + "</font><br />" +
+                                    "<font color=#cc0029> ����ش �͹ : " + title + " (" + chapter + ")</font></p>";
                     publishProgress("-99", Integer.toString(index), temp);
                 }
             } catch (IOException e) {
                 e.printStackTrace();
-                publishProgress("-97", Integer.toString(index), "ผิดพลาด โปรดลองใหม่");
+                publishProgress("-97", Integer.toString(index), "�Դ��Ҵ �ô�ͧ����");
             }
             return "";
         }
@@ -3063,13 +3069,13 @@ public class MainActivity extends ListActivity {
             } catch (IOException e1) {
                 // TODO Auto-generated catch block
                 e1.printStackTrace();
-                publishProgress("-97", Integer.toString(index), "ผิดพลาด โปรดลองใหม่");//	Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+                publishProgress("-97", Integer.toString(index), "�Դ��Ҵ �ô�ͧ����");//	Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
                 e.printStackTrace();
                 return "err";
             } catch (URISyntaxException e1) {
                 // TODO Auto-generated catch block
                 e1.printStackTrace();
-                publishProgress("-97", Integer.toString(index), "ผิดพลาด โปรดลองใหม่");//	Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+                publishProgress("-97", Integer.toString(index), "�Դ��Ҵ �ô�ͧ����");//	Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
                 e.printStackTrace();
                 return "err";
             } finally {
@@ -3084,22 +3090,22 @@ public class MainActivity extends ListActivity {
             }
 
         } catch (IOException e) {
-            publishProgress("-97", Integer.toString(index), "ผิดพลาด โปรดลองใหม่");
+            publishProgress("-97", Integer.toString(index), "�Դ��Ҵ �ô�ͧ����");
             e.printStackTrace();
             return "err";
 
         } catch (URISyntaxException e) {
-            publishProgress("-97", Integer.toString(index), "ผิดพลาด โปรดลองใหม่");
+            publishProgress("-97", Integer.toString(index), "�Դ��Ҵ �ô�ͧ����");
             e.printStackTrace();
             return "err";
 
         } catch (IllegalStateException e) {
-            publishProgress("-97", Integer.toString(index), "ผิดพลาด โปรดลองใหม่");
+            publishProgress("-97", Integer.toString(index), "�Դ��Ҵ �ô�ͧ����");
             e.printStackTrace();
             return "err";
 
         } catch (Exception e) {
-            publishProgress("-97", Integer.toString(index), "ผิดพลาด โปรดลองใหม่");
+            publishProgress("-97", Integer.toString(index), "�Դ��Ҵ �ô�ͧ����");
             e.printStackTrace();
             return "err";
 
@@ -3149,7 +3155,7 @@ public class MainActivity extends ListActivity {
             status = -1;
         } else if (!text1.trim().contains(title.trim())) {
             status = 1; //current chapter update
-        } else if (!text1.contains("ยังไม่มีตอนปัจจุบัน รอตอนใหม่") && !text1.contains("non")) {
+        } else if (!text1.contains("�ѧ����յ͹�Ѩ�غѹ �͵͹����") && !text1.contains("non")) {
             status = 2;
         }
         //Log.e("status", Integer.toString(status));
@@ -3157,23 +3163,23 @@ public class MainActivity extends ListActivity {
 
         if (status == 0) {
             String temp =
-                    "<br /><p><font color=#33B6EA>เรื่อง :" + data[1] + "</font><br />" +
-                            "<font color=#cc0029> ล่าสุด ตอน : " + title + " (" + chapter + ")</font></p>";
+                    "<br /><p><font color=#33B6EA>����ͧ :" + data[1] + "</font><br />" +
+                            "<font color=#cc0029> ����ش �͹ : " + title + " (" + chapter + ")</font></p>";
             publishProgress("-99", Integer.toString(index), temp);
         } else if (status == 2) {
             String temp =
-                    "<br /><p><font color=#6E6E6E>ถ้าจบตอน กดปุ่มเพิ่มตอน เพื่อเข้าสู่สถานะรอตอนใหม่</font><br />" +
-                            "<font color=#33B6EA>เรื่อง :" + data[1] + "</font><br />" +
-                            "<font color=#cc0029> ล่าสุด ตอน : " + title + " (" + chapter + ")</font></p>";
+                    "<br /><p><font color=#6E6E6E>��Ҩ��͹ �����������͹ ����������ʶҹ��͵͹����</font><br />" +
+                            "<font color=#33B6EA>����ͧ :" + data[1] + "</font><br />" +
+                            "<font color=#cc0029> ����ش �͹ : " + title + " (" + chapter + ")</font></p>";
             publishProgress("-99", Integer.toString(index), temp);
             sessionStatus.put(url + chapter, temp);
         } else if (status == 1 || status == -1) {
             String temp =
-                    "<br /><p><font color=#339900>มีการอัพเดตตอนปัจจุบัน</font><br />" +
-                            "<font color=#33B6EA>เรื่อง :" + data[1] + "</font><br />" +
-                            "<font color=#cc0029> ตอน : " + text1 + " (" + chapter + ")</font></p>";
+                    "<br /><p><font color=#339900>�ա���Ѿവ�͹�Ѩ�غѹ</font><br />" +
+                            "<font color=#33B6EA>����ͧ :" + data[1] + "</font><br />" +
+                            "<font color=#cc0029> �͹ : " + text1 + " (" + chapter + ")</font></p>";
             publishProgress("-99", Integer.toString(index), temp);
-            sessionStatus.put(url + chapter, temp.replace("มีการอัพเดตตอนปัจจุบัน", "มีการอัพเดตตอนปัจจุบัน\nถ้าจบตอน กดปุ่มเพิ่มตอน\nเพื่อเข้าสู่สถานะรอตอนใหม่"));
+            sessionStatus.put(url + chapter, temp.replace("�ա���Ѿവ�͹�Ѩ�غѹ", "�ա���Ѿവ�͹�Ѩ�غѹ\n��Ҩ��͹ �����������͹\n����������ʶҹ��͵͹����"));
         }
 
 /*				Log.e("content",
@@ -3242,7 +3248,7 @@ public class MainActivity extends ListActivity {
         for (String stemp : Listtemp) {
             //System.out.println("Listtemp: "+ stemp);
             ListViewContent.add(stemp);
-            ListViewStatus.add("กำลังตรวจสอบตอนใหม่");
+            ListViewStatus.add("���ѧ��Ǩ�ͺ�͹����");
         }
         MainActivity.db.close();
     }
@@ -3262,8 +3268,8 @@ public class MainActivity extends ListActivity {
                 title = title.substring(title.indexOf(">") + 2);
             //dialog.setTitle(title);
             Listtemp.add(
-                    "<br /><br /><br /><br /><p><font color=#33B6EA>เรื่อง :" + c[1] + "</font><br />" +
-                            "<font color=#cc0029> ล่าสุด ตอน : " + title + " (" + c[3] + ")</font></p><br /><br />");
+                    "<br /><br /><br /><br /><p><font color=#33B6EA>����ͧ :" + c[1] + "</font><br />" +
+                            "<font color=#cc0029> ����ش �͹ : " + title + " (" + c[3] + ")</font></p><br /><br />");
         }
         /*Log.e("content",
 				"id: " +data[0]+"\n"+
@@ -3296,25 +3302,25 @@ public class MainActivity extends ListActivity {
             //Log.e("stext", stext);
             String[] temp = new String[5];
             temp[0] = "-2";
-            temp[1] = stext.substring(0, stext.indexOf("ตอนที่"));
+            temp[1] = stext.substring(0, stext.indexOf("�͹���"));
             temp[2] = link.select("a").attr("href");
             temp[3] = "-2";
-            temp[4] = stext.substring(stext.indexOf("ตอนที่"));
+            temp[4] = stext.substring(stext.indexOf("�͹���"));
 
             dialog.setMessage(temp[1]);
             MainActivity.niyayTable.add(0,temp);
 
             if (sessionStatus.get(temp[2]) != null) {
                 ListViewContent.add(0,sessionStatus.get(temp[2]));
-                ListViewStatus.add(0,"แฟนพันธ์แท้");
+                ListViewStatus.add(0, "Ό�ѹ����");
             } else {
-                //MainActivity.ListViewContent.add(stext.replace("ตอนที่", "\nตอนที่"));
+                //MainActivity.ListViewContent.add(stext.replace("�͹���", "\n�͹���"));
                 ListViewContent.add(0,
-                        "<br /><p><font color=#339900>[fav]มีการอัพเดตตอนปัจจุบัน</font><br />" +
-                                "<font color=#33B6EA>เรื่อง :" + temp[1] + "</font><br />" +
+                        "<br /><p><font color=#339900>[fav]�ա���Ѿവ�͹�Ѩ�غѹ</font><br />" +
+                                "<font color=#33B6EA>����ͧ :" + temp[1] + "</font><br />" +
                                 "<font color=#cc0029>" + temp[4] + "</font></p>");
-                ListViewStatus.add(0,"แฟนพันธ์แท้");
-                sessionStatus.put(temp[2], ListViewContent.get(ListViewContent.size() - 1).replace("มีการอัพเดตตอนปัจจุบัน", "มีการอัพเดตตอนปัจจุบัน\nถ้าจบตอน กดปุ่มเพิ่มตอน\nเพื่อเข้าสู่สถานะรอตอนใหม่"));
+                ListViewStatus.add(0, "Ό�ѹ����");
+                sessionStatus.put(temp[2], ListViewContent.get(ListViewContent.size() - 1).replace("�ա���Ѿവ�͹�Ѩ�غѹ", "�ա���Ѿവ�͹�Ѩ�غѹ\n��Ҩ��͹ �����������͹\n����������ʶҹ��͵͹����"));
             }
         }
 
@@ -3367,14 +3373,14 @@ public class MainActivity extends ListActivity {
             }
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
-            showToast("ไม่สามารถเชื่อมต่อเพื่อเข้าสู่ระบบได้");
+            showToast("�������ö�������������������к���");
         } catch (ClientProtocolException e) {
             e.printStackTrace();
-            showToast("ไม่สามารถเชื่อมต่อเพื่อเข้าสู่ระบบได้");
+            showToast("�������ö�������������������к���");
         } catch (IOException e) {
             e.printStackTrace();
             //mHandler.postDelayed(runnable3, 1);
-            showToast("ไม่สามารถเชื่อมต่อเพื่อเข้าสู่ระบบได้");
+            showToast("�������ö�������������������к���");
         }
 
         //System.out.println("Post logon cookies:");
@@ -3419,8 +3425,8 @@ public class MainActivity extends ListActivity {
             editor.commit();
             loginsuscess = true;
         } else {
-            System.out.println("Username หรือ Password ไม่ถูกต้อง");
-            showToast("Username หรือ Password ไม่ถูกต้อง");
+            System.out.println("Username ���� Password ���١��ͧ");
+            showToast("Username ���� Password ���١��ͧ");
             try {
                 Thread.sleep(3000);
             } catch (InterruptedException e) {

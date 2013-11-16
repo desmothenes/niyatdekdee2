@@ -30,7 +30,7 @@ public class Setting extends PreferenceActivity implements OnSharedPreferenceCha
         addPreferencesFromResource(R.layout.activity_setting);
         if (Setting.getScreenSetting(getApplicationContext()).equals("1"))
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-        setTitle("‡∏ï‡∏±‡πà‡∏á‡∏Ñ‡πà‡∏≤");
+        setTitle("µ—Ëß§Ë“");
 
         Preference button = (Preference) findPreference("BackUp");
         button.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -69,7 +69,7 @@ public class Setting extends PreferenceActivity implements OnSharedPreferenceCha
                 dst.transferFrom(src, 0, src.size());
                 src.close();
                 dst.close();
-                Toast.makeText(getBaseContext(), "‡πÄ‡∏Å‡πá‡∏ö‡πÑ‡∏ß‡πâ‡πÉ‡∏ô‡πÑ‡∏ü‡∏•‡πå‡∏ä‡∏∑‡πà‡∏≠ NiyayDekD, niyay_saveSharedPreferences", Toast.LENGTH_LONG).show();
+                Toast.makeText(getBaseContext(), "‡°Á∫‰«È„π‰ø≈Ï™◊ËÕ NiyayDekD, niyay_saveSharedPreferences", Toast.LENGTH_LONG).show();
 
             }
         } catch (Exception e) {
@@ -124,7 +124,7 @@ public class Setting extends PreferenceActivity implements OnSharedPreferenceCha
                 dst.transferFrom(src, 0, src.size());
                 src.close();
                 dst.close();
-                Toast.makeText(getBaseContext(), "‡∏î‡∏∂‡∏á‡∏Ç‡πâ‡∏≠‡∏°‡∏π‡∏•‡∏Å‡∏•‡∏±‡∏ö‡∏°‡∏≤‡πÅ‡∏•‡πâ‡∏ß ‡πÄ‡∏û‡∏∑‡πà‡∏≠‡∏Ñ‡∏ß‡∏≤‡∏°‡∏™‡∏°‡∏ö‡∏π‡∏£‡∏ì‡πå‡∏õ‡∏¥‡∏î‡πÅ‡∏•‡πâ‡∏ß‡πÄ‡∏õ‡∏¥‡∏î‡πÉ‡∏´‡∏°‡πà", Toast.LENGTH_LONG).show();
+                Toast.makeText(getBaseContext(), "¥÷ß¢ÈÕ¡Ÿ≈°≈—∫¡“·≈È« ‡æ◊ËÕ§«“¡ ¡∫Ÿ√≥Ïª‘¥·≈È«‡ª‘¥„À¡Ë", Toast.LENGTH_LONG).show();
             }
 
         } catch (Exception e) {
@@ -228,7 +228,7 @@ public class Setting extends PreferenceActivity implements OnSharedPreferenceCha
     }
 
     public static String getPosttext(Context context) {
-        return PreferenceManager.getDefaultSharedPreferences(context).getString("postText", "‡∏ô‡∏¥‡∏£‡∏ô‡∏≤‡∏°");
+        return PreferenceManager.getDefaultSharedPreferences(context).getString("postText", "π‘√π“¡");
     }
 
     public static boolean getSelectImageSetting(Context context) {
@@ -253,12 +253,12 @@ public class Setting extends PreferenceActivity implements OnSharedPreferenceCha
 
     public static String getUserName(Context context) {
         //System.out.println(PreferenceManager.getDefaultSharedPreferences(context).getString("UserName", "-1"));
-        return UserPreference.decrypt(PreferenceManager.getDefaultSharedPreferences(context).getString("UserName", "-1"), context).replace("‡∏à‡∏ô‡∏ü‡∏´‡∏™‡∏î‡∏ü", "");
+        return UserPreference.decrypt(PreferenceManager.getDefaultSharedPreferences(context).getString("UserName", "-1"), context).replace("®πøÀ ¥ø", "");
     }
 
     public static String getPassWord(Context context) {
         //System.out.println(PreferenceManager.getDefaultSharedPreferences(context).getString("PassWord", "-1"));
-        return passPreference.decrypt(PreferenceManager.getDefaultSharedPreferences(context).getString("PassWord", "-1"), context).replace("¬¢", "");
+        return passPreference.decrypt(PreferenceManager.getDefaultSharedPreferences(context).getString("PassWord", "-1"), context).replace("?", "");
     }
 
     public static boolean getTTSToast(Context context) {

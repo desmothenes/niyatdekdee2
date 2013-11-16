@@ -45,10 +45,10 @@ public class add_web extends Activity {
         getWindow().setFeatureInt(Window.FEATURE_PROGRESS, Window.PROGRESS_VISIBILITY_ON);
         if (customTitleSupported) {
 
-            //ตั้งค่า custom titlebar จาก custom_titlebar.xml
+            //��駤�� custom titlebar �ҡ custom_titlebar.xml
             getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.custom_titlebar_ok);
             TextView title = (TextView) findViewById(R.id.textViewOk);
-            title.setText(" เลือกตอนนิยาย");
+            title.setText(" ���͡�͹�����");
             RelativeLayout barLayout = (RelativeLayout) findViewById(R.id.okbar);
             spiner = new ProgressBar(this);
             RelativeLayout.LayoutParams lspin = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
@@ -107,7 +107,7 @@ public class add_web extends Activity {
                     add();
                 }
             });
-            //เชื่อม btnSearch btnDirection เข้ากับ View
+            //����� btnSearch btnDirection ��ҡѺ View
             ImageButton btnDirection = (ImageButton) findViewById(R.id.btnDirection);
 
             btnDirection.setOnClickListener(new View.OnClickListener() {
@@ -143,9 +143,9 @@ public class add_web extends Activity {
                     loading = false;
                     if (tipCheck) {
                         if (webView.getUrl().contains("view.php") && addclick)
-                            Toast.makeText(getBaseContext(), "คุณสามารถเพิ่มนิยายเรื่องนี้จากหน้านี้ได้ โดนการกด เพิ่ม ตอนล่าสุดจะเป็นตอนสุดท้ายที่มี แต่แนะนำให้เพิ่มโดยการเข้าไปเลือกกดเพิ่มจากตอนที่จ้องการจะดีกว่า", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getBaseContext(), "�س����ö�������������ͧ���ҡ˹�ҹ���� ⴹ��á� ���� �͹����ش���繵͹�ش���·���� ���й���������¡���������͡�������ҡ�͹����ͧ��èдա���", Toast.LENGTH_LONG).show();
                         else if (webView.getUrl().contains("viewlongc.php") && addclick) {
-                            final Toast tag = Toast.makeText(getBaseContext(), "คุณสามารถเพิ่มนิยายเรื่องนี้จากหน้านี้ได้ โดนการกด เพิ่ม ตอนนี้จะเป็นตอนล่าสุด", Toast.LENGTH_SHORT);
+                            final Toast tag = Toast.makeText(getBaseContext(), "�س����ö�������������ͧ���ҡ˹�ҹ���� ⴹ��á� ���� �͹�����繵͹����ش", Toast.LENGTH_SHORT);
                             tag.show();
                             new CountDownTimer(6000, 1000) {
                                 public void onTick(long millisUntilFinished) {
@@ -183,7 +183,7 @@ public class add_web extends Activity {
 
         webView.loadUrl("http://www.dek-d.com/writer/frame.php");
         if (tipCheck) {
-            final Toast tag = Toast.makeText(this, "เข้าไปหน้านิยายที่ต้องการแล้วกดเพิ่ม สามารถเลือกจากหน้าหลักหรือจากตอนที่ต้องการ แต่แนะนำให้เลือกจากตอน", Toast.LENGTH_SHORT);
+            final Toast tag = Toast.makeText(this, "����˹�ҹ���·���ͧ������ǡ����� ����ö���͡�ҡ˹����ѡ���ͨҡ�͹����ͧ��� ���й�������͡�ҡ�͹", Toast.LENGTH_SHORT);
             tag.show();
             new CountDownTimer(6000, 1000) {
                 public void onTick(long millisUntilFinished) {
@@ -263,7 +263,7 @@ public class add_web extends Activity {
         } else {
             //in this fomat http://writer.dek-d.com/dek-d/writer/view.php?id=580483
             /*			final String stext = "id=";
-            //หาหลักของตอน
+            //����ѡ�ͧ�͹
 			final int start = url.lastIndexOf(stext)+stext.length();
 			if (start - stext.length() == -1) {
 				Toast.makeText(getBaseContext(), "Error not correct niyay page", Toast.LENGTH_SHORT).show();
@@ -317,7 +317,7 @@ public class add_web extends Activity {
 
             if (webView.canGoBack()) {
                 if (tipCheck) {
-                    final Toast tag = Toast.makeText(this, "การย้อนใช้เวลาสักครู่ อาจะกลับไปที่ ด้านบทสุดก่อน แล้วจึงย้อน โปรดรอ\n\nถ้าต้องการออก กรุณากดลูกศรด้านบน", Toast.LENGTH_SHORT);
+                    final Toast tag = Toast.makeText(this, "�����͹�������ѡ���� �ҨС�Ѻ价�� ��ҹ���ش��͹ ���Ǩ֧��͹ �ô��\n\n��ҵ�ͧ����͡ ��سҡ��١�ô�ҹ��", Toast.LENGTH_SHORT);
                     tag.show();
                     new CountDownTimer(4000, 1000) {
                         public void onTick(long millisUntilFinished) {
@@ -330,10 +330,10 @@ public class add_web extends Activity {
 
                     }.start();
                 }
-                //Toast.makeText(getBaseContext(), "การย้อนใช้เวลาสักครู่ อาจะกลับไปที่ ด้านบทสุดก่อน แล้วจึงย้อน โปรดรอ\n\nถ้าต้องการออก กรุณากดลูกศรด้านบน", Toast.LENGTH_LONG).show();
+                //Toast.makeText(getBaseContext(), "�����͹�������ѡ���� �ҨС�Ѻ价�� ��ҹ���ش��͹ ���Ǩ֧��͹ �ô��\n\n��ҵ�ͧ����͡ ��سҡ��١�ô�ҹ��", Toast.LENGTH_LONG).show();
                 webView.goBack();
             } else {
-                Toast.makeText(getBaseContext(), "ถ้าต้องการออก กรุณากดลูกศรด้านบน", Toast.LENGTH_LONG).show();
+                Toast.makeText(getBaseContext(), "��ҵ�ͧ����͡ ��سҡ��١�ô�ҹ��", Toast.LENGTH_LONG).show();
                 //finish();
             }
             return true;

@@ -51,7 +51,7 @@ public class DekTTSActivity extends Service implements OnInitListener {
         Intent checkIntent = new Intent();
 		checkIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA); 
 		startActivityForResult(checkIntent, RESULT_OK);
-		tts.speak("‡πÇ‡∏õ‡∏£‡∏î‡∏£‡∏≠", TextToSpeech.QUEUE_ADD, null); 
+		tts.speak("‚ª√¥√Õ", TextToSpeech.QUEUE_ADD, null); 
 
 		intent = getIntent();
 		final int type = intent.getIntExtra("type", -1);
@@ -90,7 +90,7 @@ public class DekTTSActivity extends Service implements OnInitListener {
 
     @Override
     public void onStart(Intent intent, int startId) {
-        //Toast.makeText(getBaseContext(), "‡πÇ‡∏õ‡∏£‡∏î‡∏£‡∏≠‡∏™‡∏±‡∏Å‡∏Ñ‡∏£‡∏π‡πà ‡∏Å‡∏≥‡∏•‡∏±‡∏á‡∏õ‡∏£‡∏∞‡∏°‡∏ß‡∏•‡∏ú‡∏• ‡∏≠‡∏≤‡∏à‡∏ô‡∏≤‡∏ô‡∏ñ‡∏∂‡∏á 20 ‡∏ß‡∏¥‡∏ô‡∏≤‡∏ó‡∏µ‡πÉ‡∏ô‡∏Å‡∏≤‡∏£‡πÄ‡∏£‡∏¥‡πà‡∏°‡∏ï‡πâ‡∏ô\n‡∏™‡∏≤‡∏°‡∏≤‡∏£‡∏ñ‡∏Å‡∏î Back ‡πÄ‡∏û‡∏∑‡πà‡∏≠‡∏´‡∏¢‡∏∏‡∏î TTS ‡πÑ‡∏î‡πâ", Toast.LENGTH_LONG).show();
+        //Toast.makeText(getBaseContext(), "‚ª√¥√Õ —°§√ŸË °”≈—ßª√–¡«≈º≈ Õ“®π“π∂÷ß 20 «‘π“∑’„π°“√‡√‘Ë¡µÈπ\n “¡“√∂°¥ Back ‡æ◊ËÕÀ¬ÿ¥ TTS ‰¥È", Toast.LENGTH_LONG).show();
         super.onStart(intent, startId);
         Log.v("TTS", "onstart_service");
         if (oninit && MainActivity.isTTS) {
@@ -110,12 +110,12 @@ public class DekTTSActivity extends Service implements OnInitListener {
             } else if (type == 3) {
                 strtotext(text);
             } else if (type == 4) {
-                tts.speak("‡πÇ‡∏õ‡∏£‡∏î‡∏£‡∏≠", TextToSpeech.QUEUE_FLUSH, null);
+                tts.speak("‚ª√¥√Õ", TextToSpeech.QUEUE_FLUSH, null);
                 speak(SubText(text));
             } else if (type == 5) {
                 lltotext(text);
             } else if (type == 99) {
-                tts.speak("‡∏¢‡∏¥‡∏ô‡∏î‡∏µ‡∏ï‡πâ‡∏≠‡∏ô‡∏£‡∏±‡∏ö", TextToSpeech.QUEUE_FLUSH, null);
+                tts.speak("¬‘π¥’µÈÕπ√—∫", TextToSpeech.QUEUE_FLUSH, null);
             } else {
                 Log.e("zone", "error");
                 System.out.println(type);
@@ -131,13 +131,12 @@ public class DekTTSActivity extends Service implements OnInitListener {
             startActivity(intent1);
         }
         //tts = new TextToSpeech(getApplicationContext(),this);
-        //tts.speak("‡πÇ‡∏õ‡∏£‡∏î‡∏£‡∏≠", TextToSpeech.QUEUE_FLUSH, null);
+        //tts.speak("‚ª√¥√Õ", TextToSpeech.QUEUE_FLUSH, null);
         //final int type = intent.getIntExtra("type", -1);
     }
 
     @Override
     public void onDestroy() {
-        // TODO Auto-generated method stub
         if (tts != null) {
             tts.stop();
             tts.shutdown();
@@ -155,13 +154,12 @@ public class DekTTSActivity extends Service implements OnInitListener {
         if (temp == null) return;
         HashMap<String, String> params = new HashMap<String, String>();
         params.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "complete");
-        tts.speak("‡πÇ‡∏õ‡∏£‡∏î‡∏£‡∏≠", TextToSpeech.QUEUE_FLUSH, params);
+        tts.speak("‚ª√¥√Õ", TextToSpeech.QUEUE_FLUSH, params);
         Log.e("zone", "end text file");
         Document doc = null;
         try {
             doc = Jsoup.parse(temp, "tis620");
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             Toast.makeText(getApplicationContext(), "IOException Failed!", Toast.LENGTH_SHORT).show();
             e.printStackTrace();
             return;
@@ -197,7 +195,7 @@ public class DekTTSActivity extends Service implements OnInitListener {
     void totext(final String url) {
         HashMap<String, String> params = new HashMap<String, String>();
         params.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "complete");
-        tts.speak("‡πÇ‡∏õ‡∏£‡∏î‡∏£‡∏≠", TextToSpeech.QUEUE_FLUSH, params);
+        tts.speak("‚ª√¥√Õ", TextToSpeech.QUEUE_FLUSH, params);
         new Thread() {
             public void run() {
                 try {
@@ -224,11 +222,10 @@ public class DekTTSActivity extends Service implements OnInitListener {
                     doc = null;
                     speak(SubText(sum.toString()));
                 } catch (IOException e) {
-                    //Toast.makeText(MainActivity.context, "‡∏Å‡∏≤‡∏£‡πÄ‡∏ä‡∏∑‡πà‡∏≠‡∏°‡∏ï‡πà‡∏≠‡∏°‡∏µ‡∏õ‡∏±‡∏ç‡∏´‡∏≤ ‡∏Å‡∏£‡∏∏‡∏ì‡∏≤‡∏õ‡∏£‡∏±‡∏ö‡∏õ‡∏£‡∏∏‡∏á‡∏Å‡∏≤‡∏£‡πÄ‡∏ä‡∏∑‡πà‡∏≠‡∏°‡∏ï‡πà‡∏≠ ‡πÅ‡∏•‡πâ‡∏ß‡∏•‡∏≠‡∏á‡πÉ‡∏´‡∏°‡πà", Toast.LENGTH_LONG).show();
-                    Log.e("totext", "‡∏Å‡∏≤‡∏£‡πÄ‡∏ä‡∏∑‡πà‡∏≠‡∏°‡∏ï‡πà‡∏≠‡∏°‡∏µ‡∏õ‡∏±‡∏ç‡∏´‡∏≤ ‡∏Å‡∏£‡∏∏‡∏ì‡∏≤‡∏õ‡∏£‡∏±‡∏ö‡∏õ‡∏£‡∏∏‡∏á‡∏Å‡∏≤‡∏£‡πÄ‡∏ä‡∏∑‡πà‡∏≠‡∏°‡∏ï‡πà‡∏≠ ‡πÅ‡∏•‡πâ‡∏ß‡∏•‡∏≠‡∏á‡πÉ‡∏´‡∏°‡πà");
+                    //Toast.makeText(MainActivity.context, "°“√‡™◊ËÕ¡µËÕ¡’ª—≠À“ °√ÿ≥“ª√—∫ª√ÿß°“√‡™◊ËÕ¡µËÕ ·≈È«≈Õß„À¡Ë", Toast.LENGTH_LONG).show();
+                    Log.e("totext", "°“√‡™◊ËÕ¡µËÕ¡’ª—≠À“ °√ÿ≥“ª√—∫ª√ÿß°“√‡™◊ËÕ¡µËÕ ·≈È«≈Õß„À¡Ë");
                     if (dialog.isShowing()) dialog.dismiss();
-                    //Toast.makeText(getBaseContext(), "‡∏Å‡∏≤‡∏£‡πÄ‡∏ä‡∏∑‡πà‡∏≠‡∏°‡∏ï‡πà‡∏≠‡∏°‡∏µ‡∏õ‡∏±‡∏ç‡∏´‡∏≤ ‡∏Å‡∏£‡∏∏‡∏ì‡∏≤‡∏õ‡∏£‡∏±‡∏ö‡∏õ‡∏£‡∏∏‡∏á‡∏Å‡∏≤‡∏£‡πÄ‡∏ä‡∏∑‡πà‡∏≠‡∏°‡∏ï‡πà‡∏≠ ‡πÅ‡∏•‡πâ‡∏ß‡∏•‡∏≠‡∏á‡πÉ‡∏´‡∏°‡πà", Toast.LENGTH_LONG).show();
-                    // TODO Auto-generated catch block
+                    //Toast.makeText(getBaseContext(), "°“√‡™◊ËÕ¡µËÕ¡’ª—≠À“ °√ÿ≥“ª√—∫ª√ÿß°“√‡™◊ËÕ¡µËÕ ·≈È«≈Õß„À¡Ë", Toast.LENGTH_LONG).show();
                     e.printStackTrace();
                 }
             }
@@ -239,7 +236,7 @@ public class DekTTSActivity extends Service implements OnInitListener {
         Log.e("zone", "strtotext");
         HashMap<String, String> params = new HashMap<String, String>();
         params.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "complete");
-        tts.speak("‡πÇ‡∏õ‡∏£‡∏î‡∏£‡∏≠", TextToSpeech.QUEUE_FLUSH, params);
+        tts.speak("‚ª√¥√Õ", TextToSpeech.QUEUE_FLUSH, params);
         //Log.e("str", str);
 
         doc = Jsoup.parse(str);
@@ -281,7 +278,7 @@ public class DekTTSActivity extends Service implements OnInitListener {
         Log.e("zone", "lltotext");
         HashMap<String, String> params = new HashMap<String, String>();
         params.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "complete");
-        tts.speak("‡πÇ‡∏õ‡∏£‡∏î‡∏£‡∏≠", TextToSpeech.QUEUE_FLUSH, params);
+        tts.speak("‚ª√¥√Õ", TextToSpeech.QUEUE_FLUSH, params);
         //Log.e("str", str);
 
         doc = Jsoup.parse(str);
@@ -338,18 +335,18 @@ public class DekTTSActivity extends Service implements OnInitListener {
         matcher.appendTail(newnum);
         input = newnum.toString();
         if (tts.getDefaultEngine().contains("vaja")) {
-            while (input.contains(" ‡πÜ")) {
-                input = input.replace(" ‡πÜ", "‡πÜ");
+            while (input.contains(" Ê")) {
+                input = input.replace(" Ê", "Ê");
             }
             List<String> temp = new ArrayList<String>(Arrays.asList(input.split("\\s+")));
-            temp.add("‡∏´‡∏°‡∏î‡∏Ç‡πâ‡∏≠‡∏Ñ‡∏ß‡∏≤‡∏°‡∏ó‡∏µ‡πà‡∏à‡∏∞‡∏≠‡πà‡∏≤‡∏ô‡∏≠‡∏≠‡∏Å‡πÄ‡∏™‡∏µ‡∏¢‡∏á");
+            temp.add("À¡¥¢ÈÕ§«“¡∑’Ë®–ÕË“πÕÕ°‡ ’¬ß");
             return new ArrayList<String>(temp);
         } else {
             Locale thaiLocale = new Locale("th");
             System.out.println("subtext");
             System.out.println("input");
             BreakIterator boundary = BreakIterator.getSentenceInstance(thaiLocale);
-            input += "\n\n‡∏´‡∏°‡∏î‡∏Ç‡πâ‡∏≠‡∏Ñ‡∏ß‡∏≤‡∏°‡∏ó‡∏µ‡πà‡∏à‡∏∞‡∏≠‡πà‡∏≤‡∏ô‡∏≠‡∏≠‡∏Å‡πÄ‡∏™‡∏µ‡∏¢‡∏á";
+            input += "\n\nÀ¡¥¢ÈÕ§«“¡∑’Ë®–ÕË“πÕÕ°‡ ’¬ß";
             boundary.setText(input);
             return printEachForward(boundary, input);
         }
@@ -389,7 +386,7 @@ public class DekTTSActivity extends Service implements OnInitListener {
         tts.setPitch((float) (Setting.getspeechpitch(getApplicationContext()) / 100.0));
         //for (String i:cuttext) Log.e( "cuttext",i);
         //tts.setLanguage (new Locale( "tha", "TH"));
-		/*		final int from = intent.getIntExtra("from", -1);
+        /*		final int from = intent.getIntExtra("from", -1);
 
 
 		if (from == 1) {
@@ -408,7 +405,6 @@ public class DekTTSActivity extends Service implements OnInitListener {
 
                 @Override
                 protected Void doInBackground(Void... arg0) {
-                    // TODO Auto-generated method stub
                     i = 0;
                     HashMap<String, String> params = new HashMap<String, String>();
                     params.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "complete");
@@ -417,7 +413,7 @@ public class DekTTSActivity extends Service implements OnInitListener {
                         while (text.contains("..")) {
                             text = text.replaceAll("\\.\\.", " ");
                         }
-                        text = text.replaceAll("‚Ä¶", " ").trim();
+                        text = text.replaceAll("Ö", " ").trim();
                         i++;
 
                         text = text.trim();
@@ -427,7 +423,6 @@ public class DekTTSActivity extends Service implements OnInitListener {
                                 Thread.sleep(1000);
                                 //System.out.println(isSpeak);
                             } catch (InterruptedException e) {
-                                // TODO Auto-generated catch block
                                 e.printStackTrace();
                             }
                         isSpeak = true;
@@ -501,7 +496,6 @@ public class DekTTSActivity extends Service implements OnInitListener {
 
                 @Override
                 protected Void doInBackground(Void... arg0) {
-                    // TODO Auto-generated method stub
                     i = 0;
                     HashMap<String, String> params = new HashMap<String, String>();
                     for (String text : cuttext) {
@@ -510,7 +504,7 @@ public class DekTTSActivity extends Service implements OnInitListener {
                         while (text.contains("..")) {
                             text = text.replaceAll("\\.\\.", " ");
                         }
-                        text = text.replace(" ‡πÜ", "‡πÜ").replace("‡∏õ‡∏•.", "‡∏õ‡∏±‡∏à‡∏â‡∏¥‡∏°‡∏•‡∏¥‡∏Ç‡∏¥‡∏ï").replace("‡∏ä.‡∏°.", "‡∏ä‡∏±‡πà‡∏ß‡πÇ‡∏°‡∏á").replace("‡∏≠‡∏Å.", "‡∏≠‡∏Å .").replace("‡∏°‡∏≠‡∏Å .", "‡∏°‡∏≠‡∏Å.").replace("[", "‡∏Å‡πâ‡∏≤‡∏°‡∏õ‡∏π‡πÄ‡∏õ‡∏¥‡∏î").replace("]", "‡∏Å‡πâ‡∏≤‡∏°‡∏õ‡∏π‡∏õ‡∏¥‡∏î").replace("[", "‡∏Å‡πâ‡∏≤‡∏°‡∏õ‡∏π‡πÄ‡∏õ‡∏¥‡∏î").replace(":", "‡∏ï‡πà‡∏≠").replace("+", "‡∏ö‡∏ß‡∏Å").trim();
+                        text = text.replace(" Ê", "Ê").replace("ª≈.", "ª—®©‘¡≈‘¢‘µ").replace("™.¡.", "™—Ë«‚¡ß").replace("Õ°.", "Õ° .").replace("¡Õ° .", "¡Õ°.").replace("[", "°È“¡ªŸ‡ª‘¥").replace("]", "°È“¡ªŸª‘¥").replace("[", "°È“¡ªŸ‡ª‘¥").replace(":", "µËÕ").replace("+", "∫«°").trim();
                         final int size = text.length();
                         if (size < 2) continue;
                         i++;
@@ -545,7 +539,6 @@ public class DekTTSActivity extends Service implements OnInitListener {
                                         Thread.sleep(1000);
                                         //System.out.println(isSpeak);
                                     } catch (InterruptedException e) {
-                                        // TODO Auto-generated catch block
                                         e.printStackTrace();
                                     }
                                 isSpeak = true;
@@ -575,7 +568,6 @@ public class DekTTSActivity extends Service implements OnInitListener {
                                     Thread.sleep(1000);
                                     //System.out.println(isSpeak);
                                 } catch (InterruptedException e) {
-                                    // TODO Auto-generated catch block
                                     e.printStackTrace();
                                 }
                             isSpeak = true;
@@ -656,7 +648,6 @@ public class DekTTSActivity extends Service implements OnInitListener {
     /*
     @Override
     public void onUtteranceCompleted(final String arg0) {
-        // TODO Auto-generated method stub
         Log.e("onUtteranceCompleted", arg0);
 
         if (arg0.indexOf("ok")!=-1)
@@ -666,12 +657,11 @@ public class DekTTSActivity extends Service implements OnInitListener {
     }*/
     @Override
     public void onInit(int status) {
-        // TODO Auto-generated method stub
         if (status == TextToSpeech.SUCCESS) {
             int result = tts.setLanguage(new Locale("tha", "TH"));
 
             if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
-                Toast.makeText(getApplicationContext(), "TTS engine ‡πÉ‡∏ô‡πÄ‡∏Ñ‡∏£‡∏∑‡πà‡∏≠‡∏á‡∏Ç‡∏≠‡∏á‡∏Ñ‡∏∏‡∏ì‡πÑ‡∏°‡πà‡∏£‡∏≠‡∏á‡∏£‡∏±‡∏ö‡∏†‡∏≤‡∏©‡∏≤‡πÑ‡∏ó‡∏¢", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "TTS engine „π‡§√◊ËÕß¢Õß§ÿ≥‰¡Ë√Õß√—∫¿“…“‰∑¬", Toast.LENGTH_SHORT).show();
                 Log.e("TTS", "Thai language is not supported on your TTS");
                 MainActivity.isTTS = false;
                 SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit();
@@ -697,13 +687,13 @@ public class DekTTSActivity extends Service implements OnInitListener {
                 } else if (type == 3) {
                     strtotext(text);
                 } else if (type == 4) {
-                    tts.speak("‡πÇ‡∏õ‡∏£‡∏î‡∏£‡∏≠", TextToSpeech.QUEUE_FLUSH, null);
+                    tts.speak("‚ª√¥√Õ", TextToSpeech.QUEUE_FLUSH, null);
                     speak(SubText(text));
                 } else if (type == 5) {
                     lltotext(text);
                 } else if (type == 99) {
                     if (Setting.getTTStip(getApplicationContext())) {
-                        tts.speak("‡∏¢‡∏¥‡∏ô‡∏î‡∏µ‡∏ï‡πâ‡∏≠‡∏ô‡∏£‡∏±‡∏ö", TextToSpeech.QUEUE_FLUSH, null);
+                        tts.speak("¬‘π¥’µÈÕπ√—∫", TextToSpeech.QUEUE_FLUSH, null);
                     } else {
                         tts.speak(" ", TextToSpeech.QUEUE_FLUSH, null);
                     }
@@ -712,7 +702,6 @@ public class DekTTSActivity extends Service implements OnInitListener {
                 tts.setOnUtteranceCompletedListener(new TextToSpeech.OnUtteranceCompletedListener() {
                     @Override
                     public void onUtteranceCompleted(String utteranceId) {
-                        // TODO Auto-generated method stub
                         isSpeak = false;
                         Log.e("onUtteranceCompleted", utteranceId);
                         //Toast.makeText(getBaseContext(), utteranceId, Toast.LENGTH_SHORT).show();
@@ -735,16 +724,15 @@ public class DekTTSActivity extends Service implements OnInitListener {
 
     @Override
     public IBinder onBind(Intent arg0) {
-        // TODO Auto-generated method stub
         Log.w(" ibinder ", "");
         return null;
     }
 
-    final static String[] lek = {"‡∏®‡∏π‡∏ô‡∏¢‡πå", "‡∏´‡∏ô‡∏∂‡πà‡∏á", "‡∏™‡∏≠‡∏á", "‡∏™‡∏≤‡∏°", "‡∏™‡∏µ‡πà", "‡∏´‡πâ‡∏≤", "‡∏´‡∏Å", "‡πÄ‡∏à‡πá‡∏î", "‡πÅ‡∏õ‡∏î", "‡πÄ‡∏Å‡πâ‡∏≤"};
-    final static String[] luk = {"‡∏™‡∏¥‡∏ö", "‡∏£‡πâ‡∏≠‡∏¢", "‡∏û‡∏±‡∏ô", "‡∏´‡∏°‡∏∑‡πà‡∏ô", "‡πÅ‡∏™‡∏ô", "‡∏•‡πâ‡∏≤‡∏ô"};
+    final static String[] lek = {"»Ÿπ¬Ï", "Àπ÷Ëß", " Õß", " “¡", " ’Ë", "ÀÈ“", "À°", "‡®Á¥", "·ª¥", "‡°È“"};
+    final static String[] luk = {" ‘∫", "√ÈÕ¬", "æ—π", "À¡◊Ëπ", "· π", "≈È“π"};
 
     static String floatDigit(String val) {
-        StringBuilder text = new StringBuilder("‡∏à‡∏∏‡∏î");
+        StringBuilder text = new StringBuilder("®ÿ¥");
         val = val.replace(".", "");
         for (char i : val.toCharArray()) {
             text.append(lek[Character.getNumericValue(i)]);
@@ -762,11 +750,11 @@ public class DekTTSActivity extends Service implements OnInitListener {
             temp_int = Integer.parseInt(Character.toString(val.charAt(i)));
             if (temp_int > 0) {
                 if ((n == 1) && temp_int == 1)
-                    text.append("‡πÄ‡∏≠‡πá‡∏î");
+                    text.append("‡ÕÁ¥");
                 else if ((2 == n) && temp_int == 1)
                     ;
                 else if ((2 == n) && temp_int == 2)
-                    text.append("‡∏¢‡∏µ‡πà");
+                    text.append("¬’Ë");
                 else
                     text.append(lek[temp_int]);
 
@@ -804,7 +792,7 @@ public class DekTTSActivity extends Service implements OnInitListener {
                 text.insert(0, thainumtext(i));
                 n = 0;
             } else {
-                text.insert(0, thainumtext(i) + "‡∏•‡πâ‡∏≤‡∏ô");
+                text.insert(0, thainumtext(i) + "≈È“π");
             }
         }
         //System.out.println("out: "+text);

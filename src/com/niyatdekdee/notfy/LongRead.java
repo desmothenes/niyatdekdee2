@@ -67,7 +67,7 @@ public class LongRead extends Activity {
         url = intent.getStringExtra("url");
         dialog = new Dialog(this);
         dialog.setContentView(R.layout.activity_long_read);
-        dialog.setTitle("เลือกช่วงตอน");
+        dialog.setTitle("���͡��ǧ�͹");
         dialog.setCancelable(false);
         Button dialogButton = (Button) dialog.findViewById(R.id.longbutton1);
         final EditText start = (EditText) dialog.findViewById(R.id.longeditText1);
@@ -78,7 +78,7 @@ public class LongRead extends Activity {
                 dialog.dismiss();
                 try {
                     prodialog = new ProgressDialog(LongRead.this);
-                    prodialog.setMessage("Please Wait...\nถ้ารู้สึกช้า เกินกวา 30 วินาทีออกแล้วเข้าใหม่");
+                    prodialog.setMessage("Please Wait...\n�������֡��� �Թ��� 30 �Թҷ��͡�����������");
                     prodialog.setCancelable(true);
 
                     if (end.length() == 0) {
@@ -95,7 +95,7 @@ public class LongRead extends Activity {
 
                     work.execute(getBaseContext());
                 } catch (NumberFormatException e) {
-                    Toast.makeText(getBaseContext(), "ตอนที่ ไม่ได้อยู่ในรูปแบบของตัวเลข", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getBaseContext(), "�͹��� �����������ٻẺ�ͧ����Ţ", Toast.LENGTH_SHORT).show();
                     finish();
                 }
             }
@@ -321,7 +321,7 @@ public class LongRead extends Activity {
                     "function playSound(){}" +
                     "function showPoll(){}" +
                     "</script>");
-			/*
+            /*
 				HTMLdata.append("<style type=\"text/css\">" +
 						"p{" +
 						"font-family:'Cordia New',sans-serif;"+
@@ -346,10 +346,10 @@ public class LongRead extends Activity {
             }
             HTMLdata.append("</div></div>");
 
-            HTMLdata.append("<br><br><div id='detail'><h4>ข้อตกลง &amp; เงื่อนไขการใช้งาน</h4><br><ul><li><p>กรณีที่ผลงานชิ้นนี้เป็นผลงานที่แต่งโดยผู้ลงผลงานเอง ลิขสิทธิ์ของผลงานนี้จะ<br>เป็นของผู้ลงผลงานโดยตรง ห้ามมิให้คัดลอก ทำซ้ำ เผยแพร่ ก่อนได้รับอนุญาต<br>" +
-                    "จากผู้ลงผลงาน</p></li><li><p>กรณีที่ผลงานชิ้นนี้กระทำการคัดลอก ทำซ้ำ มาจากผลงานของบุคคลอื่นๆ ผู้ลง<br>ผลงานจะต้องทำการอ้างอิงอย่างเหมาะสม และต้องรับผิดชอบเรื่องการจัดการ<br>ลิขสิทธิ์แต่เพียงผู้เดียว</p></li><li><p>ข้อความและรูปภาพที่ปรากฏอยู่ในผลงานที่ท่านเห็นอยู่นี้ เกิดจากการส่งเข้าระบบ<br>" +
-                    "โดยอัตโนมัติจากบุคคลทั่วไป ซึ่งเด็กดีดอทคอมมิได้มีส่วนร่วมรู้เห็น ตรวจสอบ <br>หรือพิสูจน์ข้อเท็จจริงใดๆ ทั้งสิ้น ผู้ใดพบเห็นการลงผลงานละเมิดลิขสิทธิ์ หรือ<br>ไม่เหมาะสมโปรดแจ้งผู้ดูแลระบบเพื่อดำเนินการทันที<br>" +
-                    "Email: <span>contact@dek-d.com</span> ( ทุกวัน 24 ชม ) หรือ<br>Tel: <span>0-2860-1142</span> ( จ-ศ 0900-1800 )</p></li></ul>" +
+            HTMLdata.append("<br><br><div id='detail'><h4>��͵�ŧ &amp; ���͹䢡����ҹ</h4><br><ul><li><p>�óշ��ŧҹ��鹹���繼ŧҹ������¼��ŧ�ŧҹ�ͧ �Ԣ�Է���ͧ�ŧҹ����<br>�繢ͧ���ŧ�ŧҹ�µç ���������Ѵ�͡ �ӫ�� ����� ��͹���Ѻ͹حҵ<br>" +
+                    "�ҡ���ŧ�ŧҹ</p></li><li><p>�óշ��ŧҹ��鹹���зӡ�äѴ�͡ �ӫ�� �Ҩҡ�ŧҹ�ͧ�ؤ������ ���ŧ<br>�ŧҹ�е�ͧ�ӡ����ҧ�ԧ���ҧ������� ��е�ͧ�Ѻ�Դ�ͺ����ͧ��èѴ���<br>�Ԣ�Է�������§�������</p></li><li><p>��ͤ�������ٻ�Ҿ����ҡ�����㹼ŧҹ����ҹ��������� �Դ�ҡ���������к�<br>" +
+                    "���ѵ��ѵԨҡ�ؤ�ŷ���� ����硴մͷ�����������ǹ���������� ��Ǩ�ͺ <br>���;��٨�����稨�ԧ�� ������ ���㴾���繡��ŧ�ŧҹ����Դ�Ԣ�Է��� ����<br>�����������ô�駼������к����ʹ��Թ��÷ѹ��<br>" +
+                    "Email: <span>contact@dek-d.com</span> ( �ء�ѹ 24 �� ) ����<br>Tel: <span>0-2860-1142</span> ( �-� 0900-1800 )</p></li></ul>" +
                     "</div></body></html>");
 
             doc = null;
@@ -436,14 +436,14 @@ public class LongRead extends Activity {
                 }
                 if (work.getStatus() == AsyncTask.Status.RUNNING) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(LongRead.this);
-                    builder.setMessage("ยังโหลดไม่คบครบทุกตอน ต้องการฟังแค่ที่มีหรือไม่")
+                    builder.setMessage("�ѧ��Ŵ��褺�ú�ء�͹ ��ͧ��ÿѧ�������������")
                             .setCancelable(false)
-                            .setPositiveButton("ตกลง", new DialogInterface.OnClickListener() {
+                            .setPositiveButton("��ŧ", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
                                     webView.loadUrl("javascript: HTMLOUT.processHTML(document.getElementById('story_body').outerHTML);");
                                 }
                             })
-                            .setNegativeButton("ยกเลิก", new DialogInterface.OnClickListener() {
+                            .setNegativeButton("¡��ԡ", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
                                     dialog.cancel();
                                 }

@@ -84,15 +84,15 @@ class Do_Back2 extends AsyncTask<Context, String, Long> {
         MainActivity.ListViewStatus = ListViewStatus;
         if (MainActivity.ListViewContent.size() == 0) {
             if (loginsuscess && Setting.getisLogin(context) && Setting.getdisplayResult(context))
-                Toast.makeText(context, "‡πÑ‡∏°‡πà‡∏û‡∏ö‡∏ï‡∏≠‡∏ô‡πÉ‡∏´‡∏°‡πà‡πÉ‡∏ô Favorite Writer", Toast.LENGTH_LONG).show();
+                Toast.makeText(context, "‰¡Ëæ∫µÕπ„À¡Ë„π Favorite Writer", Toast.LENGTH_LONG).show();
             else if (Setting.getisLogin(context) && Setting.getdisplayResult(context))
-                Toast.makeText(context, "‡πÑ‡∏°‡πà‡∏°‡∏µ‡∏ï‡∏≠‡∏ô‡πÉ‡∏´‡∏°‡πà ‡∏´‡∏£‡∏∑‡∏≠ ‡πÄ‡∏Ç‡πâ‡∏≤‡∏™‡∏π‡πà‡∏£‡∏∞‡∏ö‡∏ö‡πÑ‡∏°‡πà‡πÑ‡∏î‡πâ", Toast.LENGTH_LONG).show();
+                Toast.makeText(context, "‰¡Ë¡’µÕπ„À¡Ë À√◊Õ ‡¢È“ ŸË√–∫∫‰¡Ë‰¥È", Toast.LENGTH_LONG).show();
 
             if (floop == 0 || loginsuscess)
-                MainActivity.ListViewContent.add("<big><big>‡πÇ‡∏õ‡∏£‡∏î‡πÄ‡∏û‡∏¥‡πà‡∏°‡∏ô‡∏¥‡∏¢‡∏≤‡∏¢‡πÄ‡∏£‡∏∑‡πà‡∏≠‡∏á‡πÅ‡∏£‡∏Å\n(‡∏Å‡∏î‡πÄ‡∏Ñ‡∏£‡∏∑‡πà‡∏≠‡∏á‡∏´‡∏°‡∏≤‡∏¢‡∏ö‡∏ß‡∏Å‡∏™‡∏µ‡πÄ‡∏Ç‡∏µ‡∏¢‡∏ß\n‡πÄ‡∏û‡∏∑‡πà‡∏≠‡πÄ‡∏•‡∏∑‡∏≠‡∏Å‡∏ß‡∏¥‡∏ò‡∏µ‡∏Å‡∏≤‡∏£‡πÄ‡∏û‡∏¥‡πà‡∏°‡∏ô‡∏¥‡∏¢‡∏≤‡∏¢)</big></big>");
+                MainActivity.ListViewContent.add("<big><big>‚ª√¥‡æ‘Ë¡π‘¬“¬‡√◊ËÕß·√°\n(°¥‡§√◊ËÕßÀ¡“¬∫«° ’‡¢’¬«\n‡æ◊ËÕ‡≈◊Õ°«‘∏’°“√‡æ‘Ë¡π‘¬“¬)</big></big>");
             else {
-                Toast.makeText(context, "‡∏Å‡∏≤‡∏£‡πÄ‡∏ä‡∏∑‡πà‡∏≠‡∏°‡∏ï‡πà‡∏≠‡∏°‡∏µ‡∏õ‡∏±‡∏ç‡∏´‡∏≤ ‡∏Å‡∏£‡∏∏‡∏ì‡∏≤‡∏õ‡∏£‡∏±‡∏ö‡∏õ‡∏£‡∏∏‡∏á‡∏Å‡∏≤‡∏£‡πÄ‡∏ä‡∏∑‡πà‡∏≠‡∏°‡∏ï‡πà‡∏≠ ‡πÅ‡∏•‡πâ‡∏ß‡∏•‡∏≠‡∏á‡πÉ‡∏´‡∏°‡πà", Toast.LENGTH_LONG).show();
-                Log.e("onPreExecute", "‡∏Å‡∏≤‡∏£‡πÄ‡∏ä‡∏∑‡πà‡∏≠‡∏°‡∏ï‡πà‡∏≠‡∏°‡∏µ‡∏õ‡∏±‡∏ç‡∏´‡∏≤ ‡∏Å‡∏£‡∏∏‡∏ì‡∏≤‡∏õ‡∏£‡∏±‡∏ö‡∏õ‡∏£‡∏∏‡∏á‡∏Å‡∏≤‡∏£‡πÄ‡∏ä‡∏∑‡πà‡∏≠‡∏°‡∏ï‡πà‡∏≠ ‡πÅ‡∏•‡πâ‡∏ß‡∏•‡∏≠‡∏á‡πÉ‡∏´‡∏°‡πà");
+                Toast.makeText(context, "°“√‡™◊ËÕ¡µËÕ¡’ª—≠À“ °√ÿ≥“ª√—∫ª√ÿß°“√‡™◊ËÕ¡µËÕ ·≈È«≈Õß„À¡Ë", Toast.LENGTH_LONG).show();
+                Log.e("onPreExecute", "°“√‡™◊ËÕ¡µËÕ¡’ª—≠À“ °√ÿ≥“ª√—∫ª√ÿß°“√‡™◊ËÕ¡µËÕ ·≈È«≈Õß„À¡Ë");
             }
 
             //if (MainActivity.niyayTable.size() == 0) MainActivity.niyayTable.add(new String[4]);
@@ -100,7 +100,7 @@ class Do_Back2 extends AsyncTask<Context, String, Long> {
 
         if (isErr) {
             Log.e("onPreExecute", "isErr");
-            Toast.makeText(context, "‡∏Å‡∏≤‡∏£‡πÄ‡∏ä‡∏∑‡πà‡∏≠‡∏°‡∏ï‡πà‡∏≠‡∏°‡∏µ‡∏õ‡∏±‡∏ç‡∏´‡∏≤ ‡∏Å‡∏£‡∏∏‡∏ì‡∏≤‡∏õ‡∏£‡∏±‡∏ö‡∏õ‡∏£‡∏∏‡∏á‡∏Å‡∏≤‡∏£‡πÄ‡∏ä‡∏∑‡πà‡∏≠‡∏°‡∏ï‡πà‡∏≠ ‡πÅ‡∏•‡πâ‡∏ß‡∏•‡∏≠‡∏á‡πÉ‡∏´‡∏°‡πà", Toast.LENGTH_LONG).show();
+            Toast.makeText(context, "°“√‡™◊ËÕ¡µËÕ¡’ª—≠À“ °√ÿ≥“ª√—∫ª√ÿß°“√‡™◊ËÕ¡µËÕ ·≈È«≈Õß„À¡Ë", Toast.LENGTH_LONG).show();
         }
 
         MainActivity.myList.setAdapter(MainActivity.listAdap);
@@ -110,8 +110,8 @@ class Do_Back2 extends AsyncTask<Context, String, Long> {
 
     protected void onProgressUpdate(String... progress) {
         if (progress[0].equals("-1")) {
-            //Toast.makeText(context, "‡∏Å‡∏≤‡∏£‡πÄ‡∏ä‡∏∑‡πà‡∏≠‡∏°‡∏ï‡πà‡∏≠‡∏°‡∏µ‡∏õ‡∏±‡∏ç‡∏´‡∏≤ ‡∏Å‡∏£‡∏∏‡∏ì‡∏≤‡∏õ‡∏£‡∏±‡∏ö‡∏õ‡∏£‡∏∏‡∏á‡∏Å‡∏≤‡∏£‡πÄ‡∏ä‡∏∑‡πà‡∏≠‡∏°‡∏ï‡πà‡∏≠ ‡πÅ‡∏•‡πâ‡∏ß‡∏•‡∏≠‡∏á‡πÉ‡∏´‡∏°‡πà", Toast.LENGTH_LONG).show();
-            Log.e("onProgressUpdate", "‡∏Å‡∏≤‡∏£‡πÄ‡∏ä‡∏∑‡πà‡∏≠‡∏°‡∏ï‡πà‡∏≠‡∏°‡∏µ‡∏õ‡∏±‡∏ç‡∏´‡∏≤ ‡∏Å‡∏£‡∏∏‡∏ì‡∏≤‡∏õ‡∏£‡∏±‡∏ö‡∏õ‡∏£‡∏∏‡∏á‡∏Å‡∏≤‡∏£‡πÄ‡∏ä‡∏∑‡πà‡∏≠‡∏°‡∏ï‡πà‡∏≠ ‡πÅ‡∏•‡πâ‡∏ß‡∏•‡∏≠‡∏á‡πÉ‡∏´‡∏°‡πà");
+            //Toast.makeText(context, "°“√‡™◊ËÕ¡µËÕ¡’ª—≠À“ °√ÿ≥“ª√—∫ª√ÿß°“√‡™◊ËÕ¡µËÕ ·≈È«≈Õß„À¡Ë", Toast.LENGTH_LONG).show();
+            Log.e("onProgressUpdate", "°“√‡™◊ËÕ¡µËÕ¡’ª—≠À“ °√ÿ≥“ª√—∫ª√ÿß°“√‡™◊ËÕ¡µËÕ ·≈È«≈Õß„À¡Ë");
             if (!tried) {
                 tried = true;
                 this.cancel(true);
@@ -120,7 +120,7 @@ class Do_Back2 extends AsyncTask<Context, String, Long> {
         } else if (progress[0].equals("-99")) {
             int index = Integer.parseInt(progress[1]);
             ListViewContent.set(index, progress[2]);
-            ListViewStatus.set(index, "‡∏ï‡∏£‡∏ß‡∏à‡∏™‡∏≠‡∏ö‡πÄ‡∏™‡∏£‡πá‡∏à‡∏™‡∏¥‡πâ‡∏ô");
+            ListViewStatus.set(index, "µ√«® Õ∫‡ √Á® ‘Èπ");
             MainActivity.myList.setAdapter(MainActivity.listAdap);
         } else {
             MainActivity.dialog.setMessage(progress[0]);
@@ -160,7 +160,7 @@ class Do_Back2 extends AsyncTask<Context, String, Long> {
 
         int status = 0;
         //Log.e("data[4]",data[4]);
-        String title = data[4].equals("non") ? "‡∏¢‡∏±‡∏á‡πÑ‡∏°‡πà‡∏°‡∏µ‡∏ï‡∏≠‡∏ô‡∏õ‡∏±‡∏à‡∏à‡∏∏‡∏ö‡∏±‡∏ô ‡∏£‡∏≠‡∏ï‡∏≠‡∏ô‡πÉ‡∏´‡∏°‡πà" : data[4];
+        String title = data[4].equals("non") ? "¬—ß‰¡Ë¡’µÕπª—®®ÿ∫—π √ÕµÕπ„À¡Ë" : data[4];
         //Log.e("data[4]",data[4]);
         final String id = data[0];
         final String url = data[2];
@@ -270,7 +270,7 @@ class Do_Back2 extends AsyncTask<Context, String, Long> {
             final String start = text1.substring(text1.indexOf("<title>") + 7);
             text1 = Jsoup.parse((start.substring(start.indexOf(">") + 2, start.indexOf("</title>")))).text();
         } else {
-            text1 = "‡∏¢‡∏±‡∏á‡πÑ‡∏°‡πà‡∏°‡∏µ‡∏ï‡∏≠‡∏ô‡∏õ‡∏±‡∏à‡∏à‡∏∏‡∏ö‡∏±‡∏ô ‡∏£‡∏≠‡∏ï‡∏≠‡∏ô‡πÉ‡∏´‡∏°‡πà";
+            text1 = "¬—ß‰¡Ë¡’µÕπª—®®ÿ∫—π √ÕµÕπ„À¡Ë";
         }
 
 		/*		Log.e("title",(title == null) ? "null" : title);
@@ -286,7 +286,7 @@ class Do_Back2 extends AsyncTask<Context, String, Long> {
             status = -1;
         } else if (!text1.trim().contains(title.trim())) {
             /*Log.e("title",title);
-			Log.e("text1",text1);
+            Log.e("text1",text1);
 			Log.e("compare",(text1.equals(title))? "same" : "not same");*/
 			/*			System.out.println("text1");
 			System.out.println(text1);
@@ -299,7 +299,7 @@ class Do_Back2 extends AsyncTask<Context, String, Long> {
 				System.out.print(title.trim().charAt(i));System.out.println((int)title.trim().charAt(i));
 			}*/
             status = 1; //current chapter update
-        } else if (!text1.contains("‡∏¢‡∏±‡∏á‡πÑ‡∏°‡πà‡∏°‡∏µ‡∏ï‡∏≠‡∏ô‡∏õ‡∏±‡∏à‡∏à‡∏∏‡∏ö‡∏±‡∏ô ‡∏£‡∏≠‡∏ï‡∏≠‡∏ô‡πÉ‡∏´‡∏°‡πà") && !text1.contains("non")) {
+        } else if (!text1.contains("¬—ß‰¡Ë¡’µÕπª—®®ÿ∫—π √ÕµÕπ„À¡Ë") && !text1.contains("non")) {
             status = 2;
         }
         //Log.e("status", Integer.toString(status));
@@ -307,23 +307,23 @@ class Do_Back2 extends AsyncTask<Context, String, Long> {
 
         if (status == 0) {
             String temp =
-                    "<br /><p><font color=#33B6EA>‡πÄ‡∏£‡∏∑‡πà‡∏≠‡∏á :" + data[1] + "</font><br />" +
-                            "<font color=#cc0029> ‡∏•‡πà‡∏≤‡∏™‡∏∏‡∏î ‡∏ï‡∏≠‡∏ô : " + title + " (" + chapter + ")</font></p>";
+                    "<br /><p><font color=#33B6EA>‡√◊ËÕß :" + data[1] + "</font><br />" +
+                            "<font color=#cc0029> ≈Ë“ ÿ¥ µÕπ : " + title + " (" + chapter + ")</font></p>";
             publishProgress("-99", Integer.toString(index), temp);
         } else if (status == 2) {
             String temp =
-                    "<br /><p><font color=#6E6E6E>‡∏ñ‡πâ‡∏≤‡∏à‡∏ö‡∏ï‡∏≠‡∏ô ‡∏Å‡∏î‡∏õ‡∏∏‡πà‡∏°‡πÄ‡∏û‡∏¥‡πà‡∏°‡∏ï‡∏≠‡∏ô ‡πÄ‡∏û‡∏∑‡πà‡∏≠‡πÄ‡∏Ç‡πâ‡∏≤‡∏™‡∏π‡πà‡∏™‡∏ñ‡∏≤‡∏ô‡∏∞‡∏£‡∏≠‡∏ï‡∏≠‡∏ô‡πÉ‡∏´‡∏°‡πà</font><br />" +
-                            "<font color=#33B6EA>‡πÄ‡∏£‡∏∑‡πà‡∏≠‡∏á :" + data[1] + "</font><br />" +
-                            "<font color=#cc0029> ‡∏•‡πà‡∏≤‡∏™‡∏∏‡∏î ‡∏ï‡∏≠‡∏ô : " + title + " (" + chapter + ")</font></p>";
+                    "<br /><p><font color=#6E6E6E>∂È“®∫µÕπ °¥ªÿË¡‡æ‘Ë¡µÕπ ‡æ◊ËÕ‡¢È“ ŸË ∂“π–√ÕµÕπ„À¡Ë</font><br />" +
+                            "<font color=#33B6EA>‡√◊ËÕß :" + data[1] + "</font><br />" +
+                            "<font color=#cc0029> ≈Ë“ ÿ¥ µÕπ : " + title + " (" + chapter + ")</font></p>";
             publishProgress("-99", Integer.toString(index), temp);
             sessionStatus.put(url + chapter, temp);
         } else if (status == 1 || status == -1) {
             String temp =
-                    "<br /><p><font color=#339900>‡∏°‡∏µ‡∏Å‡∏≤‡∏£‡∏≠‡∏±‡∏û‡πÄ‡∏î‡∏ï‡∏ï‡∏≠‡∏ô‡∏õ‡∏±‡∏à‡∏à‡∏∏‡∏ö‡∏±‡∏ô</font><br />" +
-                            "<font color=#33B6EA>‡πÄ‡∏£‡∏∑‡πà‡∏≠‡∏á :" + data[1] + "</font><br />" +
-                            "<font color=#cc0029> ‡∏ï‡∏≠‡∏ô : " + text1 + " (" + chapter + ")</font></p>";
+                    "<br /><p><font color=#339900>¡’°“√Õ—æ‡¥µµÕπª—®®ÿ∫—π</font><br />" +
+                            "<font color=#33B6EA>‡√◊ËÕß :" + data[1] + "</font><br />" +
+                            "<font color=#cc0029> µÕπ : " + text1 + " (" + chapter + ")</font></p>";
             publishProgress("-99", Integer.toString(index), temp);
-            sessionStatus.put(url + chapter, temp.replace("‡∏°‡∏µ‡∏Å‡∏≤‡∏£‡∏≠‡∏±‡∏û‡πÄ‡∏î‡∏ï‡∏ï‡∏≠‡∏ô‡∏õ‡∏±‡∏à‡∏à‡∏∏‡∏ö‡∏±‡∏ô", "‡∏°‡∏µ‡∏Å‡∏≤‡∏£‡∏≠‡∏±‡∏û‡πÄ‡∏î‡∏ï‡∏ï‡∏≠‡∏ô‡∏õ‡∏±‡∏à‡∏à‡∏∏‡∏ö‡∏±‡∏ô\n‡∏ñ‡πâ‡∏≤‡∏à‡∏ö‡∏ï‡∏≠‡∏ô ‡∏Å‡∏î‡∏õ‡∏∏‡πà‡∏°‡πÄ‡∏û‡∏¥‡πà‡∏°‡∏ï‡∏≠‡∏ô\n‡πÄ‡∏û‡∏∑‡πà‡∏≠‡πÄ‡∏Ç‡πâ‡∏≤‡∏™‡∏π‡πà‡∏™‡∏ñ‡∏≤‡∏ô‡∏∞‡∏£‡∏≠‡∏ï‡∏≠‡∏ô‡πÉ‡∏´‡∏°‡πà"));
+            sessionStatus.put(url + chapter, temp.replace("¡’°“√Õ—æ‡¥µµÕπª—®®ÿ∫—π", "¡’°“√Õ—æ‡¥µµÕπª—®®ÿ∫—π\n∂È“®∫µÕπ °¥ªÿË¡‡æ‘Ë¡µÕπ\n‡æ◊ËÕ‡¢È“ ŸË ∂“π–√ÕµÕπ„À¡Ë"));
         }
 
 		/*		Log.e("content",
@@ -392,7 +392,7 @@ class Do_Back2 extends AsyncTask<Context, String, Long> {
         for (String stemp : Listtemp) {
             //System.out.println("Listtemp: "+ stemp);
             ListViewContent.add(stemp);
-            ListViewStatus.add("‡∏Å‡∏≥‡∏•‡∏±‡∏á‡∏ï‡∏£‡∏ß‡∏à‡∏™‡∏≠‡∏ö‡∏ï‡∏≠‡∏ô‡πÉ‡∏´‡∏°‡πà");
+            ListViewStatus.add("°”≈—ßµ√«® Õ∫µÕπ„À¡Ë");
         }
         MainActivity.db.close();
     }
@@ -412,8 +412,8 @@ class Do_Back2 extends AsyncTask<Context, String, Long> {
                 title = title.substring(title.indexOf(">") + 2);
             //dialog.setTitle(title);
             Listtemp.add(
-                    "<br /><p><font color=#33B6EA>‡πÄ‡∏£‡∏∑‡πà‡∏≠‡∏á :" + c[1] + "</font><br />" +
-                            "<font color=#cc0029> ‡∏•‡πà‡∏≤‡∏™‡∏∏‡∏î ‡∏ï‡∏≠‡∏ô : " + title + " (" + c[3] + ")</font></p>");
+                    "<br /><p><font color=#33B6EA>‡√◊ËÕß :" + c[1] + "</font><br />" +
+                            "<font color=#cc0029> ≈Ë“ ÿ¥ µÕπ : " + title + " (" + c[3] + ")</font></p>");
         }
         /*Log.e("content",
 				"id: " +data[0]+"\n"+
@@ -435,7 +435,7 @@ class Do_Back2 extends AsyncTask<Context, String, Long> {
                     .get();
         } catch (IOException e) {
             publishProgress("-1");
-            //Toast.makeText(getBaseContext(), "‡∏Å‡∏≤‡∏£‡πÄ‡∏ä‡∏∑‡πà‡∏≠‡∏°‡∏ï‡πà‡∏≠‡∏°‡∏µ‡∏õ‡∏±‡∏ç‡∏´‡∏≤ ‡∏Å‡∏£‡∏∏‡∏ì‡∏≤‡∏õ‡∏£‡∏±‡∏ö‡∏õ‡∏£‡∏∏‡∏á‡∏Å‡∏≤‡∏£‡πÄ‡∏ä‡∏∑‡πà‡∏≠‡∏°‡∏ï‡πà‡∏≠ ‡πÅ‡∏•‡πâ‡∏ß‡∏•‡∏≠‡∏á‡πÉ‡∏´‡∏°‡πà", Toast.LENGTH_LONG).show();
+            //Toast.makeText(getBaseContext(), "°“√‡™◊ËÕ¡µËÕ¡’ª—≠À“ °√ÿ≥“ª√—∫ª√ÿß°“√‡™◊ËÕ¡µËÕ ·≈È«≈Õß„À¡Ë", Toast.LENGTH_LONG).show();
             e.printStackTrace();
         }
         //System.out.println(doc.html());
@@ -446,10 +446,10 @@ class Do_Back2 extends AsyncTask<Context, String, Long> {
             //Log.v("stext", stext);
             String[] temp = new String[5];
             temp[0] = "-2";
-            temp[1] = stext.substring(0, stext.indexOf("‡∏ï‡∏≠‡∏ô‡∏ó‡∏µ‡πà"));
+            temp[1] = stext.substring(0, stext.indexOf("µÕπ∑’Ë"));
             temp[2] = link.select("a").attr("href");
             temp[3] = "-2";
-            temp[4] = stext.substring(stext.indexOf("‡∏ï‡∏≠‡∏ô‡∏ó‡∏µ‡πà"));
+            temp[4] = stext.substring(stext.indexOf("µÕπ∑’Ë"));
             ;
             publishProgress(temp[1]);
             MainActivity.niyayTable.add(temp);
@@ -457,12 +457,12 @@ class Do_Back2 extends AsyncTask<Context, String, Long> {
             if (sessionStatus.get(temp[2]) != null) {
                 ListViewContent.add(sessionStatus.get(temp[2]));
             } else {
-                //MainActivity.ListViewContent.add(stext.replace("‡∏ï‡∏≠‡∏ô‡∏ó‡∏µ‡πà", "\n‡∏ï‡∏≠‡∏ô‡∏ó‡∏µ‡πà"));
+                //MainActivity.ListViewContent.add(stext.replace("µÕπ∑’Ë", "\nµÕπ∑’Ë"));
                 ListViewContent.add(
-                        "<br /><p><font color=#339900>[fav]‡∏°‡∏µ‡∏Å‡∏≤‡∏£‡∏≠‡∏±‡∏û‡πÄ‡∏î‡∏ï‡∏ï‡∏≠‡∏ô‡∏õ‡∏±‡∏à‡∏à‡∏∏‡∏ö‡∏±‡∏ô</font><br />" +
-                                "<font color=#33B6EA>‡πÄ‡∏£‡∏∑‡πà‡∏≠‡∏á :" + temp[1] + "</font><br />" +
+                        "<br /><p><font color=#339900>[fav]¡’°“√Õ—æ‡¥µµÕπª—®®ÿ∫—π</font><br />" +
+                                "<font color=#33B6EA>‡√◊ËÕß :" + temp[1] + "</font><br />" +
                                 "<font color=#cc0029>" + temp[4] + "</font></p>");
-                sessionStatus.put(temp[2], ListViewContent.get(ListViewContent.size() - 1).replace("‡∏°‡∏µ‡∏Å‡∏≤‡∏£‡∏≠‡∏±‡∏û‡πÄ‡∏î‡∏ï‡∏ï‡∏≠‡∏ô‡∏õ‡∏±‡∏à‡∏à‡∏∏‡∏ö‡∏±‡∏ô", "‡∏°‡∏µ‡∏Å‡∏≤‡∏£‡∏≠‡∏±‡∏û‡πÄ‡∏î‡∏ï‡∏ï‡∏≠‡∏ô‡∏õ‡∏±‡∏à‡∏à‡∏∏‡∏ö‡∏±‡∏ô\n‡∏ñ‡πâ‡∏≤‡∏à‡∏ö‡∏ï‡∏≠‡∏ô ‡∏Å‡∏î‡∏õ‡∏∏‡πà‡∏°‡πÄ‡∏û‡∏¥‡πà‡∏°‡∏ï‡∏≠‡∏ô\n‡πÄ‡∏û‡∏∑‡πà‡∏≠‡πÄ‡∏Ç‡πâ‡∏≤‡∏™‡∏π‡πà‡∏™‡∏ñ‡∏≤‡∏ô‡∏∞‡∏£‡∏≠‡∏ï‡∏≠‡∏ô‡πÉ‡∏´‡∏°‡πà"));
+                sessionStatus.put(temp[2], ListViewContent.get(ListViewContent.size() - 1).replace("¡’°“√Õ—æ‡¥µµÕπª—®®ÿ∫—π", "¡’°“√Õ—æ‡¥µµÕπª—®®ÿ∫—π\n∂È“®∫µÕπ °¥ªÿË¡‡æ‘Ë¡µÕπ\n‡æ◊ËÕ‡¢È“ ŸË ∂“π–√ÕµÕπ„À¡Ë"));
             }
         }
 
@@ -485,7 +485,7 @@ class Do_Back2 extends AsyncTask<Context, String, Long> {
 			sessionId = res.cookies();
 		} catch (IOException e) {
 			publishProgress(-1);
-			//Toast.makeText(getBaseContext(), "‡∏Å‡∏≤‡∏£‡πÄ‡∏ä‡∏∑‡πà‡∏≠‡∏°‡∏ï‡πà‡∏≠‡∏°‡∏µ‡∏õ‡∏±‡∏ç‡∏´‡∏≤ ‡∏Å‡∏£‡∏∏‡∏ì‡∏≤‡∏õ‡∏£‡∏±‡∏ö‡∏õ‡∏£‡∏∏‡∏á‡∏Å‡∏≤‡∏£‡πÄ‡∏ä‡∏∑‡πà‡∏≠‡∏°‡∏ï‡πà‡∏≠ ‡πÅ‡∏•‡πâ‡∏ß‡∏•‡∏≠‡∏á‡πÉ‡∏´‡∏°‡πà", Toast.LENGTH_LONG).show();
+			//Toast.makeText(getBaseContext(), "°“√‡™◊ËÕ¡µËÕ¡’ª—≠À“ °√ÿ≥“ª√—∫ª√ÿß°“√‡™◊ËÕ¡µËÕ ·≈È«≈Õß„À¡Ë", Toast.LENGTH_LONG).show();
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}  */
@@ -565,8 +565,8 @@ class Do_Back2 extends AsyncTask<Context, String, Long> {
             editor.commit();
             loginsuscess = true;
         } else {
-            System.out.println("Username ‡∏´‡∏£‡∏∑‡∏≠ Password ‡πÑ‡∏°‡πà‡∏ñ‡∏π‡∏Å‡∏ï‡πâ‡∏≠‡∏á");
-            publishProgress("Username ‡∏´‡∏£‡∏∑‡∏≠ Password ‡πÑ‡∏°‡πà‡∏ñ‡∏π‡∏Å‡∏ï‡πâ‡∏≠‡∏á");
+            System.out.println("Username À√◊Õ Password ‰¡Ë∂Ÿ°µÈÕß");
+            publishProgress("Username À√◊Õ Password ‰¡Ë∂Ÿ°µÈÕß");
             try {
                 Thread.sleep(3000);
             } catch (InterruptedException e) {

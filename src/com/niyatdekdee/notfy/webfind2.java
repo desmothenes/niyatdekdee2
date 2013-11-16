@@ -82,7 +82,7 @@ public class webfind2 extends Activity {
         }
 
         if (doc == null) {
-            Toast.makeText(this, "‡∏Å‡∏≤‡∏£‡πÄ‡∏ä‡∏∑‡πà‡∏≠‡∏°‡∏ï‡πà‡∏≠‡∏°‡∏µ‡∏õ‡∏±‡∏ç‡∏´‡∏≤ ‡∏Å‡∏£‡∏∏‡∏ì‡∏≤‡∏ï‡∏£‡∏ß‡∏à‡∏™‡∏≠‡∏ö‡∏≠‡∏¥‡∏ô‡πÄ‡∏ï‡∏≠‡∏£‡πå‡πÄ‡∏ô‡πá‡∏ï", Toast.LENGTH_LONG);
+            Toast.makeText(this, "°“√‡™◊ËÕ¡µËÕ¡’ª—≠À“ °√ÿ≥“µ√«® Õ∫Õ‘π‡µÕ√Ï‡πÁµ", Toast.LENGTH_LONG);
             return;
         }
 
@@ -112,7 +112,7 @@ public class webfind2 extends Activity {
         //doc.select(".fr-box").append("<span></span>");
         for (Element item : doc.select(".boxgo")) {
             item.empty();
-            item.append("<button onclick=\" return searchsort(1)\">‡∏Ñ‡πâ‡∏ô‡∏´‡∏≤</button>");
+            item.append("<button onclick=\" return searchsort(1)\">§ÈπÀ“</button>");
         }
         if (android.os.Build.VERSION.SDK_INT > 10) {
             for (Element item : doc.select(".wrapper")) {

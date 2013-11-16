@@ -64,11 +64,11 @@ public class Fav_add extends ListActivity {
         if (Setting.getScreenSetting(getApplicationContext()).equals("1"))
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         if (customTitleSupported) {
-            //‡∏ï‡∏±‡πâ‡∏á‡∏Ñ‡πà‡∏≤ custom titlebar ‡∏à‡∏≤‡∏Å custom_titlebar.xml
+            //µ—Èß§Ë“ custom titlebar ®“° custom_titlebar.xml
             getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.custom_titlebar_nonmain);
-            //‡πÄ‡∏ä‡∏∑‡πà‡∏≠‡∏° btnSearch btnDirection ‡πÄ‡∏Ç‡πâ‡∏≤‡∏Å‡∏±‡∏ö View
+            //‡™◊ËÕ¡ btnSearch btnDirection ‡¢È“°—∫ View
             TextView title = (TextView) findViewById(R.id.textViewBar);
-            title.setText(" ‡πÄ‡∏Ç‡πâ‡∏≤‡∏™‡∏π‡∏£‡∏∞‡∏ö‡∏ö");
+            title.setText(" ‡¢È“ Ÿ√–∫∫");
 
             RelativeLayout barLayout = (RelativeLayout) findViewById(R.id.nonbar);
             switch (Integer.parseInt(Setting.getColorSelectSetting(getApplicationContext()))) {
@@ -153,24 +153,24 @@ public class Fav_add extends ListActivity {
                 Log.v("login", "login");
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(Fav_add.this);
-                builder.setMessage("‡∏ï‡πâ‡∏≠‡∏á‡∏Å‡∏≤‡∏£‡∏ó‡∏µ‡πà‡∏à‡∏∞‡∏ö‡∏±‡∏ô‡∏ó‡∏∂‡∏Å‡∏ä‡∏∑‡πà‡∏≠‡πÅ‡∏•‡∏∞‡∏£‡∏´‡∏±‡∏™‡∏ú‡πà‡∏≤‡∏ô‡∏´‡∏£‡∏∑‡∏≠‡πÑ‡∏°‡πà ?")
+                builder.setMessage("µÈÕß°“√∑’Ë®–∫—π∑÷°™◊ËÕ·≈–√À— ºË“πÀ√◊Õ‰¡Ë ?")
                         .setCancelable(false)
-                        .setPositiveButton("‡∏ö‡∏±‡∏ô‡∏ó‡∏∂‡∏Å", new DialogInterface.OnClickListener() {
+                        .setPositiveButton("∫—π∑÷°", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog2, int id) {
                                 SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit();
                                 editor.putString("UserName", username.getText().toString());
                                 editor.putString("PassWord", password.getText().toString());
                                 editor.putBoolean("isLogin", true);
                                 editor.commit();
-                                dialog = ProgressDialog.show(Fav_add.this, "Loading", "Please Wait...\n\n‡∏ñ‡πâ‡∏≤‡∏£‡∏≠‡∏ô‡∏≤‡∏ô‡πÄ‡∏Å‡∏¥‡∏ô‡πÑ‡∏õ‡∏Å‡∏î back 2 ‡∏Ñ‡∏£‡∏±‡πâ‡∏á‡πÄ‡∏û‡∏∑‡πà‡∏≠‡∏≠‡∏≠‡∏Å", true);
+                                dialog = ProgressDialog.show(Fav_add.this, "Loading", "Please Wait...\n\n∂È“√Õπ“π‡°‘π‰ª°¥ back 2 §√—Èß‡æ◊ËÕÕÕ°", true);
                                 dialog.setCancelable(true);
                                 Fav_doback dob = new Fav_doback();
                                 dob.execute();
                             }
                         })
-                        .setNegativeButton("‡πÑ‡∏°‡πà‡∏ö‡∏±‡∏ô‡∏ó‡∏∂‡∏Å", new DialogInterface.OnClickListener() {
+                        .setNegativeButton("‰¡Ë∫—π∑÷°", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog2, int id) {
-                                dialog = ProgressDialog.show(Fav_add.this, "Loading", "Please Wait...\n\n‡∏ñ‡πâ‡∏≤‡∏£‡∏≠‡∏ô‡∏≤‡∏ô‡πÄ‡∏Å‡∏¥‡∏ô‡πÑ‡∏õ‡∏Å‡∏î back 2 ‡∏Ñ‡∏£‡∏±‡πâ‡∏á‡πÄ‡∏û‡∏∑‡πà‡∏≠‡∏≠‡∏≠‡∏Å", true);
+                                dialog = ProgressDialog.show(Fav_add.this, "Loading", "Please Wait...\n\n∂È“√Õπ“π‡°‘π‰ª°¥ back 2 §√—Èß‡æ◊ËÕÕÕ°", true);
                                 dialog.setCancelable(true);
                                 Fav_doback dob = new Fav_doback();
                                 dob.execute();
@@ -180,7 +180,7 @@ public class Fav_add extends ListActivity {
                 if (!Setting.getUserName(getBaseContext()).equals(username.getText().toString()) || !Setting.getPassWord(getBaseContext()).equals(password.getText().toString())) {
                     alert.show();
                 } else {
-                    dialog = ProgressDialog.show(Fav_add.this, "Loading", "Please Wait...\n\n‡∏ñ‡πâ‡∏≤‡∏£‡∏≠‡∏ô‡∏≤‡∏ô‡πÄ‡∏Å‡∏¥‡∏ô‡πÑ‡∏õ‡∏Å‡∏î back 2 ‡∏Ñ‡∏£‡∏±‡πâ‡∏á‡πÄ‡∏û‡∏∑‡πà‡∏≠‡∏≠‡∏≠‡∏Å", true);
+                    dialog = ProgressDialog.show(Fav_add.this, "Loading", "Please Wait...\n\n∂È“√Õπ“π‡°‘π‰ª°¥ back 2 §√—Èß‡æ◊ËÕÕÕ°", true);
                     dialog.setCancelable(true);
                     Fav_doback dob = new Fav_doback();
                     dob.execute();
@@ -213,7 +213,7 @@ public class Fav_add extends ListActivity {
                 i.putExtra("name", title);
                 //in this fomat http://writer.dek-d.com/dek-d/writer/view.php?id=580483
                 String stext = "id=";
-                //‡∏´‡∏≤‡∏´‡∏•‡∏±‡∏Å‡∏Ç‡∏≠‡∏á‡∏ï‡∏≠‡∏ô
+                //À“À≈—°¢ÕßµÕπ
                 final int start = url.lastIndexOf(stext) + stext.length();
                 if (start - stext.length() == -1) {
                     Toast.makeText(getBaseContext(), "Error not correct niyay page", Toast.LENGTH_LONG).show();
@@ -261,7 +261,7 @@ public class Fav_add extends ListActivity {
 
         protected void onProgressUpdate(String... progress) {
             if (progress[0].equals("-1")) {
-                dialog.setMessage("‡∏Å‡∏≤‡∏£‡πÄ‡∏ä‡∏∑‡πà‡∏≠‡∏°‡∏ï‡πà‡∏≠‡∏°‡∏µ‡∏õ‡∏±‡∏ç‡∏´‡∏≤ ‡∏Å‡∏£‡∏∏‡∏ì‡∏≤‡∏õ‡∏£‡∏±‡∏ö‡∏õ‡∏£‡∏∏‡∏á‡∏Å‡∏≤‡∏£‡πÄ‡∏ä‡∏∑‡πà‡∏≠‡∏°‡∏ï‡πà‡∏≠ ‡πÅ‡∏•‡πâ‡∏ß‡∏•‡∏≠‡∏á‡πÉ‡∏´‡∏°‡πà");
+                dialog.setMessage("°“√‡™◊ËÕ¡µËÕ¡’ª—≠À“ °√ÿ≥“ª√—∫ª√ÿß°“√‡™◊ËÕ¡µËÕ ·≈È«≈Õß„À¡Ë");
             } else {
                 dialog.setMessage(progress[0]);
             }
@@ -272,8 +272,8 @@ public class Fav_add extends ListActivity {
                 if (dialog.isShowing()) dialog.dismiss();
                 if (ListViewContent.size() == 0) {
                     AlertDialog alertDialog = new AlertDialog.Builder(Fav_add.this).create();
-                    alertDialog.setTitle("‡πÑ‡∏°‡πà‡∏û‡∏ö‡∏Ç‡πâ‡∏≠‡∏°‡∏π‡∏•");
-                    alertDialog.setMessage("‡∏ñ‡πâ‡∏≤‡∏°‡∏µ‡∏£‡∏≤‡∏¢‡∏Å‡∏≤‡∏£‡∏≠‡∏¢‡∏π‡πà ‡∏•‡∏≠‡∏á‡∏ï‡∏£‡∏ß‡∏à‡∏™‡∏≠‡∏ö‡∏Å‡∏≤‡∏£‡πÄ‡∏ä‡∏∑‡πà‡∏≠‡∏°‡∏ï‡πà‡∏≠‡∏≠‡∏¥‡∏ô‡πÄ‡∏ï‡∏≠‡∏£‡πå‡πÄ‡∏ô‡πá‡∏ï ‡πÅ‡∏•‡πâ‡∏ß‡∏•‡∏≠‡∏á‡πÉ‡∏´‡∏°‡πà");
+                    alertDialog.setTitle("‰¡Ëæ∫¢ÈÕ¡Ÿ≈");
+                    alertDialog.setMessage("∂È“¡’√“¬°“√Õ¬ŸË ≈Õßµ√«® Õ∫°“√‡™◊ËÕ¡µËÕÕ‘π‡µÕ√Ï‡πÁµ ·≈È«≈Õß„À¡Ë");
                     alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             listView.setVisibility(View.INVISIBLE);
@@ -286,7 +286,7 @@ public class Fav_add extends ListActivity {
                 }
                 setListAdapter(adapter);
                 TextView title = (TextView) findViewById(R.id.textViewBar);
-                title.setText(" ‡πÄ‡∏•‡∏∑‡∏≠‡∏Å‡∏£‡∏≤‡∏¢‡∏Å‡∏≤‡∏£‡∏ó‡∏µ‡πà‡∏à‡∏∞‡πÄ‡∏û‡∏¥‡πà‡∏°");
+                title.setText(" ‡≈◊Õ°√“¬°“√∑’Ë®–‡æ‘Ë¡");
 
                 for (String i : ListViewContent)
                     Log.v("ListViewContent", i);
@@ -304,8 +304,8 @@ public class Fav_add extends ListActivity {
 
         private void loadFav(Map<String, String> sessionId) {
             if (sessionId.size() < 2) {
-                System.out.println("Username ‡∏´‡∏£‡∏∑‡∏≠ Password ‡πÑ‡∏°‡πà‡∏ñ‡∏π‡∏Å‡∏ï‡πâ‡∏≠‡∏á");
-                publishProgress("Username ‡∏´‡∏£‡∏∑‡∏≠ Password ‡πÑ‡∏°‡πà‡∏ñ‡∏π‡∏Å‡∏ï‡πâ‡∏≠‡∏á");
+                System.out.println("Username À√◊Õ Password ‰¡Ë∂Ÿ°µÈÕß");
+                publishProgress("Username À√◊Õ Password ‰¡Ë∂Ÿ°µÈÕß");
                 try {
                     Thread.sleep(3000);
                 } catch (InterruptedException e) {
@@ -321,7 +321,7 @@ public class Fav_add extends ListActivity {
                         .cookies(sessionId).timeout(3000)
                         .get();
             } catch (IOException e) {
-                //Toast.makeText(getBaseContext(), "‡∏Å‡∏≤‡∏£‡πÄ‡∏ä‡∏∑‡πà‡∏≠‡∏°‡∏ï‡πà‡∏≠‡∏°‡∏µ‡∏õ‡∏±‡∏ç‡∏´‡∏≤ ‡∏Å‡∏£‡∏∏‡∏ì‡∏≤‡∏õ‡∏£‡∏±‡∏ö‡∏õ‡∏£‡∏∏‡∏á‡∏Å‡∏≤‡∏£‡πÄ‡∏ä‡∏∑‡πà‡∏≠‡∏°‡∏ï‡πà‡∏≠ ‡πÅ‡∏•‡πâ‡∏ß‡∏•‡∏≠‡∏á‡πÉ‡∏´‡∏°‡πà", Toast.LENGTH_LONG).show();
+                //Toast.makeText(getBaseContext(), "°“√‡™◊ËÕ¡µËÕ¡’ª—≠À“ °√ÿ≥“ª√—∫ª√ÿß°“√‡™◊ËÕ¡µËÕ ·≈È«≈Õß„À¡Ë", Toast.LENGTH_LONG).show();
                 publishProgress("-1");
                 try {
                     Thread.sleep(3000);

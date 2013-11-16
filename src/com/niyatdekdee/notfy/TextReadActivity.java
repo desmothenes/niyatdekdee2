@@ -44,6 +44,7 @@ public class TextReadActivity extends Activity {
     private File temp;
     private Text_Doback text_doback;
     private static int font_size = 0;
+    private static boolean active;
 
     static int getScRoll() {
         return scRoll;
@@ -93,16 +94,29 @@ public class TextReadActivity extends Activity {
         System.out.println(intent.getStringExtra("id") != null ? intent.getStringExtra("id") : "null");
         dialog = new ProgressDialog(TextReadActivity.this);
         dialog.setTitle("Loading");
-        dialog.setMessage("โปรดรอ...\nถ้ารู้สึกช้า ออกแล้วเข้าใหม่");
+        dialog.setMessage("�ô��...\n�������֡��� �͡�����������");
         dialog.setCancelable(true);
         dialog.setCanceledOnTouchOutside(false);
-        if (intent.getStringExtra("id") != null && !intent.getStringExtra("id").equals("-2")) {
+        /*Bundle bundle = intent.getExtras();
+        for (String key : bundle.keySet()) {
+            Object value = bundle.get(key);
+            Log.e("intent", String.format("%s %s (%s)", key,
+                    value.toString(), value.getClass().getName()));
+        }*/
+        Uri data = intent.getData();
+        ;
+        if (data != null && data.toString() != "") {
+            Log.e("intent", data.toString());
+            oriurl = data.toString();
+            text_doback = new Text_Doback();
+            text_doback.execute(true);
+        } else if (intent.getStringExtra("id") != null && !intent.getStringExtra("id").equals("-2")) {
             //isFile = true;
             text_doback = new Text_Doback();
             text_doback.execute(false);
         } else {
             oriurl = intent.getStringExtra("url");
-            //dialog = ProgressDialog.show(TextReadActivity.this,"Loading", "Please Wait...\nถ้ารู้สึกช้า ออกแล้วเข้าใหม่",true);
+            //dialog = ProgressDialog.show(TextReadActivity.this,"Loading", "Please Wait...\n�������֡��� �͡�����������",true);
             text_doback = new Text_Doback();
             text_doback.execute(true);
         }
@@ -131,7 +145,7 @@ public class TextReadActivity extends Activity {
                 }
 
                 webView.loadUrl("javascript: document.getElementsByName('txtCode')[0].type = 'number';");
-                webView.loadUrl("javascript: document.getElementsByName('t_name')[0].value='" + Setting.getPosttext(getApplicationContext()) + " (เขียนบน android)';");
+                webView.loadUrl("javascript: document.getElementsByName('t_name')[0].value='" + Setting.getPosttext(getApplicationContext()) + " (��¹�� android)';");
                 if (android.os.Build.VERSION.SDK_INT < 11) {
                     webView.loadUrl("javascript: var story = document.getElementById('story_body');" +
                             "images = story.getElementsByTagName('img');" +
@@ -287,9 +301,9 @@ public class TextReadActivity extends Activity {
             }
 
             AlertDialog.Builder builder = new AlertDialog.Builder(TextReadActivity.this);
-            builder.setMessage("คุณต้องการที่จะ ?")
+            builder.setMessage("�س��ͧ��÷��� ?")
                     .setCancelable(true)
-                    .setPositiveButton("ออกจากหน้านี้", new DialogInterface.OnClickListener() {
+                    .setPositiveButton("�͡�ҡ˹�ҹ��", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
                             String temp = oriurl;
@@ -302,13 +316,13 @@ public class TextReadActivity extends Activity {
                             finish();
                         }
                     })
-                    .setNegativeButton("ย้อนกลับ", new DialogInterface.OnClickListener() {
+                    .setNegativeButton("��͹��Ѻ", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             if (webView.canGoBack()) {
                                 webView.goBack();
                             } else {
-                                Toast.makeText(getBaseContext(), "กรุณาเลื่อนไปกดปุ่ม ตอนก่อนหน้า แทนครับ\nปุ่มย้อนกลับใช้สำหรับย้อนจากหน้าความคิดเห็นเท่านั้น", Toast.LENGTH_LONG).show();
-                                Toast.makeText(getBaseContext(), "กรุณาเลื่อนไปกดปุ่ม ตอนก่อนหน้า แทนครับ\nปุ่มย้อนกลับใช้สำหรับย้อนจากหน้าความคิดเห็นเท่านั้น", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getBaseContext(), "��س�����͹仡����� �͹��͹˹�� ᷹��Ѻ\n������͹��Ѻ������Ѻ��͹�ҡ˹�Ҥ����Դ�����ҹ��", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getBaseContext(), "��س�����͹仡����� �͹��͹˹�� ᷹��Ѻ\n������͹��Ѻ������Ѻ��͹�ҡ˹�Ҥ����Դ�����ҹ��", Toast.LENGTH_LONG).show();
                             }
                             dialog.cancel();
                         }
@@ -391,7 +405,7 @@ public class TextReadActivity extends Activity {
                 //System.out.println(ttstext);
                 if (ttstext != null) DekTTSActivity.text = ttstext;
                 else {
-                    Toast.makeText(getBaseContext(), "ผิดพลาด โปรดออกแล้วเข้าใหม่", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getBaseContext(), "�Դ��Ҵ �ô�͡�����������", Toast.LENGTH_SHORT).show();
                     return true;
                 }
                 //}
@@ -453,16 +467,16 @@ public class TextReadActivity extends Activity {
                 scRoll = -scRoll;
                 return true;
             case R.id.inctext:
-                //เพิ่มขนาด font
+                //������Ҵ font
                 font_size += 1;
-                Toast.makeText(getBaseContext(), "โปรดรอ", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getBaseContext(), "�ô��", Toast.LENGTH_SHORT).show();
                 webView.loadUrl("javascript: var arr = document.getElementById('story_body').getElementsByTagName('span');" +
                         "for (var i = 0;i<arr.length;i++) { if (arr[i].fontSize != '') arr[i].style.fontSize=parseInt(arr[i].style.fontSize)+5+'px'};");
                 return true;
             case R.id.dectext:
-                //ลดขนาด font
+                //Ŵ��Ҵ font
                 font_size -= 1;
-                Toast.makeText(getBaseContext(), "โปรดรอ", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getBaseContext(), "�ô��", Toast.LENGTH_SHORT).show();
                 webView.loadUrl("javascript: var arr = document.getElementById('story_body').getElementsByTagName('span');" +
                         "for (var i = 0;i<arr.length;i++) { if (arr[i].fontSize != '') arr[i].style.fontSize=parseInt(arr[i].style.fontSize)-5+'px'};");
                 return true;
@@ -493,12 +507,14 @@ public class TextReadActivity extends Activity {
 
     public void onStart() {
         super.onStart();
+        active = true;
         EasyTracker.getInstance().activityStart(this); // Add this method.
     }
 
     @Override
     public void onStop() {
         super.onStop();
+        active = false;
         EasyTracker.getInstance().activityStop(this); // Add this method.
     }
 
@@ -523,7 +539,7 @@ public class TextReadActivity extends Activity {
         //seek.setBackgroundDrawable(new ColorDrawable(0));
         Settings.System.putInt(getContentResolver(), Settings.System.SCREEN_BRIGHTNESS_MODE, Settings.System.SCREEN_BRIGHTNESS_MODE_MANUAL);
         //popDialog.setIcon(android.R.drawable.btn_star_big_on);
-        popDialog.setTitle("ระดับแสงสว่าง");
+        popDialog.setTitle("�дѺ�ʧ���ҧ");
         popDialog.setView(seek);
 
         if (sclight != 0)
@@ -544,12 +560,10 @@ public class TextReadActivity extends Activity {
             }
 
             public void onStartTrackingTouch(SeekBar arg0) {
-                // TODO Auto-generated method stub
 
             }
 
             public void onStopTrackingTouch(SeekBar seekBar) {
-                // TODO Auto-generated method stub
 
             }
         });
@@ -588,10 +602,10 @@ public class TextReadActivity extends Activity {
 
         @Override
         protected Void doInBackground(Boolean... arg0) {
-            // TODO Auto-generated method stub
+
             if (arg0[0]) {
                 try {
-                    final String tempurl = intent.getStringExtra("url");
+                    final String tempurl = oriurl;
                     if (tempurl == null) return null;
                     if (MainActivity.sessionId != null)
                         doc = Jsoup.connect(tempurl).cookies(MainActivity.sessionId).timeout(16000).get();
@@ -637,7 +651,7 @@ public class TextReadActivity extends Activity {
 
         protected void onPostExecute(Void result) {
             if (fail) {
-                dialog.setMessage("การเชื่อมต่อมีปัญหา");
+                dialog.setMessage("������������ջѭ��");
                 try {
                     Thread.sleep(2000);
                 } catch (InterruptedException e) {
@@ -645,9 +659,9 @@ public class TextReadActivity extends Activity {
                 }
                 dialog.dismiss();
                 AlertDialog.Builder builder = new AlertDialog.Builder(TextReadActivity.this);
-                builder.setMessage("การเชื่อมต่อมีปัญหา คุณต้องการที่จะ ?")
+                builder.setMessage("������������ջѭ�� �س��ͧ��÷��� ?")
                         .setCancelable(true)
-                        .setPositiveButton("ออกจากหน้านี้", new DialogInterface.OnClickListener() {
+                        .setPositiveButton("�͡�ҡ˹�ҹ��", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 if (DekTTSActivity.tts != null && DekTTSActivity.isSpeak) {
                                     DekTTSActivity.tts.stop();
@@ -663,7 +677,7 @@ public class TextReadActivity extends Activity {
                                 finish();
                             }
                         })
-                        .setNegativeButton("ลองใหม่", new DialogInterface.OnClickListener() {
+                        .setNegativeButton("�ͧ����", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 dialog.cancel();
                                 if (text_doback != null)
@@ -679,7 +693,7 @@ public class TextReadActivity extends Activity {
                         });
 
                 AlertDialog alert = builder.create();
-                alert.show();
+                if (active) alert.show();
                 return;
             }
             ttstext = HTMLdata.toString();
@@ -691,15 +705,15 @@ public class TextReadActivity extends Activity {
 
         protected void onProgressUpdate(String... progress) {
             if (progress[0].equals("-1")) {
-                dialog.setMessage("การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่");
-                Toast.makeText(getApplicationContext(), "การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่", Toast.LENGTH_SHORT).show();
-                Log.e("onProgressUpdate", "การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่");
+                dialog.setMessage("������������ջѭ�� ��سһ�Ѻ��ا����������� �����ͧ����");
+                Toast.makeText(getApplicationContext(), "������������ջѭ�� ��سһ�Ѻ��ا����������� �����ͧ����", Toast.LENGTH_SHORT).show();
+                Log.e("onProgressUpdate", "������������ջѭ�� ��سһ�Ѻ��ا����������� �����ͧ����");
             } else if (progress[0].equals("-2")) {
-                dialog.setMessage("ตอนที่ ไม่ได้อยู่ในรูปแบบของตัวเลข");
-                Toast.makeText(getApplicationContext(), "ตอนที่ ไม่ได้อยู่ในรูปแบบของตัวเลข", Toast.LENGTH_SHORT).show();
-                //Log.e("onProgressUpdate", "การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่");
+                dialog.setMessage("�͹��� �����������ٻẺ�ͧ����Ţ");
+                Toast.makeText(getApplicationContext(), "�͹��� �����������ٻẺ�ͧ����Ţ", Toast.LENGTH_SHORT).show();
+                //Log.e("onProgressUpdate", "������������ջѭ�� ��سһ�Ѻ��ا����������� �����ͧ����");
             } else if (progress[0].equals("-3")) {
-                /*dialog.setMessage("การเชื่อมต่อมีปัญหา");
+                /*dialog.setMessage("������������ջѭ��");
                 try {
                     Thread.sleep(2000);
                 } catch (InterruptedException e) {
@@ -707,9 +721,9 @@ public class TextReadActivity extends Activity {
                 }
                 dialog.dismiss();
                 AlertDialog.Builder builder = new AlertDialog.Builder(TextReadActivity.this);
-                builder.setMessage("การเชื่อมต่อมีปัญหา คุณต้องการที่จะ ?")
+                builder.setMessage("������������ջѭ�� �س��ͧ��÷��� ?")
                         .setCancelable(true)
-                        .setPositiveButton("ออกจากหน้านี้", new DialogInterface.OnClickListener() {
+                        .setPositiveButton("�͡�ҡ˹�ҹ��", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 if (DekTTSActivity.tts != null && DekTTSActivity.isSpeak) {
                                     DekTTSActivity.tts.stop();
@@ -725,7 +739,7 @@ public class TextReadActivity extends Activity {
                                 finish();
                             }
                         })
-                        .setNegativeButton("ลองใหม่", new DialogInterface.OnClickListener() {
+                        .setNegativeButton("�ͧ����", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 dialog.cancel();
                                 if (text_doback != null)
@@ -864,14 +878,14 @@ public class TextReadActivity extends Activity {
             } catch (NumberFormatException e) {
                 publishProgress("-2");
                 Log.e("error", oriurl);
-                Log.e("error", "ตอนที่ ไม่ได้อยู่ในรูปแบบของตัวเลข");
+                Log.e("error", "�͹��� �����������ٻẺ�ͧ����Ţ");
                 finish();
             }
             final String nav_code = "<div  align='center' style='display: table; margin: 0 auto;'>" + "<table cellpadding='10' cellspacing='0' border='0'>" +
                     "<tbody><tr><td align='center'><font style='font-family:Tahoma;font-size:14px'>" +
-                    "<a href='viewlongc.php?id=" + urlid + "&amp;chapter=" + Integer.toString(cp - 1) + "'> <img src='/a/writer/pic/ba.gif' width='16' height='16' align='absbottom' border='0'> ตอนก่อนหน้า</a> |" +
-                    "<a href='view.php?id=" + urlid + "'><img src='/a/writer/pic/ho.gif' width='16' height='16' align='absbottom' border='0'><b> สารบัญ</b> </a> | " +
-                    "<a href='viewlongc.php?id=" + urlid + "&amp;chapter=" + Integer.toString(cp + 1) + "'>ตอนถัดไป <b><img src='/a/writer/pic/ne.gif' width='16' height='16' align='absbottom' border='0'></b> </a>" +
+                    "<a href='viewlongc.php?id=" + urlid + "&amp;chapter=" + Integer.toString(cp - 1) + "'> <img src='/a/writer/pic/ba.gif' width='16' height='16' align='absbottom' border='0'> �͹��͹˹��</a> |" +
+                    "<a href='view.php?id=" + urlid + "'><img src='/a/writer/pic/ho.gif' width='16' height='16' align='absbottom' border='0'><b> ��úѭ</b> </a> | " +
+                    "<a href='viewlongc.php?id=" + urlid + "&amp;chapter=" + Integer.toString(cp + 1) + "'>�͹�Ѵ� <b><img src='/a/writer/pic/ne.gif' width='16' height='16' align='absbottom' border='0'></b> </a>" +
                     " </font></td></tr></tbody></table></div>";
 
             if (doc.title() != null)
@@ -892,7 +906,7 @@ public class TextReadActivity extends Activity {
                     //ttstext = story.text();
 
                 } else {
-                    HTMLdata.append("<br><h2> ไม่พบตอนนี้  </h2><br><br><br>");
+                    HTMLdata.append("<br><h2> ��辺�͹���  </h2><br><br><br>");
                 }
                 publishProgress("50 %");
 
@@ -914,13 +928,13 @@ public class TextReadActivity extends Activity {
                             if (Setting.getCommentSort(getApplicationContext()).equals("0")) {
                                 ArrayList<String> comment = new ArrayList<String>();
                                 if (thcc == 0)
-                                    comment.add(0, "<br><br>" + per.html().replace("width=\"75\"", "").replace("width=\"700\"", "").replace("#ffffff", "#0").replace("Email / Msn: ", "").replace("(แอท)", "@") + "<br><br>");
+                                    comment.add(0, "<br><br>" + per.html().replace("width=\"75\"", "").replace("width=\"700\"", "").replace("#ffffff", "#0").replace("Email / Msn: ", "").replace("(�ͷ)", "@") + "<br><br>");
                                 else if (thcc == 1)
-                                    comment.add(0, "<br><br>" + per.html().replace("width=\"75\"", "").replace("width=\"700\"", "").replace("Email / Msn: ", "").replace("(แอท)", "@").replaceAll("#[0-9A-F]{6}", "#000000") + "<br><br>");
+                                    comment.add(0, "<br><br>" + per.html().replace("width=\"75\"", "").replace("width=\"700\"", "").replace("Email / Msn: ", "").replace("(�ͷ)", "@").replaceAll("#[0-9A-F]{6}", "#000000") + "<br><br>");
                                 else if (thcc == 2)
-                                    comment.add(0, "<br><br>" + per.html().replace("width=\"75\"", "").replace("width=\"700\"", "").replace("Email / Msn: ", "").replace("(แอท)", "@").replace("color: rgb(0, 0, 0)", "color: rgb(255, 255, 255)").replaceAll("#[0-9A-F]{6}", "#FFFFFF") + "<br><br>");
+                                    comment.add(0, "<br><br>" + per.html().replace("width=\"75\"", "").replace("width=\"700\"", "").replace("Email / Msn: ", "").replace("(�ͷ)", "@").replace("color: rgb(0, 0, 0)", "color: rgb(255, 255, 255)").replaceAll("#[0-9A-F]{6}", "#FFFFFF") + "<br><br>");
                                 else if (thcc == 3)
-                                    comment.add(0, "<br><br>" + per.html().replace("width=\"75\"", "").replace("width=\"700\"", "").replace("Email / Msn: ", "").replace("(แอท)", "@").replaceAll("#[0-9A-F]{6}", "#0000FF").replace("color: rgb(0, 0, 0)", "color: rgb(0, 0, 255)") + "<br><br>");
+                                    comment.add(0, "<br><br>" + per.html().replace("width=\"75\"", "").replace("width=\"700\"", "").replace("Email / Msn: ", "").replace("(�ͷ)", "@").replaceAll("#[0-9A-F]{6}", "#0000FF").replace("color: rgb(0, 0, 0)", "color: rgb(0, 0, 255)") + "<br><br>");
 
                                 for (String temp : comment) {
                                     HTMLdata.append(temp);
@@ -929,13 +943,13 @@ public class TextReadActivity extends Activity {
 
                             } else {
                                 if (thcc == 0)
-                                    HTMLdata.append("<br><br>").append(per.html().replace("width=\"75\"", "").replace("width=\"700\"", "").replace("#ffffff", "#0").replace("Email / Msn: ", "").replace("(แอท)", "@")).append("<br><br>");
+                                    HTMLdata.append("<br><br>").append(per.html().replace("width=\"75\"", "").replace("width=\"700\"", "").replace("#ffffff", "#0").replace("Email / Msn: ", "").replace("(�ͷ)", "@")).append("<br><br>");
                                 else if (thcc == 1)
-                                    HTMLdata.append("<br><br>").append(per.html().replace("width=\"75\"", "").replace("width=\"700\"", "").replace("Email / Msn: ", "").replace("(แอท)", "@").replaceAll("#[0-9A-F]{6}", "#000000")).append("<br><br>");
+                                    HTMLdata.append("<br><br>").append(per.html().replace("width=\"75\"", "").replace("width=\"700\"", "").replace("Email / Msn: ", "").replace("(�ͷ)", "@").replaceAll("#[0-9A-F]{6}", "#000000")).append("<br><br>");
                                 else if (thcc == 2)
-                                    HTMLdata.append("<br><br>").append(per.html().replace("width=\"75\"", "").replace("width=\"700\"", "").replace("Email / Msn: ", "").replace("(แอท)", "@").replace("color: rgb(0, 0, 0)", "color: rgb(255, 255, 255)").replaceAll("#[0-9A-F]{6}", "#FFFFFF")).append("<br><br>");
+                                    HTMLdata.append("<br><br>").append(per.html().replace("width=\"75\"", "").replace("width=\"700\"", "").replace("Email / Msn: ", "").replace("(�ͷ)", "@").replace("color: rgb(0, 0, 0)", "color: rgb(255, 255, 255)").replaceAll("#[0-9A-F]{6}", "#FFFFFF")).append("<br><br>");
                                 else if (thcc == 3)
-                                    HTMLdata.append("<br><br>").append(per.html().replace("width=\"75\"", "").replace("width=\"700\"", "").replace("Email / Msn: ", "").replace("(แอท)", "@").replaceAll("#[0-9A-F]{6}", "#0000FF").replace("color: rgb(0, 0, 0)", "color: rgb(0, 0, 255)")).append("<br><br>");
+                                    HTMLdata.append("<br><br>").append(per.html().replace("width=\"75\"", "").replace("width=\"700\"", "").replace("Email / Msn: ", "").replace("(�ͷ)", "@").replaceAll("#[0-9A-F]{6}", "#0000FF").replace("color: rgb(0, 0, 0)", "color: rgb(0, 0, 255)")).append("<br><br>");
                             }
                         }
 
@@ -958,27 +972,27 @@ public class TextReadActivity extends Activity {
                                     "var re= /<\\S[^><]*>/g;\n	return txt.replace(re, '');\n}\n" +
                                     "	function submitFormNo(){\n		var err = '';\n		var  msg = stripHTML(document.mainForm.t_msg.value);\n" +
                                     "		var len_msg = msg.length;\n		if (len_msg < 6 || len_msg > 10000) {\n" +
-                                    "		err+='   - ข้อความที่โพสจะต้องไม่น้อยกว่า 6 ตัวอักษรและไม่เกิน 10,000 ตัวอักษร';		}\n" +
+                                    "		err+='   - ��ͤ�������ʨе�ͧ�����¡��� 6 ����ѡ���������Թ 10,000 ����ѡ��';		}\n" +
                                     "		if (document.mainForm.t_mem[0].checked==1 && (document.mainForm.t_username.value=='' || document.mainForm.t_password.value=='')) {\n" +
                                     "			err+='   - Login name/Password';\n		}\n" +
-                                    "		if (document.mainForm.t_mem[1].checked==1 && document.mainForm.t_name.value=='') {			err+='\\n   - กรอกชื่อด้วยนะ';		}\n" +
-                                    "		if (err != '') {\n			err ='_____________________________\\n' +			'กรอกข้อมูลในช่องต่อไปนี้ไม่ครบ\\nหรือข้อมูลผิดพลาดครับ :\\n' +" +
-                                    "			err + '\\n_____________________________' +			'\\nช่วยกรอกอีกครั้งนะครับ';\n			alert(err);\n			return false;\n" +
+                                    "		if (document.mainForm.t_mem[1].checked==1 && document.mainForm.t_name.value=='') {			err+='\\n   - ��͡���ʹ��¹�';		}\n" +
+                                    "		if (err != '') {\n			err ='_____________________________\\n' +			'��͡������㹪�ͧ���仹�����ú\\n���͢����żԴ��Ҵ��Ѻ :\\n' +" +
+                                    "			err + '\\n_____________________________' +			'\\n���¡�͡�ա���駹Ф�Ѻ';\n			alert(err);\n			return false;\n" +
                                     "		} else {\n			return true;\n		}\n	}\n" +
                                     "  </script>");
                     Elements page = doc.select("form[name=mainForm]");
                     if (page != null && page.first() != null) {
                         Elements page3 = page.first().select("p");
                         if (page3 != null) page3.remove();
-                        HTMLdata.append("<br><br>").append(page.first().outerHtml().replace("width=\"97%\"", "width=\"50%\"").replace("&nbsp;", "").replace("size=\"-1\"", "size=\"3\"").replace("<form", "<form style='margin: 0 auto;'accept-charset=\"tis-620\" style='margin: 0 auto; " + "width: 100%;'").replace("ชื่อ* ", "<br>ชื่อ* ").replace("รูปตัวแทน ", "<br>รูปตัวแทน ").replace("email <input", "<br>email <input").replace("Password", "<br>Password").replace("Login name", "<br>Login name").replace("ROWS=\"10\" COLS=\"100\"", "ROWS=\"20\" COLS=\"30\"").replace("700", "100%").replace("550", "95%").replace("width:670px;", "")).append("<br><br>");
+                        HTMLdata.append("<br><br>").append(page.first().outerHtml().replace("width=\"97%\"", "width=\"50%\"").replace("&nbsp;", "").replace("size=\"-1\"", "size=\"3\"").replace("<form", "<form style='margin: 0 auto;'accept-charset=\"tis-620\" style='margin: 0 auto; " + "width: 100%;'").replace("����* ", "<br>����* ").replace("�ٻ���᷹ ", "<br>�ٻ���᷹ ").replace("email <input", "<br>email <input").replace("Password", "<br>Password").replace("Login name", "<br>Login name").replace("ROWS=\"10\" COLS=\"100\"", "ROWS=\"20\" COLS=\"30\"").replace("700", "100%").replace("550", "95%").replace("width:670px;", "")).append("<br><br>");
                     }
                 }
             }
             Log.d("scvalue", Integer.toString(scRoll));
-            HTMLdata.append("</div><span></span><h4>ข้อตกลง &amp; เงื่อนไขการใช้งาน</h4><br><ul><li><p>กรณีที่ผลงานชิ้นนี้เป็นผลงานที่แต่งโดยผู้ลงผลงานเอง ลิขสิทธิ์ของผลงานนี้จะ<br>เป็นของผู้ลงผลงานโดยตรง ห้ามมิให้คัดลอก ทำซ้ำ เผยแพร่ ก่อนได้รับอนุญาต<br>" +
-                    "จากผู้ลงผลงาน</p></li><li><p>กรณีที่ผลงานชิ้นนี้กระทำการคัดลอก ทำซ้ำ มาจากผลงานของบุคคลอื่นๆ ผู้ลง<br>ผลงานจะต้องทำการอ้างอิงอย่างเหมาะสม และต้องรับผิดชอบเรื่องการจัดการ<br>ลิขสิทธิ์แต่เพียงผู้เดียว</p></li><li><p>ข้อความและรูปภาพที่ปรากฏอยู่ในผลงานที่ท่านเห็นอยู่นี้ เกิดจากการส่งเข้าระบบ<br>" +
-                    "โดยอัตโนมัติจากบุคคลทั่วไป ซึ่งเด็กดีดอทคอมมิได้มีส่วนร่วมรู้เห็น ตรวจสอบ <br>หรือพิสูจน์ข้อเท็จจริงใดๆ ทั้งสิ้น ผู้ใดพบเห็นการลงผลงานละเมิดลิขสิทธิ์ หรือ<br>ไม่เหมาะสมโปรดแจ้งผู้ดูแลระบบเพื่อดำเนินการทันที<br>" +
-                    "Email: <span>contact@dek-d.com</span> ( ทุกวัน 24 ชม ) หรือ<br>Tel: <span>0-2860-1142</span> ( จ-ศ 0900-1800 )</p></li></ul>" +
+            HTMLdata.append("</div><span></span><h4>��͵�ŧ &amp; ���͹䢡����ҹ</h4><br><ul><li><p>�óշ��ŧҹ��鹹���繼ŧҹ������¼��ŧ�ŧҹ�ͧ �Ԣ�Է���ͧ�ŧҹ����<br>�繢ͧ���ŧ�ŧҹ�µç ���������Ѵ�͡ �ӫ�� ����� ��͹���Ѻ͹حҵ<br>" +
+                    "�ҡ���ŧ�ŧҹ</p></li><li><p>�óշ��ŧҹ��鹹���зӡ�äѴ�͡ �ӫ�� �Ҩҡ�ŧҹ�ͧ�ؤ������ ���ŧ<br>�ŧҹ�е�ͧ�ӡ����ҧ�ԧ���ҧ������� ��е�ͧ�Ѻ�Դ�ͺ����ͧ��èѴ���<br>�Ԣ�Է�������§�������</p></li><li><p>��ͤ�������ٻ�Ҿ����ҡ�����㹼ŧҹ����ҹ��������� �Դ�ҡ���������к�<br>" +
+                    "���ѵ��ѵԨҡ�ؤ�ŷ���� ����硴մͷ�����������ǹ���������� ��Ǩ�ͺ <br>���;��٨�����稨�ԧ�� ������ ���㴾���繡��ŧ�ŧҹ����Դ�Ԣ�Է��� ����<br>�����������ô�駼������к����ʹ��Թ��÷ѹ��<br>" +
+                    "Email: <span>contact@dek-d.com</span> ( �ء�ѹ 24 �� ) ����<br>Tel: <span>0-2860-1142</span> ( �-� 0900-1800 )</p></li></ul>" +
                     "</div></body></html>");
 
             publishProgress("80 %");
@@ -994,7 +1008,6 @@ public class TextReadActivity extends Activity {
                 bw.flush();
                 bw.close();
             } catch (IOException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
 

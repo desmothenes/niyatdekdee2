@@ -37,6 +37,7 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 
@@ -77,11 +78,11 @@ public class Find extends ListActivity {
         if (Setting.getScreenSetting(getApplicationContext()).equals("1"))
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         if (customTitleSupported) {
-            //‡∏ï‡∏±‡πâ‡∏á‡∏Ñ‡πà‡∏≤ custom titlebar ‡∏à‡∏≤‡∏Å custom_titlebar.xml
+            //µ—Èß§Ë“ custom titlebar ®“° custom_titlebar.xml
             getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.custom_titlebar_nonmain);
-            //‡πÄ‡∏ä‡∏∑‡πà‡∏≠‡∏° btnSearch btnDirection ‡πÄ‡∏Ç‡πâ‡∏≤‡∏Å‡∏±‡∏ö View
+            //‡™◊ËÕ¡ btnSearch btnDirection ‡¢È“°—∫ View
             TextView title = (TextView) findViewById(R.id.textViewBar);
-            title.setText(" ‡∏ú‡∏•‡∏Å‡∏≤‡∏£‡∏Ñ‡πâ‡∏ô‡∏´‡∏≤");
+            title.setText(" º≈°“√§ÈπÀ“");
             RelativeLayout barLayout = (RelativeLayout) findViewById(R.id.nonbar);
             spiner = new ProgressBar(this);
             RelativeLayout.LayoutParams lspin = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
@@ -165,7 +166,7 @@ public class Find extends ListActivity {
         }
         adapter = new InteractiveArrayAdapter(this, Content);
         adapter.notifyDataSetChanged();
-        dialog = ProgressDialog.show(Find.this, "Loading", "Please Wait...\n\n‡∏ñ‡πâ‡∏≤‡∏£‡∏≠‡∏ô‡∏≤‡∏ô‡πÄ‡∏Å‡∏¥‡∏ô‡πÑ‡∏õ‡∏Å‡∏î back 2 ‡∏Ñ‡∏£‡∏±‡πâ‡∏á‡πÄ‡∏û‡∏∑‡πà‡∏≠‡∏≠‡∏≠‡∏Å", true);
+        dialog = ProgressDialog.show(Find.this, "Loading", "Please Wait...\n\n∂È“√Õπ“π‡°‘π‰ª°¥ back 2 §√—Èß‡æ◊ËÕÕÕ°", true);
         dialog.setCancelable(true);
         Find_doback dob = new Find_doback();
         dob.execute();
@@ -185,7 +186,7 @@ public class Find extends ListActivity {
                 i.putExtra("name", title);
                 //in this fomat http://writer.dek-d.com/dek-d/writer/view.php?id=580483
                 final String stext = "id=";
-                //‡∏´‡∏≤‡∏´‡∏•‡∏±‡∏Å‡∏Ç‡∏≠‡∏á‡∏ï‡∏≠‡∏ô
+                //À“À≈—°¢ÕßµÕπ
                 final int start = url.lastIndexOf(stext) + stext.length();
                 if (start - stext.length() == -1) {
                     Toast.makeText(getBaseContext(), "Error not correct niyay page", Toast.LENGTH_SHORT).show();
@@ -208,7 +209,7 @@ public class Find extends ListActivity {
 
                 Log.v("url", url);
                 i.putExtra("url", url);
-                final String chapter = chaptertable.get(arg2).replace(" ‡∏ï‡∏≠‡∏ô", "");
+                final String chapter = chaptertable.get(arg2).replace(" µÕπ", "");
                 Log.v("chapter", chapter);
                 i.putExtra("chapter", chapter);
                 startActivityForResult(i, 0);
@@ -264,7 +265,7 @@ public class Find extends ListActivity {
 
         protected void onProgressUpdate(Integer... progress) {
             if (progress[0] == -1)
-                Toast.makeText(Find.this, "‡∏Å‡∏≤‡∏£‡πÄ‡∏ä‡∏∑‡πà‡∏≠‡∏°‡∏ï‡πà‡∏≠‡∏°‡∏µ‡∏õ‡∏±‡∏ç‡∏´‡∏≤ ‡∏Å‡∏£‡∏∏‡∏ì‡∏≤‡∏õ‡∏£‡∏±‡∏ö‡∏õ‡∏£‡∏∏‡∏á‡∏Å‡∏≤‡∏£‡πÄ‡∏ä‡∏∑‡πà‡∏≠‡∏°‡∏ï‡πà‡∏≠ ‡πÅ‡∏•‡πâ‡∏ß‡∏•‡∏≠‡∏á‡πÉ‡∏´‡∏°‡πà", Toast.LENGTH_LONG).show();
+                Toast.makeText(Find.this, "°“√‡™◊ËÕ¡µËÕ¡’ª—≠À“ °√ÿ≥“ª√—∫ª√ÿß°“√‡™◊ËÕ¡µËÕ ·≈È«≈Õß„À¡Ë", Toast.LENGTH_LONG).show();
         }
 
         @Override
@@ -279,7 +280,7 @@ public class Find extends ListActivity {
                     Log.v("doback", "off");
                     AlertDialog alertDialog = new AlertDialog.Builder(Find.this).create();
                     alertDialog.setTitle("Error.");
-                    alertDialog.setMessage("‡πÑ‡∏°‡πà‡πÑ‡∏î‡πâ‡πÄ‡∏ä‡∏∑‡πà‡∏≠‡∏°‡∏ï‡πà‡∏≠‡∏≠‡∏¥‡∏ô‡πÄ‡∏ï‡∏≠‡∏£‡πå‡πÄ‡∏ô‡πá‡∏ï\n‡πÇ‡∏õ‡∏£‡∏î‡∏ï‡∏£‡∏ß‡∏à‡∏™‡∏≠‡∏ö‡∏Å‡∏≤‡∏£‡πÄ‡∏ä‡∏∑‡πà‡∏≠‡∏°‡∏ï‡πà‡∏≠‡∏≠‡∏¥‡∏ô‡πÄ‡∏ï‡∏≠‡∏£‡πå‡πÄ‡∏ô‡πá‡∏ï");
+                    alertDialog.setMessage("‰¡Ë‰¥È‡™◊ËÕ¡µËÕÕ‘π‡µÕ√Ï‡πÁµ\n‚ª√¥µ√«® Õ∫°“√‡™◊ËÕ¡µËÕÕ‘π‡µÕ√Ï‡πÁµ");
                     alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             // here you can add functions
@@ -300,8 +301,8 @@ public class Find extends ListActivity {
             try {
                 if (Content.size() == 0) {
                     AlertDialog alertDialog = new AlertDialog.Builder(Find.this).create();
-                    alertDialog.setTitle("‡πÑ‡∏°‡πà‡∏û‡∏ö‡∏Ç‡πâ‡∏≠‡∏°‡∏π‡∏•");
-                    alertDialog.setMessage("‡∏ñ‡πâ‡∏≤‡∏°‡∏µ‡∏£‡∏≤‡∏¢‡∏Å‡∏≤‡∏£‡∏≠‡∏¢‡∏π‡πà ‡∏•‡∏≠‡∏á‡∏ï‡∏£‡∏ß‡∏à‡∏™‡∏≠‡∏ö‡∏Å‡∏≤‡∏£‡πÄ‡∏ä‡∏∑‡πà‡∏≠‡∏°‡∏ï‡πà‡∏≠‡∏≠‡∏¥‡∏ô‡πÄ‡∏ï‡∏≠‡∏£‡πå‡πÄ‡∏ô‡πá‡∏ï ‡πÅ‡∏•‡πâ‡∏ß‡∏•‡∏≠‡∏á‡πÉ‡∏´‡∏°‡πà");
+                    alertDialog.setTitle("‰¡Ëæ∫¢ÈÕ¡Ÿ≈");
+                    alertDialog.setMessage("∂È“¡’√“¬°“√Õ¬ŸË ≈Õßµ√«® Õ∫°“√‡™◊ËÕ¡µËÕÕ‘π‡µÕ√Ï‡πÁµ ·≈È«≈Õß„À¡Ë");
                     alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             // here you can add functions
@@ -411,7 +412,7 @@ public class Find extends ListActivity {
             Log.v("showAllFind", "showAllFind");
             // TODO Auto-generated method stub
             /*		String story_type = "2";
-			String main = "1";
+            String main = "1";
 			String sub = "17";
 			String isend = "1";
 			String sort = "1";*/
@@ -424,12 +425,12 @@ public class Find extends ListActivity {
                 //System.out.println(main+sub+isend+story_type+sort);
             } else if (main.equals("0") || main.equals("")) {
                 try {
-                    title = convert(title);
-                    ntitle = convert(ntitle);
-                    writer = convert(writer);
-                    nwriter = convert(nwriter);
-                    abstract_w = convert(abstract_w);
-                    nabstract_w = convert(nabstract_w);
+                    title = URLEncoder.encode(title, "UTF-8");
+                    ntitle = URLEncoder.encode(ntitle, "UTF-8");
+                    writer = URLEncoder.encode(writer, "UTF-8");
+                    nwriter = URLEncoder.encode(nwriter, "UTF-8");
+                    abstract_w = URLEncoder.encode(abstract_w, "UTF-8");
+                    nabstract_w = URLEncoder.encode(nabstract_w, "UTF-8");
                 } catch (UnsupportedEncodingException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
@@ -490,7 +491,7 @@ public class Find extends ListActivity {
                     //String line2 = StringEscapeUtils.unescapeJava(new String(result, "TIS-620"));
                     // line3 = StringEscapeUtils.unescapeJava(new String(result, "UTF-8"));
                     //System.out.println(line);
-                    if (line.contains("‡πÄ‡∏ò‡πÄ‡∏ò")) {
+                    if (line.contains("‡∏‡∏")) {
                         line = new String(line.getBytes("US-ASCII"), "tis620");
                         /*in = new InputStreamReader(connection.getInputStream(),"UTF-8");
                         bos = new ByteArrayOutputStream();
@@ -517,13 +518,13 @@ public class Find extends ListActivity {
             } catch (IOException e) {
                 // TODO Auto-generated catch block
                 publishProgress(-1);
-                //Toast.makeText(getBaseContext(), "‡∏Å‡∏≤‡∏£‡πÄ‡∏ä‡∏∑‡πà‡∏≠‡∏°‡∏ï‡πà‡∏≠‡∏°‡∏µ‡∏õ‡∏±‡∏ç‡∏´‡∏≤ ‡∏Å‡∏£‡∏∏‡∏ì‡∏≤‡∏õ‡∏£‡∏±‡∏ö‡∏õ‡∏£‡∏∏‡∏á‡∏Å‡∏≤‡∏£‡πÄ‡∏ä‡∏∑‡πà‡∏≠‡∏°‡∏ï‡πà‡∏≠ ‡πÅ‡∏•‡πâ‡∏ß‡∏•‡∏≠‡∏á‡πÉ‡∏´‡∏°‡πà", Toast.LENGTH_LONG).show();
+                //Toast.makeText(getBaseContext(), "°“√‡™◊ËÕ¡µËÕ¡’ª—≠À“ °√ÿ≥“ª√—∫ª√ÿß°“√‡™◊ËÕ¡µËÕ ·≈È«≈Õß„À¡Ë", Toast.LENGTH_LONG).show();
                 e.printStackTrace();
             }
 
-            if (!doc.select(".fr-book").isEmpty() && doc.select(".fr-book").first().text().equals("‡πÑ‡∏°‡πà‡∏û‡∏ö‡∏Ç‡πâ‡∏≠‡∏°‡∏π‡∏•")) {
+            if (!doc.select(".fr-book").isEmpty() && doc.select(".fr-book").first().text().equals("‰¡Ëæ∫¢ÈÕ¡Ÿ≈")) {
                 if (Content.size() == 0)
-                    Content.add("‡πÑ‡∏°‡πà‡∏û‡∏ö‡∏Ç‡πâ‡∏≠‡∏°‡∏π‡∏•");
+                    Content.add("‰¡Ëæ∫¢ÈÕ¡Ÿ≈");
                 return;
             }
             //System.out.println(doc.html());
@@ -532,7 +533,7 @@ public class Find extends ListActivity {
             Log.v("startsize", Integer.toString(startsize));
             if (link1 == null) {
                 if (Content.size() == 0)
-                    Content.add("‡πÑ‡∏°‡πà‡∏û‡∏ö‡∏Ç‡πâ‡∏≠‡∏°‡∏π‡∏•");
+                    Content.add("‰¡Ëæ∫¢ÈÕ¡Ÿ≈");
                 return;
             }
             for (Element link : link1) {
@@ -569,11 +570,11 @@ public class Find extends ListActivity {
                 chaptertable.add(stext);
             }
             for (int position = startsize; position < ListViewContent.size(); position++)
-                Content.add("<br/><p><font color=#33B6EA>‡πÄ‡∏£‡∏∑‡πà‡∏≠‡∏á :" + ListViewContent.get(position) + " " + authortable.get(position) +
+                Content.add("<br/><p><font color=#33B6EA>‡√◊ËÕß :" + ListViewContent.get(position) + " " + authortable.get(position) +
                         " </font><br /><br />" +
                         "<font color=#cc0029> " + detailtable.get(position) + "</font><br/><br />" +
-                        "<font color=#339900> ‡∏ú‡∏π‡πâ‡πÄ‡∏Ç‡πâ‡∏≤‡∏ä‡∏° ‡πÄ‡∏î‡∏∑‡∏≠‡∏ô‡∏ô‡∏µ‡πâ " + viewtable.get(position).substring(0, viewtable.get(position).indexOf("/")) + " / ‡∏ó‡∏±‡πâ‡∏á‡∏´‡∏°‡∏î " + viewtable.get(position).substring(viewtable.get(position).indexOf("/") + 1, viewtable.get(position).length()) +
-                        " ‡∏°‡∏µ " + chaptertable.get(position) +
+                        "<font color=#339900> ºŸÈ‡¢È“™¡ ‡¥◊Õππ’È " + viewtable.get(position).substring(0, viewtable.get(position).indexOf("/")) + " / ∑—ÈßÀ¡¥ " + viewtable.get(position).substring(viewtable.get(position).indexOf("/") + 1, viewtable.get(position).length()) +
+                        " ¡’ " + chaptertable.get(position) +
                         " </font></p>");
         }
     }
@@ -600,11 +601,11 @@ public class Find extends ListActivity {
 			System.out.println(names.get(position));
 			System.out.println(detailtable.get(position));
 			System.out.println(authortable.get(position));
-			String htmltext = "<br/><p><font color=#33B6EA>‡πÄ‡∏£‡∏∑‡πà‡∏≠‡∏á :" +names.get(position)+" " +authortable.get(position)+
+			String htmltext = "<br/><p><font color=#33B6EA>‡√◊ËÕß :" +names.get(position)+" " +authortable.get(position)+
 					" </font><br /><br />" +
 					"<font color=#cc0029> " +detailtable.get(position)+"</font><br/><br />" +
-					"<font color=#339900> ‡∏ú‡∏π‡πâ‡πÄ‡∏Ç‡πâ‡∏≤‡∏ä‡∏° ‡πÄ‡∏î‡∏∑‡∏≠‡∏ô‡∏ô‡∏µ‡πâ " +viewtable.get(position).substring(0, viewtable.get(position).indexOf("/"))+" / ‡∏ó‡∏±‡πâ‡∏á‡∏´‡∏°‡∏î " +viewtable.get(position).substring(viewtable.get(position).indexOf("/")+1,viewtable.get(position).length())+
-							" ‡∏°‡∏µ " +chaptertable.get(position)+
+					"<font color=#339900> ºŸÈ‡¢È“™¡ ‡¥◊Õππ’È " +viewtable.get(position).substring(0, viewtable.get(position).indexOf("/"))+" / ∑—ÈßÀ¡¥ " +viewtable.get(position).substring(viewtable.get(position).indexOf("/")+1,viewtable.get(position).length())+
+							" ¡’ " +chaptertable.get(position)+
 					" </font></p>";
 			 */
             text.setText((names.get(position) != null) ? Html.fromHtml(names.get(position)) : "1");

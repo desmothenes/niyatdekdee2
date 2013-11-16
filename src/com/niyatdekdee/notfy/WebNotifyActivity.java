@@ -66,9 +66,9 @@ public class WebNotifyActivity extends ListActivity {
         if (Setting.getScreenSetting(getApplicationContext()).equals("1"))
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         if (customTitleSupported) {
-            //‡∏ï‡∏±‡πâ‡∏á‡∏Ñ‡πà‡∏≤ custom titlebar ‡∏à‡∏≤‡∏Å custom_titlebar.xml
+            //µ—Èß§Ë“ custom titlebar ®“° custom_titlebar.xml
             getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.custom_titlebar_nonmain);
-            //‡πÄ‡∏ä‡∏∑‡πà‡∏≠‡∏° btnSearch btnDirection ‡πÄ‡∏Ç‡πâ‡∏≤‡∏Å‡∏±‡∏ö View
+            //‡™◊ËÕ¡ btnSearch btnDirection ‡¢È“°—∫ View
             RelativeLayout barLayout = (RelativeLayout) findViewById(R.id.nonbar);
             MainActivity.titleColor = Integer.parseInt(Setting.getColorSelectSetting(WebNotifyActivity.this));
             switch (MainActivity.titleColor) {
@@ -102,7 +102,7 @@ public class WebNotifyActivity extends ListActivity {
             }
 
             TextView title = (TextView) findViewById(R.id.textViewBar);
-            title.setText(" ‡πÄ‡∏Ç‡πâ‡∏≤‡∏™‡∏π‡πà‡∏£‡∏∞‡∏ö‡∏ö");
+            title.setText(" ‡¢È“ ŸË√–∫∫");
             ImageButton btnDirection = (ImageButton) findViewById(R.id.btnDirection);
             btnDirection.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -129,24 +129,24 @@ public class WebNotifyActivity extends ListActivity {
                 Log.v("login", "login");
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(WebNotifyActivity.this);
-                builder.setMessage("‡∏ï‡πâ‡∏≠‡∏á‡∏Å‡∏≤‡∏£‡∏ó‡∏µ‡πà‡∏à‡∏∞‡∏ö‡∏±‡∏ô‡∏ó‡∏∂‡∏Å‡∏ä‡∏∑‡πà‡∏≠‡πÅ‡∏•‡∏∞‡∏£‡∏´‡∏±‡∏™‡∏ú‡πà‡∏≤‡∏ô‡∏´‡∏£‡∏∑‡∏≠‡πÑ‡∏°‡πà ?")
+                builder.setMessage("µÈÕß°“√∑’Ë®–∫—π∑÷°™◊ËÕ·≈–√À— ºË“πÀ√◊Õ‰¡Ë ?")
                         .setCancelable(false)
-                        .setPositiveButton("‡∏ö‡∏±‡∏ô‡∏ó‡∏∂‡∏Å", new DialogInterface.OnClickListener() {
+                        .setPositiveButton("∫—π∑÷°", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog2, int id) {
                                 SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit();
                                 editor.putString("UserName", username.getText().toString());
                                 editor.putString("PassWord", password.getText().toString());
                                 editor.putBoolean("isLogin", true);
                                 editor.commit();
-                                dialog = ProgressDialog.show(WebNotifyActivity.this, "Loading", "Please Wait...\n\n‡∏ñ‡πâ‡∏≤‡∏£‡∏≠‡∏ô‡∏≤‡∏ô‡πÄ‡∏Å‡∏¥‡∏ô‡πÑ‡∏õ‡∏Å‡∏î back 2 ‡∏Ñ‡∏£‡∏±‡πâ‡∏á‡πÄ‡∏û‡∏∑‡πà‡∏≠‡∏≠‡∏≠‡∏Å", true);
+                                dialog = ProgressDialog.show(WebNotifyActivity.this, "Loading", "Please Wait...\n\n∂È“√Õπ“π‡°‘π‰ª°¥ back 2 §√—Èß‡æ◊ËÕÕÕ°", true);
                                 dialog.setCancelable(true);
                                 WebNot_doback dob = new WebNot_doback();
                                 dob.execute();
                             }
                         })
-                        .setNegativeButton("‡πÑ‡∏°‡πà‡∏ö‡∏±‡∏ô‡∏ó‡∏∂‡∏Å", new DialogInterface.OnClickListener() {
+                        .setNegativeButton("‰¡Ë∫—π∑÷°", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog2, int id) {
-                                dialog = ProgressDialog.show(WebNotifyActivity.this, "Loading", "Please Wait...\n\n‡∏ñ‡πâ‡∏≤‡∏£‡∏≠‡∏ô‡∏≤‡∏ô‡πÄ‡∏Å‡∏¥‡∏ô‡πÑ‡∏õ‡∏Å‡∏î back 2 ‡∏Ñ‡∏£‡∏±‡πâ‡∏á‡πÄ‡∏û‡∏∑‡πà‡∏≠‡∏≠‡∏≠‡∏Å", true);
+                                dialog = ProgressDialog.show(WebNotifyActivity.this, "Loading", "Please Wait...\n\n∂È“√Õπ“π‡°‘π‰ª°¥ back 2 §√—Èß‡æ◊ËÕÕÕ°", true);
                                 dialog.setCancelable(true);
                                 WebNot_doback dob = new WebNot_doback();
                                 dob.execute();
@@ -156,12 +156,12 @@ public class WebNotifyActivity extends ListActivity {
                 if (!Setting.getUserName(getBaseContext()).equals(username.getText().toString()) || !Setting.getPassWord(getBaseContext()).equals(password.getText().toString())) {
                     alert.show();
                 } else {
-                    dialog = ProgressDialog.show(WebNotifyActivity.this, "Loading", "Please Wait...\n\n‡∏ñ‡πâ‡∏≤‡∏£‡∏≠‡∏ô‡∏≤‡∏ô‡πÄ‡∏Å‡∏¥‡∏ô‡πÑ‡∏õ‡∏Å‡∏î back 2 ‡∏Ñ‡∏£‡∏±‡πâ‡∏á‡πÄ‡∏û‡∏∑‡πà‡∏≠‡∏≠‡∏≠‡∏Å", true);
+                    dialog = ProgressDialog.show(WebNotifyActivity.this, "Loading", "Please Wait...\n\n∂È“√Õπ“π‡°‘π‰ª°¥ back 2 §√—Èß‡æ◊ËÕÕÕ°", true);
                     dialog.setCancelable(true);
                     WebNot_doback dob = new WebNot_doback();
                     dob.execute();
                 }
-                //ListViewContent.add("‡∏ñ‡πâ‡∏≤‡∏ï‡∏≠‡∏ô‡∏î‡∏±‡∏á‡∏Å‡∏•‡πà‡∏≤‡∏ß‡∏°‡∏µ‡∏Å‡∏≤‡∏£‡πÄ‡∏û‡∏¥‡πà‡∏°‡πÄ‡∏ï‡∏¥‡∏°‡∏†‡∏≤‡∏¢‡∏´‡∏•‡∏±‡∏á‡πÇ‡∏î‡∏¢‡∏°‡∏µ‡∏≠‡∏±‡∏û‡πÄ‡∏î‡∏ï‡∏ä‡∏∑‡πà‡∏≠‡∏ï‡∏≠‡∏ô‡∏Å‡∏£‡∏∏‡∏ì‡∏≤‡∏Å‡∏î‡∏ß‡πà‡∏≤‡∏≠‡πà‡∏≤‡∏ô‡πÅ‡∏•‡πâ‡∏ß‡πÄ‡∏û‡∏¥‡πà‡∏°‡πÉ‡∏´‡πâ‡πÅ‡∏à‡πâ‡∏á‡πÄ‡∏ï‡∏∑‡∏≠‡∏ô‡πÉ‡∏ô‡∏Ñ‡∏£‡∏±‡πâ‡∏á‡∏´‡∏ô‡πâ‡∏≤‡∏ß‡πà‡∏≤‡∏°‡∏µ‡∏Å‡∏≤‡∏£‡∏≠‡∏±‡∏û‡πÄ‡∏î‡∏ï ‡πÅ‡∏ï‡πà‡∏ñ‡πâ‡∏≤‡∏à‡∏ö‡∏ï‡∏≠‡∏ô‡πÅ‡∏•‡πâ‡∏ß‡∏Å‡∏£‡∏∏‡∏ì‡∏≤‡∏Å‡∏î‡πÄ‡∏û‡∏¥‡πà‡∏°‡πÄ‡∏û‡∏∑‡πà‡∏≠‡∏£‡∏≠‡∏ï‡∏≠‡∏ô‡πÉ‡∏´‡∏°‡πà‡∏ñ‡πâ‡∏≤‡∏ï‡∏≠‡∏ô‡∏î‡∏±‡∏á‡∏Å‡∏•‡πà‡∏≤‡∏ß‡∏°‡∏µ‡∏Å‡∏≤‡∏£‡πÄ‡∏û‡∏¥‡πà‡∏°‡πÄ‡∏ï‡∏¥‡∏°‡∏†‡∏≤‡∏¢‡∏´‡∏•‡∏±‡∏á‡πÇ‡∏î‡∏¢‡∏°‡∏µ‡∏≠‡∏±‡∏û‡πÄ‡∏î‡∏ï‡∏ä‡∏∑‡πà‡∏≠‡∏ï‡∏≠‡∏ô‡∏Å‡∏£‡∏∏‡∏ì‡∏≤‡∏Å‡∏î‡∏ß‡πà‡∏≤‡∏≠‡πà‡∏≤‡∏ô‡πÅ‡∏•‡πâ‡∏ß‡πÄ‡∏û‡∏¥‡πà‡∏°‡πÉ‡∏´‡πâ‡πÅ‡∏à‡πâ‡∏á‡πÄ‡∏ï‡∏∑‡∏≠‡∏ô‡πÉ‡∏ô‡∏Ñ‡∏£‡∏±‡πâ‡∏á‡∏´‡∏ô‡πâ‡∏≤‡∏ß‡πà‡∏≤‡∏°‡∏µ‡∏Å‡∏≤‡∏£‡∏≠‡∏±‡∏û‡πÄ‡∏î‡∏ï ‡πÅ‡∏ï‡πà‡∏ñ‡πâ‡∏≤‡∏à‡∏ö‡∏ï‡∏≠‡∏ô‡πÅ‡∏•‡πâ‡∏ß‡∏Å‡∏£‡∏∏‡∏ì‡∏≤‡∏Å‡∏î‡πÄ‡∏û‡∏¥‡πà‡∏°‡πÄ‡∏û‡∏∑‡πà‡∏≠‡∏£‡∏≠‡∏ï‡∏≠‡∏ô‡πÉ‡∏´‡∏°‡πà");
+                //ListViewContent.add("∂È“µÕπ¥—ß°≈Ë“«¡’°“√‡æ‘Ë¡‡µ‘¡¿“¬À≈—ß‚¥¬¡’Õ—æ‡¥µ™◊ËÕµÕπ°√ÿ≥“°¥«Ë“ÕË“π·≈È«‡æ‘Ë¡„ÀÈ·®Èß‡µ◊Õπ„π§√—ÈßÀπÈ“«Ë“¡’°“√Õ—æ‡¥µ ·µË∂È“®∫µÕπ·≈È«°√ÿ≥“°¥‡æ‘Ë¡‡æ◊ËÕ√ÕµÕπ„À¡Ë∂È“µÕπ¥—ß°≈Ë“«¡’°“√‡æ‘Ë¡‡µ‘¡¿“¬À≈—ß‚¥¬¡’Õ—æ‡¥µ™◊ËÕµÕπ°√ÿ≥“°¥«Ë“ÕË“π·≈È«‡æ‘Ë¡„ÀÈ·®Èß‡µ◊Õπ„π§√—ÈßÀπÈ“«Ë“¡’°“√Õ—æ‡¥µ ·µË∂È“®∫µÕπ·≈È«°√ÿ≥“°¥‡æ‘Ë¡‡æ◊ËÕ√ÕµÕπ„À¡Ë");
                 Log.v("listView", "listView");
                 listView.setVisibility(View.VISIBLE);
                 username.setVisibility(View.INVISIBLE);
@@ -184,7 +184,7 @@ public class WebNotifyActivity extends ListActivity {
 
 
 				/*			final String stext = "id=";
-                //‡∏´‡∏≤‡∏´‡∏•‡∏±‡∏Å‡∏Ç‡∏≠‡∏á‡∏ï‡∏≠‡∏ô
+                //À“À≈—°¢ÕßµÕπ
 				final int start = url.lastIndexOf(stext)+stext.length();
 				if (start - stext.length() == -1) {
 					Toast.makeText(getBaseContext(), "Error not correct niyay page", Toast.LENGTH_SHORT).show();
@@ -203,13 +203,13 @@ public class WebNotifyActivity extends ListActivity {
 				final String unum = url.substring(start,start+len);	
 				Log.v("unum", unum);*/
                 final String unum = MyAppClass.findnum(url, "story_id=", getBaseContext());
-                final String chapter = MyAppClass.findnum(ListViewContent.get(arg2), "‡∏ï‡∏≠‡∏ô‡∏ó‡∏µ‡πà ", getBaseContext());
+                final String chapter = MyAppClass.findnum(ListViewContent.get(arg2), "µÕπ∑’Ë ", getBaseContext());
                 String link = "http://writer.dek-d.com/dek-d/writer/viewlongc.php?id=" + unum + "&chapter=" + chapter;
 
 				/*				try {
                     Jsoup.connect(url).cookies(sessionId).timeout(3000).get();
 				} catch (IOException e) {
-					Toast.makeText(getBaseContext(), "‡∏Å‡∏≤‡∏£‡πÄ‡∏ä‡∏∑‡πà‡∏≠‡∏°‡∏ï‡πà‡∏≠‡∏°‡∏µ‡∏õ‡∏±‡∏ç‡∏´‡∏≤ ‡∏Å‡∏£‡∏∏‡∏ì‡∏≤‡∏õ‡∏£‡∏±‡∏ö‡∏õ‡∏£‡∏∏‡∏á‡∏Å‡∏≤‡∏£‡πÄ‡∏ä‡∏∑‡πà‡∏≠‡∏°‡∏ï‡πà‡∏≠ ‡πÅ‡∏•‡πâ‡∏ß‡∏•‡∏≠‡∏á‡πÉ‡∏´‡∏°‡πà", Toast.LENGTH_LONG).show();
+					Toast.makeText(getBaseContext(), "°“√‡™◊ËÕ¡µËÕ¡’ª—≠À“ °√ÿ≥“ª√—∫ª√ÿß°“√‡™◊ËÕ¡µËÕ ·≈È«≈Õß„À¡Ë", Toast.LENGTH_LONG).show();
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}  
@@ -237,7 +237,7 @@ public class WebNotifyActivity extends ListActivity {
                     browserIntent.putExtra("cookieString", cookieString +/* "fbm_193207127471363=base_*/"domain=" + cookie.getDomain());
                     //browserIntent.putExtra("url","http://www.dek-d.com/story_message2012.php");
                     browserIntent.putExtra("url", link);
-                    browserIntent.putExtra("title", ListViewContent.get(arg2).substring(ListViewContent.get(arg2).indexOf("‡∏ï‡∏≠‡∏ô‡∏ó‡∏µ‡πà")));
+                    browserIntent.putExtra("title", ListViewContent.get(arg2).substring(ListViewContent.get(arg2).indexOf("µÕπ∑’Ë")));
                     startActivity(browserIntent);
                 }
             }
@@ -259,7 +259,7 @@ public class WebNotifyActivity extends ListActivity {
 
         protected void onProgressUpdate(String... publishProgress) {
             if (publishProgress[0].equals("-1")) {
-                dialog.setMessage("‡∏Å‡∏≤‡∏£‡πÄ‡∏ä‡∏∑‡πà‡∏≠‡∏°‡∏ï‡πà‡∏≠‡∏°‡∏µ‡∏õ‡∏±‡∏ç‡∏´‡∏≤ ‡∏Å‡∏£‡∏∏‡∏ì‡∏≤‡∏õ‡∏£‡∏±‡∏ö‡∏õ‡∏£‡∏∏‡∏á‡∏Å‡∏≤‡∏£‡πÄ‡∏ä‡∏∑‡πà‡∏≠‡∏°‡∏ï‡πà‡∏≠ ‡πÅ‡∏•‡πâ‡∏ß‡∏•‡∏≠‡∏á‡πÉ‡∏´‡∏°‡πà");
+                dialog.setMessage("°“√‡™◊ËÕ¡µËÕ¡’ª—≠À“ °√ÿ≥“ª√—∫ª√ÿß°“√‡™◊ËÕ¡µËÕ ·≈È«≈Õß„À¡Ë");
             } else {
                 dialog.setMessage(publishProgress[0]);
             }
@@ -271,8 +271,8 @@ public class WebNotifyActivity extends ListActivity {
                 if (dialog.isShowing()) dialog.dismiss();
                 if (ListViewContent.size() == 0) {
                     AlertDialog alertDialog = new AlertDialog.Builder(WebNotifyActivity.this).create();
-                    alertDialog.setTitle("‡πÑ‡∏°‡πà‡∏û‡∏ö‡∏£‡∏≤‡∏¢‡∏Å‡∏≤‡∏£");
-                    alertDialog.setMessage("‡∏ñ‡πâ‡∏≤‡∏°‡∏µ‡∏£‡∏≤‡∏¢‡∏Å‡∏≤‡∏£‡∏≠‡∏¢‡∏π‡πà ‡∏•‡∏≠‡∏á‡∏ï‡∏£‡∏ß‡∏à‡∏™‡∏≠‡∏ö‡∏Å‡∏≤‡∏£‡πÄ‡∏ä‡∏∑‡πà‡∏≠‡∏°‡∏ï‡πà‡∏≠‡∏≠‡∏¥‡∏ô‡πÄ‡∏ï‡∏≠‡∏£‡πå‡πÄ‡∏ô‡πá‡∏ï ‡πÅ‡∏•‡πâ‡∏ß‡∏•‡∏≠‡∏á‡πÉ‡∏´‡∏°‡πà");
+                    alertDialog.setTitle("‰¡Ëæ∫√“¬°“√");
+                    alertDialog.setMessage("∂È“¡’√“¬°“√Õ¬ŸË ≈Õßµ√«® Õ∫°“√‡™◊ËÕ¡µËÕÕ‘π‡µÕ√Ï‡πÁµ ·≈È«≈Õß„À¡Ë");
                     alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             listView.setVisibility(View.INVISIBLE);
@@ -285,7 +285,7 @@ public class WebNotifyActivity extends ListActivity {
                 }
                 setListAdapter(adapter);
                 TextView title = (TextView) findViewById(R.id.textViewBar);
-                title.setText(" ‡πÄ‡∏•‡∏∑‡∏≠‡∏Å‡∏£‡∏≤‡∏¢‡∏Å‡∏≤‡∏£‡∏ó‡∏µ‡πà‡∏≠‡πà‡∏≤‡∏ô");
+                title.setText(" ‡≈◊Õ°√“¬°“√∑’ËÕË“π");
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -295,8 +295,8 @@ public class WebNotifyActivity extends ListActivity {
 
         private void loadUpdate() {
             if (sessionId.size() < 2) {
-                System.out.println("Username ‡∏´‡∏£‡∏∑‡∏≠ Password ‡πÑ‡∏°‡πà‡∏ñ‡∏π‡∏Å‡∏ï‡πâ‡∏≠‡∏á");
-                publishProgress("Username ‡∏´‡∏£‡∏∑‡∏≠ Password ‡πÑ‡∏°‡πà‡∏ñ‡∏π‡∏Å‡∏ï‡πâ‡∏≠‡∏á");
+                System.out.println("Username À√◊Õ Password ‰¡Ë∂Ÿ°µÈÕß");
+                publishProgress("Username À√◊Õ Password ‰¡Ë∂Ÿ°µÈÕß");
                 try {
                     Thread.sleep(3000);
                 } catch (InterruptedException e) {
@@ -313,7 +313,7 @@ public class WebNotifyActivity extends ListActivity {
                         .get();
             } catch (IOException e) {
                 publishProgress("-1");
-                //Toast.makeText(getBaseContext(), "‡∏Å‡∏≤‡∏£‡πÄ‡∏ä‡∏∑‡πà‡∏≠‡∏°‡∏ï‡πà‡∏≠‡∏°‡∏µ‡∏õ‡∏±‡∏ç‡∏´‡∏≤ ‡∏Å‡∏£‡∏∏‡∏ì‡∏≤‡∏õ‡∏£‡∏±‡∏ö‡∏õ‡∏£‡∏∏‡∏á‡∏Å‡∏≤‡∏£‡πÄ‡∏ä‡∏∑‡πà‡∏≠‡∏°‡∏ï‡πà‡∏≠ ‡πÅ‡∏•‡πâ‡∏ß‡∏•‡∏≠‡∏á‡πÉ‡∏´‡∏°‡πà", Toast.LENGTH_LONG).show();
+                //Toast.makeText(getBaseContext(), "°“√‡™◊ËÕ¡µËÕ¡’ª—≠À“ °√ÿ≥“ª√—∫ª√ÿß°“√‡™◊ËÕ¡µËÕ ·≈È«≈Õß„À¡Ë", Toast.LENGTH_LONG).show();
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
@@ -322,7 +322,7 @@ public class WebNotifyActivity extends ListActivity {
             for (Element link : link1) {
                 String stext = link.text();
                 linktable.add(link.select("a").attr("href"));
-                ListViewContent.add(stext.replace("‡∏ï‡∏≠‡∏ô‡∏ó‡∏µ‡πà", "\n‡∏ï‡∏≠‡∏ô‡∏ó‡∏µ‡πà"));
+                ListViewContent.add(stext.replace("µÕπ∑’Ë", "\nµÕπ∑’Ë"));
             }
             Log.v("favfin", "favfin");
             Log.v("listView", "listView");
@@ -331,7 +331,7 @@ public class WebNotifyActivity extends ListActivity {
         }
 
         private void login() {
-			/*			Connection.Response res;
+            /*			Connection.Response res;
 			try {
 				res = Jsoup.connect("http://my.dek-d.com/dekdee/my.id_station/login.php")
 						.data("username", username.getText().toString())
@@ -341,7 +341,7 @@ public class WebNotifyActivity extends ListActivity {
 				sessionId = res.cookies();
 			} catch (IOException e) {
 				publishProgress(-1);
-				//Toast.makeText(getBaseContext(), "‡∏Å‡∏≤‡∏£‡πÄ‡∏ä‡∏∑‡πà‡∏≠‡∏°‡∏ï‡πà‡∏≠‡∏°‡∏µ‡∏õ‡∏±‡∏ç‡∏´‡∏≤ ‡∏Å‡∏£‡∏∏‡∏ì‡∏≤‡∏õ‡∏£‡∏±‡∏ö‡∏õ‡∏£‡∏∏‡∏á‡∏Å‡∏≤‡∏£‡πÄ‡∏ä‡∏∑‡πà‡∏≠‡∏°‡∏ï‡πà‡∏≠ ‡πÅ‡∏•‡πâ‡∏ß‡∏•‡∏≠‡∏á‡πÉ‡∏´‡∏°‡πà", Toast.LENGTH_LONG).show();
+				//Toast.makeText(getBaseContext(), "°“√‡™◊ËÕ¡µËÕ¡’ª—≠À“ °√ÿ≥“ª√—∫ª√ÿß°“√‡™◊ËÕ¡µËÕ ·≈È«≈Õß„À¡Ë", Toast.LENGTH_LONG).show();
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}  */ 	

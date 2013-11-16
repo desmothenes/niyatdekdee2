@@ -53,7 +53,7 @@ public class ChapterListActivity extends ListActivity {
         mGaTracker = mGaInstance.getTracker("UA-37746897-1");
         Intent intent = getIntent();
         if (customTitleSupported) {
-            //à¸•à¸±à¹‰à¸‡à¸„à¹ˆà¸² custom titlebar à¸ˆà¸²à¸ custom_titlebar.xml
+            //µÑé§¤èÒ custom titlebar ¨Ò¡ custom_titlebar.xml
             getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.custom_titlebar_nonmain);
 
             RelativeLayout barLayout = (RelativeLayout) findViewById(R.id.nonbar);
@@ -103,10 +103,10 @@ public class ChapterListActivity extends ListActivity {
                     spiner.setBackgroundResource(R.drawable.bg_titlebar_orange);
                     break;
             }
-            //à¹€à¸Šà¸·à¹ˆà¸­à¸¡ btnSearch btnDirection à¹€à¸‚à¹‰à¸²à¸à¸±à¸š View
+            //àª×èÍÁ btnSearch btnDirection à¢éÒ¡Ñº View
             title = (TextView) findViewById(R.id.textViewBar);
             title.setTextSize(15);
-            title.setText(String.format("%s", intent.getStringExtra("title") == null ? "" : intent.getStringExtra("title").replace("à¸™à¸´à¸¢à¸²à¸¢ ", "")));
+            title.setText(String.format("%s", intent.getStringExtra("title") == null ? "" : intent.getStringExtra("title").replace("¹ÔÂÒÂ ", "")));
 
             ImageButton btnDirection = (ImageButton) findViewById(R.id.btnDirection);
             btnDirection.setOnClickListener(new View.OnClickListener() {
@@ -116,15 +116,15 @@ public class ChapterListActivity extends ListActivity {
                 }
             });
         }
-        Toast.makeText(getBaseContext(), "à¸ªà¸²à¸¡à¸²à¸£à¸–à¸à¸”à¸„à¹‰à¸²à¸‡à¹€à¸à¸·à¹ˆà¸­à¹€à¸¥à¸·à¸­à¸à¸§à¸´à¸˜à¸µà¸à¸²à¸£à¹€à¸›à¸´à¸”à¹„à¸”à¹‰", Toast.LENGTH_LONG).show();
+        Toast.makeText(getBaseContext(), "ÊÒÁÒÃ¶¡´¤éÒ§à¾×èÍàÅ×Í¡ÇÔ¸Õ¡ÒÃà»Ô´ä´é", Toast.LENGTH_LONG).show();
         //context = getBaseContext();
         dialog = new ProgressDialog(ChapterListActivity.this);
         //dialog.setTitle("Loading");
-        dialog.setMessage("Please Wait...\n\nà¸–à¹‰à¸²à¸„à¹‰à¸²à¸‡à¸™à¸²à¸™à¸à¸§à¹ˆà¸² 40 à¸§à¸´à¸™à¸²à¸—à¸µ à¸¥à¸­à¸‡à¸à¸”à¸­à¸­à¸à¹à¸¥à¹‰à¸§à¹€à¸à¸´à¹ˆà¸¡à¹ƒà¸«à¸¡à¹ˆ");
+        dialog.setMessage("Please Wait...\n\n¶éÒ¤éÒ§¹Ò¹¡ÇèÒ 40 ÇÔ¹Ò·Õ ÅÍ§¡´ÍÍ¡áÅéÇà¾ÔèÁãËÁè");
         //dialog.setCancelable(true);
         dialog.show();
         //dialog = new ProgressDialog(ChapterListActivity.this);
-        //dialog.setMessage("Please Wait...\n\nà¸–à¹‰à¸²à¸„à¹‰à¸²à¸‡à¸™à¸²à¸™à¸à¸§à¹ˆà¸² 40 à¸§à¸´à¸™à¸²à¸—à¸µ à¸¥à¸­à¸‡à¸à¸”à¸­à¸­à¸à¹à¸¥à¹‰à¸§à¹€à¸à¸´à¹ˆà¸¡à¹ƒà¸«à¸¡à¹ˆ");
+        //dialog.setMessage("Please Wait...\n\n¶éÒ¤éÒ§¹Ò¹¡ÇèÒ 40 ÇÔ¹Ò·Õ ÅÍ§¡´ÍÍ¡áÅéÇà¾ÔèÁãËÁè");
         final String origin = intent.getStringExtra("url");
         cp = intent.getIntExtra("cp", 1) - 1;
         //from this fomat http://writer.dek-d.com/dek-d/writer/viewlongc.php?id=580483&chapter=
@@ -156,8 +156,8 @@ public class ChapterListActivity extends ListActivity {
                 mGaTracker.sendEvent("ui_action", "button_press", "cp_default_open", Long.parseLong(Setting.getArrowSelectSetting(ChapterListActivity.this)));
                 if (Setting.getArrowSelectSetting(ChapterListActivity.this).equals("0")) {
                     if (Setting.getCheckSetting(getApplicationContext())) {
-                        Toast.makeText(getBaseContext(), "à¸–à¹‰à¸²à¸•à¹‰à¸­à¸‡à¸à¸²à¸£à¹€à¸›à¸´à¸”à¹‚à¸”à¸¢à¹ƒà¸Šà¹‰ App à¹„à¸›à¸—à¸µà¹ˆ \nà¸•à¸±à¹ˆà¸‡à¸„à¹ˆà¸² -> à¸•à¸±à¹ˆà¸‡à¸„à¹ˆà¸²à¸à¸²à¸£à¸à¸²à¸£à¹€à¸¥à¸·à¸­à¸à¸£à¸²à¸¢à¸à¸²à¸£", Toast.LENGTH_LONG).show();
-                        Toast.makeText(getBaseContext(), "à¸«à¸£à¸·à¸­à¹€à¸¥à¸·à¸­à¸à¹€à¸­à¸‡à¹‚à¸”à¸¢à¸à¸²à¸£à¸à¸”à¸„à¹‰à¸²à¸‡", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getBaseContext(), "¶éÒµéÍ§¡ÒÃà»Ô´â´Âãªé App ä»·Õè \nµÑè§¤èÒ -> µÑè§¤èÒ¡ÒÃ¡ÒÃàÅ×Í¡ÃÒÂ¡ÒÃ", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getBaseContext(), "ËÃ×ÍàÅ×Í¡àÍ§â´Â¡ÒÃ¡´¤éÒ§", Toast.LENGTH_LONG).show();
                     }
                     startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
                 } else if (Setting.getArrowSelectSetting(getApplicationContext()).equals("2")) {
@@ -167,14 +167,14 @@ public class ChapterListActivity extends ListActivity {
                     TextReadActivity.putExtra("from", "cp");
 
                     if (Setting.getCheckSetting(getApplicationContext())) {
-                        Toast.makeText(getBaseContext(), "à¸–à¹‰à¸²à¸•à¹‰à¸­à¸‡à¸à¸²à¸£à¹€à¸›à¸´à¸”à¹‚à¸”à¸¢à¹ƒà¸Šà¹‰ Browser à¹„à¸›à¸—à¸µà¹ˆ \nà¸•à¸±à¹ˆà¸‡à¸„à¹ˆà¸² -> à¸•à¸±à¹ˆà¸‡à¸„à¹ˆà¸²à¸à¸²à¸£à¸à¸²à¸£à¹€à¸¥à¸·à¸­à¸à¸£à¸²à¸¢à¸à¸²à¸£", Toast.LENGTH_LONG).show();
-                        Toast.makeText(getBaseContext(), "à¸«à¸£à¸·à¸­à¹€à¸¥à¸·à¸­à¸à¹€à¸­à¸‡à¹‚à¸”à¸¢à¸à¸²à¸£à¸à¸”à¸„à¹‰à¸²à¸‡", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getBaseContext(), "¶éÒµéÍ§¡ÒÃà»Ô´â´Âãªé Browser ä»·Õè \nµÑè§¤èÒ -> µÑè§¤èÒ¡ÒÃ¡ÒÃàÅ×Í¡ÃÒÂ¡ÒÃ", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getBaseContext(), "ËÃ×ÍàÅ×Í¡àÍ§â´Â¡ÒÃ¡´¤éÒ§", Toast.LENGTH_LONG).show();
                     }
                     startActivity(TextReadActivity);
                 } else {
                     if (Setting.getCheckSetting(getApplicationContext())) {
-                        Toast.makeText(getBaseContext(), "à¸–à¹‰à¸²à¸•à¹‰à¸­à¸‡à¸à¸²à¸£à¹€à¸›à¸´à¸”à¹‚à¸”à¸¢à¹ƒà¸Šà¹‰ Browser à¹„à¸›à¸—à¸µà¹ˆ \nà¸•à¸±à¹ˆà¸‡à¸„à¹ˆà¸² -> à¸•à¸±à¹ˆà¸‡à¸„à¹ˆà¸²à¸à¸²à¸£à¸à¸²à¸£à¹€à¸¥à¸·à¸­à¸à¸£à¸²à¸¢à¸à¸²à¸£", Toast.LENGTH_LONG).show();
-                        Toast.makeText(getBaseContext(), "à¸«à¸£à¸·à¸­à¹€à¸¥à¸·à¸­à¸à¹€à¸­à¸‡à¹‚à¸”à¸¢à¸à¸²à¸£à¸à¸”à¸„à¹‰à¸²à¸‡", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getBaseContext(), "¶éÒµéÍ§¡ÒÃà»Ô´â´Âãªé Browser ä»·Õè \nµÑè§¤èÒ -> µÑè§¤èÒ¡ÒÃ¡ÒÃàÅ×Í¡ÃÒÂ¡ÒÃ", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getBaseContext(), "ËÃ×ÍàÅ×Í¡àÍ§â´Â¡ÒÃ¡´¤éÒ§", Toast.LENGTH_LONG).show();
                     }
                     Intent browserIntent = new Intent(getBaseContext(), DekdeeBrowserActivity.class);
                     browserIntent.putExtra("url", url);
@@ -390,7 +390,7 @@ public class ChapterListActivity extends ListActivity {
                 }
                 for (int i = 0; i < 4; i++)
                     if (ListViewContent.size() != 0) ListViewContent.remove(ListViewContent.size() - 1);
-                    else publishProgress("à¹„à¸¡à¹ˆà¸à¸šà¸œà¸¥à¸à¸²à¸£à¸„à¹‰à¸™à¸«à¸²");
+                    else publishProgress("äÁè¾º¼Å¡ÒÃ¤é¹ËÒ");
 
             return null;
         }
@@ -405,8 +405,8 @@ public class ChapterListActivity extends ListActivity {
 
         protected void onProgressUpdate(String... progress) {
             if (progress[0].equals("-1")) {
-                dialog.setMessage("à¸à¸²à¸£à¹€à¸Šà¸·à¹ˆà¸­à¸¡à¸•à¹ˆà¸­à¸¡à¸µà¸›à¸±à¸à¸«à¸² à¸à¸£à¸¸à¸“à¸²à¸›à¸£à¸±à¸šà¸›à¸£à¸¸à¸‡à¸à¸²à¸£à¹€à¸Šà¸·à¹ˆà¸­à¸¡à¸•à¹ˆà¸­ à¹à¸¥à¹‰à¸§à¸¥à¸­à¸‡à¹ƒà¸«à¸¡à¹ˆ");
-                Log.e("onProgressUpdate", "à¸à¸²à¸£à¹€à¸Šà¸·à¹ˆà¸­à¸¡à¸•à¹ˆà¸­à¸¡à¸µà¸›à¸±à¸à¸«à¸² à¸à¸£à¸¸à¸“à¸²à¸›à¸£à¸±à¸šà¸›à¸£à¸¸à¸‡à¸à¸²à¸£à¹€à¸Šà¸·à¹ˆà¸­à¸¡à¸•à¹ˆà¸­ à¹à¸¥à¹‰à¸§à¸¥à¸­à¸‡à¹ƒà¸«à¸¡à¹ˆ");
+                dialog.setMessage("¡ÒÃàª×èÍÁµèÍÁÕ»Ñ­ËÒ ¡ÃØ³Ò»ÃÑº»ÃØ§¡ÒÃàª×èÍÁµèÍ áÅéÇÅÍ§ãËÁè");
+                Log.e("onProgressUpdate", "¡ÒÃàª×èÍÁµèÍÁÕ»Ñ­ËÒ ¡ÃØ³Ò»ÃÑº»ÃØ§¡ÒÃàª×èÍÁµèÍ áÅéÇÅÍ§ãËÁè");
             } else {
                 dialog.setMessage(progress[0]);
             }

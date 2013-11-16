@@ -37,13 +37,13 @@ public class EditForm extends Activity {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         if (customTitleSupported) {
 
-            //ตั้งค่า custom titlebar จาก custom_titlebar.xml
+            //��駤�� custom titlebar �ҡ custom_titlebar.xml
             getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.custom_titlebar_nonmain);
 
 
             RelativeLayout barLayout = (RelativeLayout) findViewById(R.id.nonbar);
             TextView title = (TextView) findViewById(R.id.textViewBar);
-            title.setText(" แก้ไข");
+            title.setText(" ���");
             switch (Integer.parseInt(Setting.getColorSelectSetting(getApplicationContext()))) {
                 case 0:
                     barLayout.setBackgroundResource(R.drawable.bg_titlebar);
@@ -73,7 +73,7 @@ public class EditForm extends Activity {
                     barLayout.setBackgroundResource(R.drawable.bg_titlebar_orange);
                     break;
             }
-            //เชื่อม btnSearch btnDirection เข้ากับ View
+            //����� btnSearch btnDirection ��ҡѺ View
             ImageButton btnDirection = (ImageButton) findViewById(R.id.btnDirection);
 
             btnDirection.setOnClickListener(new View.OnClickListener() {
@@ -119,7 +119,7 @@ public class EditForm extends Activity {
                     MainActivity.niyayTable.get(listItemName)[3] = txtChapter.getText().toString();
                     MainActivity.niyayTable.get(listItemName)[4] = title.getText().toString();
                 } catch (NumberFormatException nfe) {
-                    Toast.makeText(getBaseContext(), "ตอนที่ ไม่ได้อยู่ในรูปแบบของตัวเลข", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getBaseContext(), "�͹��� �����������ٻẺ�ͧ����Ţ", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if (id) {

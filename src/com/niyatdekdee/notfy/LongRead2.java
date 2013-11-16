@@ -45,6 +45,7 @@ public class LongRead2 extends Activity {
     private Handler mHandler = new Handler();
     private boolean roll_flag = false;
     private int currentPositon;
+    private static boolean active;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,7 +109,7 @@ public class LongRead2 extends Activity {
         url = intent.getStringExtra("url");
         dialog = new Dialog(this,R.style.CentreDialogCP);
         dialog.setContentView(R.layout.activity_long_read);
-        dialog.setTitle("‡πÄ‡∏•‡∏∑‡∏≠‡∏Å‡∏ä‡πà‡∏ß‡∏á‡∏ï‡∏≠‡∏ô");
+        dialog.setTitle("‡≈◊Õ°™Ë«ßµÕπ");
         dialog.setCancelable(false);
         Button dialogButton = (Button) dialog.findViewById(R.id.longbutton1);
         final EditText start = (EditText) dialog.findViewById(R.id.longeditText1);
@@ -130,7 +131,7 @@ public class LongRead2 extends Activity {
 
                     try {
                         prodialog = new ProgressDialog(LongRead2.this);
-                        prodialog.setMessage("Please Wait...\n‡∏ñ‡πâ‡∏≤‡∏£‡∏π‡πâ‡∏™‡∏∂‡∏Å‡∏ä‡πâ‡∏≤ ‡πÄ‡∏Å‡∏¥‡∏ô‡∏Å‡∏ß‡∏≤ 30 ‡∏ß‡∏¥‡∏ô‡∏≤‡∏ó‡∏µ‡∏≠‡∏≠‡∏Å‡πÅ‡∏•‡πâ‡∏ß‡πÄ‡∏Ç‡πâ‡∏≤‡πÉ‡∏´‡∏°‡πà");
+                        prodialog.setMessage("Please Wait...\n∂È“√ŸÈ ÷°™È“ ‡°‘π°«“ 30 «‘π“∑’ÕÕ°·≈È«‡¢È“„À¡Ë");
                         prodialog.setCancelable(true);
 
 
@@ -148,7 +149,7 @@ public class LongRead2 extends Activity {
                         if (dialog.isShowing()) dialog.dismiss();
                         work.execute(getBaseContext());
                     } catch (NumberFormatException e) {
-                        Toast.makeText(getBaseContext(), "‡∏ï‡∏≠‡∏ô‡∏ó‡∏µ‡πà ‡πÑ‡∏°‡πà‡πÑ‡∏î‡πâ‡∏≠‡∏¢‡∏π‡πà‡πÉ‡∏ô‡∏£‡∏π‡∏õ‡πÅ‡∏ö‡∏ö‡∏Ç‡∏≠‡∏á‡∏ï‡∏±‡∏ß‡πÄ‡∏•‡∏Ç", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getBaseContext(), "µÕπ∑’Ë ‰¡Ë‰¥ÈÕ¬ŸË„π√Ÿª·∫∫¢Õßµ—«‡≈¢", Toast.LENGTH_SHORT).show();
                         //finish();
                     }
                     return true;
@@ -164,7 +165,7 @@ public class LongRead2 extends Activity {
                 if (dialog.isShowing()) dialog.dismiss();
                 try {
                     prodialog = new ProgressDialog(LongRead2.this);
-                    prodialog.setMessage("Please Wait...\n‡∏ñ‡πâ‡∏≤‡∏£‡∏π‡πâ‡∏™‡∏∂‡∏Å‡∏ä‡πâ‡∏≤ ‡πÄ‡∏Å‡∏¥‡∏ô‡∏Å‡∏ß‡∏≤ 30 ‡∏ß‡∏¥‡∏ô‡∏≤‡∏ó‡∏µ‡∏≠‡∏≠‡∏Å‡πÅ‡∏•‡πâ‡∏ß‡πÄ‡∏Ç‡πâ‡∏≤‡πÉ‡∏´‡∏°‡πà");
+                    prodialog.setMessage("Please Wait...\n∂È“√ŸÈ ÷°™È“ ‡°‘π°«“ 30 «‘π“∑’ÕÕ°·≈È«‡¢È“„À¡Ë");
                     prodialog.setCancelable(true);
 
 
@@ -180,7 +181,7 @@ public class LongRead2 extends Activity {
                     }
                     work.execute(getBaseContext());
                 } catch (NumberFormatException e) {
-                    Toast.makeText(getBaseContext(), "‡∏ï‡∏≠‡∏ô‡∏ó‡∏µ‡πà ‡πÑ‡∏°‡πà‡πÑ‡∏î‡πâ‡∏≠‡∏¢‡∏π‡πà‡πÉ‡∏ô‡∏£‡∏π‡∏õ‡πÅ‡∏ö‡∏ö‡∏Ç‡∏≠‡∏á‡∏ï‡∏±‡∏ß‡πÄ‡∏•‡∏Ç", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getBaseContext(), "µÕπ∑’Ë ‰¡Ë‰¥ÈÕ¬ŸË„π√Ÿª·∫∫¢Õßµ—«‡≈¢", Toast.LENGTH_SHORT).show();
                     finish();
                 }
             }
@@ -219,7 +220,7 @@ public class LongRead2 extends Activity {
             if (intent.getStringExtra("from").equals("cp")) {
                 try {
                     prodialog = new ProgressDialog(LongRead2.this);
-                    prodialog.setMessage("Please Wait...\n‡∏ñ‡πâ‡∏≤‡∏£‡∏π‡πâ‡∏™‡∏∂‡∏Å‡∏ä‡πâ‡∏≤ ‡πÄ‡∏Å‡∏¥‡∏ô‡∏Å‡∏ß‡∏≤ 30 ‡∏ß‡∏¥‡∏ô‡∏≤‡∏ó‡∏µ‡∏≠‡∏≠‡∏Å‡πÅ‡∏•‡πâ‡∏ß‡πÄ‡∏Ç‡πâ‡∏≤‡πÉ‡∏´‡∏°‡πà");
+                    prodialog.setMessage("Please Wait...\n∂È“√ŸÈ ÷°™È“ ‡°‘π°«“ 30 «‘π“∑’ÕÕ°·≈È«‡¢È“„À¡Ë");
                     prodialog.setCancelable(true);
                     final int cp = Integer.parseInt(intent.getStringExtra("cp"));
                     work = new Long_doback(cp, cp);
@@ -275,6 +276,17 @@ public class LongRead2 extends Activity {
             dialog.show();
         }
     };
+
+    public void onStart() {
+        super.onStart();
+        active = true;
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        active = false;
+    }
 
     private void touchSimu() {
         /*			// Obtain MotionEvent object
@@ -347,9 +359,9 @@ public class LongRead2 extends Activity {
             }
 
             AlertDialog.Builder builder = new AlertDialog.Builder(LongRead2.this);
-            builder.setMessage("‡∏Ñ‡∏∏‡∏ì‡∏ï‡πâ‡∏≠‡∏á‡∏Å‡∏≤‡∏£‡∏ó‡∏µ‡πà‡∏à‡∏∞ ?")
+            builder.setMessage("§ÿ≥µÈÕß°“√∑’Ë®– ?")
                     .setCancelable(true)
-                    .setPositiveButton("‡∏≠‡∏≠‡∏Å‡∏à‡∏≤‡∏Å‡∏´‡∏ô‡πâ‡∏≤‡∏ô‡∏µ‡πâ", new DialogInterface.OnClickListener() {
+                    .setPositiveButton("ÕÕ°®“°ÀπÈ“π’È", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             if (DekTTSActivity.tts != null && DekTTSActivity.isSpeak) {
                                 DekTTSActivity.tts.stop();
@@ -365,7 +377,7 @@ public class LongRead2 extends Activity {
                             finish();
                         }
                     })
-                    .setNegativeButton("‡∏¢‡∏Å‡πÄ‡∏•‡∏¥‡∏Å", new DialogInterface.OnClickListener() {
+                    .setNegativeButton("¬°‡≈‘°", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             dialog.cancel();
                         }
@@ -402,9 +414,9 @@ public class LongRead2 extends Activity {
                 }
                 if (work.getStatus() == AsyncTask.Status.RUNNING) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(LongRead2.this);
-                    builder.setMessage("‡∏¢‡∏±‡∏á‡πÇ‡∏´‡∏•‡∏î‡πÑ‡∏°‡πà‡∏Ñ‡∏ö‡∏Ñ‡∏£‡∏ö‡∏ó‡∏∏‡∏Å‡∏ï‡∏≠‡∏ô ‡∏ï‡πâ‡∏≠‡∏á‡∏Å‡∏≤‡∏£‡∏ü‡∏±‡∏á‡πÅ‡∏Ñ‡πà‡∏ó‡∏µ‡πà‡∏°‡∏µ‡∏´‡∏£‡∏∑‡∏≠‡πÑ‡∏°‡πà")
+                    builder.setMessage("¬—ß‚À≈¥‰¡Ë§∫§√∫∑ÿ°µÕπ µÈÕß°“√ø—ß·§Ë∑’Ë¡’À√◊Õ‰¡Ë")
                             .setCancelable(false)
-                            .setPositiveButton("‡∏ï‡∏Å‡∏•‡∏á", new DialogInterface.OnClickListener() {
+                            .setPositiveButton("µ°≈ß", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
                                     if (DekTTSActivity.tts != null && DekTTSActivity.isSpeak) {
                                         DekTTSActivity.tts.stop();
@@ -418,7 +430,7 @@ public class LongRead2 extends Activity {
                                     startService(intent);
                                 }
                             })
-                            .setNegativeButton("‡∏¢‡∏Å‡πÄ‡∏•‡∏¥‡∏Å", new DialogInterface.OnClickListener() {
+                            .setNegativeButton("¬°‡≈‘°", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
                                     dialog.cancel();
                                 }
@@ -436,7 +448,12 @@ public class LongRead2 extends Activity {
                     DekTTSActivity.type = 4;
                     DekTTSActivity.text = (String) webView.getText().toString().subSequence(webView.getSelectionStart(), webView.length());
                     startService(intent);
-                }
+                }/*
+                final Dialog dialog2 = new Dialog(getBaseContext());
+                dialog2.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog2.setContentView(R.layout.tts_dialog);
+                dialog2.getWindow().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
+                dialog2.show();*/
                 return true;
             case R.id.reselect:
                 dialog.setCancelable(true);
@@ -463,13 +480,13 @@ public class LongRead2 extends Activity {
                 roll_flag = true;
                 return true;
             case R.id.inctext:
-                //‡πÄ‡∏û‡∏¥‡πà‡∏°‡∏Ç‡∏ô‡∏≤‡∏î font
-                Toast.makeText(getBaseContext(), "‡πÇ‡∏õ‡∏£‡∏î‡∏£‡∏≠", Toast.LENGTH_SHORT).show();
+                //‡æ‘Ë¡¢π“¥ font
+                Toast.makeText(getBaseContext(), "‚ª√¥√Õ", Toast.LENGTH_SHORT).show();
                 webView.setTextSize(TypedValue.COMPLEX_UNIT_PX, webView.getTextSize() + 1);
                 return true;
             case R.id.dectext:
-                //‡∏•‡∏î‡∏Ç‡∏ô‡∏≤‡∏î font
-                Toast.makeText(getBaseContext(), "‡πÇ‡∏õ‡∏£‡∏î‡∏£‡∏≠", Toast.LENGTH_SHORT).show();
+                //≈¥¢π“¥ font
+                Toast.makeText(getBaseContext(), "‚ª√¥√Õ", Toast.LENGTH_SHORT).show();
                 webView.setTextSize(TypedValue.COMPLEX_UNIT_PX, webView.getTextSize() - 1);
                 return true;
             case R.id.switchl:
@@ -500,7 +517,7 @@ public class LongRead2 extends Activity {
         //seek.setBackgroundDrawable(new ColorDrawable(0));
         Settings.System.putInt(getContentResolver(), Settings.System.SCREEN_BRIGHTNESS_MODE, Settings.System.SCREEN_BRIGHTNESS_MODE_MANUAL);
         //popDialog.setIcon(android.R.drawable.btn_star_big_on);
-        popDialog.setTitle("‡∏£‡∏∞‡∏î‡∏±‡∏ö‡πÅ‡∏™‡∏á‡∏™‡∏ß‡πà‡∏≤‡∏á");
+        popDialog.setTitle("√–¥—∫· ß «Ë“ß");
         popDialog.setView(seek);
 
         if (sclight != 0)
@@ -725,14 +742,14 @@ public class LongRead2 extends Activity {
                     }
                 } else {
                     AlertDialog.Builder builder = new AlertDialog.Builder(LongRead2.this);
-                    builder.setMessage("‡∏ï‡∏≠‡∏ô‡∏ó‡∏µ‡πà‡∏à‡∏∞‡πÄ‡∏õ‡∏¥‡∏î‡πÄ‡∏Ñ‡∏¢‡∏°‡∏µ‡∏õ‡∏£‡∏∞‡∏ß‡∏±‡∏ï‡∏¥‡∏Å‡∏≤‡∏£‡πÉ‡∏ä‡πâ‡∏´‡∏ô‡πà‡∏ß‡∏¢‡∏Ñ‡∏ß‡∏≤‡∏°‡∏à‡∏≥‡πÄ‡∏Å‡∏¥‡∏ô‡∏Å‡∏ß‡πà‡∏≤‡πÄ‡∏Ñ‡∏£‡∏∑‡πà‡∏≠‡∏á‡∏à‡∏∞‡∏£‡∏±‡∏ö‡πÑ‡∏î‡πâ")
+                    builder.setMessage("µÕπ∑’Ë®–‡ª‘¥‡§¬¡’ª√–«—µ‘°“√„™ÈÀπË«¬§«“¡®”‡°‘π°«Ë“‡§√◊ËÕß®–√—∫‰¥È")
                             .setCancelable(false)
-                            .setPositiveButton("‡πÑ‡∏°‡πà‡πÅ‡∏™‡∏î‡∏á‡∏†‡∏≤‡∏û", new DialogInterface.OnClickListener() {
+                            .setPositiveButton("‰¡Ë· ¥ß¿“æ", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
                                     webView.setText(Html.fromHtml(HTMLdata.toString()));
                                 }
                             })
-                            .setNegativeButton("‡πÅ‡∏™‡∏î‡∏á‡∏†‡∏≤‡∏û", new DialogInterface.OnClickListener() {
+                            .setNegativeButton("· ¥ß¿“æ", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
                                     URLImageParser p = new URLImageParser(webView, getBaseContext(), url);
                                     webView.setText(Html.fromHtml(HTMLdata.toString(), p, null));
@@ -748,7 +765,7 @@ public class LongRead2 extends Activity {
                 }
 
             } else if (progress[0].equals("2")) {
-                prodialog.setMessage("‡∏Å‡∏≤‡∏£‡πÄ‡∏ä‡∏∑‡πà‡∏≠‡∏°‡∏ï‡πà‡∏≠‡∏°‡∏µ‡∏õ‡∏±‡∏ç‡∏´‡∏≤");
+                prodialog.setMessage("°“√‡™◊ËÕ¡µËÕ¡’ª—≠À“");
                 try {
                     Thread.sleep(2000);
                 } catch (InterruptedException e) {
@@ -756,9 +773,9 @@ public class LongRead2 extends Activity {
                 }
                 prodialog.dismiss();
                 AlertDialog.Builder builder = new AlertDialog.Builder(LongRead2.this);
-                builder.setMessage("‡∏Å‡∏≤‡∏£‡πÄ‡∏ä‡∏∑‡πà‡∏≠‡∏°‡∏ï‡πà‡∏≠‡∏°‡∏µ‡∏õ‡∏±‡∏ç‡∏´‡∏≤ ‡∏Ñ‡∏∏‡∏ì‡∏ï‡πâ‡∏≠‡∏á‡∏Å‡∏≤‡∏£‡∏ó‡∏µ‡πà‡∏à‡∏∞ ?")
+                builder.setMessage("°“√‡™◊ËÕ¡µËÕ¡’ª—≠À“ §ÿ≥µÈÕß°“√∑’Ë®– ?")
                         .setCancelable(true)
-                        .setPositiveButton("‡∏≠‡∏≠‡∏Å‡∏à‡∏≤‡∏Å‡∏´‡∏ô‡πâ‡∏≤‡∏ô‡∏µ‡πâ", new DialogInterface.OnClickListener() {
+                        .setPositiveButton("ÕÕ°®“°ÀπÈ“π’È", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 if (DekTTSActivity.tts != null && DekTTSActivity.isSpeak) {
                                     DekTTSActivity.tts.stop();
@@ -774,9 +791,9 @@ public class LongRead2 extends Activity {
                                 finish();
                             }
                         })
-                        .setNegativeButton("‡∏•‡∏≠‡∏á‡πÉ‡∏´‡∏°‡πà", new DialogInterface.OnClickListener() {
+                        .setNegativeButton("≈Õß„À¡Ë", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
+                                if (active) dialog.cancel();
                                 if (work != null)
                                     work.cancel(true);
                                 mHandler.postDelayed(runnable, 1);

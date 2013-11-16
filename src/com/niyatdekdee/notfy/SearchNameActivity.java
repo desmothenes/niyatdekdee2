@@ -40,12 +40,12 @@ public class SearchNameActivity extends Activity {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         if (customTitleSupported) {
 
-            //‡∏ï‡∏±‡πâ‡∏á‡∏Ñ‡πà‡∏≤ custom titlebar ‡∏à‡∏≤‡∏Å custom_titlebar.xml
+            //µ—Èß§Ë“ custom titlebar ®“° custom_titlebar.xml
             getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.custom_titlebar_ok);
 
-            //‡πÄ‡∏ä‡∏∑‡πà‡∏≠‡∏° btnSearch btnDirection ‡πÄ‡∏Ç‡πâ‡∏≤‡∏Å‡∏±‡∏ö View
+            //‡™◊ËÕ¡ btnSearch btnDirection ‡¢È“°—∫ View
             TextView title = (TextView) findViewById(R.id.textViewOk);
-            title.setText(" ‡∏Ñ‡πâ‡∏ô‡∏´‡∏≤‡∏ô‡∏¥‡∏¢‡∏≤‡∏¢");
+            title.setText(" §ÈπÀ“π‘¬“¬");
 
             RelativeLayout barLayout = (RelativeLayout) findViewById(R.id.okbar);
             ImageButton btnOk = (ImageButton) findViewById(R.id.imageButton1);
@@ -106,9 +106,9 @@ public class SearchNameActivity extends Activity {
         mainScrollView = (ScrollView) findViewById(R.id.scrollView1);
         Spinner gpMenu = (Spinner) findViewById(R.id.spinner4);
         ArrayList<String> gpList = new ArrayList<String>();
-        gpList.add("‡∏ó‡∏±‡πâ‡∏á‡∏´‡∏°‡∏î");
-        gpList.add("‡πÄ‡∏£‡∏∑‡πà‡∏≠‡∏á‡∏™‡∏±‡πâ‡∏ô");
-        gpList.add("‡πÄ‡∏£‡∏∑‡πà‡∏≠‡∏á‡∏¢‡∏≤‡∏ß");
+        gpList.add("∑—ÈßÀ¡¥");
+        gpList.add("‡√◊ËÕß —Èπ");
+        gpList.add("‡√◊ËÕß¬“«");
 
         ArrayAdapter<String> gpadb = new ArrayAdapter<String>(SearchNameActivity.this,
                 android.R.layout.simple_spinner_item,
@@ -135,9 +135,9 @@ public class SearchNameActivity extends Activity {
         });
         Spinner stausMenu = (Spinner) findViewById(R.id.spinner5);
         ArrayList<String> statusList = new ArrayList<String>();
-        statusList.add("‡∏ó‡∏±‡πâ‡∏á‡∏´‡∏°‡∏î");
-        statusList.add("‡∏¢‡∏±‡∏á‡πÑ‡∏°‡πà‡∏à‡∏ö");
-        statusList.add("‡∏à‡∏ö‡πÅ‡∏•‡πâ‡∏ß");
+        statusList.add("∑—ÈßÀ¡¥");
+        statusList.add("¬—ß‰¡Ë®∫");
+        statusList.add("®∫·≈È«");
 
         ArrayAdapter<String> statusadb = new ArrayAdapter<String>(SearchNameActivity.this,
                 android.R.layout.simple_spinner_item,
@@ -165,10 +165,10 @@ public class SearchNameActivity extends Activity {
 
         Spinner mainGP = (Spinner) findViewById(R.id.spinner6);
         subGP = (Spinner) findViewById(R.id.spinner13);
-        mainList.add("‡∏ó‡∏∏‡∏Å‡∏´‡∏°‡∏ß‡∏î");
-        mainList.add("‡∏´‡∏°‡∏ß‡∏î‡∏´‡∏•‡∏±‡∏Å‡∏ü‡∏£‡∏µ‡∏™‡πÑ‡∏ï‡∏•‡πå");
-        mainList.add("‡∏´‡∏°‡∏ß‡∏î‡∏´‡∏•‡∏±‡∏Å‡∏°‡∏µ‡∏™‡∏≤‡∏£‡∏∞");
-        mainList.add("‡∏´‡∏°‡∏ß‡∏î‡∏´‡∏•‡∏±‡∏Å‡πÑ‡∏•‡∏ü‡πå‡∏™‡πÑ‡∏ï‡∏•‡πå");
+        mainList.add("∑ÿ°À¡«¥");
+        mainList.add("À¡«¥À≈—°ø√’ ‰µ≈Ï");
+        mainList.add("À¡«¥À≈—°¡’ “√–");
+        mainList.add("À¡«¥À≈—°‰≈øÏ ‰µ≈Ï");
         ArrayAdapter<String> mainadb = new ArrayAdapter<String>(SearchNameActivity.this,
                 android.R.layout.simple_spinner_item,
                 mainList);
@@ -194,50 +194,50 @@ public class SearchNameActivity extends Activity {
                     return;
                 } else if (index == 1) {
                     main = "1";
-                    subList.add("‡∏ó‡∏±‡πâ‡∏á‡∏´‡∏°‡∏î");
-                    subList.add("‡∏™‡∏ö‡∏≤‡∏¢‡πÜ ‡∏Ñ‡∏•‡∏≤‡∏¢‡πÄ‡∏Ñ‡∏£‡∏µ‡∏¢‡∏î");
-                    subList.add("‡∏£‡∏±‡∏Å‡∏´‡∏ß‡∏≤‡∏ô‡πÅ‡∏´‡∏ß‡∏ß");
-                    subList.add("‡∏ã‡∏∂‡πâ‡∏á‡∏Å‡∏¥‡∏ô‡πÉ‡∏à");
-                    subList.add("‡∏£‡∏±‡∏Å‡πÄ‡∏®‡∏£‡πâ‡∏≤‡πÜ");
-                    subList.add("‡∏ô‡∏¥‡∏ó‡∏≤‡∏ô");
-                    subList.add("‡∏ú‡∏à‡∏ç‡∏†‡∏±‡∏¢");
-                    subList.add("‡∏™‡∏∑‡∏ö‡∏™‡∏ß‡∏ô");
-                    subList.add("‡∏£‡∏∞‡∏ó‡∏∂‡∏Å‡∏Ç‡∏ß‡∏±‡∏ç");
-                    subList.add("‡∏™‡∏á‡∏Ñ‡∏£‡∏≤‡∏°");
-                    subList.add("‡∏ï‡∏•‡∏Å‡∏Ç‡∏ö‡∏Ç‡∏±‡∏ô");
-                    subList.add("‡∏Å‡∏•‡∏≠‡∏ô");
-                    subList.add("‡∏≠‡∏î‡∏µ‡∏ï ‡∏õ‡∏±‡∏à‡∏à‡∏∏‡∏ö‡∏±‡∏ô ‡∏≠‡∏ô‡∏≤‡∏Ñ‡∏ï");
-                    subList.add("‡∏à‡∏¥‡∏ï‡∏ß‡∏¥‡∏ó‡∏¢‡∏≤");
-                    subList.add("‡∏™‡∏±‡∏á‡∏Ñ‡∏°");
-                    subList.add("‡∏´‡∏±‡∏Å‡∏°‡∏∏‡∏°");
-                    subList.add("‡πÅ‡∏ü‡∏ô‡∏ï‡∏≤‡∏ã‡∏µ");
-                    subList.add("‡∏Å‡∏≥‡∏•‡∏±‡∏á‡∏†‡∏≤‡∏¢‡πÉ‡∏ô");
-                    subList.add("‡∏ß‡∏¥‡∏ó‡∏¢‡∏≤‡∏®‡∏≤‡∏™‡∏ï‡∏£‡πå");
-                    subList.add("‡πÅ‡∏ü‡∏ô‡∏ü‡∏¥‡∏Ñ");
-                    subList.add("‡∏ß‡∏£‡∏£‡∏ì‡∏Å‡∏£‡∏£‡∏°‡πÄ‡∏¢‡∏≤‡∏ß‡∏ä‡∏ô");
-                    subList.add("‡∏≠‡∏∑‡πà‡∏ô‡πÜ");
+                    subList.add("∑—ÈßÀ¡¥");
+                    subList.add(" ∫“¬Ê §≈“¬‡§√’¬¥");
+                    subList.add("√—°À«“π·À««");
+                    subList.add("´÷Èß°‘π„®");
+                    subList.add("√—°‡»√È“Ê");
+                    subList.add("π‘∑“π");
+                    subList.add("º®≠¿—¬");
+                    subList.add(" ◊∫ «π");
+                    subList.add("√–∑÷°¢«—≠");
+                    subList.add(" ß§√“¡");
+                    subList.add("µ≈°¢∫¢—π");
+                    subList.add("°≈Õπ");
+                    subList.add("Õ¥’µ ª—®®ÿ∫—π Õπ“§µ");
+                    subList.add("®‘µ«‘∑¬“");
+                    subList.add(" —ß§¡");
+                    subList.add("À—°¡ÿ¡");
+                    subList.add("·øπµ“´’");
+                    subList.add("°”≈—ß¿“¬„π");
+                    subList.add("«‘∑¬“»“ µ√Ï");
+                    subList.add("·øπø‘§");
+                    subList.add("«√√≥°√√¡‡¬“«™π");
+                    subList.add("Õ◊ËπÊ");
 
                 } else if (index == 2) {
                     main = "2";
-                    subList.add("‡∏ó‡∏±‡πâ‡∏á‡∏´‡∏°‡∏î");
-                    subList.add("‡∏Ñ‡∏ß‡∏≤‡∏°‡∏£‡∏π‡πâ‡∏£‡∏≠‡∏ö‡∏ï‡∏±‡∏ß");
-                    subList.add("‡∏Ñ‡∏ß‡∏≤‡∏°‡∏£‡∏π‡πâ‡πÄ‡∏û‡∏∑‡πà‡∏≠‡∏î‡∏≥‡πÄ‡∏ô‡∏¥‡∏ô‡∏ä‡∏µ‡∏ß‡∏¥‡∏ï");
-                    subList.add("‡πÄ‡∏Å‡∏£‡πá‡∏î‡∏õ‡∏£‡∏∞‡∏ß‡∏±‡∏ï‡∏¥‡∏®‡∏≤‡∏™‡∏ï‡∏£‡πå");
-                    subList.add("‡∏Ñ‡∏ß‡∏≤‡∏°‡∏£‡∏π‡πâ‡πÄ‡∏£‡∏∑‡πà‡∏≠‡∏á‡πÄ‡∏£‡∏µ‡∏¢‡∏ô");
-                    subList.add("‡∏Ñ‡∏ß‡∏≤‡∏°‡∏£‡∏π‡πâ‡πÄ‡∏≠‡∏ô‡∏ó‡∏£‡∏≤‡∏ô‡∏ã‡πå");
-                    subList.add("‡∏Ñ‡∏ß‡∏≤‡∏°‡∏£‡∏π‡πâ‡∏Å‡∏•‡πÄ‡∏°‡πá‡∏î ‡πÄ‡∏ó‡∏Ñ‡∏ô‡∏¥‡∏Ñ");
-                    subList.add("‡πÄ‡∏Å‡∏£‡πá‡∏î‡∏ó‡πà‡∏≠‡∏á‡πÄ‡∏ó‡∏µ‡πà‡∏¢‡∏ß");
+                    subList.add("∑—ÈßÀ¡¥");
+                    subList.add("§«“¡√ŸÈ√Õ∫µ—«");
+                    subList.add("§«“¡√ŸÈ‡æ◊ËÕ¥”‡π‘π™’«‘µ");
+                    subList.add("‡°√Á¥ª√–«—µ‘»“ µ√Ï");
+                    subList.add("§«“¡√ŸÈ‡√◊ËÕß‡√’¬π");
+                    subList.add("§«“¡√ŸÈ‡Õπ∑√“π´Ï");
+                    subList.add("§«“¡√ŸÈ°≈‡¡Á¥ ‡∑§π‘§");
+                    subList.add("‡°√Á¥∑ËÕß‡∑’Ë¬«");
                 } else if (index == 3) {
                     main = "3";
-                    subList.add("‡∏ó‡∏±‡πâ‡∏á‡∏´‡∏°‡∏î");
-                    subList.add("‡∏™‡∏∏‡∏Ç‡∏†‡∏≤‡∏û ‡∏Ñ‡∏ß‡∏≤‡∏°‡∏á‡∏≤‡∏°");
-                    subList.add("‡∏™‡∏¥‡πà‡∏á‡∏Ç‡∏≠‡∏á intrend");
-                    subList.add("‡∏ï‡∏≤‡∏°‡∏ï‡∏¥‡∏î‡∏Ñ‡∏ô‡∏î‡∏±‡∏á");
-                    subList.add("‡∏î‡∏ô‡∏ï‡∏£‡∏µ ‡πÄ‡∏û‡∏•‡∏á ‡∏´‡∏ô‡∏±‡∏á");
-                    subList.add("‡∏î‡∏µ‡πÑ‡∏ã‡∏ô‡πå ‡∏Å‡∏£‡∏≤‡∏ü‡∏¥‡∏Å");
-                    subList.add("‡∏Å‡∏≤‡∏£‡πå‡∏ï‡∏π‡∏ô ‡πÄ‡∏Å‡∏°‡∏™‡πå");
-                    subList.add("‡πÑ‡∏≠‡∏ó‡∏µ ‡πÄ‡∏ó‡∏Ñ‡πÇ‡∏ô‡πÇ‡∏•‡∏¢‡∏µ");
-                    subList.add("‡∏≠‡∏∑‡πà‡∏ô‡πÜ");
+                    subList.add("∑—ÈßÀ¡¥");
+                    subList.add(" ÿ¢¿“æ §«“¡ß“¡");
+                    subList.add(" ‘Ëß¢Õß intrend");
+                    subList.add("µ“¡µ‘¥§π¥—ß");
+                    subList.add("¥πµ√’ ‡æ≈ß Àπ—ß");
+                    subList.add("¥’‰´πÏ °√“ø‘°");
+                    subList.add("°“√ÏµŸπ ‡°¡ Ï");
+                    subList.add("‰Õ∑’ ‡∑§‚π‚≈¬’");
+                    subList.add("Õ◊ËπÊ");
                 }
                 ArrayAdapter<String> subadb = new ArrayAdapter<String>(SearchNameActivity.this,
                         android.R.layout.simple_spinner_item,

@@ -102,8 +102,8 @@ class doback0 extends AsyncTask<Context, String, Long> {
 
     protected void onProgressUpdate(String... progress) {
         if (progress[0].equals("-1")) {
-            //Toast.makeText(context, "‡∏Å‡∏≤‡∏£‡πÄ‡∏ä‡∏∑‡πà‡∏≠‡∏°‡∏ï‡πà‡∏≠‡∏°‡∏µ‡∏õ‡∏±‡∏ç‡∏´‡∏≤ ‡∏Å‡∏£‡∏∏‡∏ì‡∏≤‡∏õ‡∏£‡∏±‡∏ö‡∏õ‡∏£‡∏∏‡∏á‡∏Å‡∏≤‡∏£‡πÄ‡∏ä‡∏∑‡πà‡∏≠‡∏°‡∏ï‡πà‡∏≠ ‡πÅ‡∏•‡πâ‡∏ß‡∏•‡∏≠‡∏á‡πÉ‡∏´‡∏°‡πà", Toast.LENGTH_LONG).show();
-            Log.e("onProgressUpdate", "‡∏Å‡∏≤‡∏£‡πÄ‡∏ä‡∏∑‡πà‡∏≠‡∏°‡∏ï‡πà‡∏≠‡∏°‡∏µ‡∏õ‡∏±‡∏ç‡∏´‡∏≤ ‡∏Å‡∏£‡∏∏‡∏ì‡∏≤‡∏õ‡∏£‡∏±‡∏ö‡∏õ‡∏£‡∏∏‡∏á‡∏Å‡∏≤‡∏£‡πÄ‡∏ä‡∏∑‡πà‡∏≠‡∏°‡∏ï‡πà‡∏≠ ‡πÅ‡∏•‡πâ‡∏ß‡∏•‡∏≠‡∏á‡πÉ‡∏´‡∏°‡πà");
+            //Toast.makeText(context, "°“√‡™◊ËÕ¡µËÕ¡’ª—≠À“ °√ÿ≥“ª√—∫ª√ÿß°“√‡™◊ËÕ¡µËÕ ·≈È«≈Õß„À¡Ë", Toast.LENGTH_LONG).show();
+            Log.e("onProgressUpdate", "°“√‡™◊ËÕ¡µËÕ¡’ª—≠À“ °√ÿ≥“ª√—∫ª√ÿß°“√‡™◊ËÕ¡µËÕ ·≈È«≈Õß„À¡Ë");
             if (!tried) {
                 tried = true;
                 //this.cancel(true);
@@ -126,22 +126,22 @@ class doback0 extends AsyncTask<Context, String, Long> {
         MainActivity.ListViewContent = ListViewContent;
         if (MainActivity.ListViewContent.size() == 0) {
             if (loginsuscess && Setting.getisLogin(context) && Setting.getdisplayResult(context))
-                Toast.makeText(context, "‡πÑ‡∏°‡πà‡∏û‡∏ö‡∏ï‡∏≠‡∏ô‡πÉ‡∏´‡∏°‡πà‡πÉ‡∏ô Favorite Writer", Toast.LENGTH_LONG).show();
+                Toast.makeText(context, "‰¡Ëæ∫µÕπ„À¡Ë„π Favorite Writer", Toast.LENGTH_LONG).show();
             else if (Setting.getisLogin(context) && Setting.getdisplayResult(context))
-                Toast.makeText(context, "‡πÑ‡∏°‡πà‡∏°‡∏µ‡∏ï‡∏≠‡∏ô‡πÉ‡∏´‡∏°‡πà ‡∏´‡∏£‡∏∑‡∏≠ ‡πÄ‡∏Ç‡πâ‡∏≤‡∏™‡∏π‡πà‡∏£‡∏∞‡∏ö‡∏ö‡πÑ‡∏°‡πà‡πÑ‡∏î‡πâ", Toast.LENGTH_LONG).show();
+                Toast.makeText(context, "‰¡Ë¡’µÕπ„À¡Ë À√◊Õ ‡¢È“ ŸË√–∫∫‰¡Ë‰¥È", Toast.LENGTH_LONG).show();
 
             if (floop == 0 || loginsuscess)
-                MainActivity.ListViewContent.add("<big><big>‡πÇ‡∏õ‡∏£‡∏î‡πÄ‡∏û‡∏¥‡πà‡∏°‡∏ô‡∏¥‡∏¢‡∏≤‡∏¢‡πÄ‡∏£‡∏∑‡πà‡∏≠‡∏á‡πÅ‡∏£‡∏Å\n(‡∏Å‡∏î‡πÄ‡∏Ñ‡∏£‡∏∑‡πà‡∏≠‡∏á‡∏´‡∏°‡∏≤‡∏¢‡∏ö‡∏ß‡∏Å‡∏™‡∏µ‡πÄ‡∏Ç‡∏µ‡∏¢‡∏ß\n‡πÄ‡∏û‡∏∑‡πà‡∏≠‡πÄ‡∏•‡∏∑‡∏≠‡∏Å‡∏ß‡∏¥‡∏ò‡∏µ‡∏Å‡∏≤‡∏£‡πÄ‡∏û‡∏¥‡πà‡∏°‡∏ô‡∏¥‡∏¢‡∏≤‡∏¢)</big></big>");
+                MainActivity.ListViewContent.add("<big><big>‚ª√¥‡æ‘Ë¡π‘¬“¬‡√◊ËÕß·√°\n(°¥‡§√◊ËÕßÀ¡“¬∫«° ’‡¢’¬«\n‡æ◊ËÕ‡≈◊Õ°«‘∏’°“√‡æ‘Ë¡π‘¬“¬)</big></big>");
             else {
-                Toast.makeText(context, "‡∏Å‡∏≤‡∏£‡πÄ‡∏ä‡∏∑‡πà‡∏≠‡∏°‡∏ï‡πà‡∏≠‡∏°‡∏µ‡∏õ‡∏±‡∏ç‡∏´‡∏≤ ‡∏Å‡∏£‡∏∏‡∏ì‡∏≤‡∏õ‡∏£‡∏±‡∏ö‡∏õ‡∏£‡∏∏‡∏á‡∏Å‡∏≤‡∏£‡πÄ‡∏ä‡∏∑‡πà‡∏≠‡∏°‡∏ï‡πà‡∏≠ ‡πÅ‡∏•‡πâ‡∏ß‡∏•‡∏≠‡∏á‡πÉ‡∏´‡∏°‡πà", Toast.LENGTH_LONG).show();
-                Log.e("onPostExecute", "‡∏Å‡∏≤‡∏£‡πÄ‡∏ä‡∏∑‡πà‡∏≠‡∏°‡∏ï‡πà‡∏≠‡∏°‡∏µ‡∏õ‡∏±‡∏ç‡∏´‡∏≤ ‡∏Å‡∏£‡∏∏‡∏ì‡∏≤‡∏õ‡∏£‡∏±‡∏ö‡∏õ‡∏£‡∏∏‡∏á‡∏Å‡∏≤‡∏£‡πÄ‡∏ä‡∏∑‡πà‡∏≠‡∏°‡∏ï‡πà‡∏≠ ‡πÅ‡∏•‡πâ‡∏ß‡∏•‡∏≠‡∏á‡πÉ‡∏´‡∏°‡πà");
+                Toast.makeText(context, "°“√‡™◊ËÕ¡µËÕ¡’ª—≠À“ °√ÿ≥“ª√—∫ª√ÿß°“√‡™◊ËÕ¡µËÕ ·≈È«≈Õß„À¡Ë", Toast.LENGTH_LONG).show();
+                Log.e("onPostExecute", "°“√‡™◊ËÕ¡µËÕ¡’ª—≠À“ °√ÿ≥“ª√—∫ª√ÿß°“√‡™◊ËÕ¡µËÕ ·≈È«≈Õß„À¡Ë");
             }
 
             //if (MainActivity.niyayTable.size() == 0) MainActivity.niyayTable.add(new String[4]);
         }
         if (isErr) {
             Log.e("onPostExecute", "isErr");
-            Toast.makeText(context, "‡∏Å‡∏≤‡∏£‡πÄ‡∏ä‡∏∑‡πà‡∏≠‡∏°‡∏ï‡πà‡∏≠‡∏°‡∏µ‡∏õ‡∏±‡∏ç‡∏´‡∏≤ ‡∏Å‡∏£‡∏∏‡∏ì‡∏≤‡∏õ‡∏£‡∏±‡∏ö‡∏õ‡∏£‡∏∏‡∏á‡∏Å‡∏≤‡∏£‡πÄ‡∏ä‡∏∑‡πà‡∏≠‡∏°‡∏ï‡πà‡∏≠ ‡πÅ‡∏•‡πâ‡∏ß‡∏•‡∏≠‡∏á‡πÉ‡∏´‡∏°‡πà", Toast.LENGTH_LONG).show();
+            Toast.makeText(context, "°“√‡™◊ËÕ¡µËÕ¡’ª—≠À“ °√ÿ≥“ª√—∫ª√ÿß°“√‡™◊ËÕ¡µËÕ ·≈È«≈Õß„À¡Ë", Toast.LENGTH_LONG).show();
         }
         MainActivity.myList.setAdapter(MainActivity.listAdap);
         //MainActivity.dialog.dismiss();
@@ -152,7 +152,7 @@ class doback0 extends AsyncTask<Context, String, Long> {
             MainActivity.mGaTracker.sendTiming("resources", post.toMillis(true) - now.toMillis(true), "doback", null);
 
 		*//*		for (Map.Entry<String, String> entry : sessionStatus.entrySet())
-			Log.e(entry.getKey(), entry.getValue());*//*
+            Log.e(entry.getKey(), entry.getValue());*//*
     }
 
     private boolean isTemp;
@@ -253,7 +253,7 @@ class doback0 extends AsyncTask<Context, String, Long> {
 
         int status = 0;
         //Log.e("c.getString(4)",c.getString(4));
-        String title = c.getString(4).equals("non") ? "‡∏¢‡∏±‡∏á‡πÑ‡∏°‡πà‡∏°‡∏µ‡∏ï‡∏≠‡∏ô‡∏õ‡∏±‡∏à‡∏à‡∏∏‡∏ö‡∏±‡∏ô ‡∏£‡∏≠‡∏ï‡∏≠‡∏ô‡πÉ‡∏´‡∏°‡πà" : c.getString(4);
+        String title = c.getString(4).equals("non") ? "¬—ß‰¡Ë¡’µÕπª—®®ÿ∫—π √ÕµÕπ„À¡Ë" : c.getString(4);
         //Log.e("c.getString(4)",c.getString(4));
         final String id = c.getString(0);
         final String url = c.getString(2);
@@ -363,7 +363,7 @@ class doback0 extends AsyncTask<Context, String, Long> {
             final String start = text1.substring(text1.indexOf("<title>") + 7);
             text1 = Jsoup.parse((start.substring(start.indexOf(">") + 2, start.indexOf("</title>")))).text();
         } else {
-            text1 = "‡∏¢‡∏±‡∏á‡πÑ‡∏°‡πà‡∏°‡∏µ‡∏ï‡∏≠‡∏ô‡∏õ‡∏±‡∏à‡∏à‡∏∏‡∏ö‡∏±‡∏ô ‡∏£‡∏≠‡∏ï‡∏≠‡∏ô‡πÉ‡∏´‡∏°‡πà";
+            text1 = "¬—ß‰¡Ë¡’µÕπª—®®ÿ∫—π √ÕµÕπ„À¡Ë";
         }
 
 		*//*		Log.e("title",(title == null) ? "null" : title);
@@ -392,7 +392,7 @@ class doback0 extends AsyncTask<Context, String, Long> {
 				System.out.print(title.trim().charAt(i));System.out.println((int)title.trim().charAt(i));
 			}*//*
             status = 1; //current chapter update
-        } else if (!text1.contains("‡∏¢‡∏±‡∏á‡πÑ‡∏°‡πà‡∏°‡∏µ‡∏ï‡∏≠‡∏ô‡∏õ‡∏±‡∏à‡∏à‡∏∏‡∏ö‡∏±‡∏ô ‡∏£‡∏≠‡∏ï‡∏≠‡∏ô‡πÉ‡∏´‡∏°‡πà") && !text1.contains("non")) {
+        } else if (!text1.contains("¬—ß‰¡Ë¡’µÕπª—®®ÿ∫—π √ÕµÕπ„À¡Ë") && !text1.contains("non")) {
             status = 2;
         }
         //Log.e("status", Integer.toString(status));
@@ -401,23 +401,23 @@ class doback0 extends AsyncTask<Context, String, Long> {
         if (status == 0) {
             isTemp = true;
             Listtemp.add(
-                    "<br /><p><font color=#33B6EA>‡πÄ‡∏£‡∏∑‡πà‡∏≠‡∏á :" + c.getString(1) + "</font><br />" +
-                            "<font color=#cc0029> ‡∏•‡πà‡∏≤‡∏™‡∏∏‡∏î ‡∏ï‡∏≠‡∏ô : " + title + " (" + chapter + ")</font></p>");
+                    "<br /><p><font color=#33B6EA>‡√◊ËÕß :" + c.getString(1) + "</font><br />" +
+                            "<font color=#cc0029> ≈Ë“ ÿ¥ µÕπ : " + title + " (" + chapter + ")</font></p>");
         } else if (status == 2) {
             isTemp = true;
             Listtemp.add(
-                    "<br /><p><font color=#6E6E6E>‡∏ñ‡πâ‡∏≤‡∏à‡∏ö‡∏ï‡∏≠‡∏ô ‡∏Å‡∏î‡∏õ‡∏∏‡πà‡∏°‡πÄ‡∏û‡∏¥‡πà‡∏°‡∏ï‡∏≠‡∏ô ‡πÄ‡∏û‡∏∑‡πà‡∏≠‡πÄ‡∏Ç‡πâ‡∏≤‡∏™‡∏π‡πà‡∏™‡∏ñ‡∏≤‡∏ô‡∏∞‡∏£‡∏≠‡∏ï‡∏≠‡∏ô‡πÉ‡∏´‡∏°‡πà</font><br />" +
-                            "<font color=#33B6EA>‡πÄ‡∏£‡∏∑‡πà‡∏≠‡∏á :" + c.getString(1) + "</font><br />" +
-                            "<font color=#cc0029> ‡∏•‡πà‡∏≤‡∏™‡∏∏‡∏î ‡∏ï‡∏≠‡∏ô : " + title + " (" + chapter + ")</font></p>");
+                    "<br /><p><font color=#6E6E6E>∂È“®∫µÕπ °¥ªÿË¡‡æ‘Ë¡µÕπ ‡æ◊ËÕ‡¢È“ ŸË ∂“π–√ÕµÕπ„À¡Ë</font><br />" +
+                            "<font color=#33B6EA>‡√◊ËÕß :" + c.getString(1) + "</font><br />" +
+                            "<font color=#cc0029> ≈Ë“ ÿ¥ µÕπ : " + title + " (" + chapter + ")</font></p>");
             sessionStatus.put(url + chapter, Listtemp.get(Listtemp.size() - 1));
         } else if (status == 1 || status == -1) {
             //displayNotification(c.getString(0),c.getString(1),chapter,text1,url+chapter);
             isTemp = false;
             ListViewContent.add(
-                    "<br /><p><font color=#339900>‡∏°‡∏µ‡∏Å‡∏≤‡∏£‡∏≠‡∏±‡∏û‡πÄ‡∏î‡∏ï‡∏ï‡∏≠‡∏ô‡∏õ‡∏±‡∏à‡∏à‡∏∏‡∏ö‡∏±‡∏ô</font><br />" +
-                            "<font color=#33B6EA>‡πÄ‡∏£‡∏∑‡πà‡∏≠‡∏á :" + c.getString(1) + "</font><br />" +
-                            "<font color=#cc0029> ‡∏ï‡∏≠‡∏ô : " + text1 + " (" + chapter + ")</font></p>");
-            sessionStatus.put(url + chapter, ListViewContent.get(ListViewContent.size() - 1).replace("‡∏°‡∏µ‡∏Å‡∏≤‡∏£‡∏≠‡∏±‡∏û‡πÄ‡∏î‡∏ï‡∏ï‡∏≠‡∏ô‡∏õ‡∏±‡∏à‡∏à‡∏∏‡∏ö‡∏±‡∏ô", "‡∏°‡∏µ‡∏Å‡∏≤‡∏£‡∏≠‡∏±‡∏û‡πÄ‡∏î‡∏ï‡∏ï‡∏≠‡∏ô‡∏õ‡∏±‡∏à‡∏à‡∏∏‡∏ö‡∏±‡∏ô\n‡∏ñ‡πâ‡∏≤‡∏à‡∏ö‡∏ï‡∏≠‡∏ô ‡∏Å‡∏î‡∏õ‡∏∏‡πà‡∏°‡πÄ‡∏û‡∏¥‡πà‡∏°‡∏ï‡∏≠‡∏ô\n‡πÄ‡∏û‡∏∑‡πà‡∏≠‡πÄ‡∏Ç‡πâ‡∏≤‡∏™‡∏π‡πà‡∏™‡∏ñ‡∏≤‡∏ô‡∏∞‡∏£‡∏≠‡∏ï‡∏≠‡∏ô‡πÉ‡∏´‡∏°‡πà"));
+                    "<br /><p><font color=#339900>¡’°“√Õ—æ‡¥µµÕπª—®®ÿ∫—π</font><br />" +
+                            "<font color=#33B6EA>‡√◊ËÕß :" + c.getString(1) + "</font><br />" +
+                            "<font color=#cc0029> µÕπ : " + text1 + " (" + chapter + ")</font></p>");
+            sessionStatus.put(url + chapter, ListViewContent.get(ListViewContent.size() - 1).replace("¡’°“√Õ—æ‡¥µµÕπª—®®ÿ∫—π", "¡’°“√Õ—æ‡¥µµÕπª—®®ÿ∫—π\n∂È“®∫µÕπ °¥ªÿË¡‡æ‘Ë¡µÕπ\n‡æ◊ËÕ‡¢È“ ŸË ∂“π–√ÕµÕπ„À¡Ë"));
         }
 
 		*//*		Log.e("content",
@@ -508,8 +508,8 @@ class doback0 extends AsyncTask<Context, String, Long> {
                 title = title.substring(title.indexOf(">") + 2);
             //dialog.setTitle(title);
             Listtemp.add(
-                    "<br /><p><font color=#33B6EA>‡πÄ‡∏£‡∏∑‡πà‡∏≠‡∏á :" + c[1] + "</font><br />" +
-                            "<font color=#cc0029> ‡∏•‡πà‡∏≤‡∏™‡∏∏‡∏î ‡∏ï‡∏≠‡∏ô : " + title + " (" + c[3] + ")</font></p>");
+                    "<br /><p><font color=#33B6EA>‡√◊ËÕß :" + c[1] + "</font><br />" +
+                            "<font color=#cc0029> ≈Ë“ ÿ¥ µÕπ : " + title + " (" + c[3] + ")</font></p>");
         }
         *//*Log.e("content",
 				"id: " +c.getString(0)+"\n"+
@@ -531,7 +531,7 @@ class doback0 extends AsyncTask<Context, String, Long> {
                     .get();
         } catch (IOException e) {
             publishProgress("-1");
-            //Toast.makeText(getBaseContext(), "‡∏Å‡∏≤‡∏£‡πÄ‡∏ä‡∏∑‡πà‡∏≠‡∏°‡∏ï‡πà‡∏≠‡∏°‡∏µ‡∏õ‡∏±‡∏ç‡∏´‡∏≤ ‡∏Å‡∏£‡∏∏‡∏ì‡∏≤‡∏õ‡∏£‡∏±‡∏ö‡∏õ‡∏£‡∏∏‡∏á‡∏Å‡∏≤‡∏£‡πÄ‡∏ä‡∏∑‡πà‡∏≠‡∏°‡∏ï‡πà‡∏≠ ‡πÅ‡∏•‡πâ‡∏ß‡∏•‡∏≠‡∏á‡πÉ‡∏´‡∏°‡πà", Toast.LENGTH_LONG).show();
+            //Toast.makeText(getBaseContext(), "°“√‡™◊ËÕ¡µËÕ¡’ª—≠À“ °√ÿ≥“ª√—∫ª√ÿß°“√‡™◊ËÕ¡µËÕ ·≈È«≈Õß„À¡Ë", Toast.LENGTH_LONG).show();
             e.printStackTrace();
         }
         //System.out.println(doc.html());
@@ -542,10 +542,10 @@ class doback0 extends AsyncTask<Context, String, Long> {
             //Log.v("stext", stext);
             String[] temp = new String[5];
             temp[0] = "-2";
-            temp[1] = stext.substring(0, stext.indexOf("‡∏ï‡∏≠‡∏ô‡∏ó‡∏µ‡πà"));
+            temp[1] = stext.substring(0, stext.indexOf("µÕπ∑’Ë"));
             temp[2] = link.select("a").attr("href");
             temp[3] = "-2";
-            temp[4] = stext.substring(stext.indexOf("‡∏ï‡∏≠‡∏ô‡∏ó‡∏µ‡πà"));
+            temp[4] = stext.substring(stext.indexOf("µÕπ∑’Ë"));
             ;
             publishProgress(temp[1]);
             MainActivity.niyayTable.add(temp);
@@ -553,12 +553,12 @@ class doback0 extends AsyncTask<Context, String, Long> {
             if (sessionStatus.get(temp[2]) != null) {
                 ListViewContent.add(sessionStatus.get(temp[2]));
             } else {
-                //MainActivity.ListViewContent.add(stext.replace("‡∏ï‡∏≠‡∏ô‡∏ó‡∏µ‡πà", "\n‡∏ï‡∏≠‡∏ô‡∏ó‡∏µ‡πà"));
+                //MainActivity.ListViewContent.add(stext.replace("µÕπ∑’Ë", "\nµÕπ∑’Ë"));
                 ListViewContent.add(
-                        "<br /><p><font color=#339900>[fav]‡∏°‡∏µ‡∏Å‡∏≤‡∏£‡∏≠‡∏±‡∏û‡πÄ‡∏î‡∏ï‡∏ï‡∏≠‡∏ô‡∏õ‡∏±‡∏à‡∏à‡∏∏‡∏ö‡∏±‡∏ô</font><br />" +
-                                "<font color=#33B6EA>‡πÄ‡∏£‡∏∑‡πà‡∏≠‡∏á :" + temp[1] + "</font><br />" +
+                        "<br /><p><font color=#339900>[fav]¡’°“√Õ—æ‡¥µµÕπª—®®ÿ∫—π</font><br />" +
+                                "<font color=#33B6EA>‡√◊ËÕß :" + temp[1] + "</font><br />" +
                                 "<font color=#cc0029>" + temp[4] + "</font></p>");
-                sessionStatus.put(temp[2], ListViewContent.get(ListViewContent.size() - 1).replace("‡∏°‡∏µ‡∏Å‡∏≤‡∏£‡∏≠‡∏±‡∏û‡πÄ‡∏î‡∏ï‡∏ï‡∏≠‡∏ô‡∏õ‡∏±‡∏à‡∏à‡∏∏‡∏ö‡∏±‡∏ô", "‡∏°‡∏µ‡∏Å‡∏≤‡∏£‡∏≠‡∏±‡∏û‡πÄ‡∏î‡∏ï‡∏ï‡∏≠‡∏ô‡∏õ‡∏±‡∏à‡∏à‡∏∏‡∏ö‡∏±‡∏ô\n‡∏ñ‡πâ‡∏≤‡∏à‡∏ö‡∏ï‡∏≠‡∏ô ‡∏Å‡∏î‡∏õ‡∏∏‡πà‡∏°‡πÄ‡∏û‡∏¥‡πà‡∏°‡∏ï‡∏≠‡∏ô\n‡πÄ‡∏û‡∏∑‡πà‡∏≠‡πÄ‡∏Ç‡πâ‡∏≤‡∏™‡∏π‡πà‡∏™‡∏ñ‡∏≤‡∏ô‡∏∞‡∏£‡∏≠‡∏ï‡∏≠‡∏ô‡πÉ‡∏´‡∏°‡πà"));
+                sessionStatus.put(temp[2], ListViewContent.get(ListViewContent.size() - 1).replace("¡’°“√Õ—æ‡¥µµÕπª—®®ÿ∫—π", "¡’°“√Õ—æ‡¥µµÕπª—®®ÿ∫—π\n∂È“®∫µÕπ °¥ªÿË¡‡æ‘Ë¡µÕπ\n‡æ◊ËÕ‡¢È“ ŸË ∂“π–√ÕµÕπ„À¡Ë"));
             }
         }
 
@@ -581,7 +581,7 @@ class doback0 extends AsyncTask<Context, String, Long> {
 			sessionId = res.cookies();
 		} catch (IOException e) {
 			publishProgress(-1);
-			//Toast.makeText(getBaseContext(), "‡∏Å‡∏≤‡∏£‡πÄ‡∏ä‡∏∑‡πà‡∏≠‡∏°‡∏ï‡πà‡∏≠‡∏°‡∏µ‡∏õ‡∏±‡∏ç‡∏´‡∏≤ ‡∏Å‡∏£‡∏∏‡∏ì‡∏≤‡∏õ‡∏£‡∏±‡∏ö‡∏õ‡∏£‡∏∏‡∏á‡∏Å‡∏≤‡∏£‡πÄ‡∏ä‡∏∑‡πà‡∏≠‡∏°‡∏ï‡πà‡∏≠ ‡πÅ‡∏•‡πâ‡∏ß‡∏•‡∏≠‡∏á‡πÉ‡∏´‡∏°‡πà", Toast.LENGTH_LONG).show();
+			//Toast.makeText(getBaseContext(), "°“√‡™◊ËÕ¡µËÕ¡’ª—≠À“ °√ÿ≥“ª√—∫ª√ÿß°“√‡™◊ËÕ¡µËÕ ·≈È«≈Õß„À¡Ë", Toast.LENGTH_LONG).show();
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}  *//*
@@ -661,8 +661,8 @@ class doback0 extends AsyncTask<Context, String, Long> {
             editor.commit();
             loginsuscess = true;
         } else {
-            System.out.println("Username ‡∏´‡∏£‡∏∑‡∏≠ Password ‡πÑ‡∏°‡πà‡∏ñ‡∏π‡∏Å‡∏ï‡πâ‡∏≠‡∏á");
-            publishProgress("Username ‡∏´‡∏£‡∏∑‡∏≠ Password ‡πÑ‡∏°‡πà‡∏ñ‡∏π‡∏Å‡∏ï‡πâ‡∏≠‡∏á");
+            System.out.println("Username À√◊Õ Password ‰¡Ë∂Ÿ°µÈÕß");
+            publishProgress("Username À√◊Õ Password ‰¡Ë∂Ÿ°µÈÕß");
             try {
                 Thread.sleep(3000);
             } catch (InterruptedException e) {

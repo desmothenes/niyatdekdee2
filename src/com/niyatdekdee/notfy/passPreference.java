@@ -67,14 +67,14 @@ public class passPreference extends EditTextPreference {
             if (defaultValue == null) {
                 String old = getPersistedString("old username");
                 try {
-                    setText(decrypt(old)/*.replace("¢", "")*/);
+                    setText(decrypt(old)/*.replace("?", "")*/);
                 } catch (Exception e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
             } else {
                 String old = getPersistedString("old " + (String) defaultValue);
-                setText(decrypt(old)/*.replace("¢", "")*/);
+                setText(decrypt(old)/*.replace("?", "")*/);
             }
         } else {
             if (defaultValue == null) {
@@ -131,7 +131,7 @@ public class passPreference extends EditTextPreference {
 
     String decrypt(String old) {
         return old;
-		/*
+        /*
 		System.out.println("pass decrypt");
 		System.out.println("old "+old);
 		SharedPreferences perf = PreferenceManager.getDefaultSharedPreferences(MainActivity.context);
@@ -262,7 +262,7 @@ public class passPreference extends EditTextPreference {
 			SecretKey key = keyFactory.generateSecret(new PBEKeySpec(SEKRIT));
 			Cipher pbeCipher = Cipher.getInstance("PBEWithMD5AndDES");
 			pbeCipher.init(Cipher.DECRYPT_MODE, key, new PBEParameterSpec(Settings.Secure.getString(ctxt.getContentResolver(),Settings.System.ANDROID_ID).getBytes(UTF8), 20));
-			return new String(pbeCipher.doFinal(bytes),UTF8).replace("ニックネーム：木島杏奈", "");
+			return new String(pbeCipher.doFinal(bytes),UTF8).replace("???????????", "");
 
 		} catch( Exception e) {
 			throw new RuntimeException(e);

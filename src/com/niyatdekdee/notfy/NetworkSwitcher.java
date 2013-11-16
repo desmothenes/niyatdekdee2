@@ -93,7 +93,7 @@ public class NetworkSwitcher extends BroadcastReceiver {
 
     private static void displayNotification(String id, String name, String detail, String url) {
         NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        Notification notification = new Notification(R.drawable.noti, name + "  ตอนใหม่", System.currentTimeMillis());
+        Notification notification = new Notification(R.drawable.noti, name + "  �͹����", System.currentTimeMillis());
         notification.defaults |= Notification.DEFAULT_SOUND;
 
         // The PendingIntent will launch activity if the user selects this notification
@@ -112,7 +112,7 @@ public class NetworkSwitcher extends BroadcastReceiver {
             browserIntent.putExtra("url", url);
         }
 /*		browserIntent = new Intent(Intent.ACTION_VIEW);
-		Uri data = Uri.parse(url+"#story_body");
+        Uri data = Uri.parse(url+"#story_body");
 		browserIntent.setData(data);*/
         System.out.println("moti " + url);
         //PendingIntent contentIntent = PendingIntent.getActivity(context, REQUEST_CODE,browserIntent, 0);
@@ -130,7 +130,7 @@ public class NetworkSwitcher extends BroadcastReceiver {
         //contentView.setTextViewText(R.id.notiDetail1, title.substring(title.indexOf(":"))+" ("+detail+")");
         //contentView.setTextViewText(R.id.notiDetail2, title+" ("+detail+")");
         NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        Notification notification = new Notification(R.drawable.noti, name + "  ตอนใหม่", System.currentTimeMillis());
+        Notification notification = new Notification(R.drawable.noti, name + "  �͹����", System.currentTimeMillis());
         notification.defaults |= Notification.DEFAULT_SOUND;
         notification.flags |= Notification.FLAG_AUTO_CANCEL;
 
@@ -230,10 +230,10 @@ public class NetworkSwitcher extends BroadcastReceiver {
                 if (snd > -1 && fst > -1 && fst <= snd)
                     text1 = Jsoup.parse((start.substring(fst, snd))).text().trim();
                 else
-                    text1 = "ยังไม่มีตอนปัจจุบัน รอตอนใหม่";
+                    text1 = "�ѧ����յ͹�Ѩ�غѹ �͵͹����";
 
             } else {
-                text1 = "ยังไม่มีตอนปัจจุบัน รอตอนใหม่";
+                text1 = "�ѧ����յ͹�Ѩ�غѹ �͵͹����";
             }
 
 			/*		Log.e("title",(title == null) ? "null" : title);
@@ -248,7 +248,7 @@ public class NetworkSwitcher extends BroadcastReceiver {
             if (title.isEmpty()) {
                 title = text1;
                 status = -1;
-            } else if (text1.equals("ยังไม่มีตอนปัจจุบัน รอตอนใหม่")) {
+            } else if (text1.equals("�ѧ����յ͹�Ѩ�غѹ �͵͹����")) {
                 status = 2;
             } else if (!text1.trim().equals(title.trim())) {
                 Log.e("title", title);
@@ -322,21 +322,21 @@ public class NetworkSwitcher extends BroadcastReceiver {
 				/*			Log.v("stext", stext);
 				String[] temp  = new String[5];
 				temp[0] = "-2";
-				temp[1] = stext.substring(0, stext.indexOf("ตอนที่"));
+				temp[1] = stext.substring(0, stext.indexOf("�͹���"));
 				temp[2] = link.select("a").attr("href");
 				temp[3] = "-2";
-				temp[4] = stext.substring(stext.indexOf("ตอนที่"));*/
-                //MainActivity.ListViewContent.add(stext.replace("ตอนที่", "\nตอนที่"));
+				temp[4] = stext.substring(stext.indexOf("�͹���"));*/
+                //MainActivity.ListViewContent.add(stext.replace("�͹���", "\n�͹���"));
 				/*			MainActivity.ListViewContent.add(
-						"<br/><p><font color=#339900>มีการอัพเดตตอนปัจจุบัน</font><br />" +
-								"<font color=#33B6EA>เรื่อง :" +temp[1]+"</font><br />" +
+						"<br/><p><font color=#339900>�ա���Ѿവ�͹�Ѩ�غѹ</font><br />" +
+								"<font color=#33B6EA>����ͧ :" +temp[1]+"</font><br />" +
 								"<font color=#cc0029>" +temp[4]+"</font></p>"); */
                 final String unum = MyAppClass.findnum(link.select("a").attr("href"), "story_id=", context);
-                if (!stext.contains("ตอนที่")) continue;
-                final String chapter = MyAppClass.findnum(stext.substring(stext.indexOf("ตอนที่")), "ตอนที่ ", context);
+                if (!stext.contains("�͹���")) continue;
+                final String chapter = MyAppClass.findnum(stext.substring(stext.indexOf("�͹���")), "�͹��� ", context);
                 final String url = "http://writer.dek-d.com/dek-d/writer/viewlongc.php?id=" + unum + "&chapter=" + chapter;
                 System.out.println(url);
-                displayNotification(Integer.toString(floop++), stext.substring(0, stext.indexOf("ตอนที่")), stext.substring(stext.indexOf("ตอนที่")), url);
+                displayNotification(Integer.toString(floop++), stext.substring(0, stext.indexOf("�͹���")), stext.substring(stext.indexOf("�͹���")), url);
                 REQUEST_CODE++;
             }
 
@@ -359,7 +359,7 @@ public class NetworkSwitcher extends BroadcastReceiver {
                         .execute();
                 sessionId = res.cookies();
             } catch (IOException e) {
-                //Toast.makeText(getBaseContext(), "การเชื่อมต่อมีปัญหา กรุณาปรับปรุงการเชื่อมต่อ แล้วลองใหม่", Toast.LENGTH_LONG).show();
+                //Toast.makeText(getBaseContext(), "������������ջѭ�� ��سһ�Ѻ��ا����������� �����ͧ����", Toast.LENGTH_LONG).show();
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }

@@ -56,12 +56,12 @@ public class InsertForm extends Activity {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         if (customTitleSupported) {
 
-            //‡∏ï‡∏±‡πâ‡∏á‡∏Ñ‡πà‡∏≤ custom titlebar ‡∏à‡∏≤‡∏Å custom_titlebar.xml
+            //µ—Èß§Ë“ custom titlebar ®“° custom_titlebar.xml
             getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.custom_titlebar_ok);
 
-            //‡πÄ‡∏ä‡∏∑‡πà‡∏≠‡∏° btnSearch btnDirection ‡πÄ‡∏Ç‡πâ‡∏≤‡∏Å‡∏±‡∏ö View
+            //‡™◊ËÕ¡ btnSearch btnDirection ‡¢È“°—∫ View
             TextView titleView = (TextView) findViewById(R.id.textViewOk);
-            titleView.setText(" ‡πÄ‡∏û‡∏¥‡πà‡∏°‡∏ô‡∏¥‡∏¢‡∏≤‡∏¢");
+            titleView.setText(" ‡æ‘Ë¡π‘¬“¬");
             RelativeLayout barLayout = (RelativeLayout) findViewById(R.id.okbar);
             ImageButton btnOk = (ImageButton) findViewById(R.id.imageButton1);
             switch (Integer.parseInt(Setting.getColorSelectSetting(getApplicationContext()))) {
@@ -127,7 +127,7 @@ public class InsertForm extends Activity {
                 Isgetchapter = false;
                 Isgetname = false;
                 dialog = new ProgressDialog(InsertForm.this);
-                dialog.setMessage("Loading Review\n‡∏ñ‡πâ‡∏≤‡πÑ‡∏°‡πà‡∏ï‡πâ‡∏≠‡∏á‡∏Å‡∏≤‡∏£ ‡∏Å‡∏î back ‡πÅ‡∏•‡πâ‡∏ß‡πÄ‡∏û‡∏¥‡πà‡∏°‡πÑ‡∏î‡πâ‡πÄ‡∏•‡∏¢");
+                dialog.setMessage("Loading Review\n∂È“‰¡ËµÈÕß°“√ °¥ back ·≈È«‡æ‘Ë¡‰¥È‡≈¬");
                 //dialog.setMax(100);
                 Insert_doback dob = new Insert_doback();
                 dob.execute();
@@ -136,7 +136,7 @@ public class InsertForm extends Activity {
                 Isgetchapter = true;
                 title = "non";
                 dialog = new ProgressDialog(InsertForm.this);
-                dialog.setMessage("Loading\n‡∏ñ‡πâ‡∏≤‡∏Ñ‡πâ‡∏≤‡∏á‡∏ô‡∏≤‡∏ô‡∏Å‡∏ß‡πà‡∏≤ 20 ‡∏ß‡∏¥‡∏ô‡∏≤‡∏ó‡∏µ ‡∏•‡∏≠‡∏á‡∏Å‡∏î‡∏≠‡∏≠‡∏Å‡πÅ‡∏•‡πâ‡∏ß‡πÄ‡∏û‡∏¥‡πà‡∏°‡πÉ‡∏´‡∏°‡πà");
+                dialog.setMessage("Loading\n∂È“§È“ßπ“π°«Ë“ 20 «‘π“∑’ ≈Õß°¥ÕÕ°·≈È«‡æ‘Ë¡„À¡Ë");
                 dialog.setMax(100);
                 dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
                 Insert_doback dob = new Insert_doback();
@@ -149,7 +149,7 @@ public class InsertForm extends Activity {
             Isgetname = true;
             title = "non";
             dialog = new ProgressDialog(InsertForm.this);
-            dialog.setMessage("Loading\n‡∏ñ‡πâ‡∏≤‡∏Ñ‡πâ‡∏≤‡∏á‡∏ô‡∏≤‡∏ô‡∏Å‡∏ß‡πà‡∏≤ 20 ‡∏ß‡∏¥‡∏ô‡∏≤‡∏ó‡∏µ ‡∏•‡∏≠‡∏á‡∏Å‡∏î‡∏≠‡∏≠‡∏Å‡πÅ‡∏•‡πâ‡∏ß‡πÄ‡∏û‡∏¥‡πà‡∏°‡πÉ‡∏´‡∏°‡πà");
+            dialog.setMessage("Loading\n∂È“§È“ßπ“π°«Ë“ 20 «‘π“∑’ ≈Õß°¥ÕÕ°·≈È«‡æ‘Ë¡„À¡Ë");
             dialog.setMax(100);
             dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
             Insert_doback dob = new Insert_doback();
@@ -170,16 +170,16 @@ public class InsertForm extends Activity {
         try {
             Integer.parseInt(txtChapter.getText().toString());
         } catch (NumberFormatException e) {
-            //Toast.makeText(getBaseContext(), "‡∏ï‡∏≠‡∏ô‡∏ó‡∏µ‡πà ‡πÑ‡∏°‡πà‡πÑ‡∏î‡πâ‡∏≠‡∏¢‡∏π‡πà‡πÉ‡∏ô‡∏£‡∏π‡∏õ‡πÅ‡∏ö‡∏ö‡∏Ç‡∏≠‡∏á‡∏ï‡∏±‡∏ß‡πÄ‡∏•‡∏Ç/n/n‡πÇ‡∏õ‡∏£‡∏î‡πÉ‡∏™‡πà‡∏ï‡∏±‡∏ß‡πÄ‡∏•‡∏Ç‡πÉ‡∏ô‡∏ä‡πà‡∏≠‡∏á‡∏ï‡∏≠‡∏ô‡∏ó‡∏µ‡πà", Toast.LENGTH_LONG).show();
+            //Toast.makeText(getBaseContext(), "µÕπ∑’Ë ‰¡Ë‰¥ÈÕ¬ŸË„π√Ÿª·∫∫¢Õßµ—«‡≈¢/n/n‚ª√¥„ Ëµ—«‡≈¢„π™ËÕßµÕπ∑’Ë", Toast.LENGTH_LONG).show();
             AlertDialog.Builder builder = new AlertDialog.Builder(InsertForm.this);
-            builder.setMessage("‡∏ï‡∏≠‡∏ô‡∏ó‡∏µ‡πà ‡πÑ‡∏°‡πà‡πÑ‡∏î‡πâ‡∏≠‡∏¢‡∏π‡πà‡πÉ‡∏ô‡∏£‡∏π‡∏õ‡πÅ‡∏ö‡∏ö‡∏Ç‡∏≠‡∏á‡∏ï‡∏±‡∏ß‡πÄ‡∏•‡∏Ç")
+            builder.setMessage("µÕπ∑’Ë ‰¡Ë‰¥ÈÕ¬ŸË„π√Ÿª·∫∫¢Õßµ—«‡≈¢")
                     .setCancelable(false)
-                    .setPositiveButton("‡πÉ‡∏™‡πà‡πÄ‡∏õ‡πá‡∏ô‡∏ï‡∏≠‡∏ô‡∏ó‡∏µ‡πà 1", new DialogInterface.OnClickListener() {
+                    .setPositiveButton("„ Ë‡ªÁπµÕπ∑’Ë 1", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             txtChapter.setText("1");
                         }
                     })
-                    .setNegativeButton("‡πÉ‡∏™‡πà‡∏ï‡∏≠‡∏ô‡∏ó‡∏µ‡πà‡∏î‡πâ‡∏ß‡∏¢‡∏ï‡∏±‡∏ß‡πÄ‡∏≠‡∏á", new DialogInterface.OnClickListener() {
+                    .setNegativeButton("„ ËµÕπ∑’Ë¥È«¬µ—«‡Õß", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             txtChapter.setText("");
                             txtChapter.requestFocusFromTouch();
@@ -249,7 +249,7 @@ public class InsertForm extends Activity {
 
         /*        protected void onProgressUpdate(Integer... progress) {
                     if (progress[0] == -1) {
-                        Toast.makeText(getBaseContext(), "‡∏Å‡∏≤‡∏£‡πÄ‡∏ä‡∏∑‡πà‡∏≠‡∏°‡∏ï‡πà‡∏≠‡∏°‡∏µ‡∏õ‡∏±‡∏ç‡∏´‡∏≤ ‡∏Å‡∏£‡∏∏‡∏ì‡∏≤‡∏õ‡∏£‡∏±‡∏ö‡∏õ‡∏£‡∏∏‡∏á‡∏Å‡∏≤‡∏£‡πÄ‡∏ä‡∏∑‡πà‡∏≠‡∏°‡∏ï‡πà‡∏≠ ‡πÅ‡∏•‡πâ‡∏ß‡∏•‡∏≠‡∏á‡πÉ‡∏´‡∏°‡πà", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getBaseContext(), "°“√‡™◊ËÕ¡µËÕ¡’ª—≠À“ °√ÿ≥“ª√—∫ª√ÿß°“√‡™◊ËÕ¡µËÕ ·≈È«≈Õß„À¡Ë", Toast.LENGTH_LONG).show();
                         return;
                     }
                     super.onProgressUpdate(progress);
@@ -257,13 +257,13 @@ public class InsertForm extends Activity {
                 }*/
         protected void onProgressUpdate(String... progress) {
             if (progress[0].equals("-1")) {
-                dialog.setMessage("‡∏Å‡∏≤‡∏£‡πÄ‡∏ä‡∏∑‡πà‡∏≠‡∏°‡∏ï‡πà‡∏≠‡∏°‡∏µ‡∏õ‡∏±‡∏ç‡∏´‡∏≤ ‡∏Å‡∏£‡∏∏‡∏ì‡∏≤‡∏õ‡∏£‡∏±‡∏ö‡∏õ‡∏£‡∏∏‡∏á‡∏Å‡∏≤‡∏£‡πÄ‡∏ä‡∏∑‡πà‡∏≠‡∏°‡∏ï‡πà‡∏≠ ‡πÅ‡∏•‡πâ‡∏ß‡∏•‡∏≠‡∏á‡πÉ‡∏´‡∏°‡πà");
-                Toast.makeText(getApplicationContext(), "‡∏Å‡∏≤‡∏£‡πÄ‡∏ä‡∏∑‡πà‡∏≠‡∏°‡∏ï‡πà‡∏≠‡∏°‡∏µ‡∏õ‡∏±‡∏ç‡∏´‡∏≤ ‡∏Å‡∏£‡∏∏‡∏ì‡∏≤‡∏õ‡∏£‡∏±‡∏ö‡∏õ‡∏£‡∏∏‡∏á‡∏Å‡∏≤‡∏£‡πÄ‡∏ä‡∏∑‡πà‡∏≠‡∏°‡∏ï‡πà‡∏≠ ‡πÅ‡∏•‡πâ‡∏ß‡∏•‡∏≠‡∏á‡πÉ‡∏´‡∏°‡πà", Toast.LENGTH_SHORT).show();
-                Log.e("onProgressUpdate", "‡∏Å‡∏≤‡∏£‡πÄ‡∏ä‡∏∑‡πà‡∏≠‡∏°‡∏ï‡πà‡∏≠‡∏°‡∏µ‡∏õ‡∏±‡∏ç‡∏´‡∏≤ ‡∏Å‡∏£‡∏∏‡∏ì‡∏≤‡∏õ‡∏£‡∏±‡∏ö‡∏õ‡∏£‡∏∏‡∏á‡∏Å‡∏≤‡∏£‡πÄ‡∏ä‡∏∑‡πà‡∏≠‡∏°‡∏ï‡πà‡∏≠ ‡πÅ‡∏•‡πâ‡∏ß‡∏•‡∏≠‡∏á‡πÉ‡∏´‡∏°‡πà");
+                dialog.setMessage("°“√‡™◊ËÕ¡µËÕ¡’ª—≠À“ °√ÿ≥“ª√—∫ª√ÿß°“√‡™◊ËÕ¡µËÕ ·≈È«≈Õß„À¡Ë");
+                Toast.makeText(getApplicationContext(), "°“√‡™◊ËÕ¡µËÕ¡’ª—≠À“ °√ÿ≥“ª√—∫ª√ÿß°“√‡™◊ËÕ¡µËÕ ·≈È«≈Õß„À¡Ë", Toast.LENGTH_SHORT).show();
+                Log.e("onProgressUpdate", "°“√‡™◊ËÕ¡µËÕ¡’ª—≠À“ °√ÿ≥“ª√—∫ª√ÿß°“√‡™◊ËÕ¡µËÕ ·≈È«≈Õß„À¡Ë");
             } else if (progress[0].equals("-2")) {
-                dialog.setMessage("‡πÑ‡∏°‡πà‡∏™‡∏≤‡∏°‡∏≤‡∏£‡∏ñ‡∏Ñ‡πâ‡∏ô‡∏´‡∏≤‡∏ï‡∏≠‡∏ô‡∏•‡πà‡∏≤‡∏™‡∏∏‡∏î‡πÑ‡∏î‡πâ ‡πÇ‡∏õ‡∏£‡∏î‡πÉ‡∏™‡πà‡∏î‡πâ‡∏ß‡∏¢‡∏ï‡∏±‡∏ß‡πÄ‡∏≠‡∏á");
-                //Toast.makeText(getApplicationContext(), "‡∏Å‡∏≤‡∏£‡πÄ‡∏ä‡∏∑‡πà‡∏≠‡∏°‡∏ï‡πà‡∏≠‡∏°‡∏µ‡∏õ‡∏±‡∏ç‡∏´‡∏≤ ‡∏Å‡∏£‡∏∏‡∏ì‡∏≤‡∏õ‡∏£‡∏±‡∏ö‡∏õ‡∏£‡∏∏‡∏á‡∏Å‡∏≤‡∏£‡πÄ‡∏ä‡∏∑‡πà‡∏≠‡∏°‡∏ï‡πà‡∏≠ ‡πÅ‡∏•‡πâ‡∏ß‡∏•‡∏≠‡∏á‡πÉ‡∏´‡∏°‡πà", Toast.LENGTH_SHORT).show();
-                Log.e("onProgressUpdate", "‡∏Å‡∏≤‡∏£‡πÄ‡∏ä‡∏∑‡πà‡∏≠‡∏°‡∏ï‡πà‡∏≠‡∏°‡∏µ‡∏õ‡∏±‡∏ç‡∏´‡∏≤ ‡∏Å‡∏£‡∏∏‡∏ì‡∏≤‡∏õ‡∏£‡∏±‡∏ö‡∏õ‡∏£‡∏∏‡∏á‡∏Å‡∏≤‡∏£‡πÄ‡∏ä‡∏∑‡πà‡∏≠‡∏°‡∏ï‡πà‡∏≠ ‡πÅ‡∏•‡πâ‡∏ß‡∏•‡∏≠‡∏á‡πÉ‡∏´‡∏°‡πà");
+                dialog.setMessage("‰¡Ë “¡“√∂§ÈπÀ“µÕπ≈Ë“ ÿ¥‰¥È ‚ª√¥„ Ë¥È«¬µ—«‡Õß");
+                //Toast.makeText(getApplicationContext(), "°“√‡™◊ËÕ¡µËÕ¡’ª—≠À“ °√ÿ≥“ª√—∫ª√ÿß°“√‡™◊ËÕ¡µËÕ ·≈È«≈Õß„À¡Ë", Toast.LENGTH_SHORT).show();
+                Log.e("onProgressUpdate", "°“√‡™◊ËÕ¡µËÕ¡’ª—≠À“ °√ÿ≥“ª√—∫ª√ÿß°“√‡™◊ËÕ¡µËÕ ·≈È«≈Õß„À¡Ë");
             } else {
                 try {
                     int temp = Integer.parseInt(progress[0]);
@@ -307,7 +307,7 @@ public class InsertForm extends Activity {
             if (doc == null) {
                 publishProgress("-2");
                 Log.v("txtChapter", "can't find chapter please fill by yourself");
-                chapter = "‡∏´‡∏≤‡∏ï‡∏≠‡∏ô‡∏•‡πà‡∏≤‡∏™‡∏∏‡∏î‡πÑ‡∏°‡πà‡πÑ‡∏î‡πâ‡πÇ‡∏õ‡∏£‡∏î‡πÉ‡∏™‡πà‡∏î‡πâ‡∏ß‡∏¢‡∏ï‡∏±‡∏ß‡πÄ‡∏≠‡∏á";
+                chapter = "À“µÕπ≈Ë“ ÿ¥‰¡Ë‰¥È‚ª√¥„ Ë¥È«¬µ—«‡Õß";
                 return false;
             }
 
@@ -366,7 +366,7 @@ public class InsertForm extends Activity {
 			} catch (IOException e) {
 				//Toast.makeText(getBaseContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
 				publishProgress(-1);
-				//Toast.makeText(getBaseContext(), "‡∏Å‡∏≤‡∏£‡πÄ‡∏ä‡∏∑‡πà‡∏≠‡∏°‡∏ï‡πà‡∏≠‡∏°‡∏µ‡∏õ‡∏±‡∏ç‡∏´‡∏≤ ‡∏Å‡∏£‡∏∏‡∏ì‡∏≤‡∏õ‡∏£‡∏±‡∏ö‡∏õ‡∏£‡∏∏‡∏á‡∏Å‡∏≤‡∏£‡πÄ‡∏ä‡∏∑‡πà‡∏≠‡∏°‡∏ï‡πà‡∏≠ ‡πÅ‡∏•‡πâ‡∏ß‡∏•‡∏≠‡∏á‡πÉ‡∏´‡∏°‡πà", Toast.LENGTH_LONG).show();
+				//Toast.makeText(getBaseContext(), "°“√‡™◊ËÕ¡µËÕ¡’ª—≠À“ °√ÿ≥“ª√—∫ª√ÿß°“√‡™◊ËÕ¡µËÕ ·≈È«≈Õß„À¡Ë", Toast.LENGTH_LONG).show();
 				e.printStackTrace();
 			} finally {
 				//httpclient.getConnectionManager().shutdown();
@@ -408,7 +408,7 @@ public class InsertForm extends Activity {
                 Log.v("ed", Integer.toString(ed));
                 if (op == -1 || ed == -1) {
                     Log.v("txtChapter", "can't find chapter please fill by yourself");
-                    chapter =  "‡∏´‡∏≤‡∏ï‡∏≠‡∏ô‡∏•‡πà‡∏≤‡∏™‡∏∏‡∏î‡πÑ‡∏°‡πà‡πÑ‡∏î‡πâ‡πÇ‡∏õ‡∏£‡∏î‡πÉ‡∏™‡πà‡∏î‡πâ‡∏ß‡∏¢‡∏ï‡∏±‡∏ß‡πÄ‡∏≠‡∏á";
+                    chapter =  "À“µÕπ≈Ë“ ÿ¥‰¡Ë‰¥È‚ª√¥„ Ë¥È«¬µ—«‡Õß";
                     return false;
                 } else {
                     chapter = html.substring(op + "</td></tr><tr><td align=middle>".length(), ed);
@@ -434,7 +434,7 @@ public class InsertForm extends Activity {
 
             publishProgress("70");
             Log.v("txtChapter", "can't find chapter please fill by yourself");
-            chapter = "‡∏´‡∏≤‡∏ï‡∏≠‡∏ô‡∏•‡πà‡∏≤‡∏™‡∏∏‡∏î‡πÑ‡∏°‡πà‡πÑ‡∏î‡πâ‡πÇ‡∏õ‡∏£‡∏î‡πÉ‡∏™‡πà‡∏î‡πâ‡∏ß‡∏¢‡∏ï‡∏±‡∏ß‡πÄ‡∏≠‡∏á";
+            chapter = "À“µÕπ≈Ë“ ÿ¥‰¡Ë‰¥È‚ª√¥„ Ë¥È«¬µ—«‡Õß";
             return false;
             //HttpClient httpclient1 = new DefaultHttpClient();
             /*
@@ -503,7 +503,7 @@ public class InsertForm extends Activity {
             } catch (IOException e) {
                 // TODO Auto-generated catch block
                 publishProgress("-1");
-                //Toast.makeText(getBaseContext(), "‡∏Å‡∏≤‡∏£‡πÄ‡∏ä‡∏∑‡πà‡∏≠‡∏°‡∏ï‡πà‡∏≠‡∏°‡∏µ‡∏õ‡∏±‡∏ç‡∏´‡∏≤ ‡∏Å‡∏£‡∏∏‡∏ì‡∏≤‡∏õ‡∏£‡∏±‡∏ö‡∏õ‡∏£‡∏∏‡∏á‡∏Å‡∏≤‡∏£‡πÄ‡∏ä‡∏∑‡πà‡∏≠‡∏°‡∏ï‡πà‡∏≠ ‡πÅ‡∏•‡πâ‡∏ß‡∏•‡∏≠‡∏á‡πÉ‡∏´‡∏°‡πà", Toast.LENGTH_LONG).show();
+                //Toast.makeText(getBaseContext(), "°“√‡™◊ËÕ¡µËÕ¡’ª—≠À“ °√ÿ≥“ª√—∫ª√ÿß°“√‡™◊ËÕ¡µËÕ ·≈È«≈Õß„À¡Ë", Toast.LENGTH_LONG).show();
                 e.printStackTrace();
             }
 
@@ -540,7 +540,7 @@ public class InsertForm extends Activity {
                 StringBuilder review = new StringBuilder("<h3>Top 3 Review</h3>");
                 publishProgress("98");
                 for (int i = 0; i < detail.size(); i++) {
-                    review.append(String.format("<br/><p><font color=#33B6EA>%s</font><br /><font color=#cc0029>%s</font><br /><font color=#339900>‡πÉ‡∏´‡πâ %s ‡∏î‡∏≤‡∏ß</font></p>", header.get(i), detail.get(i), star.get(i)));
+                    review.append(String.format("<br/><p><font color=#33B6EA>%s</font><br /><font color=#cc0029>%s</font><br /><font color=#339900>„ÀÈ %s ¥“«</font></p>", header.get(i), detail.get(i), star.get(i)));
                 }
                 return review.toString();
             } else return "";
@@ -584,7 +584,7 @@ public class InsertForm extends Activity {
             StringBuilder review = new StringBuilder("<h3>Top 3 Review</h3>");
             publishProgress("98");
             for (int i = 0; i < detail.size(); i++) {
-                review.append(String.format("<br/><p><font color=#33B6EA>%s</font><br /><font color=#cc0029>%s</font><br /><font color=#339900>‡πÉ‡∏´‡πâ %s ‡∏î‡∏≤‡∏ß</font></p>", header.get(i), detail.get(i), star.get(i)));
+                review.append(String.format("<br/><p><font color=#33B6EA>%s</font><br /><font color=#cc0029>%s</font><br /><font color=#339900>„ÀÈ %s ¥“«</font></p>", header.get(i), detail.get(i), star.get(i)));
             }
             return review.toString();
         }
